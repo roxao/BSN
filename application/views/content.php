@@ -16,19 +16,19 @@
 					<div class="nav_right float_right" style="margin-top: 10px">
 						<ul class="user_nav clearfix">
 
-						<?php if ($this->session->flashdata('welcome')) {?>
-						
-						<?php } else {?>
+						<?php if ($this->session->flashdata('welcome') == '') {?>
 						<li><div id="btn_register" action="btnPopUp" data-id="register_frame">DAFTAR</div></li>
 						<li><div href="" id="btn_login" action="btnPopUp"   data-id="login_frame">MASUK</div></li>
-								<?php }?>
+						<?php } ?>
+						
+
 
 							
 						</ul>
 					</div>
 				</div>
 				<div class="bot_nav clearfix">
-					<img src="assets/logo.png" alt="" class="stickyNavShow float_left" height="30px" style="margin: 7px; display: none" >
+					<img src="<?=base_url()?>assets/logo.png" alt="" class="stickyNavShow float_left" height="30px" style="margin: 7px; display: none" >
 					<ul class="page_nav float_left clearfix">
 						<li><a href="index.html">Halaman Depan</a></li>
 						<li class="nav_parent"><a href="">Layanan IIN</a>
@@ -54,6 +54,8 @@
 			</div>
 		</nav>
 	</header>
+
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 	<div class="page" style="margin-top: 150px">
@@ -372,7 +374,7 @@
 				<div class="box_btn_close"><img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDIxMi45ODIgMjEyLjk4MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjEyLjk4MiAyMTIuOTgyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+CjxnIGlkPSJDbG9zZSI+Cgk8cGF0aCBzdHlsZT0iZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7IiBkPSJNMTMxLjgwNCwxMDYuNDkxbDc1LjkzNi03NS45MzZjNi45OS02Ljk5LDYuOTktMTguMzIzLDAtMjUuMzEyICAgYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBsLTc1LjkzNyw3NS45MzdMMzAuNTU0LDUuMjQyYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBjLTYuOTg5LDYuOTktNi45ODksMTguMzIzLDAsMjUuMzEyICAgbDc1LjkzNyw3NS45MzZMNS4yNDIsMTgyLjQyN2MtNi45ODksNi45OS02Ljk4OSwxOC4zMjMsMCwyNS4zMTJjNi45OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwbDc1LjkzNy03NS45MzdsNzUuOTM3LDc1LjkzNyAgIGM2Ljk4OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwYzYuOTktNi45OSw2Ljk5LTE4LjMyMiwwLTI1LjMxMkwxMzEuODA0LDEwNi40OTF6IiBmaWxsPSIjYTFhMWExIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" /></div>
 			</div>
 			<div class="box_content">
-				<form action="<?=site_url()?>/SipinHome/login" method="post">
+				<form action="<?=base_url()?>/SipinHome/login" method="post">
 					<div class="panel_edit_input">
 						<label class="panel_label">Username/ Email:</label>
 						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px">
