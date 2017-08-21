@@ -5,7 +5,7 @@
 				<div class="top_nav  container clearfix">
 					<div class="nav_left float_left">
 						<div class="nav_logo">
-							<img src="assets/logo.png" alt="" class="float_left">
+							<img src="<?=base_url()?>assets/logo.png" alt="" class="float_left">
 							<div class="float-right">
 								<h1>Sistem Informasi Penerbitan Issuer Identification Number (SIPIN)</h1>
 								<h2>Badan Standarisasi Nasional</h2>
@@ -15,8 +15,15 @@
 					</div>
 					<div class="nav_right float_right" style="margin-top: 10px">
 						<ul class="user_nav clearfix">
-							<li><div id="btn_register" action="btnPopUp" data-id="register_frame">DAFTAR</div></li>
-							<li><div href="" id="btn_login" action="btnPopUp"   data-id="login_frame">MASUK</div></li>
+
+						<?php if ($this->session->flashdata('welcome')) {?>
+						
+						<?php } else {?>
+						<li><div id="btn_register" action="btnPopUp" data-id="register_frame">DAFTAR</div></li>
+						<li><div href="" id="btn_login" action="btnPopUp"   data-id="login_frame">MASUK</div></li>
+								<?php }?>
+
+							
 						</ul>
 					</div>
 				</div>
@@ -101,8 +108,11 @@
 					</div>
 
 					<div class="inputValidation2">
-						<div style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;">SAMPLE<br/> CAPTCHA</div>
+
+						<div style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;"> SAMPLE<br/> CAPTCHA </div>
+
 						<input type="text" placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
+						
 						<div class="clearfix">
 							<button class="float_left" style="background: red">Batal</button>
 							
@@ -362,19 +372,19 @@
 				<div class="box_btn_close"><img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDIxMi45ODIgMjEyLjk4MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjEyLjk4MiAyMTIuOTgyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+CjxnIGlkPSJDbG9zZSI+Cgk8cGF0aCBzdHlsZT0iZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7IiBkPSJNMTMxLjgwNCwxMDYuNDkxbDc1LjkzNi03NS45MzZjNi45OS02Ljk5LDYuOTktMTguMzIzLDAtMjUuMzEyICAgYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBsLTc1LjkzNyw3NS45MzdMMzAuNTU0LDUuMjQyYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBjLTYuOTg5LDYuOTktNi45ODksMTguMzIzLDAsMjUuMzEyICAgbDc1LjkzNyw3NS45MzZMNS4yNDIsMTgyLjQyN2MtNi45ODksNi45OS02Ljk4OSwxOC4zMjMsMCwyNS4zMTJjNi45OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwbDc1LjkzNy03NS45MzdsNzUuOTM3LDc1LjkzNyAgIGM2Ljk4OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwYzYuOTktNi45OSw2Ljk5LTE4LjMyMiwwLTI1LjMxMkwxMzEuODA0LDEwNi40OTF6IiBmaWxsPSIjYTFhMWExIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" /></div>
 			</div>
 			<div class="box_content">
-				<form action="">
+				<form action="<?=site_url()?>/SipinHome/login" method="post">
 					<div class="panel_edit_input">
 						<label class="panel_label">Username/ Email:</label>
-						<input class="panel_input" type="text" id="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px">
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">Kata Sandi:</label>
-						<input class="panel_input" type="text" id="password" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="password" name="password" autocomplete="off" style="width: 250px">
 					</div>
 					<div class="panel_edit_input panel_edit_button">
 						<label class="panel_label"></label>
-						<button class="panel_button_ok">Masuk</button>
+						<button class="panel_button_ok login">Masuk</button>
 						<div class="panel_button_text" action="btnPopUp" data-id="forgot_frame"><i>Lupa Password?</i></div>
 					</div>
 				</form>
@@ -389,30 +399,40 @@
 				</div>
 			</div>
 			<div class="box_content">
-				<form action="">
+				<form action="<?=base_url()?>/SipinHome/register" method="post">
+
+
+				
 					<div class="panel_edit_input">
 						<label class="panel_label">Nama Lengkap:</label>
-						<input class="panel_input" type="text" id="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="nama" name="nama" autocomplete="off" style="width: 250px" required>
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">Username:</label>
-						<input class="panel_input" type="text" id="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px" required >
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">E-mail:</label>
-						<input class="panel_input" type="text" id="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="email" id="email" name="email" autocomplete="off" style="width: 250px" required>
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">Kata Sandi:</label>
-						<input class="panel_input" type="password" id="password" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="password" id="password" name="password" autocomplete="off" style="width: 250px" required>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">Ulang Kata Sandi:</label>
-						<input class="panel_input" type="password" id="password" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="password" id="password_confirm" name="password_confirm" autocomplete="off" style="width: 250px" required>
+						<?php echo form_error('konfir_email'); ?>
 					</div>
+
+					<div style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;"> SAMPLE<br/> CAPTCHA </div>
+					
+
+
+
 					<div class="panel_edit_input">
 						<label class="panel_label"></label>
 						<input type="checkbox" id="register_check" name="registercheck" value="Confirm Registration">
@@ -420,7 +440,7 @@
 					</div>
 					<div class="panel_edit_input panel_edit_button">
 						<label class="panel_label"></label>
-						<button class="panel_button_ok"/>Daftar</button>
+						<button type="submit" class="panel_button_ok" value="register"/>Daftar</button>
 					</div>
 				</form>
 			</div>
