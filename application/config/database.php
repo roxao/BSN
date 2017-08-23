@@ -97,10 +97,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'   => '',
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => 'root',
-    'database' => 'bsn',
+    'hostname' => 'kameronaphoto.com',
+    'username' => 'kamerona_sipin',
+    'password' => '1qaz2wsx3edc',
+    'database' => 'kamerona_sipin',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
