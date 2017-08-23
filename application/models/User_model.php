@@ -29,7 +29,7 @@ class User_model extends CI_Model {
 	 * @return bool true on success, false on failure
 	 */
 	public function register_user($email, $username, $password, $name) {
-		
+ 
 		$data = array(
 			'email'      => $email,
 			'username'   => $username,
@@ -37,21 +37,24 @@ class User_model extends CI_Model {
 			'name'   => $name,
 			'created_date' => date('Y-m-j H:i:s'),
 			'created_by'   => $name,
-			'last_updated_date'   => date('Y-m-j H:i:s'),
-			'status_user'   => 'Tidak Aktif',
+			'modified_date'   => date('Y-m-j H:i:s'),
 			'modified_by'   => $name,
+			'user_status'   => "0",
+			'survey_status'   => "0",
 );
-		
-		return $this->db->insert('user', $data);
-		
+		return $this->db->insert('db_user', $data);		
 	}
 
 	public function cek_login($username,$password){  
     $this->db->where("email = '$username' or username = '$username'");  
     $this->db->where('password', $password); 
-        return  $this->db->get('user');   
+        return  $this->db->get('db_user');   
     }
 
+public function cek_status_user($username,$password){  
+    $this->db->where("email = '$username' or username = '$username'"); 
+        return  $this->db->get('db_user');   
+    }
 
     public function sendMail($email,$username) {
     
@@ -86,10 +89,10 @@ class User_model extends CI_Model {
 
   public function verify($key) {
     // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-    $data = array('status_user' => "Aktif");
+    $data = array('status_user' => "1");
     $this->db->where('email', $key);
 
-    return $this->db->update('user', $data);
+    return $this->db->update('db_user', $data);
   }
 
 	

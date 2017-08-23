@@ -15,10 +15,10 @@ class SipinHome extends CI_Controller {
 		parent::__construct();
 
 		// load library dan helper
-	   $this->load->library('session');
-	   $this->load->helper(array('captcha','url','form'));
+	   	$this->load->library('session');
+	   	$this->load->helper(array('captcha','url','form'));
 		$this->load->model('user_model');
-		$this->load->library('email');
+		$this->load->library('email','form_validation', 'curl');
 		$this->load->helper('form');   
 		$this->model = $this->user_model;
         $this->load->database();
@@ -31,54 +31,63 @@ class SipinHome extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	/* login function. */
 	  public function login() {
         $username = $this->input->post('username');
         // $password = hash ( "sha256", $this->input->post('password'));
         $password =  $this->input->post('password');
-        
         $cek = $this->user_model->cek_login($username, $password);
         if($cek->num_rows() > 0){
-		$this->session->set_flashdata('welcome', 'Selamat Datang');
-		$this->load->view('header');
-		$this->load->view('content');
-		$this->load->view('footer');
-        }else{
-            echo "Username dan password salah !";
-        }
+        	if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
+        	else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
+				  $this->load->view('header');
+				  $this->load->view('content');
+				  $this->load->view('footer');}
+        	}else{echo "Username dan password salah !";}
+        	}
 
-    }
-
-
-	/**
-	 * register function.
-	 * 
-	 * @access public
-	 * @return void
-	 */
+	/* register function. */
 	public function register() {
 		
-		// create the data object
-		$data = new stdClass();
-		// load form helper and validation library
-		$this->load->helper('form');
-		$this->load->library('form_validation');
 		$email    = $this->input->post('email');
 		$username = $this->input->post('username');
 		// $password = hash ( "sha256", $this->input->post('password'));
 		$password = $this->input->post('password');
+		$password_confirm = $this->input->post('password_confirm');
 		$name = $this->input->post('nama');
-		$cek = $this->user_model->cek_login($username, $password);
 
-
-
-        if($cek->num_rows() > 0){
-        	echo "Username dan password sudah terdaftar !";
-        }else{
-        	if ($this->user_model->register_user($email ,$username , $password, $name)) {
-				 echo "berhasil !";
-      			} 
-        	}
+		if ($password == $password_confirm){
+			$cek = $this->user_model->cek_status_user($username, $password);
+	        if($cek->num_rows() > 0){
+	        	echo "Username/Email sudah terdaftar";
+	    	}else {
+	    		if ($this->user_model->register_user($email ,$username, $password, $name)){
+						if ($this->user_model->sendMail($email,$username)) {
+				       echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
+				      }else {echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat"; } 
+	    			
+	    	}
+	    	}
+	    
+		}else {echo "password yang anda masukkan tidak sesuai"; }	
 	}
+
+	
+
+	public function regex(){
+		// $password = hash ( "sha256", $this->input->post('password'));
+        $password =  $this->input->post('password');
+
+		$uppercase = preg_match('@[A-Z]@', $password);
+		$lowercase = preg_match('@[a-z]@', $password);
+		$number    = preg_match('@[0-9]@', $password);
+		$spesial_karakter	= preg_match('@[!@#$%^&*()_-+|;:<>,.?]+$/]@', $password);
+
+if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+  // tell the user something went wrong
+}
+	}
+
 
 	function captcha()
 	{

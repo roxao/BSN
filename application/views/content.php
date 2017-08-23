@@ -1,5 +1,6 @@
 <div class="content-background"></div>
 	<header>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 		<nav id="wrapper">
 			<div id="nav">
 				<div class="top_nav  container clearfix">
@@ -16,7 +17,7 @@
 					<div class="nav_right float_right" style="margin-top: 10px">
 						<ul class="user_nav clearfix">
 
-						<?php if ($this->session->flashdata('welcome') == '') {?>
+						<?php if ($this->session->flashdata('falidasi-login') == '') {?>
 						<li><div id="btn_register" action="btnPopUp" data-id="register_frame">DAFTAR</div></li>
 						<li><div href="" id="btn_login" action="btnPopUp"   data-id="login_frame">MASUK</div></li>
 						<?php } ?>
@@ -55,8 +56,7 @@
 		</nav>
 	</header>
 
-	<script src='https://www.google.com/recaptcha/api.js'></script>
-
+	
 
 	<div class="page" style="margin-top: 150px">
 		<div class="clearfix">
@@ -76,6 +76,7 @@
 			<!-- Section 1 -->
 			<section section-id="0" class="section_iin float_right" style="width: 70%;">
 				<h1 class="title_iin">Pengajuan Surat Permohonan IIN Baru</h1>
+				<!-- Foorm -->
 				<p>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem dengan klik button "Kirim", maka sebelumnya Anda harus mengunduh(download) surat permohonan yang sudah diisi yang akan akan digunakan kembali jika status data Anda sudah terverifikasi dan disetujui oleh Sekretariat Layanan.</p>
 				<article style="margin: 50px">
 					<div class="clearfix">
@@ -111,7 +112,7 @@
 
 					<div class="inputValidation2">
 
-						<div style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;"> SAMPLE<br/> CAPTCHA </div>
+						<div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" data-sitekey="6LerwS0UAAAAAF27mC7K-XWf-IYBMyrZcTKbhEeB" > </div>
 
 						<input type="text" placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
 						
@@ -123,6 +124,7 @@
 						</div>
 					</div>
 				</article>
+				<!-- form  -->
 			</section>
 
 			<!-- Section 2 -->
@@ -374,7 +376,7 @@
 				<div class="box_btn_close"><img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMS4xLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDIxMi45ODIgMjEyLjk4MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjEyLjk4MiAyMTIuOTgyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+CjxnIGlkPSJDbG9zZSI+Cgk8cGF0aCBzdHlsZT0iZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7IiBkPSJNMTMxLjgwNCwxMDYuNDkxbDc1LjkzNi03NS45MzZjNi45OS02Ljk5LDYuOTktMTguMzIzLDAtMjUuMzEyICAgYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBsLTc1LjkzNyw3NS45MzdMMzAuNTU0LDUuMjQyYy02Ljk5LTYuOTktMTguMzIyLTYuOTktMjUuMzEyLDBjLTYuOTg5LDYuOTktNi45ODksMTguMzIzLDAsMjUuMzEyICAgbDc1LjkzNyw3NS45MzZMNS4yNDIsMTgyLjQyN2MtNi45ODksNi45OS02Ljk4OSwxOC4zMjMsMCwyNS4zMTJjNi45OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwbDc1LjkzNy03NS45MzdsNzUuOTM3LDc1LjkzNyAgIGM2Ljk4OSw2Ljk5LDE4LjMyMiw2Ljk5LDI1LjMxMiwwYzYuOTktNi45OSw2Ljk5LTE4LjMyMiwwLTI1LjMxMkwxMzEuODA0LDEwNi40OTF6IiBmaWxsPSIjYTFhMWExIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" /></div>
 			</div>
 			<div class="box_content">
-				<form action="<?=base_url()?>/SipinHome/login" method="post">
+				<form action="<?base_url()?>SipinHome/login" method="post">
 					<div class="panel_edit_input">
 						<label class="panel_label">Username/ Email:</label>
 						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px">
@@ -401,9 +403,7 @@
 				</div>
 			</div>
 			<div class="box_content">
-				<form action="<?=base_url()?>/SipinHome/register" method="post">
-
-
+				<form action="<?base_url()?>SipinHome/register" method="post">
 				
 					<div class="panel_edit_input">
 						<label class="panel_label">Nama Lengkap:</label>
@@ -427,17 +427,16 @@
 					<div class="panel_edit_input">
 						<label class="panel_label">Ulang Kata Sandi:</label>
 						<input class="panel_input" type="password" id="password_confirm" name="password_confirm" autocomplete="off" style="width: 250px" required>
-						<?php echo form_error('konfir_email'); ?>
 					</div>
 
-					<div style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;"> SAMPLE<br/> CAPTCHA </div>
+					<div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" data-sitekey="6LerwS0UAAAAAF27mC7K-XWf-IYBMyrZcTKbhEeB" > </div>
 					
 
 
 
 					<div class="panel_edit_input">
 						<label class="panel_label"></label>
-						<input type="checkbox" id="register_check" name="registercheck" value="Confirm Registration">
+						<input type="checkbox" id="register_check" name="registercheck" value="Confirm Registration" required>
     					<label class="panel_label_checkbox" for="register_check">Saya setuju untuk mendaftar?</label>
 					</div>
 					<div class="panel_edit_input panel_edit_button">
