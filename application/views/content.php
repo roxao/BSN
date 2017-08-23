@@ -20,9 +20,7 @@
 						<?php if ($this->session->flashdata('falidasi-login') == '') {?>
 						<li><div id="btn_register" action="btnPopUp" data-id="register_frame">DAFTAR</div></li>
 						<li><div href="" id="btn_login" action="btnPopUp"   data-id="login_frame">MASUK</div></li>
-						<?php } ?>
-						
-
+						<?php } else {?>  <li><div href="" id="btn_logout" action="btnPopUp"  data-id="login_frame">KELUAR</div<?php }?>
 
 							
 						</ul>
@@ -379,12 +377,12 @@
 				<form action="<?base_url()?>SipinHome/login" method="post">
 					<div class="panel_edit_input">
 						<label class="panel_label">Username/ Email:</label>
-						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="username" name="username" autocomplete="off" style="width: 250px" required>
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">Kata Sandi:</label>
-						<input class="panel_input" type="text" id="password" name="password" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="password" name="password" autocomplete="off" style="width: 250px" required>
 					</div>
 					<div class="panel_edit_input panel_edit_button">
 						<label class="panel_label"></label>
@@ -456,10 +454,10 @@
 			</div>
 			<div class="box_content">
 				<div class="box_content_note">Silahkan masukan alamat E-mail anda dan kami akan mengirimkan alamat tautan untuk melakukan pengaturan untuk kata sandi anda.</div>
-				<form action="">
+				<form action="<?base_url()?>SipinHome/forgot_password" method="post">
 					<div class="panel_edit_input">
 						<label class="panel_label">Alamat E-mail:</label>
-						<input class="panel_input" type="email" id="username" autocomplete="off" style="width: 250px">
+						<input class="panel_input" type="text" id="username" name="username_forgot" autocomplete="off" style="width: 250px" required>
 						<label class="panel_alert">Namanya jangan rinaldysam ganteng!</label>
 					</div>
 					<div class="panel_edit_input panel_edit_button">

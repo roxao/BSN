@@ -51,6 +51,16 @@ class User_model extends CI_Model {
         return  $this->db->get('db_user');   
     }
 
+    public function forgot_password($username){ 
+	$this->db->select('*');
+    $this->db->from('db_user'); 
+    $this->db->join('db_application', 'db_user.id_user=db_application.id_user');
+    $this->db->where("db_user.email = '$username' or db_user.username = '$username' or instance_name = '$username'");        
+    $query = $this->db->get(); 
+ 
+        return  $query;   
+    }
+
 public function cek_status_user($username,$password){  
     $this->db->where("email = '$username' or username = '$username'"); 
         return  $this->db->get('db_user');   
@@ -62,7 +72,7 @@ public function cek_status_user($username,$password){
     $subject = 'Verify Your Email Address';
     $message = 'Dear '. $username .',<br /><br />
                 Please click on the below activation link to verify your email address.<br /><br />
-                http://urlwebsitenya/action/verify/' . md5($email) . '<br /><br /><br />
+                http://localhost/BSN/SipinHome/verify/' . md5($email) . '<br /><br /><br />
                 Thanks<br />
                 BSN';
 
@@ -87,10 +97,10 @@ public function cek_status_user($username,$password){
     return $this->email->send();
   }
 
-  public function verify($key) {
+  public function verifyEmail($key) {
     // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-    $data = array('status_user' => "1");
-    $this->db->where('email', $key);
+    $data = array('user_status' => "1");
+    $this->db->where('md5(email)', $key);
 
     return $this->db->update('db_user', $data);
   }

@@ -38,13 +38,19 @@ class SipinHome extends CI_Controller {
         $password =  $this->input->post('password');
         $cek = $this->user_model->cek_login($username, $password);
         if($cek->num_rows() > 0){
-        	if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
+        	if ($cek->row()->user_status == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
         	else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
 				  $this->load->view('header');
 				  $this->load->view('content');
 				  $this->load->view('footer');}
         	}else{echo "Username dan password salah !";}
         	}
+
+      public function logout() {	
+		$this->session->sess_destroy();
+		$data['logout'] = 'You have been logged out.';		
+		$this->index();
+		}
 
 	/* register function. */
 	public function register() {
@@ -64,14 +70,36 @@ class SipinHome extends CI_Controller {
 	    		if ($this->user_model->register_user($email ,$username, $password, $name)){
 						if ($this->user_model->sendMail($email,$username)) {
 				       echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
-				      }else {echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat"; } 
+				      }else {echo  "Gagal"; } 
 	    			
 	    	}
 	    	}
-	    
 		}else {echo "password yang anda masukkan tidak sesuai"; }	
 	}
 
+public function forgot_password() {
+	$username_forgot = $this->input->post('username_forgot');
+
+	$cek = $this->user_model->forgot_password($username_forgot);
+
+	if ($cek->num_rows() > 0){
+		if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name)) {
+				       echo  "Anda berhasil melakukan reset password";
+				      }else {echo  "Gagal"; } 
+				  } else {echo  "User tidak ditemukan"; 
+			} 
+	}
+	public function verify($hash=NULL) {
+    if ($this->user_model->verifyEmail($hash)) {
+      $this->session->set_flashdata(md5('sukses'), "Email sukses diverifikasi!");
+      echo  "Email sukses diverifikasi!";
+     
+    } else {
+      $this->session->set_flashdata(md5('notification'), "Email gagal terverifikasi");
+      echo  "Email gagal diverifikasi!";
+      // redirect('/url/register');
+    }
+  }
 	
 
 	public function regex(){
