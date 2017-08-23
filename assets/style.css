@@ -129,17 +129,11 @@ footer{background: #f7f7f7; border-top: 1px solid #ddd; margin-top: 50px; font-s
 #submit_old_iin .btn_submit_iin {border-color: #507299;color: #507299; transition: .5s ease all}
 #submit_old_iin .btn_submit_iin:hover {background: #507299; color: #FFF; transition: .5s ease all}
 
-
-
-/*ICON COLLECTION*/
-/*.sprite_icon {width: 42px; height: 42px}*/
-
-
 /*FORM_IIN*/
 #section_progress {padding: 0;background: #fff;display:block; max-width: 1100px;}
-#section_progress li.verifiedStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('assets/checked.svg');left: 13px;top: 19px;}
-#section_progress li.processStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('assets/checked-s.svg');left: 13px;top: 19px;}
-#section_progress li.waitingStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('assets/checked-n.svg');left: 13px;top: 19px;}
+#section_progress li.verifiedStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('checked.svg');left: 13px;top: 19px;}
+#section_progress li.processStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('checked-s.svg');left: 13px;top: 19px;}
+#section_progress li.waitingStep:before {content: '';display: inline-block;height: 20px;width: 20px;position: absolute;background-size: cover;background: url('checked-n.svg');left: 13px;top: 19px;}
 #section_progress li.verifiedStep button {color: rgba(1, 146, 63, 1) !important;border: 1px solid rgba(1, 146, 63, 1);background: #fff;box-shadow: 0 4px 0 -3px rgba(255,255,255,1), 0 4px 0 -2px rgba(1,146,63,1),0 8px 0 -5px rgba(255,255,255,1), 0 8px 0 -4px rgba(1,146,63,1);border-radius: 0;}
 #section_progress li.verifiedStep:hover button { transition: box-shadow .5s ease;box-shadow: 0 6px 0 -3px rgba(255,255,255,1), 0 6px 0 -2px rgba(1,146,63,1), 0 13px 0 -6px rgba(255,255,255,1), 0 13px 0 -5px rgba(1,146,63,1)}
 #section_progress li.processStep button {color: #507299 !important;border: 1px solid #507299;background: #fff;box-shadow: 0 4px 0 -3px rgba(255,255,255,1), 0 4px 0 -2px #507299,0 8px 0 -5px rgba(255,255,255,1), 0 8px 0 -4px #507299;border-radius: 0;}
@@ -287,3 +281,6 @@ footer{background: #f7f7f7; border-top: 1px solid #ddd; margin-top: 50px; font-s
 #cms-content table td {padding: 10px 10px; border-bottom: 1px solid #ddd}
 #cms-content table tr:last-child td {border-bottom: 0}
 
+
+.input_dashed {display:block;outline: 1px dashed #ddd;margin: 0px;padding:10px 20px;font-size: 12px;color: #aaa;background: #FFF;}
+.input_dashed input {display:block; height: 40px; border: 0; padding: 0; width:100%; font-size: 14px}
