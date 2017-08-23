@@ -6,30 +6,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @extends CI_Model
  */
 class User_model extends CI_Model {
-	/**
-	 * __construct function.
-	 * 
-	 * @access public
-	 * @return void
-	 */
+	
+	/*construct function*/
 	public function __construct() {
-		
 		parent::__construct();
-		$this->load->database();
-		
+		$this->load->database();	
 	}
 	
-	/**
-	 * create_user function.
-	 * 
-	 * @access public
-	 * @param mixed $username
-	 * @param mixed $email
-	 * @param mixed $password
-	 * @return bool true on success, false on failure
-	 */
+	/*Registrasi*/
 	public function register_user($email, $username, $password, $name) {
- 
 		$data = array(
 			'email'      => $email,
 			'username'   => $username,
@@ -51,6 +36,7 @@ class User_model extends CI_Model {
         return  $this->db->get('db_user');   
     }
 
+    /*Forgot Password*/
     public function forgot_password($username){ 
 	$this->db->select('*');
     $this->db->from('db_user'); 
@@ -61,13 +47,14 @@ class User_model extends CI_Model {
         return  $query;   
     }
 
-public function cek_status_user($username,$password){  
+    /*Cek Status User*/
+	public function cek_status_user($username,$password){  
     $this->db->where("email = '$username' or username = '$username'"); 
         return  $this->db->get('db_user');   
     }
 
-    public function sendMail($email,$username) {
-    
+    /*Proses send email*/
+ 	public function sendMail($email,$username) {
     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
     $subject = 'Verify Your Email Address';
     $message = 'Dear '. $username .',<br /><br />
@@ -88,43 +75,26 @@ public function cek_status_user($username,$password){
     $config['newline'] = "\r\n";
     $config['crlf'] = "\r\n";
     $this->email->initialize($config);
-
     $this->email->from($from_email, 'Bsn');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
     return $this->email->send();
-  }
-
-  public function verifyEmail($key) {
-    // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-    $data = array('user_status' => "1");
-    $this->db->where('md5(email)', $key);
-
-    return $this->db->update('db_user', $data);
-  }
-
+  	}
 	
-	// /**
-	//  * resolve_user_login function.
-	//  * 
-	//  * @access public
-	//  * @param mixed $username
-	//  * @param mixed $password
-	//  * @return bool true on success, false on failure
-	//  */
-	// public function resolve_user_login($username, $password) {
-		
-	// 	$this->db->select('password');
-	// 	$this->db->from('user');
-	// 	$this->db->where('username', $username);
-	// 	$hash = $this->db->get()->row('password');
-		
-	// 	return $this->verify_password_hash($password, $hash);
-		
-	// }
-	
+	/*Verifikasi Email dan Update status user*/
+	public function verifyEmail($key) {
+	    // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
+	    $data = array('user_status' => "1");
+	    $this->db->where('md5(email)', $key);
 
+	    return $this->db->update('db_user', $data);
+	  }
+
+	/*Simpan File*/
+	public function simpan($data){
+        $this->db->insert('upload', $data);
+     }
 	
 }
