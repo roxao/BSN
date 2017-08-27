@@ -3,15 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class submit_iin extends CI_Controller {
 
-	// function __construct(){
-	// 	parent::__construct();
-	// 	$this->load->helper('url');
-
-
-	// }
-
 	public function __construct() {
-		
 		parent::__construct();
 
 		// load library dan helper
@@ -27,62 +19,73 @@ class submit_iin extends CI_Controller {
  
 	public function index(){		
 		$this->load->view('header');
-		$this->load->view('content');
+		$this->load->view('submit-iin');
 		$this->load->view('footer');
 	}
 
 	/* User login function. */
 	 public function login() {
-     $username = $this->input->post('username');
-     // $password = hash ( "sha256", $this->input->post('password'));
-     $password =  $this->input->post('password');
-     $cek = $this->user_model->cek_login($username, $password);
-     if($cek->num_rows() > 0){
-     if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
-      else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
-	  $this->load->view('header');
-	  $this->load->view('/submitIIN/step0');
-	  $this->load->view('footer');}
-      }else{echo "Username dan password salah !";}
+	     $username = $this->input->post('username');
+	     // $password = hash ( "sha256", $this->input->post('password'));
+	     $password =  $this->input->post('password');
+	     $cek = $this->user_model->cek_login($username, $password);
+	     if($cek->num_rows() > 0){
+		    if ($cek->row()->status_user == 0){ 
+		    	$this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+		    } else {
+		    	$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
+			  	$this->load->view('header');
+			  	$this->load->view('submit-iin');
+			  	$this->load->view('footer');}
+	    }else{
+	      	echo "Username dan password salah !";
+	  	}
       }
 
     public function logout() {	
-	$this->session->sess_destroy();
-	$data['logout'] = 'You have been logged out.';		
-	$this->index();
+		$this->session->sess_destroy();
+		$data['logout'] = 'You have been logged out.';		
+		$this->index();
 	}
 
 	/* register function. */
 	public function register() {
 		$regex = $this->regex($this->input->post('password'));
 		if ($regex == "true"){
-		$email    = $this->input->post('email');
-		$username = $this->input->post('username');
-		// $password = hash ( "sha256", $this->input->post('password'));
-		$password = $this->input->post('password');
-		$password_confirm = $this->input->post('password_confirm');
-		$name = $this->input->post('nama');
-		if ($password == $password_confirm){
-			$cek = $this->user_model->cek_status_user($username, $password);
-	        if($cek->num_rows() > 0){
-	        	echo "Username/Email sudah terdaftar";
-	    	}else {
-	    		if ($this->user_model->register_user($email ,$username, $password, $name)){
-						if ($this->user_model->sendMail($email,$username)) {
-				       echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
-				      }else {echo  "Gagal"; }}}
-		}else {echo "password yang anda masukkan tidak sesuai"; }	
-		} else { echo "Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#)";}	
+			$email    = $this->input->post('email');
+			$username = $this->input->post('username');
+			// $password = hash ( "sha256", $this->input->post('password'));
+			$password = $this->input->post('password');
+			$password_confirm = $this->input->post('password_confirm');
+			$name = $this->input->post('nama');
+			if ($password == $password_confirm){
+				$cek = $this->user_model->cek_status_user($username, $password);
+		        if($cek->num_rows() > 0){
+		        	echo "Username/Email sudah terdaftar";
+		    	} else {
+		    		if ($this->user_model->register_user($email ,$username, $password, $name)){
+							if ($this->user_model->sendMail($email,$username)) {
+					       echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
+					      }else {echo  "Gagal"; }}}
+			} else {
+				echo "password yang anda masukkan tidak sesuai"; 
+			}	
+		} else { 
+			echo "Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#)";
+		}	
 	}
 
 	/*Forgot Password*/
 	public function forgot_password() {
-	$username_forgot = $this->input->post('username_forgot');
-	$cek = $this->user_model->forgot_password($username_forgot);
-	if ($cek->num_rows() > 0){
-	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name)) {
-	echo  "Anda berhasil melakukan reset password";}else {echo  "Gagal"; } 
-	} else {echo  "User tidak ditemukan"; } 
+		$username_forgot = $this->input->post('username_forgot');
+		$cek = $this->user_model->forgot_password($username_forgot);
+		if ($cek->num_rows() > 0){
+			if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name)) {
+				echo  "Anda berhasil melakukan reset password";}else {echo  "Gagal"; 
+			} 
+		} else {
+			echo  "User tidak ditemukan"; 
+		} 
 	}
 
 	/*Verifikasi Email*/
@@ -97,47 +100,43 @@ class submit_iin extends CI_Controller {
 	
   	/*Regex falidasi karakter password*/
 	public function regex($password){
-	$uppercase = preg_match('@[A-Z]@', $password);
-	$lowercase = preg_match('@[a-z]@', $password);
-	$number    = preg_match('@[0-9]@', $password);
-	$specialcaracter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
-	if(!$uppercase || !$lowercase || !$number || !$specialcaracter || strlen($password) <= 8) {
-	 return false;
-	} else {
-		return true;
-	}
+		$uppercase = preg_match('@[A-Z]@', $password);
+		$lowercase = preg_match('@[a-z]@', $password);
+		$number    = preg_match('@[0-9]@', $password);
+		$specialcaracter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
+		if(!$uppercase || !$lowercase || !$number || !$specialcaracter || strlen($password) <= 8) {
+		 return false;
+		} else {
+			return true;
+		}
 	}
 
 	public function insert_pengajuan_surat(){
-	}
-
 		//Setting values for tabel columns
-	if($this->input->post('paypal')){}
-		$data = array(
-		'id_user' => "1",
-		'id_admin' => "1",
-		'applicant' => "Dicky",
-		'applicant_phone_number' => "085725725725",
-		'application_date' => "2017-08-01",
-		'instance_name' => "PT.Indocor Invert Mustika",
-		' instance_email' => "IndoInvert@indo.com",
-		'instance_phone' => "07823467",
-		'instance_director' => "Aldi Sam",
-		'mailing_location' => "Tangerang",
-		'mailing_number' => "0021124565432",
-		'iin_status' => "0",
-		'application_type' => "pengajuan baru",
-		'created_date' => date('Y-m-j H:i:s'),
-		'created_by' =>"dicky",
-		'last_updated_date' => date('Y-m-j H:i:s'),
-		'modified_by' =>"dicky"
-		);
-		$this->user_model->insert_pengajuan($data);
-	
-
+		if($this->input->post('paypal')){
+			$data = array(
+			'id_user' => "1",
+			'id_admin' => "1",
+			'applicant' => "Dicky",
+			'applicant_phone_number' => "085725725725",
+			'application_date' => "2017-08-01",
+			'instance_name' => "PT.Indocor Invert Mustika",
+			' instance_email' => "IndoInvert@indo.com",
+			'instance_phone' => "07823467",
+			'instance_director' => "Aldi Sam",
+			'mailing_location' => "Tangerang",
+			'mailing_number' => "0021124565432",
+			'iin_status' => "0",
+			'application_type' => "pengajuan baru",
+			'created_date' => date('Y-m-j H:i:s'),
+			'created_by' =>"dicky",
+			'last_updated_date' => date('Y-m-j H:i:s'),
+			'modified_by' =>"dicky"
+			);
+			$this->user_model->insert_pengajuan($data);
+		}
 	}
-	public function captcha()
-	{
+	public function captcha(){
 		$vals = array(
 			//'word' => 'Random word',
 			'img_path' => './captcha/',
