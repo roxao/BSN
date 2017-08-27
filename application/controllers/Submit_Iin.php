@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Submit_iin extends CI_Controller {
+class submit_iin extends CI_Controller {
+
 	public function __construct() {
 		parent::__construct();
 
@@ -13,6 +14,7 @@ class Submit_iin extends CI_Controller {
 		$this->load->helper('form');   
 		$this->model = $this->user_model;
         $this->load->database();
+		
 	}
  
 	public function index(){		
@@ -21,25 +23,24 @@ class Submit_iin extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	/* login function. */
-	public function login() {
-		$username = $this->input->post('username');
-		// $password = hash ( "sha256", $this->input->post('password'));
-		$password =  $this->input->post('password');
-		$cek = $this->user_model->cek_login($username, $password);
-		if($cek->num_rows() > 0){
-			if ($cek->row()->user_status == 0){
-				$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
-			} else {
-				$this->session->set_flashdata('validasi-login', 'Selamat Datang');
-				$this->load->view('header');
-				$this->load->view('submit-iin');
-				$this->load->view('footer');
-		}
-		}else{
-			echo "Username dan password salah !";
-		}
-	}
+	/* User login function. */
+	 public function login() {
+	     $username = $this->input->post('username');
+	     // $password = hash ( "sha256", $this->input->post('password'));
+	     $password =  $this->input->post('password');
+	     $cek = $this->user_model->cek_login($username, $password);
+	     if($cek->num_rows() > 0){
+		    if ($cek->row()->status_user == 0){ 
+		    	$this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+		    } else {
+		    	$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
+			  	$this->load->view('header');
+			  	$this->load->view('submit-iin');
+			  	$this->load->view('footer');}
+	    }else{
+	      	echo "Username dan password salah !";
+	  	}
+      }
 
     public function logout() {	
 		$this->session->sess_destroy();
@@ -61,17 +62,13 @@ class Submit_iin extends CI_Controller {
 				$cek = $this->user_model->cek_status_user($username, $password);
 		        if($cek->num_rows() > 0){
 		        	echo "Username/Email sudah terdaftar";
-		    	}else {
+		    	} else {
 		    		if ($this->user_model->register_user($email ,$username, $password, $name)){
-						if ($this->user_model->sendMail($email,$username)) {
-					    	echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
-					   	}else {
-					   		echo  "Gagal"; 
-					   	}
-					}
-				}
-			}else {
-				echo "Password yang anda masukkan tidak sesuai"; 
+							if ($this->user_model->sendMail($email,$username)) {
+					       echo  "Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat";
+					      }else {echo  "Gagal"; }}}
+			} else {
+				echo "password yang anda masukkan tidak sesuai"; 
 			}	
 		} else { 
 			echo "Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#)";
@@ -84,9 +81,7 @@ class Submit_iin extends CI_Controller {
 		$cek = $this->user_model->forgot_password($username_forgot);
 		if ($cek->num_rows() > 0){
 			if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name)) {
-				echo  "Anda berhasil melakukan reset password";
-			} else {
-				echo  "Gagal";
+				echo  "Anda berhasil melakukan reset password";}else {echo  "Gagal"; 
 			} 
 		} else {
 			echo  "User tidak ditemukan"; 
@@ -96,11 +91,10 @@ class Submit_iin extends CI_Controller {
 	/*Verifikasi Email*/
 	public function verify($hash=NULL) {
     if ($this->user_model->verifyEmail($hash)) {
-		$this->session->set_flashdata(md5('sukses'), "Email sukses diverifikasi!");
-		echo  "Email sukses diverifikasi!";
-  	} else {
-  		$this->session->set_flashdata(md5('notification'), "Email gagal terverifikasi");
-      	echo  "Email gagal diverifikasi!"; // redirect('/url/register');
+      $this->session->set_flashdata(md5('sukses'), "Email sukses diverifikasi!");
+      echo  "Email sukses diverifikasi!";} 
+      else {$this->session->set_flashdata(md5('notification'), "Email gagal terverifikasi");
+      echo  "Email gagal diverifikasi!"; // redirect('/url/register');
   		}
   	}
 	
@@ -109,18 +103,17 @@ class Submit_iin extends CI_Controller {
 		$uppercase = preg_match('@[A-Z]@', $password);
 		$lowercase = preg_match('@[a-z]@', $password);
 		$number    = preg_match('@[0-9]@', $password);
-		$specialcharacter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
-		if(!$uppercase || !$lowercase || !$number || !$specialcharacter || strlen($password) <= 8) {
-			return false;
+		$specialcaracter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
+		if(!$uppercase || !$lowercase || !$number || !$specialcaracter || strlen($password) <= 8) {
+		 return false;
 		} else {
 			return true;
 		}
 	}
 
-
 	public function insert_pengajuan_surat(){
 		//Setting values for tabel columns
-		if($this->input->post('paypal')){}
+		if($this->input->post('paypal')){
 			$data = array(
 			'id_user' => "1",
 			'id_admin' => "1",
@@ -140,10 +133,10 @@ class Submit_iin extends CI_Controller {
 			'last_updated_date' => date('Y-m-j H:i:s'),
 			'modified_by' =>"dicky"
 			);
-			$this->user_model->insert_pengajuan($data);	
+			$this->user_model->insert_pengajuan($data);
+		}
 	}
-
-	function captcha(){
+	public function captcha(){
 		$vals = array(
 			//'word' => 'Random word',
 			'img_path' => './captcha/',
@@ -157,7 +150,9 @@ class Submit_iin extends CI_Controller {
 			'font_size' => 20,
 			//'img_id' => 'Imageid',
 			//'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			
 			// White background and border, black text and red grid
+			
 			'colors' => array(
 				'background' => array(255, 255, 255),
 				'border' => array(255, 255, 255),
