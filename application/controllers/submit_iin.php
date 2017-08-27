@@ -103,8 +103,8 @@ class submit_iin extends CI_Controller {
 		$uppercase = preg_match('@[A-Z]@', $password);
 		$lowercase = preg_match('@[a-z]@', $password);
 		$number    = preg_match('@[0-9]@', $password);
-		$specialcaracter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
-		if(!$uppercase || !$lowercase || !$number || !$specialcaracter || strlen($password) <= 8) {
+		$specialcharacter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
+		if(!$uppercase || !$lowercase || !$number || !$specialcharacter || strlen($password) <= 8) {
 		 return false;
 		} else {
 			return true;
