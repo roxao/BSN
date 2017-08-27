@@ -40,9 +40,12 @@ class submit_iin extends CI_Controller {
      if($cek->num_rows() > 0){
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
       else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
-	  $this->load->view('header');
-	  $this->load->view('/submitIIN/step0');
-	  $this->load->view('footer');}
+	  // $this->load->view('header');
+	  // $this->load->view('content');
+	  // $this->load->view('footer');
+$this->index();
+
+	}
       }else{echo "Username dan password salah !";}
       }
 
@@ -111,7 +114,8 @@ class submit_iin extends CI_Controller {
 	public function insert_pengajuan_surat(){
 
 		//Setting values for tabel columns
-	if($this->input->post('paypal')){}
+
+	if($this->input->post('kirim')){
 		$data = array(
 		'id_user' => "1",
 		'id_admin' => "1",
@@ -132,7 +136,9 @@ class submit_iin extends CI_Controller {
 		'modified_by' =>"dicky"
 		);
 		$this->user_model->insert_pengajuan($data);
-	
+	} else {
+		echo "Salah";
+	}	
 
 	}
 	public function captcha()

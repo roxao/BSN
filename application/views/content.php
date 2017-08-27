@@ -75,6 +75,7 @@
 			<section section-id="0" class="section_iin float_right" style="width: 70%;">
 				<h1 class="title_iin">Pengajuan Surat Permohonan IIN Baru</h1>
 				<!-- Foorm -->
+				<form  method="post">
 				<p>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem dengan klik button "Kirim", maka sebelumnya Anda harus mengunduh(download) surat permohonan yang sudah diisi yang akan akan digunakan kembali jika status data Anda sudah terverifikasi dan disetujui oleh Sekretariat Layanan.</p>
 				<article style="margin: 50px">
 					<div class="clearfix">
@@ -115,14 +116,15 @@
 						<input type="text" placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
 						
 						<div class="clearfix">
-							<button class="float_left" style="background: red">Batal</button>
+							<button class="float_left" style="background: red" >Batal</button>
 							
-							<button class="float_right" style="background: #01923f">Kirim</button>
+							<button class="float_right" style="background: #01923f" action="<?base_url()?>submit_iin/insert_pengajuan_surat">Kirim</button>
 							<button class="float_right" style="background: #00a8cf">Download Surat</button>
 						</div>
 					</div>
 				</article>
 				<!-- form  -->
+				</form>
 			</section>
 
 			<!-- Section 2 -->
