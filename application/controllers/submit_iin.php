@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class SipinHome extends CI_Controller {
+class submit_iin extends CI_Controller {
 
 	// function __construct(){
 	// 	parent::__construct();
@@ -31,17 +31,17 @@ class SipinHome extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	/* login function. */
+	/* User login function. */
 	 public function login() {
      $username = $this->input->post('username');
      // $password = hash ( "sha256", $this->input->post('password'));
      $password =  $this->input->post('password');
      $cek = $this->user_model->cek_login($username, $password);
      if($cek->num_rows() > 0){
-     if ($cek->row()->user_status == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
+     if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
       else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
 	  $this->load->view('header');
-	  $this->load->view('content');
+	  $this->load->view('/submitIIN/step0');
 	  $this->load->view('footer');}
       }else{echo "Username dan password salah !";}
       }
@@ -108,7 +108,34 @@ class SipinHome extends CI_Controller {
 	}
 	}
 
-	function captcha()
+	public function insert_pengajuan_surat(){
+
+		//Setting values for tabel columns
+	if($this->input->post('paypal')){}
+		$data = array(
+		'id_user' => "1",
+		'id_admin' => "1",
+		'applicant' => "Dicky",
+		'applicant_phone_number' => "085725725725",
+		'application_date' => "2017-08-01",
+		'instance_name' => "PT.Indocor Invert Mustika",
+		' instance_email' => "IndoInvert@indo.com",
+		'instance_phone' => "07823467",
+		'instance_director' => "Aldi Sam",
+		'mailing_location' => "Tangerang",
+		'mailing_number' => "0021124565432",
+		'iin_status' => "0",
+		'application_type' => "pengajuan baru",
+		'created_date' => date('Y-m-j H:i:s'),
+		'created_by' =>"dicky",
+		'last_updated_date' => date('Y-m-j H:i:s'),
+		'modified_by' =>"dicky"
+		);
+		$this->user_model->insert_pengajuan($data);
+	
+
+	}
+	public function captcha()
 	{
 		$vals = array(
 			//'word' => 'Random word',
