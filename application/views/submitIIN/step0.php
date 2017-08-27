@@ -1,20 +1,3 @@
-
-<!-- 
-// ISI Input dengan JSON dibawah:
-JSON =	{"step": 0,
-		 "status": 0,
-		 "app_data":[{
-			"app_address": "",
-			"app_date": "",
-			"app_num": "",
-			"app_instance": "",
-			"app_mail": "",
-			"app_phone": "",
-			"app_div": ""
-			}]
-		}	
- -->
-
 <section section-id="0" class="section_iin float_right" style="width: 70%;">
 	<h1 class="title_iin">Pengajuan Surat Permohonan IIN Baru</h1>
 	<form action="">
@@ -57,7 +40,6 @@ JSON =	{"step": 0,
 				<div class="clearfix">
 					<button class="float_left" style="background: red">Batal</button>
 					<button class="float_right" style="background: #01923f">Kirim</button>
-					<button class="float_right" style="background: #00a8cf">Download Surat</button>
 				</div>
 			</div>
 		</article>
