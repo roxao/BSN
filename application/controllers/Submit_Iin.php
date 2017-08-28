@@ -3,12 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class submit_iin extends CI_Controller {
 
-	// function __construct(){
-	// 	parent::__construct();
-	// 	$this->load->helper('url');
 
-
-	// }
 
 	public function __construct() {
 		
@@ -16,10 +11,9 @@ class submit_iin extends CI_Controller {
 
 		// load library dan helper
 	   	$this->load->library('session');
-	   	$this->load->helper(array('captcha','url','form'));
+	   	$this->load->helper(array('captcha','url','form','download'));
 		$this->load->model('user_model');
 		$this->load->library('email','form_validation', 'curl');
-		$this->load->helper('form');   
 		$this->model = $this->user_model;
         $this->load->database();
 		
@@ -27,7 +21,7 @@ class submit_iin extends CI_Controller {
  
 	public function index(){		
 		$this->load->view('header');
-		$this->load->view('content');
+		$this->load->view('submit-iin');
 		$this->load->view('footer');
 	}
 
@@ -40,10 +34,18 @@ class submit_iin extends CI_Controller {
      if($cek->num_rows() > 0){
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
       else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
-	  // $this->load->view('header');
-	  // $this->load->view('content');
-	  // $this->load->view('footer');
-$this->index();
+      
+      $this->session->set_userdata(array(
+    'id_user'  => $cek->row()->id_user,
+    'username' => $cek->row()->username,
+    'email'  => $cek->row()->email,
+    'status_user'     => $cek->row()->status_user,
+    
+));
+	  $this->load->view('header');
+	  $this->load->view('submit-iin');
+	  $this->load->view('footer');
+	  $this->index();
 
 	}
       }else{echo "Username dan password salah !";}
@@ -111,37 +113,47 @@ $this->index();
 	}
 	}
 
+	/*Melakukan penyimpanan form step ke 0*/ 
 	public function insert_pengajuan_surat(){
-	}
-
-		//Setting values for tabel columns
-
-	if($this->input->post('kirim')){
+// $id_user = $this->session->userdata('id_user');
+// $username = $this->session->userdata('username');
+	if($this->input->post('kirim') == "kirim"){
 		$data = array(
 		'id_user' => "1",
-		'id_admin' => "1",
-		'applicant' => "Dicky",
+		/*id_admin yg update nanti dari sisi admin makanya di isi Null*/ 
+		'id_admin' => "NULL",
+		/*applicant yg ngisi user blm dpt cara make sesion disini*/
+		'applicant' => "dicky",
 		'applicant_phone_number' => "085725725725",
-		'application_date' => "2017-08-01",
-		'instance_name' => "PT.Indocor Invert Mustika",
-		' instance_email' => "IndoInvert@indo.com",
-		'instance_phone' => "07823467",
-		'instance_director' => "Aldi Sam",
-		'mailing_location' => "Tangerang",
-		'mailing_number' => "0021124565432",
+		'application_date' => $this->input->post('app_date'),
+		'instance_name' => $this->input->post('app_instance'),
+		' instance_email' => $this->input->post('app_mail'),
+		'instance_phone' => $this->input->post('app_phone'),
+		'instance_director' => $this->input->post('app_div'),
+		'mailing_location' => $this->input->post('app_address'),
+		'mailing_number' => $this->input->post('app_num'),
 		'iin_status' => "0",
-		'application_type' => "pengajuan baru",
+		/*application_type yg update nanti dari sisi admin makanya di isi Null*/
+		'application_type' => "NULL",
 		'created_date' => date('Y-m-j H:i:s'),
+		/*created_by yg ngisi user blm dpt cara make sesion disini*/
 		'created_by' =>"dicky",
 		'last_updated_date' => date('Y-m-j H:i:s'),
+		/*modified_by yg ngisi user blm dpt cara make sesion disini*/
 		'modified_by' =>"dicky"
 		);
 		$this->user_model->insert_pengajuan($data);
+		echo "Berhasil tersimpan";
 	} else {
-		echo "Salah";
+		echo "Dibatalkan";
 	}	
 
 	}
+/*melakukan donload document file step ke1*/ 
+	public function download_file(){				
+		force_download('gambar/malasngoding.png',NULL);
+	}
+
 	public function captcha()
 	{
 		$vals = array(
