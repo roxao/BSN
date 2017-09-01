@@ -49,6 +49,7 @@
 
 						<li class="nav_parent"><a href="">Layanan IIN</a>
 							<ul>
+								<li><a href="/home">Halaman Depan</a></li>
 								<li><a href="iin-new.html"> Daftar Penerbitan IIN baru </a></li>
 								<li><a href="iin-publish-lama.html"> Daftar Pengawasan IIN Lama </a></li>
 							</ul>
