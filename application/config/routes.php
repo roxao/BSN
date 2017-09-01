@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'SipinHome';
-$route['submit_iin'] = 'submit_iin';
+$route['submit-iin'] = 'submit_iin';
 $route['admin'] = 'SipinHome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
