@@ -35,7 +35,7 @@
 					</label>
 					<label class="input_class">
 						<input type="text" id="iin_num" name="iin_num" autocomplete="off" placeholder="Nomor IIN: " required>
-						<small class="float_right"><span style="color:red">*</span>Jika sudah memiliki IIN</small>
+						<small><span style="color:red">*</span>Jika sudah memiliki IIN</small>
 					</label>
 					<label class="input_class">
 						<input type="email" id="email" name="email" autocomplete="off" placeholder="E-mail:" required>
