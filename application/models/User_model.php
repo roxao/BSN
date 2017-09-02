@@ -40,8 +40,20 @@ class User_model extends CI_Model {
     public function forgot_password($username){ 
     $this->db->select('*');
     $this->db->from('user'); 
-    $this->db->join('applications', 'user.id_user=dapplication.id_user');
+    $this->db->join('applications', 'user.id_user=applications.id_user');
     $this->db->where("user.email = '$username' or user.username = '$username' or instance_name = '$username'");        
+    $query = $this->db->get(); 
+ 
+        return  $query;   
+    }
+
+    /*select Aplication Step2*/
+    public function select_aplication_step2($id_user, $id_application_file  ){ 
+    $this->db->select('*');
+    $this->db->from('applications'); 
+    $this->db->join('application_file', 'applications.id_application=application_file.id_application');
+    $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
+    $this->db->where("applications.id_user = '$id_user' and application_file.id_application_file = '$id_application_file'");        
     $query = $this->db->get(); 
  
         return  $query;   

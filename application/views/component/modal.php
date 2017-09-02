@@ -10,7 +10,7 @@
 		<div class="box_content">
 			<!-- |||| Insert Content Modal ||||-->
 				<!-- Content  Log In -->
-				<form id="login_frame" class="content_frame" action="<?base_url()?>submit_iin/login" method="post" style="display: none; padding: 0 30px; width: 300px">
+				<form id="login_frame" class="content_frame" action="<?base_url()?>SipinHome/login" method="post" style="display: none; padding: 0 30px; width: 300px">
 					<label class="input_class">
 						<input type="text" id="username" name="username" autocomplete="off" placeholder="Username/Email/No. IIN:" required>
 					</label>
@@ -26,7 +26,7 @@
 
 				<!-- Content  Register -->
 				<script src='https://www.google.com/recaptcha/api.js'></script>
-				<form id="register_frame" class="content_frame" action="<?base_url()?>submit_iin/register" method="post" style="display: none">
+				<form id="register_frame" class="content_frame" action="<?base_url()?>SipinHome/register" method="post" style="display: none">
 					<label class="input_class">
 						<input type="text" id="nama" name="nama" autocomplete="off" placeholder="Nama Lengkap:" required>
 					</label>
@@ -52,7 +52,7 @@
 
 
 				<!-- Content  Forgot Password -->
-				<form id="forgot_frame" class="content_frame" action="<?base_url()?>submit_iin/forgot_password" method="post" style="display: none">
+				<form id="forgot_frame" class="content_frame" action="<?base_url()?>SipinHome/forgot_password" method="post" style="display: none">
 					<div class="box_content_note">Silahkan masukan alamat E-mail anda dan kami akan mengirimkan alamat tautan untuk melakukan pengaturan untuk kata sandi anda.</div>
 					<div class="panel_edit_input">
 						<label class="panel_label">E-mail / Username / Nomor IIN:</label>
