@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * User_model class.
  * 
@@ -47,8 +46,8 @@ class User_model extends CI_Model {
         return  $query;   
     }
 
-    /*select Aplication Step2*/
-    public function select_aplication_step2($id_user, $id_application_file  ){ 
+    /*Melkukan pengecekan file untuk didownload di step2*/
+    public function unduh_aplication_step2($id_user, $id_application_file ){ 
     $this->db->select('*');
     $this->db->from('applications'); 
     $this->db->join('application_file', 'applications.id_application=application_file.id_application');

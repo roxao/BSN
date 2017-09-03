@@ -56,22 +56,20 @@ class submit_iin extends CI_Controller {
 		/*modified_by yg ngisi user blm dpt cara make sesion disini*/
 		'modified_by' =>"dicky"
 		);
+
 		$this->user_model->insert_pengajuan($data);
-		echo "Berhasil tersimpan";
+
 	} else {
 		echo "Dibatalkan";
 	}	
 
 	}
-
-	// public function select_aplication(){
-
-
-
-	// }
-/*melakukan donload document file step ke1*/ 
-	public function download_file(){				
-		force_download('gambar/malasngoding.png',NULL);
+	/*Melkukan download di step2*/
+	public function download_aplication_step2(){
+	$id_application_file = $this->input->post('StepDuaFile');
+	// Masih Dipantek datanya (id_user, id_application_file)
+	$cek = $this->user_model->unduh_aplication_step2("1", "2");
+	force_download( $cek->row()->path_file, NULL);
 	}
 
 	public function captcha()

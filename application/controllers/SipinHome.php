@@ -27,8 +27,8 @@ class SipinHome extends CI_Controller {
      $password =  $this->input->post('password');
      $cek = $this->user_model->cek_login($username, $password);
      if($cek->num_rows() > 0){
-     if ($cek->row()->status_user == 0){ $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
-      else {$this->session->set_flashdata('falidasi-login', 'Selamat Datang');
+     if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
+      else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
       
       $this->session->set_userdata(array(
     'id_user'  => $cek->row()->id_user,
@@ -37,9 +37,7 @@ class SipinHome extends CI_Controller {
     'status_user'     => $cek->row()->status_user,
     
 ));
-	  $this->load->view('header');
-	  $this->load->view('submit-iin');
-	  $this->load->view('footer');
+	  
 	  $this->index();
 
 	}
