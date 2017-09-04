@@ -54,3 +54,28 @@ $route['submit-iin'] = 'submit_iin';
 $route['admin'] = 'SipinHome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+
+$route['login_admin']= 'SipinAdmin/login_admin';
+$route['proses_login_admin']= 'SipinAdmin/proses_login';
+$route['logout_admin'] = 'SipinAdmin/logout_admin';
+$route['insert_admin'] = 'SipinAdmin/insert_admin';
+$route['insert_admin_proses'] = 'SipinAdmin/insert_admin_proses';
+
+$route['insert_assesment_admin'] = 'SipinAdmin/insert_tim_asesment';
+$route['insert_assesment_admin_proses'] = 'SipinAdmin/insert_tim_asesment_proses';
+$route['data_asesment'] = 'SipinAdmin/read_tim_asesment';
+
+$route['data_user'] = 'SipinAdmin/read_user';
+
+$route['inbox'] = 'SipinAdmin/read_applications';
+$route['inbox_edit_proses'] = 'SipinAdmin/edit_aplication_proses';
+
+$route['inbox_setujui_proses_permohonan'] = 'Admin_Verifikasi_Controller/VERIF_NEW_REQ_PROSES';
+$route['inbox_setujui_proses_dokumen'] = 'Admin_Verifikasi_Controller/VERIF_UPLDOC_REQ_PROSES_SUCCEST';
+$route['inbox_setujui_proses_upload_billing'] = 'Admin_Verifikasi_Controller/UPL_BILL_REQ_SUCCEST';
+$route['inbox_proses_konfirmasi_assessment_lapangan'] = 'Admin_Verifikasi_Controller/VERIF_PAY_REQ_SUCCEST';
+$route['inbox_hasil_assessment_lapangan'] = 'Admin_Verifikasi_Controller/FIELD_ASSESS_REQ_SUCCEST';
+
+$route['asesmen_input_for_user'] = 'SipinAdmin/tim_ases_user';
