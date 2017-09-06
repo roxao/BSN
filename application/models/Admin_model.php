@@ -24,56 +24,36 @@ class Admin_model extends CI_Model {
     }
 
     public function insert_asesment ($name,$title){
-
         $this->db->insert('assessment_team', $name);
         $this->db->insert('assessment_team_title', $title);
     }
 
-    public function read_asesment()
-    {
+
+    // ALL GET TABLE
+    public function get_assessment(){
     	return $this->db->get('assessment_team');
     }
 
-    public function read_user()
-    {
+    public function get_user(){
     	return $this->db->get('user');
     }
 
-    public function read_applications()
-    {
+    public function get_applications(){
     	// return $this->db->get('applications');
-    		 $this->db->select('*');
-			 $this->db->from('application_status')
-			 ->join
-			 (
-			 	'applications',
-			 	'application_status.id_application = applications.id_application'
-			 )
-			 ->join
-			 (
-			 	'application_status_form_mapping',
-			 	'application_status_form_mapping.id_application_status = application_status_form_mapping.id_application_status'
-			 )
-			 ->join
-			 (
-			 	'application_status_name'
-			 	,'application_status_name.id_application_status_name=application_status.id_application_status_name'
-			 );
-			 return $this->db->get();
+        $this->db->select('*');
+        $this->db->from('application_status')
+             ->join ('applications', 'application_status.id_application = applications.id_application')
+			 ->join ('application_status_form_mapping', 'application_status_form_mapping.id_application_status = application_status_form_mapping.id_application_status')
+			 ->join ('application_status_name', 'application_status_name.id_application_status_name=application_status.id_application_status_name');
+        return $this->db->get();
+        // return $query->result();
     }
 
-    public function get_aplication($id_application)
-    {
-    	    $this->db->where('id_application', $id_application); 
-	        $this->db->select("*");
-	        $this->db->from("applications");
-	        return $this->db->get();
-    }
-
-    public function update_aplications($data,$condition)
-    {
-    	$this->db->where($condition); 
-        $this->db->update('applications', $data);
+    public function get_application($id_application){
+	    $this->db->where('id_application', $id_application); 
+        $this->db->select("*");
+        $this->db->from("applications");
+        return $this->db->get();
     }
 }
 ?>
