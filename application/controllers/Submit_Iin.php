@@ -21,14 +21,14 @@ class submit_iin extends CI_Controller {
  
 	public function index(){		
 		$this->load->view('header');
-		$this->load->view('submit-iin');
+		$this->load->view('submit-iin',$data);
 		$this->load->view('footer');
 	}
 
 	
 
 	/*Melakukan penyimpanan form step ke 0*/ 
-	public function insert_pengajuan_surat(){
+	public function insert_letter_submission(){
 // $id_user = $this->session->userdata('id_user');
 // $username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
@@ -65,11 +65,13 @@ class submit_iin extends CI_Controller {
 
 	}
 	/*Melkukan download di step2*/
-	public function download_aplication_step2(){
-	$id_application_file = $this->input->post('StepDuaFile');
-	// Masih Dipantek datanya (id_user, id_application_file)
-	$cek = $this->user_model->unduh_aplication_step2("1", "2");
-	force_download( $cek->row()->path_file, NULL);
+	public function download_aplication_step(){
+
+
+$data['download_aplication']    = $this->user_model->get_document_aplication();
+
+	$this->index();
+	
 	}
 
 	public function captcha()

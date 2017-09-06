@@ -29,15 +29,17 @@ JSON =	{"step": 1,
 	
 	<ul class="section_iin_download">
 		<!-- LOOP url1 DISINI -->
-		<li>Informasi Persyaratan Pendaftaran Sponsoring Authority (kode: F.PKS.8.0.2)			<a href="<?php echo base_url();?>submit_iin/download_aplication_step2" method="post" class="btn_download" name="StepDuaFile" value="1" >Download</a> </li>
+		<li>Informasi Persyaratan Pendaftaran Sponsoring Authority (kode: F.PKS.8.0.2)			<a href="<?php echo base_url().'submit_iin/download_aplication_step'.'1'; ?>" class="btn_download"  >Download</a> </li>
+
+
 	</ul>
 
 	<p>Silakan unduh (download) beberapa dokumen berikut dan diunggah (upload) kembali setelah dilengkapi.</p>
 
 	<!-- LOOP url2 DISINI -->
 	<ul class="section_iin_download">
-		<li>1. Term & Condition (kode: F.PKS.8.0.3)												<a href="<?php echo base_url();?>submit_iin/download_aplication_step2" class="btn_download" method="post" name="StepDuaFile" value="2" >Download</a></li>
-		<li>2. Form Aplikasi (Form Annex B) ISO IEC 7812-2_2015 (kode: DP.PKS.30)				<a href="<?php echo base_url();?>submit_iin/download_aplication_step2" class="btn_download" method="post" name="StepDuaFile" value="3">Download</a></li>
+		<li>1. Term & Condition (kode: F.PKS.8.0.3)												<a href="<?php echo base_url();?>submit_iin/download_aplication_step" class="btn_download" method="post" name="StepDuaFile" value="2" >Download</a></li>
+		<li>2. Form Aplikasi (Form Annex B) ISO IEC 7812-2_2015 (kode: DP.PKS.30)				<a href="<?php echo base_url();?>submit_iin/download_aplication_step" class="btn_download" method="post" name="StepDuaFile" value="3">Download</a></li>
 	</ul>
 
 	<p >Setelah mengunduh dan melengkapi isi dari masing-masing dokumen, silakan klik button link di bawah ini untuk melanjutkan proses permohonan dengan melengkapi dokumen-dokumen yang dibutuhkan untuk diproses oleh Sekretariat Layanan.</p>

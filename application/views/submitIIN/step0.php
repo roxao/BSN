@@ -5,7 +5,7 @@
 		<p>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem dengan klik button <b>"Kirim"</b>, maka sebelumnya Anda harus mengunduh(download) surat permohonan yang sudah diisi yang akan akan digunakan kembali jika status data Anda sudah terverifikasi dan disetujui oleh Sekretariat Layanan.</p>
 		<article style="margin: 50px">
 		
-	<form action="<?base_url()?>submit_iin/insert_pengajuan_surat" method="post">
+	<form action="<?base_url()?>submit_iin/insert_letter_submission" method="post">
 			<div class="clearfix">
 				<label class="input_dashed float_left" style="width: 65%">
 					Lokasi Pengajuan Surat
