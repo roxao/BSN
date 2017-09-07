@@ -21,23 +21,20 @@ class submit_iin extends CI_Controller {
  
 	public function index(){		
 		$this->load->view('header');
-		$this->load->view('submit-iin',$data);
+		$this->load->view('submit-iin');
 		$this->load->view('footer');
 	}
 
-	
-
 	/*Melakukan penyimpanan form step ke 0*/ 
 	public function insert_letter_submission(){
-// $id_user = $this->session->userdata('id_user');
-// $username = $this->session->userdata('username');
+$id_user = $this->session->userdata('id_user');
+$username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
 		$data = array(
-		'id_user' => "1",
+		'id_user' => $id_user,
 		/*id_admin yg update nanti dari sisi admin makanya di isi Null*/ 
 		'id_admin' => "NULL",
-		/*applicant yg ngisi user blm dpt cara make sesion disini*/
-		'applicant' => "dicky",
+		'applicant' => $this->session->userdata('username'),
 		'applicant_phone_number' => "085725725725",
 		'application_date' => $this->input->post('app_date'),
 		'instance_name' => $this->input->post('app_instance'),
@@ -47,15 +44,11 @@ class submit_iin extends CI_Controller {
 		'mailing_location' => $this->input->post('app_address'),
 		'mailing_number' => $this->input->post('app_num'),
 		'iin_status' => "0",
-		/*application_type yg update nanti dari sisi admin makanya di isi Null*/
 		'application_type' => "NULL",
 		'created_date' => date('Y-m-j H:i:s'),
-		/*created_by yg ngisi user blm dpt cara make sesion disini*/
-		'created_by' =>"dicky",
+		'created_by' => $username,
 		'last_updated_date' => date('Y-m-j H:i:s'),
-		/*modified_by yg ngisi user blm dpt cara make sesion disini*/
-		'modified_by' =>"dicky"
-		);
+		'modified_by' =>$username);
 
 		$this->user_model->insert_pengajuan($data);
 
@@ -64,16 +57,36 @@ class submit_iin extends CI_Controller {
 	}	
 
 	}
-	/*Melkukan download di step2*/
-	public function download_aplication_step(){
-
-
-$data['download_aplication']    = $this->user_model->get_document_aplication();
-
-	$this->index();
+	/*Melkukan penarikan dokumen*/
+	public function download_Upload_aplication_step(){
+	// if ($id_application_file == "1") {// Masih Dipantek datanya (id_user, id_application_file)
+	$id_user = $this->session->userdata('id_user');
+	if ($this->user_model->getdocument_aplication($id_user)){
+		$data['download_aplication']    = $this->user_model->getdocument_aplication($id_user);
+		$this->index();
+	}
 	
 	}
 
+/*Melakukan Upload document*/
+	 function do_upload() {
+        /* setting konfigurasi upload*/
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        /* load library upload*/
+        $this->load->library('upload', $config);
+        /*'gambar' Nama Parameter dari Uinya*/
+        if (!$this->upload->do_upload('gambar')) {
+            $error = $this->upload->display_errors();
+            /* menampilkan pesan error*/
+            print_r($error);
+        } else {
+            $result = $this->upload->data();
+            echo "<pre>";
+            print_r($result);
+            echo "</pre>";
+        }
+    }
 	public function captcha()
 	{
 		$vals = array(

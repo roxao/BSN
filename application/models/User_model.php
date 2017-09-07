@@ -47,11 +47,12 @@ class User_model extends CI_Model {
     }
 
     /*Melkukan pengecekan file untuk didownload di step2*/
-    public function get_document_aplication(){ 
+    public function getdocument_aplication($id_user){ 
     $this->db->select('*');
     $this->db->from('applications'); 
     $this->db->join('application_file', 'applications.id_application=application_file.id_application');
     $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
+    $this->db->where('applications.id_user',$id_user);
     // $this->db->where('document_config.type','STATIC'); 
     // $this->db->where('document_config.key',"IPPSA");         
     $query = $this->db->get(); 
