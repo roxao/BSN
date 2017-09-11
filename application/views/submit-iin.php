@@ -13,26 +13,27 @@
 			<li stepId="9" class="waitingStep"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
 		</ul>
 
-		<!-- Section 1 get view "submitIIN/step0.php -->
-		<?php $this->load->view('submitIIN/step0')  ?>
-		<!-- Section 1 get view "submitIIN/step1.php -->
-		<?php $this->load->view('submitIIN/step1')  ?>
-		<!-- Section 2 get view "submitIIN/step2.php -->
-		<?php $this->load->view('submitIIN/step2')  ?>
-		<!-- Section 3 get view "submitIIN/step3.php -->
-		<?php $this->load->view('submitIIN/step3')  ?>
-		<!-- Section 4 get view "submitIIN/step4.php -->
-		<?php $this->load->view('submitIIN/step4')  ?>
-		<!-- Section 5 get view "submitIIN/step5.php -->
-		<?php $this->load->view('submitIIN/step5')  ?>
-		<!-- Section 6 get view "submitIIN/step6.php -->
-		<?php $this->load->view('submitIIN/step6')  ?>
-		<!-- Section 7 get view "submitIIN/step7.php -->
-		<?php $this->load->view('submitIIN/step7')  ?>
-		<!-- Section 8 get view "submitIIN/step8.php -->
-		<?php $this->load->view('submitIIN/step8')  ?>
-		<!-- Section 9 get view "submitIIN/step9.php -->
-		<?php $this->load->view('submitIIN/step9')  ?>
 
+		<?php 
+		$id_user = $this->session->userdata('id_user');
+	$check = $this->user_model->getdocument_aplication($id_user);
+	
+	if ($this->user_model->getdocument_aplication($id_user)){
+
+
+		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+	}
+
+		$this->load->view('submitIIN/step0');
+		$this->load->view('submitIIN/step1',$data); 
+		$this->load->view('submitIIN/step2',$data);
+		$this->load->view('submitIIN/step3',$data);	
+		$this->load->view('submitIIN/step4',$data);
+		$this->load->view('submitIIN/step5',$data); 
+		$this->load->view('submitIIN/step6',$data);
+		$this->load->view('submitIIN/step7',$data);
+		$this->load->view('submitIIN/step8',$data);
+		$this->load->view('submitIIN/step9',$data);
+?>
 	</div>
 </div>

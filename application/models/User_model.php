@@ -54,10 +54,13 @@ class User_model extends CI_Model {
     $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
     $this->db->where('applications.id_user',$id_user);
     // $this->db->where('document_config.type','STATIC'); 
-    // $this->db->where('document_config.key',"IPPSA");         
+    // $this->db->where('document_config.key',"IPPSA"); 
+
+
     $query = $this->db->get(); 
+    $results = $query->result();
  
-        return  $query;   
+        return  $results ;   
     }
 
     /*Cek Status User*/

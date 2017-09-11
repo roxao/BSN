@@ -29,10 +29,19 @@ JSON =	{"step": 1,
 	
 	<ul class="section_iin_download">
 		<!-- LOOP url1 DISINI -->
-		<li>Informasi Persyaratan Pendaftaran Sponsoring Authority (kode: F.PKS.8.0.2)			<a href="<?php echo base_url().'submit_iin/download_Upload_aplication_step'.'1'; ?>" class="btn_download"  >Download</a> </li>
+		 <?php foreach($download_upload as $data) {?>
 
-
+		
+		<li> <?php echo $data->display_name; ?>  	<a href="<?php echo base_url().'submit_iin/download/'.$data->path_file; ?>" class="btn_download"  >Download</a> </li> 
+		
+                
+        
+		
+ <?php } ?> 
 	</ul>
+	
+	
+
 
 	<p>Silakan unduh (download) beberapa dokumen berikut dan diunggah (upload) kembali setelah dilengkapi.</p>
 

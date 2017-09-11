@@ -50,7 +50,7 @@
 						<li class="nav_parent"><a href="">Layanan IIN</a>
 							<ul>
 
-								<li><a href="<?php echo base_url();?>submit_iin/download_Upload_aplication_step"> Daftar Penerbitan IIN baru </a></li>
+								<li><a href="<?php echo base_url();?>submit-iin"> Daftar Penerbitan IIN baru </a></li>
 								<li><a href="iin-publish-lama.html"> Daftar Pengawasan IIN Lama </a></li>
 							</ul>
 						</li>

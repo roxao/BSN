@@ -9,8 +9,8 @@ class submit_iin extends CI_Controller {
 		
 		parent::__construct();
 
-		// load library dan helper
-	   	$this->load->library('session');
+		/* load library dan helper*/
+	   	$this->load->library('session', 'upload');
 	   	$this->load->helper(array('captcha','url','form','download'));
 		$this->load->model('user_model');
 		$this->load->library('email','form_validation', 'curl');
@@ -27,8 +27,8 @@ class submit_iin extends CI_Controller {
 
 	/*Melakukan penyimpanan form step ke 0*/ 
 	public function insert_letter_submission(){
-$id_user = $this->session->userdata('id_user');
-$username = $this->session->userdata('username');
+	$id_user = $this->session->userdata('id_user');
+	$username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
 		$data = array(
 		'id_user' => $id_user,
@@ -38,7 +38,7 @@ $username = $this->session->userdata('username');
 		'applicant_phone_number' => "085725725725",
 		'application_date' => $this->input->post('app_date'),
 		'instance_name' => $this->input->post('app_instance'),
-		' instance_email' => $this->input->post('app_mail'),
+		'instance_email' => $this->input->post('app_mail'),
 		'instance_phone' => $this->input->post('app_phone'),
 		'instance_director' => $this->input->post('app_div'),
 		'mailing_location' => $this->input->post('app_address'),
@@ -58,13 +58,23 @@ $username = $this->session->userdata('username');
 
 	}
 	/*Melkukan penarikan dokumen*/
-	public function download_Upload_aplication_step(){
-	// if ($id_application_file == "1") {// Masih Dipantek datanya (id_user, id_application_file)
-	$id_user = $this->session->userdata('id_user');
-	if ($this->user_model->getdocument_aplication($id_user)){
-		$data['download_aplication']    = $this->user_model->getdocument_aplication($id_user);
-		$this->index();
-	}
+	public function download($id){
+	// $id_user = $this->session->userdata('id_user');
+	// $check = $this->user_model->getdocument_aplication($id_user);
+	
+	// if ($this->user_model->getdocument_aplication($id_user)){
+	// 	// $data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+	// 	// $this->load->view('header');
+	// 	// $this->load->view('submit-iin', $data);
+
+	// 	// $this->load->view('footer');
+	// 	echo $check->row()->type;
+	// }
+
+	
+	$name = $id;
+ 
+	force_download($name,null);
 	
 	}
 
