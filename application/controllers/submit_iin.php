@@ -58,7 +58,7 @@ class submit_iin extends CI_Controller {
 
 	}
 	/*Melkukan penarikan dokumen*/
-	public function download($id){
+	public function download(){
 	// $id_user = $this->session->userdata('id_user');
 	// $check = $this->user_model->getdocument_aplication($id_user);
 	
@@ -72,30 +72,31 @@ class submit_iin extends CI_Controller {
 	// }
 
 	
-	$name = $id;
- 
-	force_download($name,null);
-	
+	$iamge_id = $this->input->get('var1');
+	// echo $iamge_id;
+   force_download($iamge_id, NULL);	
 	}
 
 /*Melakukan Upload document*/
-	 function do_upload() {
-        /* setting konfigurasi upload*/
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|png';
-        /* load library upload*/
-        $this->load->library('upload', $config);
-        /*'gambar' Nama Parameter dari Uinya*/
-        if (!$this->upload->do_upload('gambar')) {
-            $error = $this->upload->display_errors();
-            /* menampilkan pesan error*/
-            print_r($error);
-        } else {
-            $result = $this->upload->data();
-            echo "<pre>";
-            print_r($result);
-            echo "</pre>";
-        }
+	 function aksi_upload() {
+
+	 	$config['upload_path']          = './uploads/';
+	$config['allowed_types']        = 'gif|jpg|png';
+	$config['max_size']             = 100;
+	$config['max_width']            = 1024;
+	$config['max_height']           = 768;
+ 
+	$this->load->library('upload', $config);
+ 
+	if ( ! $this->upload->do_upload('berkas')){
+		$error = array('error' => $this->upload->display_errors());
+		// $this->load->view('v_upload', $error);
+	}else{
+		$data = array('upload_data' => $this->upload->data());
+		// $this->load->view('v_upload_sukses', $data);
+	}
+        
+     
     }
 	public function captcha()
 	{

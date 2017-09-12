@@ -25,7 +25,16 @@ JSON =	{"step": 1,
 	<p>Silakan mengunggah dokumen-dokumen yang sudah dilengkapi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.</p>
 
 	<ul class="section_iin_download">
-		<li><input type="checkbox" required/> 1. Surat Permohonan Pengajuan Nomor IIN / BIN   <button class="btn_upload">Upload</button></li>
+
+	<!-- LOOP url1 DISINI -->
+		 <?php $no=0; foreach($download_upload as $data) {
+		 switch ($data->type) {
+		 	 	/*Ini tinggal dirubah aja yah key nya */
+		 	 	case 'DYNAMIC': ?>
+		<li> <input type="checkbox" required/> class="btn_download" <?php  $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="echo form_open_multipart('upload/do_upload');"> Upload</a></li> 	
+ <?php break; }
+ } ?> 
+
 	</ul>
 
 	<p >*Dokumen yang wajib disertakan</p>
