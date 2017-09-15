@@ -5,12 +5,12 @@
 			<li stepId="1" class="verifiedStep"><button>Hasil Verifikasi Status Permohonan</button></li>
 			<li stepId="2" class="verifiedStep"><button>Submit Kelengkapan Dokumen</button></li>
 			<li stepId="3" class="processStep"><button>Proses Verifikasi dan Validasi</button></li>
-			<li stepId="4" class="waitingStep"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
-			<li stepId="5" class="waitingStep"><button>Submit Bukti Transfer Pembayaran</button></li>
-			<li stepId="6" class="waitingStep"><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
-			<li stepId="7" class="waitingStep"><button>Assessment Lapangan</button></li>
-			<li stepId="8" class="waitingStep"><button>Proses Permohonan ke CRA</button></li>
-			<li stepId="9" class="waitingStep"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
+			<li stepId="4" class="verifiedStep"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
+			<li stepId="5" class="verifiedStep"><button>Submit Bukti Transfer Pembayaran</button></li>
+			<li stepId="6" class="verifiedStep"><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
+			<li stepId="7" class="verifiedStep"><button>Assessment Lapangan</button></li>
+			<li stepId="8" class="verifiedStep"><button>Proses Permohonan ke CRA</button></li>
+			<li stepId="9" class="verifiedStep"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
 		</ul>
 
 

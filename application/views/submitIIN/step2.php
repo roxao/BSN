@@ -23,7 +23,7 @@ JSON =	{"step": 1,
 <section section-id="2" class="section_iin float_right" style="width: 70%; display:none">
 	<h1 class="title_iin">Submit Kelengkapan Dokumen Permohonan IIN</h1>
 	<p>Silakan mengunggah dokumen-dokumen yang sudah dilengkapi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.</p>
-
+<?php echo form_open_multipart('submit_iin/do_upload');?>
 	<ul class="section_iin_download">
 
 	<!-- LOOP url1 DISINI -->
@@ -31,7 +31,7 @@ JSON =	{"step": 1,
 		 switch ($data->type) {
 		 	 	/*Ini tinggal dirubah aja yah key nya */
 		 	 	case 'DYNAMIC': ?>
-		<li> <input type="checkbox" required/> class="btn_download" <?php  $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="echo form_open_multipart('upload/do_upload');"> Upload</a></li> 	
+		<li> <input type="checkbox" /> <?php  $no++; echo "$no.  "; echo $data->display_name; ?>  <input type="file" name="images[]" /> </li> 	
  <?php break; }
  } ?> 
 
@@ -43,6 +43,7 @@ JSON =	{"step": 1,
 
 	<div class="clearfix">
 		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
-		<button style="background: #01923f" class="float_right">Lanjutkan Proses</button>	
+		<button style="background: #01923f" class="float_right"  value="upload" name="upload" ></button>	
+		</form>
 	</div>
 </section>

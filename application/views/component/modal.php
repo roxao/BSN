@@ -10,7 +10,7 @@
 		<div class="box_content">
 			<!-- |||| Insert Content Modal ||||-->
 				<!-- Content  Log In -->
-				<form id="login_frame" class="content_frame" action="<?base_url()?>SipinHome/login" method="post" style="display: none; padding: 0 30px; width: 300px">
+				<form id="login_frame" class="content_frame" action="<?php base_url()?>SipinHome/login" method="post" style="display: none; padding: 0 30px; width: 300px">
 					<label class="input_class">
 						<input type="text" id="username" name="username" autocomplete="off" placeholder="Username/Email/No. IIN:" required>
 					</label>
