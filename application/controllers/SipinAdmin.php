@@ -15,10 +15,9 @@ class SipinAdmin extends CI_Controller {
 	}
 
 	public function index(){
-		$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) redirect(site_url('proses_login_admin'));
+		
         $this->load->view('admin/header_admin');
-		$this->load->view('admin/content_admin');
+
 	}
 
 	public function login_admin() {
@@ -44,10 +43,11 @@ class SipinAdmin extends CI_Controller {
 				    'id_admin'  	=> $cek->row()->id_admin,
 				    'username' 		=> $cek->row()->username,
 				    'email'  		=> $cek->row()->email,
-				    'admin_status' 	=> $cek->row()->admin_status));
+				    'admin_status' 	=> $cek->row()->admin_status,
+			 		'admin_role' 	=> $cek->row()->admin_role));
 			 		// ke index super admin 
-			 		 $this->load->view('admin/header_admin');
-					$this->load->view('/admincontent_admin');
+			 		$this->load->view('admin/header_admin');
+					$this->load->view('admin/admin_inbox');
 			 	} else {
 			 		echo "Selamat Datang Admin";
 			 		$this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
@@ -56,19 +56,25 @@ class SipinAdmin extends CI_Controller {
 				    'id_admin'  	=> $cek->row()->id_admin,
 				    'username' 		=> $cek->row()->username,
 				    'email'  		=> $cek->row()->email,
-				    'admin_status' 	=> $cek->row()->admin_status));
+				    'admin_status' 	=> $cek->row()->admin_status,
+			 		'admin_role' 	=> $cek->row()->admin_role));
 				      // ke index admin 
 			    	//$this->index();
 			    	$this->load->view('admin/header_admin');
-					$this->load->view('admin/content_admin');
+					$this->load->view('content_admin');
 			 	}
 			}
 		}
 		else{
-			//redirect(site_url('login'));
+			site_url('login_admin');
 		}
 	}
 
+	public function session()
+	{
+		$logged_in = $this->session->userdata('admin_status');
+        if (!$logged_in) redirect(site_url('login_admin'));
+	}
 
 	public function logout_admin(){	
 		$this->session->sess_destroy();
@@ -76,18 +82,19 @@ class SipinAdmin extends CI_Controller {
 		$this->login_admin();
 	}
 
+	public function get_admin()
+	{
+		$data['data_admin'] = $this->admin_model->get_admin()->result();
+		$this->load->view('admin/all_data_admin', $data);
+
+	}
+
 	public function insert_admin() {
-	 	$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) {
-            redirect(site_url('login_admin'));
-        }
-	 	$this->load->view('super_admin_insert_admin');
+
+	 	$this->load->view('admin/super_admin_insert_admin');
 	 }
 	 public function insert_admin_proses(){
-        $logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) {
-            redirect(site_url('login_admin'));
-        }
+   
 
         if($this->input->post('insert') == "insert") {
         	$data = array(
@@ -97,10 +104,15 @@ class SipinAdmin extends CI_Controller {
         		'admin_status' => $this->input->post('admin_status'),
         		'admin_role' => $this->input->post('admin_role'),
         		'created_date' => date('Y-m-j H:i:s'),
-        		'created_by' => $this->session->userdata('username'),
-        		'last_update_date' => date('Y-m-j H:i:s'),
-        		'modified_by' => $this->input->post('username')
+        		// 'created_by' => $this->session->userdata('username')        		
         		);
+        	$dataL = array(
+        		'detail_log' => $this->session->userdata('admin_role').' adding new admin',
+        		'log_type' => 'added '.$this->input->post('username'), 
+        		'created_date' => date('Y-m-j H:i:s')
+        		// 'created_by' => $this->session->userdata('username')
+        		);
+        	$this->admin_model->insert_log($dataL);
         	$this->admin_model->insert_admin($data);
         	echo "Data admin Berhasil tersimpan";
         }else {
@@ -109,18 +121,12 @@ class SipinAdmin extends CI_Controller {
     }
 
     public function insert_tim_asesment() {
-		$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) {
-            redirect(site_url('login_admin'));
-        }
+
      	$this->load->view('admin/super_admin_insert_asesment');
      }
 
     public function insert_tim_asesment_proses() {
-		$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
+
 
 		if($this->input->post('insert') == "insert"){
         	$name = array('name' => $this->input->post('name'));
@@ -133,49 +139,33 @@ class SipinAdmin extends CI_Controller {
      }
 
     public function read_tim_asesment() {
-     	$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
+
 
 		$data['data_asesment']    = $this->admin_model->read_asesment()->result();
 		$this->load->view('admin/data_asesment', $data);
      }
 
      public function read_user(){
-		$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
+
 
         $data['data_user'] = $this->admin_model->read_user()->result();
         $this->load->view('admin/data_user',$data);
      }
 
       public function read_applications(){
-		$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
 
-        $data['applications'] = $this->admin_model->read_applications()->result();
+        $data['applications'] = $this->admin_model->get_applications_tes2()->result();
         $this->load->view('admin/inbox',$data);
      }
 
      public function edit_aplication($id_application) {
-     	$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
+
         $data['aplication'] = $this->admin_model->get_aplication($id_application)->result();
         $this->load->view('admin/inbox_edit', $data);
      }
 
 	public function edit_aplication_proses(){
-     	$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
-        }
+
        if($this->input->post('update') == "update"){
         	$data = array(
         		'applicant' => $this->input->post('applicant'),
@@ -192,61 +182,21 @@ class SipinAdmin extends CI_Controller {
         }
      }
 
-	public function setujui_pengajuan($id_application_status){
-     	$logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in){
-            redirect(site_url('login_admin'));
+
+     public function read_applications2(){
+
+        $cek = $this->admin_model->get_applications2();
+        
+        // if ($cek->row()->id_application_status_name == 2) 
+        if ($cek->num_rows() > 1) {
+        	$data['applications'] = $this->admin_model->get_applications()->result();
+
+        	$this->load->view('admin/inbox',$data);
+        }else{
+        	$data['applications'] = $this->admin_model->get_applications2()->result();
+
+        	$this->load->view('admin/inbox',$data);
         }
 
-        $cekData = $this->admin_model->get_aplication($id_application_status)->result();
-        if($cekData->num_rows() > 0){
-        	if($cekData->row()->process_status == 0){
-    			$data = array(
-	        		'process_status' => 1
-	        		);
-			 	}
-			 	elseif ($cekData->row()->process_status == 1) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 2) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 3) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 4) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 5) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 6) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 7) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 8) 
-			 	{
-			 		# code...
-			 	}
-			 	elseif ($cekData->row()->process_status == 9) 
-			 	{
-			 		# code...
-			 	}
-			 
-		}else {
-			echo "data tidak ditemukan";
-		}
-
      }
-	
-	
  }
