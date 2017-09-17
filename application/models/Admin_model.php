@@ -48,6 +48,19 @@ class Admin_model extends CI_Model {
     	return $this->db->get('user');
     }
 
+    public function get_user_by_prm($id){
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('id_user',$id);
+        return $this->db->get();
+    }
+
+    public function update_user($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('user',$data);
+    }
+
     public function get_applications(){
     	// return $this->db->get('applications');
         $this->db->select('*');

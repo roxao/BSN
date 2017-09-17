@@ -76,3 +76,6 @@ $route['edit_iin/(:any)'] = 'sipinAdmin/edit_iin/$1';
 
 $route['cms']  = 'sipinAdmin/get_data_cms';
 $route['edit_cms/(:any)'] ='sipinAdmin/edit_data_cms/$1';
+
+$route['user_data'] = 'sipinAdmin/get_data_user';
+$route['edit_user/(:any)'] ='sipinAdmin/edit_data_user/$1';

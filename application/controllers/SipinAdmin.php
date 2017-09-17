@@ -131,6 +131,8 @@ class SipinAdmin extends CI_Controller {
 		if($this->input->post('insert') == "insert"){
         	$name = array('name' => $this->input->post('name'));
 			$title = array('title' => $this->input->post('title'));
+
+
         	$this->admin_model->insert_asesment($name,$title);
         	echo "Data Tim Asesment Berhasil tersimpan";
         }else {
@@ -224,6 +226,13 @@ class SipinAdmin extends CI_Controller {
      		);
      	$condition= array('id_document_config' => $this->input->post('id_document_config'));
      	
+     		$dataL = array(
+        		'detail_log' => $this->session->userdata('admin_role').' update document',
+        		'log_type' => 'added '.$this->input->post('username'), 
+        		'created_date' => date('Y-m-j H:i:s')
+        		// 'created_by' => $this->session->userdata('username')
+        		);
+        	$this->admin_model->insert_log($dataL);
      	$this->admin_model->update_documenet_config($condition,$data);
      }
 
@@ -258,6 +267,14 @@ class SipinAdmin extends CI_Controller {
      		);
 
      	$condition = array('id_iin' => $this->input->post('id_iin'));
+
+     	$dataL = array(
+        		'detail_log' => $this->session->userdata('admin_role').' update iin',
+        		'log_type' => 'added '.$this->input->post('username'), 
+        		'created_date' => date('Y-m-j H:i:s')
+        		// 'created_by' => $this->session->userdata('username')
+        		);
+        	$this->admin_model->insert_log($dataL);
      	$this->admin_model->update_iin($condition,$data);
 
      }
@@ -287,6 +304,13 @@ class SipinAdmin extends CI_Controller {
      		);
      	$condition = array('id_cms' => $this->input->post('id_cms'));
 
+     	$dataL = array(
+        		'detail_log' => $this->session->userdata('admin_role').' update cms',
+        		'log_type' => 'added '.$this->input->post('username'), 
+        		'created_date' => date('Y-m-j H:i:s')
+        		// 'created_by' => $this->session->userdata('username')
+        		);
+        	$this->admin_model->insert_log($dataL);
      	$this->admin_model->update_cms($condition,$data);
 
      }
@@ -297,4 +321,40 @@ class SipinAdmin extends CI_Controller {
      	echo json_encode($data);
      }
 
+     public function get_data_user()
+     {
+     	$data['user'] = $this->admin_model->get_user()->result();
+     	echo json_encode($data);
+     }
+
+     public function edit_data_user($id)
+     {
+     	$data['user'] = $this->admin_model->get_user_by_prm($id)->result();
+     	echo json_encode($data);
+     }
+
+     public function edit_proses_user()
+     {
+     	$data = array(
+     		'email' => $this->input->post('email'),
+     		'username' => $this->input->post('username'),
+     		'password' => $this->input->post('password'),
+     		'name' => $this->input->post('name'),
+     		'status_user' => $this->input->post('status_user'),
+     		'survey_status' => $this->input->post('survey_status'),
+     		'last_update_date' => $this->input->post('last_update_date')
+     		// 'modified_by' => $this->session->userdata('name'),
+     		);
+
+     	$condition = array('id_user' => $this->input->post('id_user'));
+
+     	$dataL = array(
+        		'detail_log' => $this->session->userdata('admin_role').' update user',
+        		'log_type' => 'added '.$this->input->post('username'), 
+        		'created_date' => date('Y-m-j H:i:s')
+        		// 'created_by' => $this->session->userdata('username')
+        		);
+        	$this->admin_model->insert_log($dataL);
+     	$this->admin_model->update_user($condition,$data);
+     }
  }
