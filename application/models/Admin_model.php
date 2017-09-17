@@ -234,7 +234,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('assessment_team');
-        $this->db->like('name',@$data);
+        $this->db->like('name', $data);
         return $this->db->get();
     }
 
@@ -248,5 +248,75 @@ class Admin_model extends CI_Model {
 
     }
 
+    public function get_document()
+    {
+        return $this->db->get('document_config');
+    }
+
+    public function get_document_by_prm($id)
+    {
+
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('id_document_config',$id);
+        return $this->db->get();
+    }
+
+    public function update_documenet_config($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('document_config',$data);
+    }
+
+    public function question_survey_question()
+    {
+        // $this->db->select('*');
+        // $this->db->from('survey_question');
+        // $this->db->where('question_status',1);
+       return $this->db->get('survey_question');
+    }
+
+    public function get_iin()
+    {
+       return $this->db->get('iin');
+    }
+
+    public function get_iin_by_prm($id)
+    {
+        $this->db->select('*');
+        $this->db->from('iin');
+        $this->db->where('id_iin',$id);
+        return $this->db->get();
+    }
+
+    public function update_iin($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('iin',$data);
+    }
+
+    public function get_cms()
+    {
+       return $this ->db-> get('cms');
+    }
+
+    public function get_cms_by_prm($id)
+    {
+        $this->db->select('*');
+        $this->db->from('cms');
+        $this->db->where('id_cms',$id);
+        return $this->db->get();
+    }
+
+    public function update_cms($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('cms',$data);
+    }
+
+    public function get_conplain()
+    {
+        return $this->db->get('complaint');
+    }
 }
 ?>
