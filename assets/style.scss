@@ -911,7 +911,7 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   z-index: 10;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
   padding-top: 100px;
-  width: 250px;
+  width: 25%;
   li {
     margin: 5px;
     padding: 10px;
@@ -952,6 +952,8 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
 .dashboard_content {
   background: #fff;
   margin-bottom: 50px;
+  width: 70%;
+  margin-left: 30%;
 }
 
 .title_dashboard {

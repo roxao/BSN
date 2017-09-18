@@ -20,7 +20,7 @@ class Dashboard extends CI_Controller {
 		// $this->session_login();
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
-        $this->load->view('admin/admin_inbox', $data);
+        $this->load->view('admin/inbox', $data);
     }
 
 	public function user($subparams = null) {
@@ -37,41 +37,42 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
-	public function application_crud($params,$id) {	
-        switch ($params) {
-			case 'get_application':
-		        $data = $this->admin_model->get_application($id)->result();
+	public function get_app_data() {	
+		// $this->session_login();
+		$id = $this->input->post('getid');
+		$data['title_box'] = $this->input->post('status'); 
+		if($id!=null){
+			switch ($this->input->post('getstep')) {
+			case 'verif_new_req':
+		        $data['application'] = $this->admin_model->get_application($id)->result()[0];
 		        echo json_encode($data);
 				break;
-			case 'get_assessment':
-				$data = $this->admin_model->get_assessment()->result();
+			case 'verif_upldoc_req':
+				$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
 		        echo json_encode($data);
 				break;
+			case 3:
+				$data['assessment_list'] = $this->admin_model->get_assessment()->result();
+				$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
+		        echo json_encode($data);
+				break; 	
 			case null:
 				$this->load->view('admin/login');
 				break;
+			}
 		}
 	}
 
 	private function session_login(){
 		$logged_in = $this->session->userdata('admin_status');
         if (!$logged_in) redirect(base_url('dashboard/user/login'));
-        return null;
+        return false;
 	}
 
 
-	public function view_step($subparams = null) {
-		switch ($subparams) {
-			case 'step1':
-		        $this->load->view('admin/step/step1');
-				break;
-			case 'step2':
-				$this->load->view('admin/step/step2');
-				break;
-			case null:
-				$this->load->view('admin/login');
-				break;
-		}
+	public function approval($subparams = null) {
+		// $this->session_login();
+		$this->load->view('admin/approval/'.$subparams);
 	}
 
 }
