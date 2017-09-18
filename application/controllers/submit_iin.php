@@ -62,11 +62,12 @@ class submit_iin extends CI_Controller {
 		$this->user_model->insert_pengajuan($data);
 
 		/*insert Status*/
-		$Get_Document = $this->user_model->get_aplication($id_user);
-		if ($Get_Document->num_rows() > 0){
-			if ($Get_Documen->row->id_application != "CLOSED" && $Get_Documen->row->id_application_status_name == "1" ){
+		$get_gocument = $this->user_model->get_aplication($id_user);
+		
+		if ($get_document->num_rows() > 0){
+			if ($get_documen->row->id_application != "CLOSED" && $get_documen->row->id_application_status_name == "1" ){
 				$data1 = array(
-                'id_application '=> $Get_Documen->row->id_application,
+                'id_application '=> $get_documen->row->id_application,
                 'id_application_status_name' => '1',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
