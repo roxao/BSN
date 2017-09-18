@@ -29,7 +29,7 @@ class SipinHome extends CI_Controller {
      if($cek->num_rows() > 0){
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
       else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
-      
+       $this->index();
       $this->session->set_userdata(array(
     'id_user'  => $cek->row()->id_user,
     'username' => $cek->row()->username,
@@ -38,7 +38,7 @@ class SipinHome extends CI_Controller {
     
 ));
 	  
-	  $this->index();
+	 
 
 	}
       }else{echo "Username dan password salah !";}

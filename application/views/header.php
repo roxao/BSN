@@ -47,14 +47,17 @@
 						<!-- TEMPLATE -->
 						<!-- <li><a href="menu_url">menu_name</a></li> -->
 						<li><a href="<?php echo base_url();?>">Halaman Depan</a></li>
-						<li class="nav_parent"><a href="">Layanan IIN</a>
+						<?php if ($this->session->flashdata('validasi-login') != '') {?>
+								<li class="nav_parent"><a href="">Layanan IIN</a>
 							<ul>
 
 								<li><a href="<?php echo base_url();?>submit-iin"> Daftar Penerbitan IIN baru </a></li>
 								<li><a href="iin-publish-lama.html"> Daftar Pengawasan IIN Lama </a></li>
 							</ul>
 						</li>
-						<li class="nav_parent"><a href="">Informasi IIN</a>
+							<?php }  ?>
+						
+							<li class="nav_parent"><a href="">Informasi IIN</a>
 							<ul>
 								<li><a href="iin-publish.html">Daftar penerima IIN</a></li>
 								<li><a href="#"> File ISO 7812</a></li>

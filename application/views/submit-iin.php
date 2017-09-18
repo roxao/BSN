@@ -20,7 +20,6 @@
 	
 	if ($this->user_model->getdocument_aplication($id_user)){
 
-
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
 	}
 

@@ -43,15 +43,40 @@ class submit_iin extends CI_Controller {
 		'instance_director' => $this->input->post('app_div'),
 		'mailing_location' => $this->input->post('app_address'),
 		'mailing_number' => $this->input->post('app_num'),
-		'iin_status' => "0",
+		'iin_status' => "OPEN",
 		'application_type' => "NULL",
 		'created_date' => date('Y-m-j H:i:s'),
 		'created_by' => $username,
 		'last_updated_date' => date('Y-m-j H:i:s'),
 		'modified_by' =>$username);
 
+		/*Insert Log*/
+		$dataLog = array(
+                'detail_log' => $username.' Created new application',
+                'log_type' => 'added new applicant '.$username, 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+        $this->admin_model->insert_log($dataLog);
+        /*Inser Pengajuan*/
 		$this->user_model->insert_pengajuan($data);
 
+		/*insert Status*/
+		$Get_Document = $this->user_model->getdocument_aplication($id_user);
+		if ($Get_Document->num_rows() > 0){
+			if ($Get_Documen->row->id_application != "CLOSED" && $Get_Documen->row->id_application_status_name == "1" ){
+				$data1 = array(
+                'id_application '=> $Get_Documen->row->id_application,
+                'id_application_status_name' => '1',
+                'process_status' => 'PENDING',
+                'approval_date' => 'null',
+                'created_date' => date('Y-m-j'),
+                'created_by' => $username,
+                'modified_by' => $username,
+                'last_updated_date' => date('Y-m-j'));
+			}
+            $this->admin_model->insert_app_status($data1);
+		}
 	} else {
 		echo "Dibatalkan";
 	}	
@@ -80,7 +105,64 @@ class submit_iin extends CI_Controller {
                  echo '<pre>';
    var_export($uploaded);
    echo '</pre>';
+
    
+
+   /*insert Status*/
+		$Get_Document = $this->user_model->getdocument_aplication($id_user);
+		if ($Get_Document->num_rows() > 0){
+			if ($Get_Documen->row->id_application != "CLOSED"){
+			if ($Get_Documen->row->id_application_status_name == "4" && $Get_Documen->row->process_status == "PENDING"){
+
+
+				/*Insert Log document Revisi*/
+				$dataLog = array(
+                'detail_log' => $username.' Upload Document',
+                'log_type' => 'added new applicant '.$username, 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+       			 $this->admin_model->insert_log($dataLog);
+
+				$data5 = array(
+                'id_application '=> $Get_Documen->row->id_application,
+                'id_application_status_name' => '5',
+                'process_status' => 'PENDING',
+                'approval_date' => 'null',
+                'created_date' => date('Y-m-j'),
+                'created_by' => $username,
+                'modified_by' => $username,
+                'last_updated_date' => date('Y-m-j'));
+                $this->admin_model->insert_app_status($data5);
+
+                // Update 3 dan 4 belum
+
+			} else {
+
+				/*Insert Log Created document*/
+				$dataLog = array(
+                'detail_log' => $username.' Upload new Document',
+                'log_type' => 'added new applicant '.$username, 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+       			 $this->admin_model->insert_log($dataLog);
+
+				$data3 = array(
+                'id_application '=> $Get_Documen->row->id_application,
+                'id_application_status_name' => '3',
+                'process_status' => 'PENDING',
+                'approval_date' => 'null',
+                'created_date' => date('Y-m-j'),
+                'created_by' => $username,
+                'modified_by' => $username,
+                'last_updated_date' => date('Y-m-j'));
+                $this->admin_model->insert_app_status($data3);
+			}
+
+			}
+            
+		}
              }else{
    die('GAGAL UPLOAD');
       }

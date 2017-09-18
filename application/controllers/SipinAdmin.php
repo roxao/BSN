@@ -233,6 +233,7 @@ class SipinAdmin extends CI_Controller {
         		// 'created_by' => $this->session->userdata('username')
         		);
         	$this->admin_model->insert_log($dataL);
+            
      	$this->admin_model->update_documenet_config($condition,$data);
      }
 

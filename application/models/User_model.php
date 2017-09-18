@@ -102,6 +102,12 @@ class User_model extends CI_Model {
     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
     return $this->email->send();
     }
+
+    public function update_aplication_status($data)
+    {
+        $this->db->where();
+        $this->db->update('document_config',$data);
+    }
     
     /*Verifikasi Email dan Update status user*/
     public function verifyEmail($key) {

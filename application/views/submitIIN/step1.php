@@ -31,7 +31,7 @@ JSON =	{"step": 1,
 		 	 switch ($data->key) {
 		 	 	case 'IPPSA':?>
 
-		<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->path_file;?>" class="btn_download"  >Download</a></li> 	
+		<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a></li> 	
  <?php break;} 
  } ?> 
 	</ul>
@@ -48,11 +48,11 @@ JSON =	{"step": 1,
 		 <?php $no=1; foreach($download_upload as $data) { 
 		 	 switch ($data->key) {
 		 	 	/*Ini tinggal dirubah aja yah key nya */
-		 	 	case 'IPPSA':?>
-				<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->path_file;?>" class="btn_download"  >Download</a></li> 	
+		 	 	case 'ISO':?>
+				<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a></li> 	
  				<?php break;
-				case '1':?>
-				<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->path_file;?>" class="btn_download"  >Download</a></li> 	
+				case 'T&C':?>
+				<li> <?php $no++; echo "$no.  "; echo $data->display_name; ?>  <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a></li> 	
 				<?php break;}
 				} ?> 
 	</ul>
