@@ -52,6 +52,11 @@ class User_model extends CI_Model {
     $this->db->from('applications'); 
     $this->db->join('application_file', 'applications.id_application=application_file.id_application');
     $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
+    $this->db->join('application_status','application_status.id_application=applications.id_application');
+    $this->db->join('assessment_application','assessment_application.id_application=applications.id_application');
+    $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_application.id_assessment_application');
+    $this->db->join('assessment_team','assessment_team.id_assessment_team=assessment_registered.id_assessment_team');
+    $this->db->join('assessment_team_title','assessment_team_title.id_assessment_team_title=assessment_registered.id_assessment_team_title');
     $this->db->where('applications.id_user',$id_user);
     // $this->db->where('document_config.type','STATIC'); 
     // $this->db->where('document_config.key',"IPPSA"); 
@@ -62,6 +67,12 @@ class User_model extends CI_Model {
  
         return  $results ;   
     }
+
+    public function get_aplication($id_user){ 
+    $this->db->select('*');
+    $this->db->from('applications'); 
+    $this->db->where('applications.id_user',$id_user);
+}
 
     /*Cek Status User*/
     public function cek_status_user($username,$password){  
@@ -107,6 +118,10 @@ class User_model extends CI_Model {
     {
         $this->db->where();
         $this->db->update('document_config',$data);
+    }
+    public function insert_log($data)
+    {
+         $this->db->insert('log', $data);
     }
     
     /*Verifikasi Email dan Update status user*/
