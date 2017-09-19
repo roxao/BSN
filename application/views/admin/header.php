@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="<?php base_url(); ?>/BSN/assets/main-admin.css">
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.script.js"></script>
+	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.ui.min.js"></script>
 	
 </head>
 <body>
