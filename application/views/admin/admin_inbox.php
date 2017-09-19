@@ -8,37 +8,32 @@
 					<th class="sort" data-sort="id_pt">Nama Instansi</th>
 					<th class="sort" data-sort="id_type">Jenis Pengajuan</th>
 					<th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
-					<th class="sort" data-sort="id_status">Status Pengajuan</th>
+					<th class="sort" data-sort="id_status"><center>Status Pengajuan</center></th>
+					<th></th>
 				</tr>
-				<tbody class="list"><script>console.log(<? echo json_encode($applications) ?>)</script>
+				<tbody class="list">
 					<? foreach($applications as $data) { ?>
-						<tr class="get_process" 
-							data-id="<? echo $data->id_application ?>" 
-							data-status="<? echo $data->display_name ?>" 
-							data-step="<? echo $data->application_status_name ?>">
+						<tr>
 							<td class="id_no"><? echo $data->id_application ?></td>
 							<td class="id_name"><? echo $data->applicant ?></td>
 							<td class="id_pt"><? echo $data->instance_name ?></td>
 							<td class="id_type"><? echo $data->application_type ?></td>
 							<td class="id_date"><? echo $data->application_date ?></td>
-							<td class="id_status <? echo $data->application_status_name ?>">
-								<span><? echo $data->display_name ?></span></td></td>
+							<!-- ISI IIN STATUS DIBAWAH DENGAN STATUS NAME -->
+							 <!-- CONTOH: VERIF_NEW_REQ -->
+							<td class="id_status <? echo $data->iin_status ?>">
+								 <!-- ISI IIN STATUS DIBAWAH DENGAN APPLICATION STATUS DISPLAY NAME -->
+								 <!-- CONTOH: Verifikasi Pengajuan Permohonan -->
+								<span><? echo $data->iin_status ?></span></td></td>
+								<!-- ISI ATTRIBUTE data-id DENGAN id aplikasi. Ex. 1 || 2 || 3 -->
+								<!-- ISI ATTRIBUTE data-step DENGAN STEP POP UP YANG AKAN MUNCUL. Ex 1 || 2 || 3-->
+							<td><div class="btn_inbox_process" data-id="<? echo $data->id_application ?>" data-step="1">Proses</div></td>
 						</tr>
 					<? } ?>
 				</tbody>
 			</table>
 
-			<div id="popup_box" style="display:none">
-				<section id="modal_content">
-					<section class="class_modal sheets_paper">
-					<div class="close_modal sp-icon-dark"></div>
-					<h1 class="title_modal">PENGAJUAN PERMOHONAN</h1>
-						<div id="content_model">
-							
-						</div>
-					</section>
-				</section>
-			</div>
+			<div id="popup_box" style="display:none"></div>
 		</div>
 	</section>
 

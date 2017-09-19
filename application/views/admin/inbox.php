@@ -1,54 +1,90 @@
-<section class="dashboard_content sheets_paper">
-  <section class="main_dashboard_slidetab">
-    <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
-      <table class="table_def tableInbox" style="width: 100%;">
-        <tr>
-          <th class="sort" data-sort="id_no">#</th>
-          <th class="sort" data-sort="id_name">Nama Pemohon</th>
-          <th class="sort" data-sort="id_pt">Nama Instansi</th>
-          <th class="sort" data-sort="id_type">Jenis Pengajuan</th>
-          <th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
-          <th class="sort" data-sort="id_status">Status Pengajuan</th>
-        </tr>
-        <tbody class="list"><script>console.log(<? echo json_encode($applications) ?>)</script>
-          <? foreach($applications as $data) { ?>
-            <tr class="get_process" 
-              data-id="<? echo $data->id_application ?>" 
-              data-status="<? echo $data->display_name ?>" 
-              data-step="<? echo $data->application_status_name ?>">
-              <td class="id_no"><? echo $data->id_application ?></td>
-              <td class="id_name"><? echo $data->applicant ?></td>
-              <td class="id_pt"><? echo $data->instance_name ?></td>
-              <td class="id_type"><? echo $data->application_type ?></td>
-              <td class="id_date"><? echo $data->application_date ?></td>
-              <td class="id_status <? echo $data->application_status_name ?>">
-                <span><? echo $data->display_name ?></span></td></td>
-            </tr>
-          <? } ?>
-        </tbody>
-      </table>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>INBOX</title>
+</head>
+<body>
+<form>
 
-      <div id="popup_box" style="display:none">
-          <section class="class_modal sheets_paper">
-          <div class="close_modal sp-icon-dark"></div>
-          <h1 class="title_modal">PENGAJUAN PERMOHONAN</h1>
-            <div id="content_model">
+		<table id="example1" class="table table-bordered table-striped">
+
+                    <thead>
+                      <tr>
+                      
+                     <!--    <th><center><span class="badge bg-green">id_application</span></center></th>
+                        <th><center><span class="badge bg-green">id_user</span></center></th>
+                        <th><center><span class="badge bg-green">id_admin</span></center></th> -->
+                        <th><center><span class="badge bg-green">applicant</span></center></th>
+                        <!-- <th><center><span class="badge bg-green">applicant_phone_number</span></center></th>
+                        <th><center><span class="badge bg-green">application_date</span></center></th> -->
+                        <th><center><span class="badge bg-green">instance_name</span></center></th>
+                       <!--  <th><center><span class="badge bg-green">instance_email</span></center></th>
+                        <th><center><span class="badge bg-green">instance_phone</span></center></th>
+                        <th><center><span class="badge bg-green">instance_director</span></center></th>
+                        <th><center><span class="badge bg-green">mailing_location</span></center></th>
+                        <th><center><span class="badge bg-green">mailing_number</span></center></th> -->
+                        <th><center><span class="badge bg-green">iin_status</span></center></th>
+                        <th><center><span class="badge bg-green">application_type</span></center></th>
+                        <th><center><span class="badge bg-green">created_date</span></center></th>
+                        <!-- <th><center><span class="badge bg-green">created_by</span></center></th>
+                        <th><center><span class="badge bg-green">last_updated_date</span></center></th>
+                        <th><center><span class="badge bg-green">modified_by</span></center></th> -->
+                        <th><center><span class="badge bg-green">process_status</span></center></th>
               
-            </div>
-          </section>
-      </div>
-    </div>
-  </section>
+             			<th><center><span class="badge bg-brown">Option</span></center></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      
+                       <?php
+                        
+                          foreach($applications as $data) 
+                          { 
+                          ?>
+                          <tr>
+                          
+                        <!--   <td><center><?php echo $data->id_application;?></center></td>
+                          <td><center><?php echo $data->id_user;?></center></td>
+                          <td><center><?php echo $data->id_admin;?></center></td> -->
+                          <td><center><?php echo $data->applicant;?></center></td>
+                          <!-- <td><center><?php echo $data->applicant_phone_number;?></center></td>
+                          <td><center><?php echo $data->application_date;?></center></td> -->
+                          <td><center><?php echo $data->instance_name;?></center></td>
+                 <!--          <td><center><?php echo $data->instance_email;?></center></td>
+                          <td><center><?php echo $data->instance_phone;?></center></td>
+                          <td><center><?php echo $data->instance_director;?></center></td>
+                          <td><center><?php echo $data->mailing_location;?></center></td>
+                          <td><center><?php echo $data->mailing_number;?></center></td> -->
+                          <td><center><?php echo $data->iin_status;?></center></td>
+                          <td><center><?php echo $data->application_type;?></center></td>
+                          <td><center><?php echo $data->created_date;?></center></td>
+                          <!-- <td><center><?php echo $data->created_by;?></center></td>
+                          <td><center><?php echo $data->last_updated_date;?></center></td>
+                          <td><center><?php echo $data->modified_by;?></center></td> -->
+                          <td><center><?php  echo $data->process_status;?></center></td>
+                          
+                           <td>
 
-  <script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/list.min.js"></script>
-  <script type="text/javascript">
-    $('document').ready(function(){
-      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date' ]};
-      var inboxList = new List('tableInbox', options);
-    });
-  </script>
-</section>
+                           <center> <div class="btn-group">
+                    
+                                            
+                     
 
+                          
+               <a href="<?php echo base_url() ?>Admin_controller/edit_aplication/<?=$data->id_application?>">Edit</a>
+               <a href="<php echo base_url() ?>">setujui</a>      
+              
+                    </div>  </center></td>
+                          </tr>
 
-
-
+                        <?php } ?>  
+                       
+                    </tbody>
+                   
+          
+                  </table>
+                  <a href="<?php echo base_url('admin_controller/homedds') ?>">home</a>
+</form>
+</body>
+</html>
