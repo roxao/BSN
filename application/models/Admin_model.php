@@ -67,7 +67,7 @@ class Admin_model extends CI_Model {
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        $this->db->where('iin_status ','1');
+        $this->db->where('iin_status ','OPEN');
         $this->db->where('process_status ','PENDING');
         
         return $this->db->get();
@@ -80,7 +80,7 @@ class Admin_model extends CI_Model {
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        $this->db->where('applications.iin_status','1');
+        $this->db->where('applications.iin_status','OPEN');
         $this->db->where('application_status.id_application_status_name','2')
                 ->or_where('process_status','PENDING');
         
