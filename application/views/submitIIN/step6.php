@@ -8,21 +8,16 @@
 			<th>Nama</th>
 			<th>Posisi</th>
 		</thead>
+
+		<?php $no=0; foreach($aplication_asesment as $datas) { ?>
+
 		<tr>
-			<td>1</td>
-			<td>Novalen Ramadan</td>
-			<td>Lead Verificator</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Dicki Dharma Saputra</td>
-			<td>Member</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Akhmad Andaru</td>
-			<td>Member</td>
-		</tr>
+			<td><?php $no++; echo "$no.  ";?></td>
+			<td><?echo  $datas->name;?></td>
+			
+		</tr>	
+ <?php } ?> 
+		
 	</table>
 
 	<p >Konfirmasi atas persetujuan Saudara terhadap pelaksanaan dan tim verifikasi tersebut di atas, mohon dapat disampaikan kepada kami sebelum tanggal 25 Maret 2017.
