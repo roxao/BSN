@@ -16,13 +16,17 @@
 
 		<?php 
 		$id_user = $this->session->userdata('id_user');
-	$check = $this->user_model->getdocument_aplication($id_user);
-
-	
-	if ($this->user_model->getdocument_aplication($id_user)){
+	if ($this->user_model->getdocument_aplication($id_user) ){
 
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+		$datas['aplication_asesment']    = $this->user_model->getAplicationStatus($id_user);
 	}
+
+
+	// if ($this->user_model->getAplicationStatus($id_user) ){
+
+		
+	// }
 
 		$this->load->view('submitIIN/step0');
 		$this->load->view('submitIIN/step1',$data); 
@@ -30,7 +34,7 @@
 		$this->load->view('submitIIN/step3',$data);	
 		$this->load->view('submitIIN/step4',$data);
 		$this->load->view('submitIIN/step5',$data); 
-		$this->load->view('submitIIN/step6',$data);
+		$this->load->view('submitIIN/step6',$datas, $data);
 		$this->load->view('submitIIN/step7',$data);
 		$this->load->view('submitIIN/step8',$data);
 		$this->load->view('submitIIN/step9',$data);

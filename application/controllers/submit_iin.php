@@ -108,11 +108,19 @@ class submit_iin extends CI_Controller {
 		 /*insert Status*/
 		if ($get_document->num_rows() > 0){
 		
-				$this->log("Upload new document","Upload new document step2");
+		if ($get_document->row->id_application_status_name =="4"){
+				if ($get_document->row->id_application_status_name =="PENDING"){
+					$this->log("Revisi document","Revisi step3");
+
+					$this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "4", $username);
+				}
+
+		} else {
+				$this->log("Upload new document","Upload new document step3");
 
 				$data3 = array(
                 'id_application '=> $get_document->row->id_application,
-                'id_application_status_name' => '9',
+                'id_application_status_name' => '5',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
                 'created_date' => date('Y-m-j'),
@@ -120,8 +128,10 @@ class submit_iin extends CI_Controller {
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
-			
-            // 7 Belum dirubah jadi update
+
+                $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "7", $username);
+
+}
 		}
 	}
 
@@ -144,6 +154,8 @@ class submit_iin extends CI_Controller {
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
+
+                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "7", $username);
 			
             // 7 Belum dirubah jadi update
 		}
@@ -155,7 +167,7 @@ function  step_tujuh_team (){
 		 /*insert Status*/
 		if ($get_document->num_rows() > 0){
 		
-				$this->log("Upload new document","Upload new document step2");
+				$this->log("Upload confirmation payment","Upload nconfirmation payment");
 
 				$data3 = array(
                 'id_application '=> $get_document->row->id_application,
@@ -167,8 +179,10 @@ function  step_tujuh_team (){
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
+
+                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "12", $username);
 			
-            // 12 Belum dirubah jadi update
+            
 		}
 	}
 	
