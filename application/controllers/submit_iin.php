@@ -113,12 +113,8 @@ class submit_iin extends CI_Controller {
 					$this->log("Revisi document","Revisi step3");
 
 					$this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "4", $username);
-				}
 
-		} else {
-				$this->log("Upload new document","Upload new document step3");
-
-				$data3 = array(
+					$data5 = array(
                 'id_application '=> $get_document->row->id_application,
                 'id_application_status_name' => '5',
                 'process_status' => 'PENDING',
@@ -127,12 +123,20 @@ class submit_iin extends CI_Controller {
                 'created_by' => $username,
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
-                $this->user_model->insert_app_status($data3);
+                $this->user_model->insert_app_status($data5);
+				}
 
-                $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "7", $username);
+		} 
+		else if  ($get_document->row->id_application_status_name =="3"){ 
+					if ($get_document->row->id_application_status_name =="PENDING"){
+						$this->log("New document","New step3");
 
-}
+					$this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "3", $username);
+
+					}
+
 		}
+	}
 	}
 
 	function  step_enam_upload (){
