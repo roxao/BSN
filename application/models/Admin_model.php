@@ -62,14 +62,12 @@ class Admin_model extends CI_Model {
     }
 
     public function get_applications(){
-    	// return $this->db->get('applications');
         $this->db->select('*');
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $this->db->where('iin_status ','OPEN');
         $this->db->where('process_status ','PENDING');
-        
         return $this->db->get();
       
     }
@@ -105,13 +103,11 @@ class Admin_model extends CI_Model {
 
     }
 
-    public function get_doc_user($id_application)
-    {
+    public function get_doc_user($id_application){
         $this->db->select("*");
         $this->db->from("application_file");
         $this->db->join("document_config", "document_config.id_document_config=application_file.id_document_config");
         $this->db->where("id_application",$id_application);
-
         return $this->db->get();
     }
 
@@ -331,5 +327,28 @@ class Admin_model extends CI_Model {
     {
         return $this->db->get('complaint');
     }
+
+    +    public function insert_document_config($data)
+    {
+        $this->db->insert('document_config', $data);
+    }
+
+    //untuk laporan cetak laporan smentara lihat ini dulu
+    public function get_application_data($data)
+    {
+        $this->db->get('applications');
+    }
+
+    //untuk select email user
+    public function get_user_application_data($data)
+    {
+        
+        $this->db->select('*');
+        $this->db->from('applications');
+        $this->db->where('id_application',$data);
+        return $this->db->get();
+
+    }
+
 }
 ?>
