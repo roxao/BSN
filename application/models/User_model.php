@@ -137,14 +137,14 @@ class User_model extends CI_Model {
 // UpdateStatus
     public function update_aplication_status($process_status, $id_application, $id_application_status_name, $modified_by)
     {
-        $data = array('process_status' => $process_status
+        $data = array('process_status' => $process_status,
                 // 'created_date' => date('Y-m-j'),
-                'modified_by' => $this->session->userdata('username'),
+                'modified_by' => $modified_by,
                 'last_updated_date' => date('Y-m-j H:i:s'));
         $this->db->where('id_application', $id_application);
         $this->db->where('id_application_status_name', $id_application_status_name);
 
-        return $this->db->update('application_status', $data);;
+        return $this->db->update('application_status', $data);
     }
 
 
