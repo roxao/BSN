@@ -3,18 +3,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin_model extends CI_Model {
 
-	public function __construct() {
-		
-	parent::__construct();
-	$this->load->database();
-		
-	}
+    public function __construct() {
+        
+    parent::__construct();
+    $this->load->database();
+        
+    }
 
-	public function cek_login($username,$password) 
-	{  
+    public function cek_login($username,$password) 
+    {  
 
-       	$this->db->where('username', $username);
-     	$this->db->where('password', $password);
+        $this->db->where('username', $username);
+        $this->db->where('password', $password);
 
         return  $this->db->get('admin');   
     }
@@ -39,13 +39,13 @@ class Admin_model extends CI_Model {
     }
 
 
-    // ALL GET TABLE
+    // select tabel asesment
     public function get_assessment(){
-    	return $this->db->get('assessment_team');
+        return $this->db->get('assessment_team');
     }
 
     public function get_user(){
-    	return $this->db->get('user');
+        return $this->db->get('user');
     }
 
     public function get_user_by_prm($id){
@@ -61,12 +61,17 @@ class Admin_model extends CI_Model {
         $this->db->update('user',$data);
     }
 
+    //untuk inbox admin menggunakan get_applications dan get applications2
     public function get_applications(){
+<<<<<<< HEAD
+=======
+        // return $this->db->get('applications');
+>>>>>>> 5d3a1413fc76907cdb5adaa4e1686a84d695ade0
         $this->db->select('*');
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        $this->db->where('iin_status ','OPEN');
+        $this->db->where('iin_status ','1');
         $this->db->where('process_status ','PENDING');
         return $this->db->get();
       
@@ -78,7 +83,7 @@ class Admin_model extends CI_Model {
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        $this->db->where('applications.iin_status','OPEN');
+        $this->db->where('applications.iin_status','1');
         $this->db->where('application_status.id_application_status_name','2')
                 ->or_where('process_status','PENDING');
         
@@ -87,7 +92,7 @@ class Admin_model extends CI_Model {
     }
 
 
-
+//untuk mengetahui dan mengambil data user dari status ke berapa
     public function get_application($id_application_status){
 
            
@@ -103,7 +108,13 @@ class Admin_model extends CI_Model {
 
     }
 
+<<<<<<< HEAD
     public function get_doc_user($id_application){
+=======
+    //memilih documen berdasarkan id applications
+    public function get_doc_user($id_application)
+    {
+>>>>>>> 5d3a1413fc76907cdb5adaa4e1686a84d695ade0
         $this->db->select("*");
         $this->db->from("application_file");
         $this->db->join("document_config", "document_config.id_document_config=application_file.id_document_config");
@@ -111,11 +122,13 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+//untuk melanjutkan proses selanjutnya atau dsetujui admin
     public function next_step($data,$condition)
     {
         $this->db->where($condition);
         $this->db->update('application_status',$data);
     }
+
 
     public function insert_app_status($data)
     {
@@ -134,7 +147,7 @@ class Admin_model extends CI_Model {
     }
 
 
-
+//untuk mengetahui documen2 yg du ipload user
     public function get_application_file($id_application_status){
 
            
@@ -163,6 +176,7 @@ class Admin_model extends CI_Model {
         $this->db->insert('application_file', $data);
     }
 
+//untuk melihat tabel survey berdasarkan id user sudahkah mengisi atau belum
     public function get_user_survey($user)
     {
          $this->db->select("*");
@@ -181,6 +195,7 @@ class Admin_model extends CI_Model {
             return $this->db->get();
     }
 
+    //untuk mnengecek iin
     public function get_has_iin($user)
     {
         $this->db->select("*");
@@ -279,11 +294,28 @@ class Admin_model extends CI_Model {
 
     public function question_survey_question()
     {
-        // $this->db->select('*');
-        // $this->db->from('survey_question');
-        // $this->db->where('question_status',1);
-       return $this->db->get('survey_question');
+        return $this->db->get('survey_question');
     }
+
+    public function question_survey_question_by_prm($id)
+    {
+        $this->db->select('*');
+        $this->db->from('survey_question');
+        $this->db->where('id_survey_question',$id);
+        return $this->db->get();
+    }
+
+    public function update_survey_question($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('survey_question',$data);
+    }
+
+    public function insert_survey_question($data)
+    {
+        $this->db->insert('survey_question', $data);
+    }
+
 
     public function get_iin()
     {
@@ -328,7 +360,11 @@ class Admin_model extends CI_Model {
         return $this->db->get('complaint');
     }
 
+<<<<<<< HEAD
     +    public function insert_document_config($data)
+=======
+    public function insert_document_config($data)
+>>>>>>> 5d3a1413fc76907cdb5adaa4e1686a84d695ade0
     {
         $this->db->insert('document_config', $data);
     }
@@ -349,6 +385,9 @@ class Admin_model extends CI_Model {
         return $this->db->get();
 
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5d3a1413fc76907cdb5adaa4e1686a84d695ade0
 }
 ?>
