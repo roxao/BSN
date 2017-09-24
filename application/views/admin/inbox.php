@@ -10,12 +10,16 @@
           <th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
           <th class="sort" data-sort="id_status">Status Pengajuan</th>
         </tr>
-        <tbody class="list"><script>console.log(<? echo json_encode($applications) ?>)</script>
+        <tbody class="list">
           <? foreach($applications as $data) { ?>
             <tr class="get_process" 
               data-id="<? echo $data->id_application ?>" 
               data-status="<? echo $data->display_name ?>" 
               data-step="<? echo $data->application_status_name ?>">
+<!--             <tr class="get_process" 
+              data-id="2" 
+              data-status="Verifikasi Pengajuan Permohonan" 
+              data-step="field_assess_req"> -->
               <td class="id_no"><? echo $data->id_application ?></td>
               <td class="id_name"><? echo $data->applicant ?></td>
               <td class="id_pt"><? echo $data->instance_name ?></td>
@@ -28,14 +32,7 @@
         </tbody>
       </table>
 
-      <div id="popup_box" style="display:none">
-          <section class="class_modal sheets_paper">
-          <div class="close_modal sp-icon-dark"></div>
-          <h1 class="title_modal">PENGAJUAN PERMOHONAN</h1>
-            <div id="content_model">
-              
-            </div>
-          </section>
+      <div id="popup_box" style="display: none">
       </div>
     </div>
   </section>

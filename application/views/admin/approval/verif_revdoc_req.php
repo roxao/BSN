@@ -1,9 +1,3 @@
-
-
-<section class="class_modal sheets_paper">
-<div class="close_modal sp-icon-dark"></div>
-<h1 class="title_modal">Verifikasi Pengajuan Permohonan</h1>
-<div id="content_model">
 <article style="margin: 20px">
 	<div class="clearfix content_application">
 		<div class="section_list_file">
@@ -35,10 +29,6 @@
 		</div>
 	</div>
 </article>
-</div>
-</section>
-
-
 
 <script>
 $(document).ready(function(){

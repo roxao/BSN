@@ -43,30 +43,51 @@ class Dashboard extends CI_Controller {
 		$data['title_box'] = $this->input->post('status'); 
 		if($id!=null){
 			switch ($this->input->post('getstep')) {
-			case 'verif_new_req':
-		        $data['application'] = $this->admin_model->get_application($id)->result()[0];
-		        echo json_encode($data);
-				break;
-			case 'verif_upldoc_req':
-		        $data['application'] = $this->admin_model->get_application($id)->result()[0];
-				$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
-		        echo json_encode($data);
-				break;
-			case 'upl_bill_req':
-		        $data['application'] = $this->admin_model->get_application($id)->result()[0];
-				$data['assessment_list'] = $this->admin_model->get_assessment()->result();
-				$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
-		        echo json_encode($data);
-				break; 	
-			case 'upl_bill_req':
-		        $data['application'] = $this->admin_model->get_application($id)->result()[0];
-				$data['assessment_list'] = $this->admin_model->get_assessment()->result();
-				$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
-		        echo json_encode($data);
-				break; 	
-			case null:
-				$this->load->view('admin/login');
-				break;
+				case 'verif_new_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					echo json_encode($data);
+					break;
+				case 'verif_upldoc_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
+			        echo json_encode($data);
+					break;
+				case 'verif_revdoc_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
+			        echo json_encode($data);
+					break; 	
+				case 'upl_bill_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+			        echo json_encode($data);
+					break; 	
+				case 'reupl_bill_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+			        echo json_encode($data);
+					break; 	
+				case 'verif_pay_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					// $data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
+					$data['assessment_list'] = $this->admin_model->get_assessment()->result();
+			        echo json_encode($data);
+		       	case 'rev_assess_req':
+		       		$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
+		       		$data['assessment_list'] = $this->admin_model->get_assessment()->result();
+			        echo json_encode($data);
+					break; 	
+				case 'field_assess_req':
+			        echo json_encode($data);
+			    case 'upl_res_assess_req':
+			        echo json_encode($data);
+			    case 'verif_rev_assess_res_req':
+			        echo json_encode($data);
+			    case 'cra_approval_req':
+			        echo json_encode($data);
+		        case 'upl_iin_doc_req':
+			        echo json_encode($data);
+				case null:
+					$this->load->view('admin/login');
+					break;
 			}
 		}
 	}
@@ -79,7 +100,6 @@ class Dashboard extends CI_Controller {
 
 
 	public function approval($subparams = null) {
-		// $this->session_login();
 		$this->load->view('admin/approval/'.$subparams);
 	}
 

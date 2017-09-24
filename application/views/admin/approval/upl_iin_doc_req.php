@@ -1,1 +1,6 @@
-upl_iin_doc_req
+<script>
+$(document).ready(function(){
+	console.log(respJson);
+	value = respJson.doc_user;
+});
+</script>
