@@ -16,6 +16,8 @@
 
 		<?php 
 		$id_user = $this->session->userdata('id_user');
+		
+
 	if ($this->user_model->getdocument_aplication($id_user) ){
 
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
