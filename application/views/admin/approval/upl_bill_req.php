@@ -19,18 +19,10 @@
 $(document).ready(function(){
 	value = respJson.doc_user;
 	console.log(respJson);
-	// $('#modal_content').slideDown();
- //    $('.btn_next_step').click(function(event) {
-	// 	$('.content_application_next').slideDown();
-	// 	$('.content_application').slideUp();
-	// 	$('.verify_section').slideUp();
-		setPosition('.class_modal');
-	// });
-
 
 	$(".addFileButton").click(function(){ 
 		$('.section_iin_upload_list').append('<div class="item_upload clearfix"><label><input type="file"><div>Pilih Document</div></label><span class="del_upload">DELETE</span></div>');
-		setPosition('.class_modal');
+		// setPosition('.class_modal');
 	})
 	$('input:file').change( function(e){
 		var filename = $(this).val().replace(/.*[\/\\]/, '');
@@ -38,7 +30,7 @@ $(document).ready(function(){
 	});
 	$('.del_upload').on('click', function() {
 		$(this).parent('.item_upload').remove();
-		setPosition('.class_modal');
+		// setPosition('.class_modal');
 	});
 });
 </script>

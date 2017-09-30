@@ -75,20 +75,5 @@
 
 
 <script>
-	console.log(respJson);
-	// assessment_list = respJson.assessment_list;
-	// for (var i = 0; i < assessment_list.length; i++) {
-	// 	$('#assessment_list').append('<li data-id="'+assessment_list[i].id_assessment_team+'" data-name="'+assessment_list[i].name.toUpperCase()+'" style="display:none">'+assessment_list[i].name+'</li>');
-	// }
-	// $('#assessment_input').focus(function(event) {
-	// 	$(this).keyup(function(event) {
-	// 		$('#assessment_list li').hide();
-	// 		txt = $(this).val().toUpperCase();
-	// 		if(txt.length > 1){
-	// 			$('#assessment_list li[data-name*="'+txt+'"]').show();
-	// 		}
-	// 	});
-	// });
-	
-	
+	console.log(respJson);	
 </script>

@@ -163,7 +163,8 @@ header {
   color: #777;
   background: #fff;
   max-width: 200px;
-  min-width: 50px; }
+  min-width: 50px;
+  font-weight: 300; }
 
 #assessment_autocomplete {
   width: 250px;
@@ -213,11 +214,16 @@ header {
 
 .class_modal {
   background: #fff;
-  width: 600px;
-  position: relative;
-  max-height: 100vh;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-height: 90vh;
+  max-width: 90vw;
   overflow: auto;
-  max-width: 100vw; }
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
 
 .content_modal {
   padding: 20px;
@@ -387,6 +393,23 @@ div.close_modal {
     padding: 8px 20px 9px;
     min-width: auto;
     margin: 10px 0; }
+
+.id_status {
+  box-sizing: border-box; }
+  .id_status span {
+    margin: 0 15px 0 0;
+    padding: 5px 5%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background-color: #ddd;
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center; }
+    .id_status span.ADMIN {
+      background-color: #01923f;
+      color: #fff; }
 
 .sp-icon, .sp-iconb:before {
   background-image: url(sprite-colour.png); }

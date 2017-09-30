@@ -10,9 +10,12 @@
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.script.js"></script>
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.ui.min.js"></script>
+
 	
 </head>
 <body>
+	<input type="hidden" id="base_url" value="<?php echo base_url(); ?>/dashboard">
+
 	<header>
 		<nav id="wrapper">
 			<div id="nav">

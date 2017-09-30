@@ -38,27 +38,5 @@ $(document).ready(function(){
 	for (var i = 0; i < value.length; i++) {
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ value[i].display_name +'</div><a href="'+ value[i].file_url +'" class="btn_download float_right">Download</a></div>');
 	}
-    setPosition('.class_modal');
-    close_modal('.close_modal', '#popup_box');
-    reject_function();
-
- //    $('.btn_next_step').click(function(event) {
-	// 	$('.content_application_next').slideDown();
-	// 	$('.content_application').slideUp();
-	// 	$('.verify_section').slideUp();
-	// 	setPosition('.class_modal');
-	// });
-
-
-	// $(".addFileButton").click(function(){ 
-	// 	$('.section_iin_upload_list').append('<div class="item_upload clearfix"><label><input type="file"><div>Pilih Document</div></label><span class="del_upload">DELETE</span></div>');
-	// })
-	// $('input:file').change( function(e){
-	// 	var filename = $(this).val().replace(/.*[\/\\]/, '');
-	// 	$(this).next().html(filename);
-	// });
-	// $('.del_upload').on('click', function() {
-	// 	$(this).parent('.item_upload').remove();
-	// });
 });
 </script>

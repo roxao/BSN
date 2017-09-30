@@ -12,21 +12,18 @@
         </tr>
         <tbody class="list">
           <? foreach($applications as $data) { ?>
-            <tr class="get_process" 
-              data-id="<? echo $data->id_application ?>" 
-              data-status="<? echo $data->display_name ?>" 
-              data-step="<? echo $data->application_status_name ?>">
-<!--             <tr class="get_process" 
-              data-id="2" 
-              data-status="Verifikasi Pengajuan Permohonan" 
-              data-step="field_assess_req"> -->
+            <script>
+              var abc = '<? echo $data->application_status_name ?>';
+              var owner = '<? echo $data->owner ?>';
+              if(owner == 'ADMIN') console.log(abc.toLowerCase());
+            </script>
+            <tr class="get_process" data-id="<? echo $data->id_application ?>" data-status="<? echo $data->display_name ?>" data-step="<? echo $data->application_status_name ?>">
               <td class="id_no"><? echo $data->id_application ?></td>
               <td class="id_name"><? echo $data->applicant ?></td>
               <td class="id_pt"><? echo $data->instance_name ?></td>
               <td class="id_type"><? echo $data->application_type ?></td>
               <td class="id_date"><? echo $data->application_date ?></td>
-              <td class="id_status <? echo $data->application_status_name ?>">
-                <span><? echo $data->display_name ?></span></td></td>
+              <td class="id_status"><span class="<? echo $data->owner ?>"><? echo $data->display_name ?></span></td>
             </tr>
           <? } ?>
         </tbody>

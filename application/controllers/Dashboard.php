@@ -41,8 +41,9 @@ class Dashboard extends CI_Controller {
 		// $this->session_login();
 		$id = $this->input->post('getid');
 		$data['title_box'] = $this->input->post('status'); 
+		$step = $this->input->post('getstep');
 		if($id!=null){
-			switch ($this->input->post('getstep')) {
+			switch ($step) {
 				case 'verif_new_req':
 					$data['application'] = $this->admin_model->get_application($id)->result()[0];
 					echo json_encode($data);
@@ -67,9 +68,12 @@ class Dashboard extends CI_Controller {
 					break; 	
 				case 'verif_pay_req':
 					$data['application'] = $this->admin_model->get_application($id)->result()[0];
-					// $data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
 					$data['assessment_list'] = $this->admin_model->get_assessment()->result();
 			        echo json_encode($data);
+			    case 'verif_rev_pay_req':
+					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['assessment_list'] = $this->admin_model->get_assessment()->result();
+			        echo json_encode($data);    
 		       	case 'rev_assess_req':
 		       		$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
 		       		$data['assessment_list'] = $this->admin_model->get_assessment()->result();
@@ -98,9 +102,8 @@ class Dashboard extends CI_Controller {
         return false;
 	}
 
-
-	public function approval($subparams = null) {
-		$this->load->view('admin/approval/'.$subparams);
+	public function set_view($param = null, $subparams = null) {
+		$this->load->view('admin/'.$param.'/'.$subparams);
 	}
 
 
