@@ -9,13 +9,9 @@
 	<link rel="stylesheet" href="<?php base_url(); ?>/BSN/assets/main-admin.css">
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.script.js"></script>
-	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.ui.min.js"></script>
-
-	
 </head>
 <body>
 	<input type="hidden" id="base_url" value="<?php echo base_url(); ?>/dashboard">
-
 	<header>
 		<nav id="wrapper">
 			<div id="nav">
@@ -33,7 +29,15 @@
 					<div class="nav_right float_right" style="margin-top: 10px">
 						<ul class="user_nav clearfix">
 							<li><div id="btn_register" onclick="unfade('popup_box')" action="btnPopUp" data-id="register_frame">Selamat Datang, <b>Admin</b></div></li>
-							<li><div href="" id="btn_login" action="btnPopUp" data-id="login_frame">Notifikasi</div></li>
+							<li><div href="" id="btn_login" action="btnPopUp" data-id="login_frame">Notifikasi</div>
+								<ul class="notif_box">
+									<li class="notif false">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
+									<li class="notif false">Lorem ipsum dolor sit amet, consectetur elit. Voluptatem, neque libero</li>
+									<li class="notif true">Lorem ipsum dolor sit amet,  elit. , neque libero</li>
+									<li class="notif true">Lorem ipsum dolor sit amet, consectetur consectetur adipisicing elit. Voluptatem, neque libero</li>
+									<li class="notif true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
+								</ul>
+							</li>
 							<li><a href="<? base_url(); ?>logout">Keluar</a></li>
 						</ul>
 					</div>

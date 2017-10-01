@@ -1,36 +1,45 @@
-<article style="margin: 20px">
-	<div class="clearfix content_application_next">
-		<div class="section_upload_list_file">
-			<div class="addFileButton"><span>Tambah Unggah Dokumen</span></div>
-			<form class="section_iin_upload_list attach_admin_file" action="">
-				<div class="item_upload clearfix"><label><input type="file" class="inputfile"><div>Pilih Dokumen</div></label></div>
-			</form>
-			<div class="section_upload_list_verify">
-				<div class="clearfix" style="padding:0 10% 0 10%">
-					<!-- <button class="btn_back_upload float_left" style="background: red">KEMBALI</button> -->
-					<button class="btn_process_upload float_right" style="background: #01923f">PROSES</button>
-				</div>
-			</div>
-		</div>
+<section class="clearfix content_application" style="margin: 20px" >
+	<label class="input_dashed float_left" style="width: 100%">
+		Kode Billing SIMPONI
+		<input id="app_bill_code" name="app_bill_code" type="text" placeholder="Masukan Kode SIMPONI"/>
+	</label>
+	<label class="input_dashed float_left" style="width: 100%">
+		Masa Berlaku
+		<input id="app_expired_date" name="expired_date" type="date" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI"/>
+	</label>
+	<label class="input_dashed_file float_left" style="width: 100%">
+		Kode Billing SIMPONI
+		<input id="app_bill_doc" name="app_bill_doc"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI"/>
+		<span>Pilih</span><i class="float_right"></i>
+	</label>
+	<label class="input_dashed_file float_left" style="width: 100%">
+		Surat Persetujuan Proses
+		<input id="app_agreement_process" name="app_agreement_process"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
+		<span>Pilih</span><i class="float_right"></i>
+	</label>
+	<label class="input_dashed_file float_left" style="width: 100%">
+		Surat Permohonan PNBP
+		<input id="app_pnbp" name="app_pnbp"  type="file" placeholder="Masukan Surat Permohonan PNBP"/>
+		<span>Pilih</span><i class="float_right"></i>
+	</label>
+</section>
+
+<!-- VERIFICATION BOX -->
+<div class="verify_section">
+	<div class="clearfix">
+		<!-- <button class="btn_reject float_left" style="background: red">REVISI</button> -->
+		<button class="btn_send float_right" style="background: #01923f">KIRIM</button>
 	</div>
-</article>
+</div>
+
 
 <script>
-$(document).ready(function(){
-	value = respJson.doc_user;
-	console.log(respJson);
-
-	$(".addFileButton").click(function(){ 
-		$('.section_iin_upload_list').append('<div class="item_upload clearfix"><label><input type="file"><div>Pilih Document</div></label><span class="del_upload">DELETE</span></div>');
-		// setPosition('.class_modal');
-	})
-	$('input:file').change( function(e){
-		var filename = $(this).val().replace(/.*[\/\\]/, '');
-		$(this).next().html(filename);
-	});
-	$('.del_upload').on('click', function() {
-		$(this).parent('.item_upload').remove();
-		// setPosition('.class_modal');
-	});
-});
+	value=respon.application;
+	// $('.input_dashed_file input').click(function(event) {
+		$("input[type=file]").change(function() {
+		    var fileName = $(this).val().split('/').pop().split('\\').pop();
+		    $(this).next().next().html(fileName);
+		    console.log(fileName);
+		});
+	// });
 </script>

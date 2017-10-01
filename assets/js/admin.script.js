@@ -8,42 +8,49 @@ $(document).ready(function() {
   		if($(this).attr('data-step')!=null) getStep($(this).attr('data-id'), $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
 	  });
 
-    function getStep(id, step, status) {
-    	post_data = {'getid': id,'getstep': step, 'status': status};
-    	console.log(post_data);
-	    $.ajax({ url: base_url + "/get_app_data", type: "POST", data: post_data, dataType: 'json',
-	        success: function (data) {
-	        	respJson=data; 
-	        	console.log('1');
-	        	$("#popup_box").load(base_url + "/set_view/component/modal", function () {
-	        		console.log('2');
-		        	 setModal();
-		        	 $("#content_model").load(base_url + "/set_view/approval/"+step, function () {
-			        	 setModal();
-			        	 reject_function();
-		        	});	
-	        	});	
-	        	
-	        }
-	    });
-	};
+	function getStep(id, step, status) {
+    	$("#popup_box").load(base_url + "/set_view/component/modal", function () {
+    		setModal();
+	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'getid': id,'getstep': step}, dataType: 'json',
+		        success: function (data) {
+	        		respon=data;
+					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
+						$(".title_modal").html(status);
+						$(this).slideDown('400',function(){setContentModal()});
+					 	reject_function();
+					 	setModal();
+					});
+				},
+				error: function(data){ alert("fail");}
+			});
+	   	 })
+    }
 
+    // getStep('9','verif_pay_req','Verifikasi Pembayaran');
+
+
+    // Modal Customize
 	function setModal(){
-		$('#popup_box').fadeIn();
-    	// setPosition('.class_modal');
-    	close_modal('.close_modal', '#popup_box');
+		$('#popup_box').fadeIn('400',function(){});
+		$('.close_modal').click(function(event) {
+			$('.box_modal').slideUp('slow', function(){
+				$('#popup_box').fadeOut('slow', function() {
+					$('#popup_box').html('');
+				});('');
+			});
+		});
 	}
-
+	function setContentModal(){ 
+		$('#content_modal').height(($('.box_modal').height() - 50));
+	}
+	function setModalPosition(){
+		$('#popup_box').fadeIn('400',function(){setContentModal()});
+	}
 
 	function setPosition(t) {
 		var x = $(window).width()/2 - $(t).width()/2;
 		var y = $(window).height()/2 - $(t).height()/2;
 		$(t).animate({ 'marginLeft': x+'px', 'marginTop': y+'px' }, 100);
-	}
-
-	function open_modal(y){
-		$(y).fadeIn('fast'); 
-		$(y +' > section').slideDown('fast');
 	}
 
 	function close_modal(x,y){
@@ -72,4 +79,8 @@ $(document).ready(function() {
 		});
 	}
 
+
+	$(window).resize(function(event) {
+		setContentModal()
+	});
 });

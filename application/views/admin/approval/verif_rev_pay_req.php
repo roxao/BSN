@@ -1,78 +1,114 @@
-<article style="margin: 20px">
-	<div class="clearfix content_application">
-		<div class="section_list_file">
-			<p>Bukti Transfer Pemohon.</p>
-			<div class="section_iin_file_list attach_user_file">
-			</div>
-			<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
+<section class="clearfix content_application" style="margin: 20px" >
+	<div class="section_list_file">
+		<p>Berikut kelengkapan dokumen yang telah di unggah (upload) oleh Pemohon.</p>
+		<div class="section_iin_file_list attach_user_file">
+
 		</div>
-	</div>
-	<div class="clearfix content_application">
-		<h2>Tim Assessment Lapangan</h2>
-		<div>
-			<div id="assessment_autocomplete">
-				<ul id="assessment_list">
-					<input id="assessment_input" type="text" name="">
-				</ul>
-			</div>
-			<select name="">
-				<option value="">Ketua Tim</option>
-				<option value="">Anggota</option>
-			</select>
-			<button type="">Masukan</button>
-		</div>
-		<div id="table_assessment">
-			<table>
-				<tr>
-					<th class="sort" data-sort="id_name">Nama Anggota</th>
-					<th class="sort" data-sort="id_title">Jabatan</th>
-					<th></th>
-				</tr>
-				<tbody>
-					<tr>
-						<td class="id_name"><span>NR</span>Novalen Ramadhan</td>
-						<td class="id_title">Ketua Tim</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td class="id_name"><span>DD</span>Dicky Dharma</td>
-						<td class="id_title">Ketua Tim</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td class="id_name"><span>AA</span>Ahmad Andaru</td>
-						<td class="id_title">Ketua Tim</td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
 
-
-	<!-- COMMENT BOX -->
-	<div class="slide_comment" style="display: none">
-		<ul class="section_iin_download">
-		<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
-			<li>1. &nbsp; <input class="input_file_rev" style="width: 70%">			</li>
-			<li>2. &nbsp; <input class="input_file_rev" style="width: 70%">			<a href="" class="btn_download">Tambah</a></li>
-		</ul>
+	<div id="table_assessment" style=" margin: 20px -20px 0 -20px">
 		<div class="clearfix">
-			<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
-			<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
+			<div class="custom_autocomplete assessment_autocomplete float_left">
+				<input class="input_autocomplete assess_ac_text" type="text" placeholder="Ketik Nama Anggota" />
+				<ul class="ul_autocomplete assessment_list"></ul>
+				<select name="">
+					<option value="">Ketua Tim</option>
+					<option value="">Anggota Tim</option>
+				</select>
+			</div>
+			<div class="btn_submit_assess">Submit</div>
 		</div>
-	</div>
+		
 
-	<!-- VERIFICATION BOX -->
-	<div class="verify_section">
-		<div class="clearfix">
-			<button class="btn_reject float_left" style="background: red">REVISI</button>
-			<button class="btn_agree_step2 float_right" style="background: #01923f">SETUJU</button>
+      <table class="table_def table_assessment" style="width: 100%;">
+        <tr>
+          <th class="sort" data-sort="id_no"><center>#</center></th>
+          <th class="sort" data-sort="id_name">Nama Anggota</th>
+          <th class="sort" data-sort="id_roles">Jabatan</th>
+          <th></th>
+        </tr>
+        <tbody class="list">
+            <tr>
+              <td class="id_no">ab</td>
+              <td class="id_name">a</td>
+              <td class="id_roles">a</td>
+              <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 20px">
+    	<label class="input_dashed float_left" style="width: 100%">
+			Tanggal Pelaksanaan
+			<input id="app_expired_date" name="expired_date" type="date" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI"/>
+		</label>
+		<div class="multiple_upload">
+			<label class="input_dashed_file float_left" style="width: 100%">
+				Dokumen
+				<input id="" name="" type="file"/>
+				<span>Pilih</span><i class="float_right"></i>
+			</label>
 		</div>
+    </div>
+</section>
+
+
+<!-- VERIFICATION BOX -->
+<div class="verify_section">
+	<div class="clearfix">
+		<button class="btn_reject float_left" style="background: red">REVISI</button>
+		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
 	</div>
-</article>
+</div>
 
 
 <script>
-	console.log(respJson);	
+	doc_pay=respon.doc_pay;
+	assess_list=respon.assessment_list;
+	console.log(respon);
+	for (var i = 0; i < doc_pay.length; i++) {
+		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ doc_pay[i].display_name +'</div><a href="'+ doc_pay[i].file_url +'" class="btn_download float_right">Download</a></div>');
+	}
+
+	$('.assess_ac_text').keyup(function(event) {
+		key = $(this).val();
+		$('.assessment_list').empty();
+		if(key.length > 1){
+			for (var i = 0; i < assess_list.length; i++) {
+				$('.assessment_list').slideDown()
+				if(assess_list[i].name.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+					$('.assessment_list').append('<li data-id="'+assess_list[i].id_assessment_team+'" data-name="'+assess_list[i].name+'">'+assess_list[i].name+'</li>');
+				}
+			}
+			$('.custom_autocomplete li').click(function(event) {
+				$(this).parent().parent().children('.input_autocomplete').val($(this).attr('data-name'));
+				$('.ul_autocomplete').slideUp();
+			});
+		}
+	});
+
+	$('.input_roles').click(function(event) {
+		console.log("alksjdlkajskld");
+		$('.roles_list').slideDown();
+	});
+	$('.assess_roles input').click(function(event) {
+		$(this).next().slideDown();
+	});
+	$('.custom_autocomplete li').click(function(event) {
+		$(this).parent().parent().children('input').val($(this).attr('data-name'));
+		$('.ul_autocomplete').slideUp();
+	});
+
+	$("input[type=file]").change(function() {
+	    var fileName = $(this).val().split('/').pop().split('\\').pop();
+	    $(this).next().next().html(fileName);
+	    console.log(fileName);
+	});
+
+	$('document').ready(function(){
+      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date' ]};
+      var inboxList = new List('table_assessment', options);
+    });
 </script>
