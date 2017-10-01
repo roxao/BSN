@@ -31,7 +31,7 @@ JSON =	{"step": 1,
 		 switch ($data->type) {
 		 	 	/*Ini tinggal dirubah aja yah key nya */
 		 	 	case 'DYNAMIC': ?>
-		<li> <input type="checkbox" /> <?php  $no++; echo "$no.  "; echo $data->display_name; ?>  <input type="file" name="images[]"  /> </li> 	
+		<li> <input type="checkbox" /> <?php  $no++; echo "$no.  "; echo $data->display_name; ?>  <input type="file" name="images[]" /> </li> 	
  <?php break; }
  } ?> 
 
@@ -43,7 +43,7 @@ JSON =	{"step": 1,
 
 	<div class="clearfix">
 		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
-		<button style="background: #01923f" class="float_right"  value="uploadstep3" name="upload" ></button>	
+		<button style="background: #01923f" class="float_right"  value="upload" name="upload" ></button>	
 		</form>
 	</div>
 </section>
