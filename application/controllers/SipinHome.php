@@ -30,7 +30,8 @@ class SipinHome extends CI_Controller {
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');}
       else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
       $id_user = $this->session->userdata('id_user');
-      $data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+
+      $data['type']    = $this->user_model->get_aplication($id_user);
       $this->load->view('header', $data);
 		$this->load->view('home');
 		$this->load->view('footer');

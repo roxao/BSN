@@ -1,7 +1,7 @@
 <div class="page" style="margin-top: 150px">
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">
-			<li stepId="0" class="verifiedStep"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="0" class="verifiedStep COMPLETED"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="verifiedStep"><button>Hasil Verifikasi Status Permohonan</button></li>
 			<li stepId="2" class="verifiedStep"><button>Submit Kelengkapan Dokumen</button></li>
 			<li stepId="3" class="processStep"><button>Proses Verifikasi dan Validasi</button></li>
@@ -21,6 +21,7 @@
 	if ($this->user_model->getdocument_aplication($id_user) ){
 
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+
 		$datas['aplication_asesment']    = $this->user_model->getAssesmentStatus($id_user);
 	}
 

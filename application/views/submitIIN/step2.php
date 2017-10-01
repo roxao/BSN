@@ -43,7 +43,7 @@ JSON =	{"step": 1,
 
 	<div class="clearfix">
 		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
-		<button style="background: #01923f" class="float_right"  value="upload" name="upload" ></button>	
+		<button style="background: #01923f" class="float_right"  value="uploadstep3" name="upload" ></button>	
 		</form>
 	</div>
 </section>
