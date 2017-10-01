@@ -110,7 +110,7 @@ class submit_iin extends CI_Controller {
 			// if  ($get_status->row()->id_application_status_name =="3"){ 
 
 			$data1 = array(
-                'id_application '=> $get_document->row()->id_application,
+                'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '3',
                 'process_status' => 'PENDING',	
                 'created_date' => date('Y-m-j'),
@@ -204,13 +204,14 @@ function  step_tujuh_team (){
 				 		/*Qwery Insert FilePathnya ke DB*/
 	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
 			/*Menjalankan update Step 3 Beserta Lognya Ada di dalam function tersebut*/	 
-			$this->step_tiga_upload();
+			
 			 	}
 			}
 			}
 			  } else{
    die('GAGAL UPLOAD');
       } 
+      $this->step_tiga_upload();
   } 
  else if ($this->input->post('upload') == "uploadstep6"){
 /*Qwery UNtuk mengambil Document yang ingin di upload*/
@@ -226,13 +227,14 @@ if($this->upload->do_upload("images")) {
 				 		/*Qwery Insert FilePathnya ke DB*/
 	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
 			/*Menjalankan update Step step_enam_upload Beserta Lognya Ada di dalam function tersebut*/	 
-			$this->step_enam_upload ();
+			
 				 	}
 			} 
 	 }
  } else{
    die('GAGAL UPLOAD');
       }
+      $this->step_enam_upload ();
                  }
     }
 

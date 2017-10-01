@@ -52,11 +52,13 @@
 							<ul>
 
 								<li><a href="<?php echo base_url();?>submit-iin"> Daftar Penerbitan IIN baru </a></li>
+							<?php if ($this->session->flashdata('validasi-menu') != 'Pengajuan Baru') {?>
 								<li><a href="iin-publish-lama.html"> Daftar Pengawasan IIN Lama </a></li>
+							<?php }  ?>
+								
 							</ul>
 						</li>
 							<?php }  ?>
-						
 							<li class="nav_parent"><a href="">Informasi IIN</a>
 							<ul>
 								<li><a href="iin-publish.html">Daftar penerima IIN</a></li>

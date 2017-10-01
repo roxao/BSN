@@ -31,10 +31,9 @@ class SipinHome extends CI_Controller {
       else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
       $id_user = $this->session->userdata('id_user');
 
-      $data['type']    = $this->user_model->get_aplication($id_user);
-      $this->load->view('header', $data);
-		$this->load->view('home');
-		$this->load->view('footer');
+      $cek_menu= $this->user_model->get_aplication($id_user);
+      $this->session->set_flashdata('validasi-menu', $cek_menu->row()->application_type);
+     $this->index();
 
       $this->session->set_userdata(array(
     'id_user'  => $cek->row()->id_user,
