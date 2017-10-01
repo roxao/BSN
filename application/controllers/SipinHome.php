@@ -75,6 +75,8 @@ class SipinHome extends CI_Controller {
 
 	/*Forgot Password*/
 	public function forgot_password() {
+	$username = $this->session->userdata('username');
+	$id_user = $this->session->userdata('id_user');
 	$username_forgot = $this->input->post('username_forgot');
 	$cek = $this->user_model->forgot_password($username_forgot);
 	if ($cek->num_rows() > 0){
