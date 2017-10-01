@@ -11,7 +11,7 @@
 		<br/>
 
 	<div class="clearfix">
-		<button style="background: red" class="float_left" value="uploadstep6" name="upload">Kembali</button>	
+		<button style="background: red" class="float_left" value="upload" name="upload">Kembali</button>	
 		<button style="background: #01923f" class="float_right">Lanjutkan Proses</button>	
 	</div>
 	</form>

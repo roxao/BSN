@@ -1,21 +1,8 @@
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
-    <h2 class="title_content">Inbox Status </h2>
+    <h2 class="title_content">Daftar Penerima IIN </h2>
     
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
-<!--       <input type="text" class="fuzzy-search filterinboxhide"/>
-      <select class="filterinbox" name="">
-        <option value="Dona">Pengajuan Baru</option>
-        <option value="Diki">Pengawasan Lama</option>
-      </select>
-      <script>
-        $('.filterinbox').change(function(event) {
-          $('.filterinboxhide').val($(this).val());
-          $('.filterinboxhide').keyup();
-        });
-      </script> -->
-
-
       <table class="table_def tableInbox" style="width: 100%;">
         <tr>
           <th class="sort click_auto"  data-sort="id_no"><center>#</center></th>
