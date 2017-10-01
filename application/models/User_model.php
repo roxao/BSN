@@ -45,17 +45,6 @@ class User_model extends CI_Model {
  
         return  $query;   
     }
-/*Kondisi dimana user ingin mengganti password*/
-      public function Update_password($id_user, $modified_by, $password)
-    {
-        $data = array('password' => $password,
-            'modified_by' => $modified_by,
-            'modified_date' => date('Y-m-j H:i:s'));
-        $this->db->where('id_user', $id_user);
-
-
-        return $this->db->update('user', $data);
-    }
 
     /*Melkukan pengecekan file untuk didownload di step2*/
     public function getdocument_aplication($id_user){ 
@@ -73,7 +62,7 @@ class User_model extends CI_Model {
  
         return  $results ;   
     }
-/*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document configth di buat untuk global*/
+
     public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
     $this->db->select('*');
     $this->db->from('applications'); 
@@ -93,8 +82,8 @@ class User_model extends CI_Model {
         return  $results ;   
     }
 
-    /*Melkukan Assesment Status*/
-    public function getAssesmentStatus($id_user){ 
+    /*Melkukan aplikasi sttus*/
+    public function getAplicationStatus($id_user){ 
     $this->db->select('*');
     $this->db->from('applications'); 
     $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
@@ -105,9 +94,8 @@ class User_model extends CI_Model {
     $this->db->where('applications.iin_status',"OPEN");
     // $this->db->where('document_config.type','STATIC'); 
     // $this->db->where('document_config.key',"IPPSA"); 
-     $query = $this->db->get(); 
-    $results = $query->result(); 
-     return  $results ; 
+    // $query = $this->db->get(); 
+        return  $this->db->get();   
     }
 
        public function get_applications_Status($id_user){

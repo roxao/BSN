@@ -21,7 +21,7 @@
 	if ($this->user_model->getdocument_aplication($id_user) ){
 
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
-		$datas['aplication_asesment']    = $this->user_model->getAssesmentStatus($id_user);
+		$datas['aplication_asesment']    = $this->user_model->getAplicationStatus($id_user);
 	}
 
 
