@@ -36,7 +36,7 @@ class submit_iin extends CI_Controller {
 	public function insert_letter_submission(){
 		
 	$id_user = $this->session->userdata('id_user');
-	$get_document = $this->user_model->get_aplication($id_user);
+	$get_document = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
 		$data = array(
@@ -106,11 +106,25 @@ class submit_iin extends CI_Controller {
                 $this->user_model->insert_app_status($data5);
 				}
 		} 
-		else if  ($get_status->row()->id_application_status_name =="3"){ 
-					if ($get_document->row()->id_application_status_name =="PENDING"){
-						$this->log("New document","New step3");
-					$this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "3", $username);
-					}
+		else {
+			// if  ($get_status->row()->id_application_status_name =="3"){ 
+
+			$data1 = array(
+                'id_application '=> $get_document->row()->id_application,
+                'id_application_status_name' => '3',
+                'process_status' => 'PENDING',	
+                'created_date' => date('Y-m-j'),
+                'created_by' => $username,
+                'modified_by' => $username,
+                'last_updated_date' => date('Y-m-j'));
+            $this->user_model->insert_app_status($data1);
+
+
+
+					// if ($get_document->row()->id_application_status_name =="PENDING"){
+					// 	$this->log("New document","New step3");
+					// $this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "3", $username);
+					// }
 		}
 	// }
 	}
