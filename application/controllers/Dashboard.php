@@ -20,8 +20,6 @@ class Dashboard extends CI_Controller {
 
 	public function index(){
 		// $this->session_login();
-		// $messagess = $this->messagess;
-		// echo '<script>console.log("'.$messages.'")</script>';
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
         $this->load->view('admin/inbox', $data);
@@ -37,7 +35,7 @@ class Dashboard extends CI_Controller {
      public function report(){
 		// $this->session_login();
         $this->load->view('admin/header');
-        $data['applications'] = $this->admin_model->get_applications()->result();
+        $data['applications'] = $this->admin_model->get_applications()->result_array();
         $this->load->view('admin/report', $data);
     }
 

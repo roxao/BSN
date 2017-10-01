@@ -558,6 +558,23 @@ div.close_modal {
     white-space: nowrap;
   }
 }
+
+#filtertable{
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    width: 200px;
+    .filtertable{
+      position: absolute;
+      width: 200px;
+      label{
+            display: block;
+    padding: 7px 20px;
+    background: #fff;
+      }
+    }
+}
 .title_content {
   margin: 20px; 
   color: $c_1st;
