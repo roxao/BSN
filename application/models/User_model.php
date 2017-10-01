@@ -45,6 +45,17 @@ class User_model extends CI_Model {
  
         return  $query;   
     }
+/*Kondisi dimana user ingin mengganti password*/
+      public function Update_password($id_user, $modified_by, $password)
+    {
+        $data = array('password' => $password,
+            'modified_by' => $modified_by,
+            'modified_date' => date('Y-m-j H:i:s'));
+        $this->db->where('id_user', $id_user);
+
+
+        return $this->db->update('user', $data);
+    }
 
     /*Melkukan pengecekan file untuk didownload di step2*/
     public function getdocument_aplication($id_user){ 
@@ -54,6 +65,26 @@ class User_model extends CI_Model {
     $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
     $this->db->where('applications.id_user',$id_user);
     $this->db->where('applications.iin_status',"OPEN");
+    // $this->db->where('document_config.type',"DYNAMIC");
+    $this->db->order_by('document_config.id_document_config', 'ASC');
+
+    $query = $this->db->get(); 
+    $results = $query->result();
+ 
+        return  $results ;   
+    }
+/*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document configth di buat untuk global*/
+    public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
+    $this->db->select('*');
+    $this->db->from('applications'); 
+    $this->db->join('application_file', 'applications.id_application=application_file.id_application');
+    $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
+    $this->db->where('applications.id_user',$id_user);
+    $this->db->where('applications.iin_status',"OPEN");
+    $this->db->where($type,$type1);
+    $this->db->where('application_file.status',$status);
+    $this->db->order_by('document_config.id_document_config', 'ASC');
+
 
 
     $query = $this->db->get(); 
@@ -62,8 +93,8 @@ class User_model extends CI_Model {
         return  $results ;   
     }
 
-    /*Melkukan aplikasi sttus*/
-    public function getAplicationStatus($id_user){ 
+    /*Melkukan Assesment Status*/
+    public function getAssesmentStatus($id_user){ 
     $this->db->select('*');
     $this->db->from('applications'); 
     $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
@@ -74,12 +105,20 @@ class User_model extends CI_Model {
     $this->db->where('applications.iin_status',"OPEN");
     // $this->db->where('document_config.type','STATIC'); 
     // $this->db->where('document_config.key',"IPPSA"); 
+     $query = $this->db->get(); 
+    $results = $query->result(); 
+     return  $results ; 
+    }
 
+       public function get_applications_Status($id_user){
+        $this->db->select('*');
+        $this->db->from('application_status');
+        $this->db->join ('applications', 'application_status.id_application = applications.id_application');
+        $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
+    $this->db->where('applications.id_user',$id_user);
+    $this->db->where('applications.iin_status',"OPEN");
 
-    $query = $this->db->get(); 
-    $results = $query->result();
- 
-        return  $results ;   
+        return $this->db->get();
     }
 
     public function get_aplication($id_user){ 
@@ -147,6 +186,20 @@ class User_model extends CI_Model {
         return $this->db->update('application_status', $data);
     }
 
+
+ public function update_document($id_application, $id_application_file, $id_document_config, $path_id, $modified_by)
+    {
+        $data = array('path_id' => $path_id,
+                // 'created_date' => date('Y-m-j'),
+                'modified_by' => $modified_by,
+                'modified_date' => date('Y-m-j H:i:s'));
+        $this->db->where('id_application', $id_application);
+        $this->db->where('id_application_file', $id_application_file);
+        $this->db->where('id_document_config', $id_document_config);
+    
+
+        return $this->db->update('application_file', $data);
+    }
 
 
     public function insert_log($data)

@@ -13,7 +13,8 @@
 
 		<tr>
 			<td><?php $no++; echo "$no.  ";?></td>
-			<td><?echo  $datas->name;?></td>
+			<td><?php echo $datas->name;?></td>
+			<td><?php echo $datas->title;?></td>
 			
 		</tr>	
  <?php } ?> 
