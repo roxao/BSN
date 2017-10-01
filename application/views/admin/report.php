@@ -2,6 +2,8 @@
   <section class="main_dashboard_slidetab">
     <h2 class="title_content">Laporan</h2>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
+        <!-- ['nama_parameter','Nama yang tampil di field table'] -->
+        <!-- ['id_application', 'Nomor Aplikasi']  -->
       <?php
         $s_name = [
           ['id_application', 'Nomor Aplikasi'], 
@@ -15,24 +17,25 @@
           ['mailing_number', 'Nomor Surat'],
           ['application_type', 'Jenis Pengajuan'],
           ['display_name', 'Status Pengajuan'],
+          ['display_name', 'Status Pengajuan'],
         ];
       ?>
       <div id="filtertable">
         <div class="clickfilter">Filter... </div>
         <div class="filtertable">
-          <? foreach($s_name as $x) {echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';} ?>
+          <?php foreach($s_name as $x) {echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';} ?>
         </div>
       </div>
 
       <div class="parent_table">
         <table class="table_def tableInbox" style="width: 100%;">
           <tr>
-            <? foreach($s_name as $x) {
+            <?php foreach($s_name as $x) {
               echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';
             } ?>
           </tr>
           <tbody class="list">
-            <? foreach($applications as $key=>$data) {
+            <?php foreach($applications as $key=>$data) {
               echo '<tr>';
               foreach($s_name as $x) {
                 echo '<td class="'.$x[0].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
@@ -56,7 +59,7 @@
   <script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/list.min.js"></script>
   <script type="text/javascript">
     $('document').ready(function(){
-      var datasort = [<? foreach($s_name as $key=>$x) {echo '"'.$x[0].'",';}?>]
+      var datasort = [<?php foreach($s_name as $key=>$x) {echo '"'.$x[0].'",';}?>]
       var options = {valueNames: datasort,page: 10,pagination: true};
       var inboxList = new List('tableInbox', options);
 
