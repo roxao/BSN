@@ -5,13 +5,13 @@ $(document).ready(function() {
 	// $('.class_modal').on('resize', function(){setPosition('.class_modal')});
 
 	$('.get_process').click(function(event) {
-  		if($(this).attr('data-step')!=null) getStep($(this).attr('data-id'), $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
+  		if($(this).attr('data-step')!=null) getStep($(this).attr('data-id'), $(this).attr('data-id-status'),  $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
 	  });
 
-	function getStep(id, step, status) {
+	function getStep(id, id_status, step, status) {
     	$("#popup_box").load(base_url + "/set_view/component/modal", function () {
     		setModal();
-	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'getid': id,'getstep': step}, dataType: 'json',
+	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 		        success: function (data) {
 	        		respon=data;
 					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
@@ -26,7 +26,7 @@ $(document).ready(function() {
 	   	 })
     }
 
-    // getStep('9','verif_pay_req','Verifikasi Pembayaran');
+    getStep('42','252', 'verif_new_req','Verifikasi Pembayaran');
 
 
     // Modal Customize

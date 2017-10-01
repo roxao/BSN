@@ -56,37 +56,38 @@ class Dashboard extends CI_Controller {
 
 	public function get_app_data() {	
 		// $this->session_login();
-		$id = $this->input->post('getid');
-		$step = $this->input->post('getstep');
+		$id = $this->input->post('id');
+		$id_status = $this->input->post('id_status');
+		$step = $this->input->post('step');
 		if($id!=null){
 			switch ($step) {
 				case 'verif_new_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
 					echo json_encode($data);
 					break;
 				case 'verif_upldoc_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
 					$data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
 			        echo json_encode($data);
 					break;
 				case 'verif_revdoc_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
-					$data['revdoc_user'] = $this->admin_model->get_doc_user($id)->result();
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+					$data['revdoc_user'] = $this->admin_model->get_doc_user($id_status)->result();
 			        echo json_encode($data);
 					break; 	
 				case 'upl_bill_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
 			        echo json_encode($data);
 					break; 	
 				case 'reupl_bill_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
 			        echo json_encode($data);
 					break; 	
 				case 'verif_pay_req':
-					$data['application'] = $this->admin_model->get_application($id)->result()[0];
-					$data['doc_pay'] = $this->admin_model->get_doc_user($id)->result();
+					$data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+					$data['doc_pay'] = $this->admin_model->get_doc_user($id_status)->result();
 					$data['assessment_list'] = $this->admin_model->get_assessment()->result();
-					$data['assessment_roles'] = $this->admin_model->get_doc_user($id)->result();
+					$data['assessment_roles'] = $this->admin_model->get_doc_user($id_status)->result();
 			        echo json_encode($data);
 			        break;
 			    case 'verif_rev_pay_req':
