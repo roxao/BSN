@@ -1,14 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class submit_iin extends CI_Controller {
-
-
-
 	public function __construct() {
 		
 		parent::__construct();
-
 		/* load library dan helper*/
 	   	$this->load->library('session', 'upload');
 	   	$this->load->helper(array('captcha','url','form','download'));
@@ -16,7 +11,6 @@ class submit_iin extends CI_Controller {
 		$this->load->library('email','form_validation', 'curl');
 		$this->model = $this->user_model;
         $this->load->database();
-
 		
 	}
  
@@ -25,12 +19,10 @@ class submit_iin extends CI_Controller {
 		$this->load->view('submit-iin');
 		$this->load->view('footer');
 	}
-
 	public function log($Type, $detil){
 		/*Insert Log*/
 		$username = $this->session->userdata('username');
 		$dataLog = array(
-
                 'detail_log' => $username. $detil,
                 'log_type' => $Type .$username, 
                 'created_date' => date('Y-m-j H:i:s'),
@@ -40,13 +32,11 @@ class submit_iin extends CI_Controller {
                 );
         $this->user_model->insert_log($dataLog);
 	}
-
 	/*Melakukan penyimpanan form step ke 0*/ 
 	public function insert_letter_submission(){
 		
 	$id_user = $this->session->userdata('id_user');
 	$get_document = $this->user_model->get_aplication($id_user);
-
 	$username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
 		$data = array(
@@ -68,15 +58,11 @@ class submit_iin extends CI_Controller {
 		'created_by' => $username,
 		'modified_date' => date('Y-m-j H:i:s'),
 		'modified_by' =>$username);
-
 		$this->log("added new applicant","Created new application");
         /*Inser Pengajuan*/
 		$this->user_model->insert_pengajuan($data);
-
 		/*insert Status 1 Pending*/
-
 		if ($get_document->num_rows() > 0){
-
 				$data1 = array(
                 'id_application '=> $get_document->row()->id_application,
                 'id_application_status_name' => '1',
@@ -85,14 +71,11 @@ class submit_iin extends CI_Controller {
                 'created_by' => $username,
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
-
             $this->user_model->insert_app_status($data1);
-
 		}
 	} else {
 		echo "Dibatalkan";
 	}	
-
 	}
 	/*Melkukan penarikan dokumen*/
 	public function download(){
@@ -100,22 +83,19 @@ class submit_iin extends CI_Controller {
 	$iamge_id = $this->input->get('var1');
    	force_download($iamge_id, NULL);	
 	}
-
 	function  step_tiga_upload (){
 	$id_user = $this->session->userdata('id_user');
-	$get_document = $this->user_model->get_aplication($id_user);
+	$get_status = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
 		 /*insert Status*/
-		if ($get_document->num_rows() > 0){
+		// if ($get_document->num_rows() > 0){
 		
-		if ($get_document->row->id_application_status_name =="4"){
-				if ($get_document->row->id_application_status_name =="PENDING"){
+		if ($get_status->row()->id_application_status_name =="4"){
+				if ($get_status->row()->id_application_status_name =="PENDING"){
 					$this->log("Revisi document","Revisi step3");
-
-					$this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "4", $username);
-
+					$this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "4", $username);
 					$data5 = array(
-                'id_application '=> $get_document->row->id_application,
+                'id_application '=> $get_document->row()->id_application,
                 'id_application_status_name' => '5',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
@@ -125,31 +105,25 @@ class submit_iin extends CI_Controller {
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data5);
 				}
-
 		} 
-		else if  ($get_document->row->id_application_status_name =="3"){ 
-					if ($get_document->row->id_application_status_name =="PENDING"){
+		else if  ($get_status->row()->id_application_status_name =="3"){ 
+					if ($get_document->row()->id_application_status_name =="PENDING"){
 						$this->log("New document","New step3");
-
-					$this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "3", $username);
-
+					$this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "3", $username);
 					}
-
 		}
+	// }
 	}
-	}
-
 	function  step_enam_upload (){
 	$id_user = $this->session->userdata('id_user');
-	$get_document = $this->user_model->get_aplication($id_user);
+	$get_status  = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
 		 /*insert Status*/
-		if ($get_document->num_rows() > 0){
+		if ($get_status->num_rows() > 0){
 		
-				$this->log("Upload new document","Upload new document step2");
-
+				$this->log("Upload new document","Upload new document step6");
 				$data3 = array(
-                'id_application '=> $get_document->row->id_application,
+                'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '9',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
@@ -158,23 +132,21 @@ class submit_iin extends CI_Controller {
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
-
-                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "7", $username);
+                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "7", $username);
 			
             // 7 Belum dirubah jadi update
 		}
 	}
 function  step_tujuh_team (){
 	$id_user = $this->session->userdata('id_user');
-	$get_document = $this->user_model->get_aplication($id_user);
+	$get_status  = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
 		 /*insert Status*/
-		if ($get_document->num_rows() > 0){
+		if ($get_status->num_rows() > 0){
 		
 				$this->log("Upload confirmation payment","Upload nconfirmation payment");
-
 				$data3 = array(
-                'id_application '=> $get_document->row->id_application,
+                'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '14',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
@@ -183,19 +155,14 @@ function  step_tujuh_team (){
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
-
-                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row->id_application, "12", $username);
+                 $this->user_model->update_aplication_status("COMPLETED", $get_status->row->id_application, "12", $username);
 			
             
 		}
 	}
 	
-
-
-
 /*Melakukan Upload document*/
 	 function do_upload() {
-
 	$id_user = $this->session->userdata('id_user');
 	$get_document = $this->user_model->get_aplication($id_user);
 	$username = $this->session->userdata('username');
@@ -209,22 +176,53 @@ function  step_tujuh_team (){
              //Perform upload.
              if($this->upload->do_upload("images")) {
                  $uploaded = $this->upload->data();
-                 echo '<pre>';
-		   var_export($uploaded);
-		   echo '</pre>';
-
-
-			// $this->$step_tiga_upload();
-			// $this->$step_tiga_upload();
-			// $this->$step_tiga_upload();
-			// step_tujuh_upload
+                 /*Kondisi dimana ketika buttonUpload Step3 di Klick*/
+                 if ($this->input->post('upload') == "uploadstep3"){
+                 	/*Qwery UNtuk mengambil Document yang ingin di upload*/
+		   $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
+		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
+		   for ($j = 0; $j < count($query); $j++){
+		   	echo $j;
+		   	/*Array Image di parsing*/
+			for ($i = 0; $i < count($uploaded); $i++) {
+				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
+				 	if ($j == $i){
+				 		/*Qwery Insert FilePathnya ke DB*/
+	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['file_path'], $username);
+			/*Menjalankan update Step 3 Beserta Lognya Ada di dalam function tersebut*/	 
+			$this->step_tiga_upload();
+				 	}
+			} 
+	 
+        
+			}
+                 } else if ($this->input->post('upload') == "uploadstep6"){
+/*Qwery UNtuk mengambil Document yang ingin di upload*/
+		   $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
+		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
+		   for ($j = 0; $j < count($query); $j++){
+		   	echo $j;
+		   	/*Array Image di parsing*/
+			for ($i = 0; $i < count($uploaded); $i++) {
+				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
+				 	if ($j == $i){
+				 		/*Qwery Insert FilePathnya ke DB*/
+	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['file_path'], $username);
+			/*Menjalankan update Step step_enam_upload Beserta Lognya Ada di dalam function tersebut*/	 
+			$this->step_enam_upload ();
+				 	}
+			} 
+	 
+        
+}
+                 }
   
-             }else{
+             }
+             else{
    die('GAGAL UPLOAD');
       }
      
     }
-
 	public function captcha()
 	{
 		$vals = array(
