@@ -465,7 +465,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	}
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
-	{          echo $this->input->post("bill");
+	{
 
         		$data = array(
                 'process_status' => 'COMPLETED',
@@ -483,8 +483,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-         //    $this->admin_model->insert_log($dataL);
-        	// $this->admin_model->next_step($data,$condition);
+            $this->admin_model->insert_log($dataL);
+        	$this->admin_model->next_step($data,$condition);
 
              $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -495,7 +495,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 // 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            // $this->admin_model->insert_app_status($data2,$condition);
+            $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                 'id_application' => $this->input->post('id_application'),
@@ -504,14 +504,14 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'status' => 'ACTIVE'
                 );
 
-            // $this->admin_model->insert_application_file($data3);
+            $this->admin_model->insert_application_file($data3);
 
             $data4 = array(
                     'type' => $this->input->post('app_bill_code'),
                     'value' => $this->input->post('expired_date'),
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           // $this->admin_model->insert_app_sts_for_map($data4);
+           $this->admin_model->insert_app_sts_for_map($data4);
 
 
 
