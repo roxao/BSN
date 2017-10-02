@@ -9,7 +9,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	{
 		
 		parent::__construct();
-		$this->load->library('session');
+		$this->load->library('session', 'upload');
 	    $this->load->helper(array('captcha','url','form'));
 		$this->load->model('admin_model');
 		$this->load->library('email');
@@ -466,7 +466,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
 	{
-
+            print_r($this->input->post("bill")) ;
         		$data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
@@ -483,8 +483,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-            $this->admin_model->insert_log($dataL);
-        	$this->admin_model->next_step($data,$condition);
+         //    $this->admin_model->insert_log($dataL);
+        	// $this->admin_model->next_step($data,$condition);
 
              $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -495,7 +495,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 // 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            $this->admin_model->insert_app_status($data2,$condition);
+            // $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                 'id_application' => $this->input->post('id_application'),
@@ -504,14 +504,51 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'status' => 'ACTIVE'
                 );
 
-            $this->admin_model->insert_application_file($data3);
+            // $this->admin_model->insert_application_file($data3);
 
             $data4 = array(
                     'type' => $this->input->post('app_bill_code'),
                     'value' => $this->input->post('expired_date'),
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           $this->admin_model->insert_app_sts_for_map($data4);
+           // $this->admin_model->insert_app_sts_for_map($data4);
+
+
+
+            $this->load->library('upload');
+            $cek = $this->input->post("bill");
+            $getDoc = $this->admin_model->get_doc_bill_res()->result();
+            
+
+            $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg",
+                 "upload_path"   => "./upload/"
+             ));
+             
+                 
+           
+
+           if($this->upload->do_upload("images")) 
+           {
+                $uploaded = $this->upload->data();
+
+                for($x=0;$x < count($getDoc);$x++)
+                {
+                    $doc = array(
+                    'id_application' => $this->input->post('id_application'),
+                    'id_document_config' => $getDoc[$x]->id_document_config,
+                    'status' => 'ACTIVE',
+                    'created_date'=> date('y-m-d'),
+                    'file_url' => $cek[$x]
+                    // 'created_by' => $this->session->userdata('username')
+                                );
+
+                    $uploaded = $this->upload->data();
+                    print_r($doc);
+                    // $this->admin_model->insert_doc_for_user($doc);
+                }
+           }
+            
 
 
 

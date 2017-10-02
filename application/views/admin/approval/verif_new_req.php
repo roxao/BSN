@@ -55,23 +55,26 @@
 <div class="verify_section">
 	<div class="clearfix">
 		<button class="btn_reject float_left" style="background: red">REVISI</button>
+		
+		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_NEW_REQ_PROSES') ?>" method="post" accept-chaset="utf-8">
+
+		<input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value="">
+
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
+
+	</form>
 	</div>
 </div>
 
 
 <script>
-// applicant:"Saputra Dicky"
-// applicant_phone_number:"081222333444"
-// application_date:"2017-09-01"
-// instance_director:"Saputra"
-// instance_email:"ifandimaulana05@gmail.com"
-// instance_name:"PT.Maju Jaya Corpora"
-// instance_phone:"02123456"
-// mailing_location:"Tangerang"
-// mailing_number:"123456"
 
 	value=respon.application;
+$("input[name=id_application_status]").val(value.id_application_status);
+$("input[name=id_application]").val(value.id_application);
+
+	
 	console.log(respon);
 	$("input[name=applicant]").val(value.applicant);
 	$("input[name=applicant_phone_number]").val(value.applicant_phone_number);

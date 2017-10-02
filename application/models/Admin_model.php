@@ -273,5 +273,16 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_doc_bill_res()
+    {
+         $this->db->select('*');
+        $this->db->from('document_config dc');
+            $con = 'dc.key = "KBS" 
+            or dc.key="SPNP" or dc.key="SPPNBP"';
+        $this->db->where($con);
+
+        return $this->db->get();
+    }
+
 }
 ?>
