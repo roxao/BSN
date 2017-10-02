@@ -244,5 +244,34 @@ class Admin_model extends CI_Model {
 
     }
 
+    //list document untuk user mengupload
+    public function get_doc_for_user()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+            $con = 'type = "STATIC" or type="DYNAMIC" and mandatory = "1"';
+        $this->db->where($con);
+        // $this->db->or('type','DYNAMIC');
+        // $this->db->where('mandatory','1');
+
+        return $this->db->get();
+    }
+
+    //masukkan ke tabel document2 yang harus diupload user
+    public function insert_doc_for_user($prm)
+    {
+        
+        $this->db->insert('application_file', $prm);
+    }
+
+    public function get_pay()
+    {
+         $this->db->select('*');
+        $this->db->from('document_config');
+            $con = 'id_application =  AND id_document_config = "24"';
+        $this->db->where($con);
+        return $this->db->get();
+    }
+
 }
 ?>

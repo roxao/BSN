@@ -33,8 +33,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	public function VERIF_NEW_REQ_PROSES()
 	{
 
-       if($this->input->post('setujui') == "setujui")
-        {	
+      
         		$data = array(
         		'process_status' => 'COMPLETED',
             	'created_date' => date('Y-m-j'),
@@ -71,17 +70,18 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
 
+            $this->get_doc($this->input->post('id_application'));
+
                 // $this->send_mail($this->input->post('id_application'));
         	 // header("refresh:0; sipinAdmin/read_applications");
         	
-        }
+        
 	}
 
     //tolak pengajuan karena sudah punya iin
     public function VERIF_NEW_REQ_HAS_IIN()
     {
-        if ($this->input->post('setujui') == "setujui") 
-        {
+       
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -123,14 +123,13 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $id_application = array('id_application'=> $this->input->post('id_application'));
             $this->admin_model->update_app($data5,$id_application);
 
-        }
+        
     }
 
     //tolak pengajuan karena kesalahan sesuatu
     public function VERIF_NEW_REQ_ETC()
     {
-        if($this->input->post('setujui') == "setujui")
-        {  
+        
          // ditolak dll
             $data = array(
                 'process_status' => 'COMPLETED',
@@ -174,7 +173,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $id_application = array('id_application'=> $this->input->post('id_application'));
             $this->admin_model->update_app($data5,$id_application);
 
-        }
+        
     }
 
 
@@ -210,20 +209,18 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //setujui kelemngkapan document dari user
 	public function VERIF_UPLDOC_REQ_PROSES_SUCCEST()
 	{
-
-       if($this->input->post('setujui') == "setujui")
-        {	
+            echo $this->input->post('id_application')." = id_application";
         	$data = array(
                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
-                'id_application_status_name' => '3',
+                // 'id_application_status_name' => '3',
               
                 'created_date' => date('Y-m-j'),
                 // 'modified_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
         	$condition = array('id_application_status' => $this->input->post('id_application_status'));
-
+            echo $this->input->post('id_application_status')." = id_application_status";
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approved new document',
                 'log_type' => 'added '.$this->input->post('username'), 
@@ -278,12 +275,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $this->admin_model->insert_app_sts_for_map($data2);
 
 
-
-        	
-        }else
-        {
-        	echo "bukan tombol setujui";
-        }
 	}
 
 //revisi document untuk user
@@ -474,10 +465,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	}
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
-	{
+	{          echo $this->input->post("bill");
 
-       if($this->input->post('setujui') == "setujui")
-        {	
         		$data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
@@ -494,8 +483,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-            $this->admin_model->insert_log($dataL);
-        	$this->admin_model->next_step($data,$condition);
+         //    $this->admin_model->insert_log($dataL);
+        	// $this->admin_model->next_step($data,$condition);
 
              $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -506,28 +495,28 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 // 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            $this->admin_model->insert_app_status($data2,$condition);
+            // $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                 'id_application' => $this->input->post('id_application'),
                 'id_document_config'=> '23',
-                'path_id'=> '////',
+                'path_id'=> '/',
                 'status' => 'ACTIVE'
                 );
 
-            $this->admin_model->insert_application_file($data3);
+            // $this->admin_model->insert_application_file($data3);
 
             $data4 = array(
-                    'type' => 'BILLING_EXPIRED',
-                    'value' => 'contoh (29-08-2017)',
+                    'type' => $this->input->post('app_bill_code'),
+                    'value' => $this->input->post('expired_date'),
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           $this->admin_model->insert_app_sts_for_map($data4);
+           // $this->admin_model->insert_app_sts_for_map($data4);
+
+
+
   	
-        }else
-        {
-        	echo "bukan tombol setujui";
-        }
+   
 	}
 
 //yg ini belum
@@ -1505,7 +1494,7 @@ public function REV_ASSESS_REQ_PROSESS()
 
     public function VERIF_REV_ASSESS_RES_REQ_PROSES()
     {
-        if ($this->input->post('setujui') == "setujui") {
+        
             
            $data = array(
                 'process_status' => 'COMPLETED',
@@ -1542,12 +1531,12 @@ public function REV_ASSESS_REQ_PROSESS()
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
 
-        }
+        
     }
 
     public function VERIF_REV_ASSESS_RES_REQ_REVISI()
     {
-        if ($this->input->post('revisi') == "revisi") {
+       
             
            $data = array(
                 'process_status' => 'COMPLETED',
@@ -1584,7 +1573,7 @@ public function REV_ASSESS_REQ_PROSESS()
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
 
-        }
+        
     }
 
 
@@ -1611,7 +1600,7 @@ public function REV_ASSESS_REQ_PROSESS()
 
     public function CRA_APPROVAL_REQ_PROSES()
     {
-        if ($this->input->post('setujui') == "setujui") {
+        
             
                $data = array(
                 'process_status' => 'COMPLETED',
@@ -1647,7 +1636,7 @@ public function REV_ASSESS_REQ_PROSESS()
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data5);
-        }
+        
     }
 
     public function UPL_IIN_DOC_REQ($id_application_status)
@@ -1741,6 +1730,25 @@ public function REV_ASSESS_REQ_PROSESS()
         $data['report']=$this->admin_model->get_application_data()->result();
         $this->load->view('excel_import',$data);
         // echo json_encode($data);
+    }
+
+    public function get_doc($prm)
+    {
+        $query = $this->admin_model->get_doc_for_user()->result();
+        // echo json_encode($data);
+                    
+        for($x = 0; $x < count($query); $x++)
+        {
+            $data = array(
+                'id_application' => $prm,
+                'id_document_config' => $query[$x]->id_document_config,
+                'status' => 'ACTIVE',
+                'created_date'=> date('y-m-d')
+                // 'created_by' => $this->session->userdata('username')
+                );
+            $this->admin_model->insert_doc_for_user($data);
+
+        }
     }
 
 }
