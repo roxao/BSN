@@ -23,6 +23,18 @@ class Admin_model extends CI_Model {
        return $this->db->get('admin');
     }
 
+    public function get_admin_byprm($prm){
+       $this->db->select('*');
+        $this->db->from('admin');
+        $this->db->where('id_admin', $prm);
+        return $this->db->get();
+    }
+
+    public function update_admin($condition,$data){
+        $this->db->where($condition);
+        $this->db->update('admin',$data);
+    }
+
     public function insert_admin ($data){
         $this->db->insert('admin', $data);
     }
@@ -31,6 +43,21 @@ class Admin_model extends CI_Model {
     // ALL GET TABLE
     public function get_assessment(){
         return $this->db->get('assessment_team');
+    }
+
+    public function get_assessment_byid($data){
+        $this->db->select('*');
+        $this->db->from('assessment_team');
+        $this->db->where('id_assessment_team', $data);
+        return $this->db->get();
+    }
+
+    public function insert_assesment($data){
+        $this->db->insert('assessment_team', $data);
+    }
+
+    public function get_assessment_title(){
+        return $this->db->get('assessment_team_title');
     }
 
     public function get_user(){
@@ -162,6 +189,7 @@ class Admin_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('assessment_team');
         $this->db->like('name', $data);
+        $this->db->where('status','active');
         return $this->db->get();
     }
 
@@ -264,12 +292,15 @@ class Admin_model extends CI_Model {
         $this->db->insert('application_file', $prm);
     }
 
-    public function get_pay()
+    public function get_pay($prm)
     {
          $this->db->select('*');
-        $this->db->from('document_config');
-            $con = 'id_application =  AND id_document_config = "24"';
-        $this->db->where($con);
+        $this->db->from('application_file');
+        $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
+            // $con = 'application_file.id_application = "'.$prm.'" AND application_file.id_document_config = "24" ';
+        // $this->db->where($con);    
+        $this->db->where('application_file.id_application', $prm);
+        $this->db->where('application_file.id_document_config', '24');
         return $this->db->get();
     }
 
