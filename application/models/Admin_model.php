@@ -52,12 +52,28 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function update_assessment($condition,$data){
+        $this->db->where($condition);
+        $this->db->update('assessment_team',$data);
+    }
+
     public function insert_assesment($data){
         $this->db->insert('assessment_team', $data);
     }
 
     public function get_assessment_title(){
         return $this->db->get('assessment_team_title');
+    }
+
+    public function get_assessment_title_byprm($prm){
+        $this->db->select('*');
+        $this->db->from('assessment_team_title');
+        $this->db->where('id_assessment_team_title', $prm);
+        return $this->db->get();
+    }
+
+    public function insert_assesment_title($data){
+        $this->db->insert('assessment_team_title', $data);
     }
 
     public function get_user(){
@@ -213,6 +229,10 @@ class Admin_model extends CI_Model {
         $this->db->update('document_config',$data);
     }
 
+    public function insert_documenet_config($data){
+        $this->db->insert('assessment_application', $data);
+    }
+
     public function question_survey_question(){
        return $this->db->get('survey_question');
     }
@@ -233,8 +253,16 @@ class Admin_model extends CI_Model {
         $this->db->update('iin',$data);
     }
 
+    public function insert_iin($data){
+        $this->db->insert('iin', $data);
+    }
+
     public function get_cms(){
        return $this ->db-> get('cms');
+    }
+
+    public function insert_cms($data){
+        $this->db->insert('cms', $data);
     }
 
     public function get_cms_by_prm($id){
