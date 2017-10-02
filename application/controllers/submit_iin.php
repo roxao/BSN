@@ -93,9 +93,9 @@ class submit_iin extends CI_Controller {
 		if ($get_status->row()->id_application_status_name =="4"){
 				if ($get_status->row()->id_application_status_name =="PENDING"){
 					$this->log("Revisi document","Revisi step3");
-					$this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "4", $username);
+					$this->user_model->update_aplication_status("COMPLETED", $get_status->row()->id_application, "4", $username);
 					$data5 = array(
-                'id_application '=> $get_document->row()->id_application,
+                'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '5',
                 'process_status' => 'PENDING',
                 'approval_date' => 'null',
@@ -134,6 +134,8 @@ class submit_iin extends CI_Controller {
 	$username = $this->session->userdata('username');
 		 /*insert Status*/
 		if ($get_status->num_rows() > 0){
+
+			$this->user_model->update_aplication_status("COMPLETED", $get_status->row()->id_application, "7", $username);
 		
 				$this->log("Upload new document","Upload new document step6");
 				$data3 = array(
@@ -146,7 +148,8 @@ class submit_iin extends CI_Controller {
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
-                 $this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "7", $username);
+                 
+                 
 			
             // 7 Belum dirubah jadi update
 		}
@@ -180,9 +183,9 @@ function  step_tujuh_team (){
 	$id_user = $this->session->userdata('id_user');
 	$get_document = $this->user_model->get_aplication($id_user);
 	$username = $this->session->userdata('username');
+	$query = 0;
 	 	 $this->load->library('upload');
-  
-    if ($this->input->post('upload') == "uploadstep3"){
+ 
       //Configure upload.
              $this->upload->initialize(array(
    "allowed_types" => "gif|jpg|png|jpeg",
@@ -191,10 +194,14 @@ function  step_tujuh_team (){
              //Perform upload.
              if($this->upload->do_upload("images")) {
                  $uploaded = $this->upload->data();
-                 /*Kondisi dimana ketika buttonUpload Step3 di Klick*/
-               
-                 	/*Qwery UNtuk mengambil Document yang ingin di upload*/
+                
+            if ($this->input->post('upload') == "uploadstep3"){
 		   $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
+			} else if ($this->input->post('upload') == "uploadstep6") {
+				 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
+			}
+
+
 		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
 		   for ($j = 0; $j < count($query); $j++){
 		   	/*Array Image di parsing*/
@@ -202,41 +209,30 @@ function  step_tujuh_team (){
 				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
 				 	if ($j == $i){
 				 		/*Qwery Insert FilePathnya ke DB*/
-	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
-			/*Menjalankan update Step 3 Beserta Lognya Ada di dalam function tersebut*/	 
-			
-			 	}
-			}
+				 		
+				 		
+				if (count($uploaded) == 2){
+					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
+				} else {
+					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
+				}
+
+			 		}
+				}
 			}
 			  } else{
    die('GAGAL UPLOAD');
       } 
-      $this->step_tiga_upload();
-  } 
- else if ($this->input->post('upload') == "uploadstep6"){
-/*Qwery UNtuk mengambil Document yang ingin di upload*/
-if($this->upload->do_upload("images")) {
-                 $uploaded = $this->upload->data();
-		   $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
-		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
-		   for ($j = 0; $j < count($query); $j++){
-		   	/*Array Image di parsing*/
-			for ($i = 0; $i < count($uploaded); $i++) {
-				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
-				 	if ($j == $i){
-				 		/*Qwery Insert FilePathnya ke DB*/
-	 		$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
-			/*Menjalankan update Step step_enam_upload Beserta Lognya Ada di dalam function tersebut*/	 
-			
-				 	}
+     
+			      if ($this->input->post('upload') == "uploadstep3"){
+					    $this->step_tiga_upload();
 			} 
-	 }
- } else{
-   die('GAGAL UPLOAD');
-      }
-      $this->step_enam_upload ();
-                 }
-    }
+			else if ($this->input->post('upload') == "uploadstep6") {
+				 $this->step_enam_upload();
+			}
+  } 
+ 
+    
 
 
 	public function captcha()
