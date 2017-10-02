@@ -15,70 +15,47 @@
 <body>
 	<div class="content-background"></div>
 	<header>
-		<nav id="wrapper">
-			<div id="nav">
-				<div class="top_nav  container clearfix">
-					<div class="nav_left float_left">
-						<div class="nav_logo">
-							<img src="assets/logo.png" alt="" class="float_left">
-							<div class="float-right">
-								<h1>Sistem Informasi Penerbitan Issuer Identification Number (SIPIN)</h1>
-								<h2>Badan Standarisasi Nasional</h2>
-								<h2>National Standardization Agency of Indonesia</h2>
-							</div>
-						</div>
-					</div>
-					<div class="nav_right float_right" style="margin-top: 10px">
-						<ul class="user_nav clearfix">
-							<?php if ($this->session->flashdata('validasi-login') == '') {?>
-								<li><a href="#" action="modal_pupop" data-id="#register_frame">DAFTAR</a></li>
-								<li><a href="#" action="modal_pupop" data-id="#login_frame">MASUK</a></li>
-							<?php } else { ?>
-								<li><a href="#" action="modal_pupop" data-id="#notifikasi">NOTIFIKASI <span>5</span></a></li>
-								<li><a href="#" action="modal_popup" data-id="#log_out">KELUAR</a></li>
-							<?php } ?>
-						</ul>
-					</div>
-				</div>
-				<div class="bot_nav clearfix">
-					<img src="assets/logo.png" alt="" class="stickyNavShow float_left" height="30px" style="margin: 7px; display: none" >
-					<ul class="page_nav float_left clearfix">
-						<!-- Loop DB_MENU -->
-						<!-- TEMPLATE -->
-						<!-- <li><a href="menu_url">menu_name</a></li> -->
-						<li><a href="<?php echo base_url();?>">Halaman Depan</a></li>
-						<?php if ($this->session->flashdata('validasi-login') != '') {?>
-								<li class="nav_parent"><a href="">Layanan IIN</a>
-							<ul>
-
-								<li><a href="<?php echo base_url();?>submit-iin"> Daftar Penerbitan IIN baru </a></li>
-							<?php if ($this->session->flashdata('validasi-menu') != 'Pengajuan Baru') {?>
-								<li><a href="iin-publish-lama.html"> Daftar Pengawasan IIN Lama </a></li>
-							<?php }  ?>
-								
-							</ul>
-						</li>
-							<?php }  ?>
-							<li class="nav_parent"><a href="">Informasi IIN</a>
-							<ul>
-								<li><a href="iin-publish.html">Daftar penerima IIN</a></li>
-								<li><a href="#"> File ISO 7812</a></li>
-								<li><a href="#"> Hasil Survey</a></li>
-							</ul>
-						</li>
-						<li><a href="contact-us.html">Hubungi Kami</a></li>
-					</ul>
-					<ul class="user_nav float_right stickyNavShow" style="margin-top: 13px; margin-right: 10px; display: none">
-						<?php if ($this->session->flashdata('validasi-login') == '') {?>
-							<li><a href="#" action="modal_pupop" data-id="#register_frame">DAFTAR</a></li>
-							<li><a href="#" action="modal_pupop" data-id="#login_frame">MASUK</a></li>
+		<nav class="clearfix">
+			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
+			<ul class="nav-list float_left">
+				<li class="nav-link"><a href="<?php echo base_url();?>">Halaman Depan</a></li>
+				<?php if($this->session->flashdata('validasi-login') != '') {?>
+				<li class="nav-link parent"><a href="<?php echo base_url();?>">Layanan IIN</a>
+					<ul>
+						<?php if ($this->session->flashdata('validasi-menu') != 'Pengajuan Baru') {?>
+						<li class="nav-link"><a href="<?php echo base_url();?>submit-iin">Penerbitan IIN Baru</a>
 						<?php } else { ?>
-							<li><a href="#" action="modal_pupop" data-id="#notifikasi">NOTIFIKASI <span>5</span></a></li>
-							<li><a href="#" action="modal_popup" data-id="#log_out">KELUAR</a></li>
+						<li class="nav-link"><a href="<?php echo base_url();?>extend-iin">Pengawasan IIN Lama</a>
 						<?php } ?>
 					</ul>
-				</div>
-			</div>
+				</li>
+				<?php } ?>
+				<li class="nav-link parent"><a href="<?php echo base_url();?>">Informasi IIN</a>
+					<ul>
+						<li class="nav-link"><a href="<?php echo base_url();?>">Daftar penerima IIN</a>
+						<li class="nav-link"><a href="<?php echo base_url();?>">File ISO 7812</a>
+						<li class="nav-link"><a href="<?php echo base_url();?>">Hasil Survey</a>
+					</ul>
+				</li>
+				<li class="nav-link"><a href="<?php echo base_url();?>">Hubungi Kami</a></li>
+			</ul>
+			<ul class="nav-list float_right" style="padding-right: 50px">
+				<?php if($this->session->flashdata('validasi-login') == '') {?>
+				<li class="nav-sess"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#login_frame">Masuk</a></li>
+				<li class="nav-sess register"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#register_frame">Daftar</a></li>
+				<?php } else { ?>
+				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
+					<ul class="box_notif">
+						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
+						<li class="false"><a href="#">Ipsum vitae quos at esse cumque obcaecati ullam temporibus ex eveniet totam</a></li>
+						<li class="true"><a href="#">Similique quae nisi, quibusdam recusandae accusantium non consectetur dignissimos </a></li>
+						<li class="true"><a href="#">Eius saepe expedita, eum dolor nostrum aspernatur voluptas quo eaque aperiam error </a></li>
+						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
+					</ul>
+				</li>
+				<li class="nav-sess"><a href="<?php echo base_url();?>">Keluar</a></li>
+				<?php } ?>
+			</ul>
 		</nav>
 	</header>
 
