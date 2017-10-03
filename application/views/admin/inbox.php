@@ -13,20 +13,20 @@
           <th class="sort" data-sort="id_status"><center>Status Pengajuan</center></th>
         </tr>
         <tbody class="list">
-          <?php  foreach($applications as $data) { ?>
+          <? foreach($applications as $data) { ?>
             <tr class="<?php echo $data->owner == "ADMIN" ? "get_process" : ""?>" 
-                data-id="<?php  echo $data->id_application ?>"  
-                data-id-status="<?php  echo $data->id_application_status ?>"  
-                data-status="<?php  echo $data->display_name ?>" 
-                data-step="<?php  echo $data->application_status_name ?>">
-              <td class="id_no"><?php  echo $data->id_application ?></td>
-              <td class="id_name"><?php  echo $data->applicant ?></td>
-              <td class="id_pt"><?php  echo $data->instance_name ?></td>
-              <td class="id_type"><?php  echo $data->application_type ?></td>
-              <td class="id_date"><?php  echo $data->application_date ?></td>
-              <td class="id_status"><span class="<?php  echo $data->owner ?>"><?php  echo $data->display_name ?></span></td>
+                data-id="<? echo $data->id_application ?>"  
+                data-id-status="<? echo $data->id_application_status ?>"  
+                data-status="<? echo $data->display_name ?>" 
+                data-step="<? echo $data->application_status_name ?>">
+              <td class="id_no"><? echo $data->id_application ?></td>
+              <td class="id_name"><? echo $data->applicant ?></td>
+              <td class="id_pt"><? echo $data->instance_name ?></td>
+              <td class="id_type"><? echo $data->application_type ?></td>
+              <td class="id_date"><? echo $data->application_date ?></td>
+              <td class="id_status"><span class="<? echo $data->owner ?>"><? echo $data->display_name ?></span></td>
             </tr>
-          <?php  } ?>
+          <? } ?>
         </tbody>
       </table>
 
