@@ -55,8 +55,44 @@ a {text-decoration: none;color: #3F51B5;}
 ::placeholder {color: #ccc}
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { background: rgba(0,0,0,0) !important;-webkit-box-shadow: 0 0 0 30px rgba(0,0,0,0) inset;}
 
+#the-canvas{
+  background: #eee;
+ canvas {
+    width: 90%;
+    margin: 10px auto;
+    border: 1px solid #ddd;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    border-radius: 3px;
+    max-width: 900px;
+  }
+}
 
-
+.login-page{
+  width: 400px;
+  padding: 20px;
+  background:#fff;
+  max-width: 100%;
+  min-width: 320px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  margin: 0 auto;
+  margin-top: 20vh;
+  text-align: center;
+  label{
+    
+  }
+  .form{
+    input{
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 14px
+    }
+    button{
+      margin: 20px auto;
+    }
+  }
+}
 
 /* D E S K T O P */
 /*DEFAULT*/
