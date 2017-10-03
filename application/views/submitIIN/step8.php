@@ -1,12 +1,12 @@
-<section section-id="8" class="section_iin float_right" style="width: 70%; display:none">
+<section section-id="8" class="section_iin float_right" style="display:none">
 	<h1 class="title_iin">Proses Permohonan ke CRA</h1>
 	<p>Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan permohonan ke CRA.</p>
 	<p>
 	Silakan tunggu selama kurang lebih 3 hari untuk proses pada tahapan ini.
-	</p>
+	
 	<br>
 	Silakan klik tombol “Lanjutkan Proses Permohonan IIN Baru” untuk ke proses pembayaran penerbitan IIN baru.
-	</br>
+	</br></p>
 
 		<br/>
 		<br/>

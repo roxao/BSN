@@ -1,4 +1,4 @@
-<section section-id="0" class="section_iin float_right" style="width: 70%;">
+<section section-id="0" class="section_iin float_right" >
 	<h1 class="title_iin">Pengajuan Surat Permohonan IIN Baru</h1>
 
 
@@ -11,7 +11,7 @@
 					Lokasi Pengajuan Surat
 					<input id="app_address" name="app_address" type="text" placeholder="Lokasi Pengajuan Surat"  />
 				</label>
-				<label class="input_dashed float_right" style="width: 35%">
+				<label class="input_dashed float_right right-input" style="width: 35%">
 					Tanggal Pengajuan Surat
 					<input id="app_date" name="app_date"  type="date" placeholder="dd/MM/yyyy" />
 				</label>

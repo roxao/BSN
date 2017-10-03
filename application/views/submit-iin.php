@@ -1,23 +1,24 @@
+<div class="content-background"></div>
+
 <div class="page" style="margin-top: 150px">
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">
-			<li stepId="0" class="verifiedStep COMPLETED"><button>Pengajuan Surat Permohonan ke BSN</button></li>
-			<li stepId="1" class="verifiedStep"><button>Hasil Verifikasi Status Permohonan</button></li>
-			<li stepId="2" class="verifiedStep"><button>Submit Kelengkapan Dokumen</button></li>
-			<li stepId="3" class="processStep"><button>Proses Verifikasi dan Validasi</button></li>
-			<li stepId="4" class="verifiedStep"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
-			<li stepId="5" class="verifiedStep"><button>Submit Bukti Transfer Pembayaran</button></li>
-			<li stepId="6" class="verifiedStep"><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
-			<li stepId="7" class="verifiedStep"><button>Assessment Lapangan</button></li>
-			<li stepId="8" class="verifiedStep"><button>Proses Permohonan ke CRA</button></li>
-			<li stepId="9" class="verifiedStep"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
+			<li stepId="0" class="COMPLETED"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="1" class="COMPLETED"><button>Hasil Verifikasi Status Permohonan</button></li>
+			<li stepId="2" class="COMPLETED"><button>Submit Kelengkapan Dokumen</button></li>
+			<li stepId="3" class="PENDING"><button>Proses Verifikasi dan Validasi</button></li>
+			<li stepId="4" class=""><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
+			<li stepId="5" class=""><button>Submit Bukti Transfer Pembayaran</button></li>
+			<li stepId="6" class=""><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
+			<li stepId="7" class=""><button>Assessment Lapangan</button></li>
+			<li stepId="8" class=""><button>Proses Permohonan ke CRA</button></li>
+			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
 		</ul>
 
 
 		<?php 
 		$id_user = $this->session->userdata('id_user');
-		
-
+	
 	if ($this->user_model->getdocument_aplication($id_user) ){
 
 		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);

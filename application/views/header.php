@@ -13,11 +13,14 @@
 
 </head>
 <body>
-	<div class="content-background"></div>
+	
 	<header>
 		<nav class="clearfix">
+			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
-			<ul class="nav-list float_left">
+			
+			<ul class="nav-list float_left nav-list-menu">
+
 				<li class="nav-link"><a href="<?php echo base_url();?>">Halaman Depan</a></li>
 				<?php if($this->session->flashdata('validasi-login') != '') {?>
 				<li class="nav-link parent"><a href="<?php echo base_url();?>">Layanan IIN</a>
@@ -33,13 +36,13 @@
 				<li class="nav-link parent"><a href="<?php echo base_url();?>">Informasi IIN</a>
 					<ul>
 						<li class="nav-link"><a href="<?php echo base_url();?>">Daftar penerima IIN</a>
-						<li class="nav-link"><a href="<?php echo base_url();?>">File ISO 7812</a>
+						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/file_iso_7812">File ISO 7812</a>
 						<li class="nav-link"><a href="<?php echo base_url();?>">Hasil Survey</a>
 					</ul>
 				</li>
 				<li class="nav-link"><a href="<?php echo base_url();?>">Hubungi Kami</a></li>
 			</ul>
-			<ul class="nav-list float_right" style="padding-right: 50px">
+			<ul class="nav-list float_right" style="padding-right: 20px">
 				<?php if($this->session->flashdata('validasi-login') == '') {?>
 				<li class="nav-sess"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#login_frame">Masuk</a></li>
 				<li class="nav-sess register"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#register_frame">Daftar</a></li>

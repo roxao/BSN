@@ -1,10 +1,10 @@
-	<div style="margin-top: 85px">
+	<div style="margin-top: 54px">
 		<!-- SLIDESHOW -->
 		<script>
 		$(function() {
 		      $('#slideshow').slidesjs({
 		      	width: 1920,
-		      	height: 650,
+		      	height: 850,
 		      	navigation: {active: false},
 		        play: {
 		          active: true,

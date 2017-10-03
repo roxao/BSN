@@ -19,6 +19,26 @@ class SipinHome extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function file_iso_7812(){		
+		$this->load->view('header');
+		$this->load->view('iso7812');
+		$this->load->view('footer');
+	}
+
+	function generate_pdf(){
+	    $doc = new Docx_reader();
+	    $doc->setFile('http://localhost/BSN/assets/sample.pdf');
+
+	    $plain_text = $doc->to_plain_text();
+	    $html = $doc->to_html();
+
+	    $pdf = pdf_create($html, 'iso7812', false);
+	    $len = strlen($pdf);
+	    header("Content-type: application/pdf");
+	    header("Content-Length:" . $len);
+	    header("Content-Disposition: inline; filename=Resume.pdf");
+	    print $pdf;
+	} 
 
 	/* User login function. */
 	 public function login() {

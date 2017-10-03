@@ -26,8 +26,7 @@ $(document).ready(function() {
 	   	 })
     }
 
-    getStep('42','252', 'verif_new_req','Verifikasi Pembayaran');
-
+    getStep('9','45', 'verif_new_req','Verifikasi Pembayaran');
 
     // Modal Customize
 	function setModal(){

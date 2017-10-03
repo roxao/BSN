@@ -1,4 +1,4 @@
-<section section-id="3" class="section_iin float_right" style="width: 70%; display:none">
+<section section-id="3" class="section_iin float_right" style="display:none">
 	<h1 class="title_iin">Proses Verifikasi dan Validasi</h1>
 	<p>Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari..</p>
 
