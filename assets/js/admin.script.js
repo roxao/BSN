@@ -11,7 +11,7 @@ $(document).ready(function() {
 	function getStep(id, id_status, step, status) {
     	$("#popup_box").load(base_url + "/set_view/component/modal", function () {
     		setModal();
-	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id': id, 'id_status': id_status, 'step': step}, dataType: 'json',
+	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 		        success: function (data) {
 	        		respon=data;
 					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
@@ -26,7 +26,7 @@ $(document).ready(function() {
 	   	 })
     }
 
-    getStep('9','45', 'verif_new_req','Verifikasi Pembayaran');
+    // getStep('9','45', 'verif_new_req','Verifikasi Pembayaran');
 
     // Modal Customize
 	function setModal(){

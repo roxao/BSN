@@ -181,9 +181,9 @@ class Admin_model extends CI_Model {
             return $this->db->get();
     }    
 
-    public function insert_assesment_application($data){
-         $this->db->insert('assesment_application', $data);
-    }
+    // public function insert_assesment_application($data){
+    //      $this->db->insert('assesment_application', $data);
+    // }
 
     public function get_assesment_application($id){
         $this->db->select('*');
@@ -334,7 +334,7 @@ class Admin_model extends CI_Model {
 
     public function get_doc_bill_res()
     {
-         $this->db->select('*');
+        $this->db->select('*');
         $this->db->from('document_config dc');
             $con = 'dc.key = "KBS" 
             or dc.key="SPNP" or dc.key="SPPNBP"';
@@ -342,6 +342,17 @@ class Admin_model extends CI_Model {
 
         return $this->db->get();
     }
+
+    public function get_assesment_application_byprm($prm)
+    {
+        $this->db->select('*');
+        $this->db->from('assessment_application');
+        $this->db->where('id_application',$prm);
+        $this->db->where('assessment_status','OPEN');
+        return $this->db->get();
+    }
+
+
 
 }
 ?>

@@ -24,15 +24,15 @@
       <table class="table_def table_assessment" style="width: 100%;">
         <tr>
           <th class="sort" data-sort="id_no"><center>#</center></th>
-          <th class="sort" data-sort="id_name">Nama Anggota</th>
-          <th class="sort" data-sort="id_roles">Jabatan</th>
+          <th class="sort" name="id_name[]" data-sort="id_name">Nama Anggota</th>
+          <th class="sort" name="id_roles[]" data-sort="id_roles">Jabatan</th>
           <th></th>
         </tr>
         <tbody class="list">
             <tr>
               <td class="id_no">ab</td>
-              <td class="id_name">a</td>
-              <td class="id_roles">a</td>
+              <td name="id_name[]" class="id_name">a</td>
+              <td name="id_roles[]" class="id_roles">a</td>
               <td></td>
             </tr>
         </tbody>
@@ -59,7 +59,14 @@
 <div class="verify_section">
 	<div class="clearfix">
 		<button class="btn_reject float_left" style="background: red">REVISI</button>
+		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
+
+		<input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value="">
+
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
+
+	</form>
 	</div>
 </div>
 
