@@ -98,7 +98,6 @@ class submit_iin extends CI_Controller {
                 'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '5',
                 'process_status' => 'PENDING',
-                'approval_date' => 'null',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $username,
                 'modified_by' => $username,
@@ -142,7 +141,6 @@ class submit_iin extends CI_Controller {
                 'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '9',
                 'process_status' => 'PENDING',
-                'approval_date' => 'null',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $username,
                 'modified_by' => $username,
@@ -166,7 +164,6 @@ function  step_tujuh_team (){
                 'id_application '=> $get_status->row()->id_application,
                 'id_application_status_name' => '14',
                 'process_status' => 'PENDING',
-                'approval_date' => 'null',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $username,
                 'modified_by' => $username,
@@ -211,9 +208,9 @@ function  step_tujuh_team (){
 				 		/*Qwery Insert FilePathnya ke DB*/
 				 		
 				 		
-				if (count($uploaded) == 2){
+				if ($this->input->post('upload') == "uploadstep6"){
 					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
-				} else {
+				} else if ($this->input->post('upload') == "uploadstep3"){
 					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
 				}
 
