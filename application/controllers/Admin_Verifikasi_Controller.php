@@ -668,8 +668,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function VERIF_PAY_REQ_SUCCEST()
     {
 
-       if($this->input->post('setujui') == "setujui")
-        {   
+         
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -684,9 +683,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-            $this->admin_model->insert_log($dataL);
+            // $this->admin_model->insert_log($dataL);
 
-            $this->admin_model->next_step($data,$condition);
+            // $this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -698,7 +697,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            $this->admin_model->insert_app_status($data2,$condition);
+            // $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -710,7 +709,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            $this->admin_model->insert_app_status($data3,$condition);
+            // $this->admin_model->insert_app_status($data3,$condition);
 
              $data4 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -722,21 +721,55 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            $this->admin_model->insert_app_status($data4,$condition);
+            // $this->admin_model->insert_app_status($data4,$condition);
 
             $data5 = array(
                     'type' => 'APPROVED',
                     'value' => 'APPROVED',
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           $this->admin_model->insert_app_sts_for_map($data5);
+           // $this->admin_model->insert_app_sts_for_map($data5);
 
+            $dataL2 = array(
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'log_type' => 'added new team_assessment '.$this->input->post('username'), 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+            // $this->admin_model->insert_log($dataL2);
+
+            $this->assesment_application();
+
+            $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+
+            $team = $this->input->post('id_assessment_team');
+            $title = $this->input->post('id_assessment_team_title');
             
             
-        }else
-        {
-            echo "bukan tombol setujui";
-        }
+            print_r($id_ass_app->row()->id_assessment_application);
+
+              for($x=0;$x < count($team);$x++)
+                {
+                    $dat = array(
+                    'id_assessment_application' => $id_ass_app.row()->id_assessment_application,
+                    'id_assessment_team' => $team[$x],
+                    'id_assessment_team_title' => $title[$x]
+                                );
+
+                    if($this->admin_model->insert_assessment_registered($dat))
+                    {
+                        echo "save  Sucses";
+                    }
+                }
+
+            $data6 = array(
+                'id_document_config' => '26',
+                'id_application' => $this->input->post('id_application'),
+                'path_id' =>  $this->input->post(),
+                'status' => 'ACTIVE',
+                'created_date' => date(y-m-d)
+                // 'created_by' => ''
+                );
     }
 
 
@@ -848,8 +881,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     }
 //bukti revisi pembayaran di terima
     public function VERIF_REV_PAY_REQ_SUCCEST()
-    {   if($this->input->post('setujui') == "setujui")
-        {
+    {   
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -884,16 +916,45 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'value' => 'SUCCEST',
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           $this->admin_model->insert_app_sts_for_map($data6);
-        }
-         
+            $this->admin_model->insert_app_sts_for_map($data6);
+
+            $dataL2 = array(
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'log_type' => 'added new team_assessment '.$this->input->post('username'), 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+            // $this->admin_model->insert_log($dataL2);
+
+            $this->assesment_application();
+
+           $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+
+            $team = $this->input->post('id_assessment_team');
+            $title = $this->input->post('id_assessment_team_title');
+            
+            
+            print_r($id_ass_app->row()->id_assessment_application);
+
+              for($x=0;$x < count($team);$x++)
+                {
+                    $dat = array(
+                    'id_assessment_application' => $id_ass_app.row()->id_assessment_application,
+                    'id_assessment_team' => $team[$x],
+                    'id_assessment_team_title' => $title[$x]
+                                );
+
+                    if($this->admin_model->insert_assessment_registered($dat))
+                    {
+                        echo "save  Sucses";
+                    }
+                }
     }
 
     //revisi bukti revisi pembayaran yg direvisi
     public function VERIF_REV_PAY_REQ_REVISI()
     {
-        if($this->input->post('revisi') == "revisi")
-        {
+        
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -932,7 +993,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
            echo "sukses revisi";
 
-        }
+        
     }
 
 
@@ -1005,9 +1066,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $data = array(
             'id_application' => $this->input->post('id_application'),
             'assessment_date' => $this->input->post('assessment_date'),
-            'assessment_status' => $this->input->post('assessment_status'),
-            'created_date' => $this->input->post('created_date'),
-            'created_by' => $this->input->post('created_by')
+            'assessment_status' => 'OPEN',
+            'created_date' => date('y-m-d')
+            // 'created_by' => $this->input->post('created_by')
             );
 
             $dataL = array(
@@ -1016,8 +1077,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-            $this->admin_model->insert_log($dataL);
-            $this->admin_model->insert_assesment_application($data);     
+            // $this->admin_model->insert_log($dataL);
+            $this->admin_model->insert_assessment_application($data);     
 
     }
 
@@ -1096,24 +1157,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-
-    // public function assesment_application()
-    // {
-    //         $data = array(
-    //         'id_assessment_application' => $this->input->post('id_assessment_application'),
-    //         'id_assessment_team' => $this->input->post('id_assessment_team'),
-    //         'id_assessment_team_title' => $this->input->post('id_assessment_team_title')
-    //         );
-
-    //         $dataL = array(
-    //             'detail_log' => $this->session->userdata('admin_role').' adding new assessment_registered',
-    //             'log_type' => 'added '.$this->input->post('username'), 
-    //             'created_date' => date('Y-m-j H:i:s')
-    //             // 'created_by' => $this->session->userdata('username')
-    //             );
-    //         $this->admin_model->insert_log($dataL);
-    //         $this->admin_model->insert_assessment_registered($data);     
-    // }
 
 
 
@@ -1240,8 +1283,7 @@ public function REV_ASSESS_REQ($id_application_status)
 //input revisi tim asesmen
 public function REV_ASSESS_REQ_PROSESS()
     {
-         if($this->input->post('setujui') == "setujui")
-        {   
+           
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -1278,13 +1320,35 @@ public function REV_ASSESS_REQ_PROSESS()
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
 
+           $dataL2 = array(
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'log_type' => 'added new team_assessment '.$this->input->post('username'), 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+            // $this->admin_model->insert_log($dataL2);
 
-          
+           $this->assesment_application();
+
+            $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+
+            $team = $this->input->post('id_assessment_team');
+            $title = $this->input->post('id_assessment_team_title');
             
-        }else
-        {
-            echo "bukan tombol setujui";
-        }
+              for($x=0;$x < count($team);$x++)
+                {
+                    $dat = array(
+                    'id_assessment_application' => $this->input->post('id_application'),
+                    'id_assessment_team' => $team[$x],
+                    'id_assessment_team_title' => $title[$x]
+                                );
+
+                    if($this->admin_model->insert_assessment_registered($dat))
+                    {
+                        echo "save  Sucses";
+                    }
+                }   
+      
     }
 
 
@@ -1745,26 +1809,28 @@ public function REV_ASSESS_REQ_PROSESS()
         
         echo "prm".$prm;
         $cek = $this->admin_model->get_data_for_mail($prm);
-        if ($cek) {
-            echo "jumlah ".$cek->num_rows();
+        
+            // echo "jumlah ".$cek->num_rows();
             echo "email user = ".$cek->row()->email;
             echo "email kantor = ".$cek->row()->instance_email;
+            echo "user name = ".$cek->row()->username;
+        
+
+
+       
+        if($this->usr_model->sendMail($cek->row()->email,$cek->row()->username))
+        {
+             $this->usr_model->sendMail($cek->row()->instance_email,$cek->row()->username);
+            echo "terkirim";
+        }else
+        {
+            echo "tidak terkirim";
         }
-
-
-        // $this->usr_model->sendMail($data1,$data2);
-        // if($this->usr_model->sendMail($data1,$data2))
-        // {
-        //     echo "terkirim";
-        // }else
-        // {
-        //     echo "tidak terkirim";
-        // }
     }
 
     public function get_report_excel()
     {
-        $data['report']=$this->admin_model->get_application_data()->result();
+        $data['report']=$this->admin_model->get_admin()->result();
         $this->load->view('excel_import',$data);
         // echo json_encode($data);
     }
