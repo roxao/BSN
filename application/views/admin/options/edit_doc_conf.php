@@ -4,7 +4,7 @@
 	<title>supper admin asesment title< EDIT</title>
 </head>
 <body>
-<form action="<?php echo base_url('dashboard/document_config_edit_proses') ?>" method="post">
+
   <?php echo form_open_multipart('dashboard/document_config_edit_proses') ?>
   <?php
       foreach($document as $data)
@@ -47,7 +47,7 @@
           <td width="250" height="32">[ file_url ]</td>
           <td width="304">
           <label>:
-          <input name="file_url[]" type="file" id="file_url[]" value="<?php echo $data->file_url ?>"/>
+          <input name="file_url[]" type="file" id="file_url[]" />
           </label>
           </td>
       </tr>

@@ -412,10 +412,12 @@ class Dashboard extends CI_Controller {
         $data = array(
         'type' => $this->input->post('type'),
         'key' => $this->input->post('key'),
+        /*==Tinggal ini yg gk masuk ki====*/
         'display_name' => $this->input->post('display_name'),
-        'file_url' => $this->input->post('file_url'),
+        /*==================================================*/
+        'file_url' => $uploaded['full_path'],
         'mandatory' => $this->input->post('mandatory'),
-        'modified_date' => date('Y-m-j H:i:s'),
+        // 'modified_date' => date('Y-m-j H:i:s'),
         // 'modified_by' => $this->session->userdata('username')                
         );
         $dataL = array(
@@ -425,8 +427,8 @@ class Dashboard extends CI_Controller {
         // 'created_by' => $this->session->userdata('username')
         );
 
-        // $this->admin_model->insert_log($dataL);
-        // $this->admin_model->update_documenet_config($condition,$data);
+        $this->admin_model->insert_log($dataL);
+        $this->admin_model->update_documenet_config($condition,$data);
         
         
 
