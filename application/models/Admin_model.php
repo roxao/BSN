@@ -181,9 +181,9 @@ class Admin_model extends CI_Model {
             return $this->db->get();
     }    
 
-    public function insert_assesment_application($data){
-         $this->db->insert('assesment_application', $data);
-    }
+    // public function insert_assesment_application($data){
+    //      $this->db->insert('assesment_application', $data);
+    // }
 
     public function get_assesment_application($id){
         $this->db->select('*');
@@ -211,6 +211,11 @@ class Admin_model extends CI_Model {
 
     public function get_assessment_team_title(){
         return $this->db->get('assessment_team_title');
+    }
+
+    public function update_assessment_team_title($condition,$data){
+        $this->db->where($condition);
+        $this->db->update('assessment_team_title',$data);
     }
 
     public function get_document(){
@@ -334,13 +339,72 @@ class Admin_model extends CI_Model {
 
     public function get_doc_bill_res()
     {
-         $this->db->select('*');
+        $this->db->select('*');
         $this->db->from('document_config dc');
             $con = 'dc.key = "KBS" 
             or dc.key="SPNP" or dc.key="SPPNBP"';
         $this->db->where($con);
 
         return $this->db->get();
+    }
+
+    public function get_assesment_application_byprm($prm)
+    {
+        $this->db->select('*');
+        $this->db->from('assessment_application');
+        $this->db->where('id_application',$prm);
+        $this->db->where('assessment_status','OPEN');
+        return $this->db->get();
+    }
+
+    public function get_data_for_mail($prm)
+    {
+        $this->db->select('*');
+        $this->db->from('applications');
+        $this->db->join('user', 'applications.id_user=user.id_user');
+        $this->db->where('applications.id_application',$prm);
+        return $this->db->get(); 
+    }
+
+    public function all_dat()
+    {
+        $this->db->select('*');
+        $this->db->from('complaint');
+
+        
+        $this->db->from('document_config');
+
+        
+        $this->db->from('applications');
+
+        
+        $this->db->from('user');
+
+        
+        $this->db->from('admin');
+
+        
+        $this->db->from('survey_question');
+
+        
+        $this->db->from('cms');
+
+        
+        $this->db->from('assessment_team_title');
+
+        
+        $this->db->from('assessment_team');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        // return $this->db->get('');
+        return $this->db->get(); 
+
     }
 
 }
