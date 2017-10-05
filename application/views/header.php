@@ -44,8 +44,8 @@
 			</ul>
 			<ul class="nav-list float_right" style="padding-right: 20px">
 				<?php if($this->session->flashdata('validasi-login') == '') {?>
-				<li class="nav-sess"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#login_frame">Masuk</a></li>
-				<li class="nav-sess register"><a href="<?php echo base_url();?>" action="modal_pupop" data-id="#register_frame">Daftar</a></li>
+				<li class="nav-sess"><a href="<?php echo base_url();?>" class="open_modal" action="login">Masuk</a></li>
+				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
 				<?php } else { ?>
 				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
 					<ul class="box_notif">
@@ -62,6 +62,16 @@
 		</nav>
 	</header>
 
-
-
-	<?php $this->load->view('component/modal') ?>
+<script>
+$('.open_modal').on('click', function(event) {
+	event.preventDefault();
+	action = $(this).attr('action');
+	$('#show_popup').remove();
+	$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
+	$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
+});
+</script>
+<style type="text/css" media="screen">
+	
+</style>
+	<?php //$this->load->view('component/modal') ?>

@@ -54,6 +54,7 @@ $route['submit-iin'] = 'submit_iin';
 // $route['dashboard'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['user/(:any)'] = 'SipinHome/user/$1';
 
 $route['index_admin'] = 'SipinAdmin/index';
 $route['login_admin'] = 'SipinAdmin/login_admin';

@@ -29,10 +29,19 @@ class SipinHome extends CI_Controller {
 	}
 
 	// ALDY: LOGIN USER
-	public function view_login(){		
-		$this->load->view('header');
-		$this->load->view('login');
-		// $this->load->view('footer');
+	public function user($param){
+		// ISI $param, UNTUK LAYOUT YANG INGIN DI BUKA, CONTOH: login, register, forgot 
+		// contoh url: localhost/BSN/user/login
+		// * lowercase
+		$data['type']=$param;
+		// ISI MESSAGE JIKA BALIKAN ADA ERROR
+		// CONTOH 
+		// - USER LOGIN DENGAN PASSWORD YANG SALAH, 
+		// - USER DAFTAR DENGAN USERNAME YANG SUDAH TERDAFTAR
+		// - FORGOT PASSWORD: E-MAIL TIDAK TERDAFTAR
+		// JIKA TIDAK ADA ERROR ISI DENGAN ''
+		$data['message']='';
+		$this->load->view('login', $data);
 	}
 	/* User login function. */
 	 public function login() {
@@ -46,17 +55,16 @@ class SipinHome extends CI_Controller {
       $id_user = $this->session->userdata('id_user');
 
       $cek_menu= $this->user_model->get_aplication($id_user);
-      $this->session->set_flashdata('validasi-menu', $cek_menu->row()->application_type);
+      // $this->session->set_flashdata('validasi-menu', $cek_menu->row()->application_type);
      $this->index();
 
       $this->session->set_userdata(array(
-    'id_user'  => $cek->row()->id_user,
-    'username' => $cek->row()->username,
-    'email'  => $cek->row()->email,
-    'status_user'     => $cek->row()->status_user,
-    
-	));
-	  
+	    'id_user'  => $cek->row()->id_user,
+	    'username' => $cek->row()->username,
+	    'email'  => $cek->row()->email,
+	    'status_user'     => $cek->row()->status_user,
+		));
+		  
 	 
 
 	}
@@ -64,10 +72,10 @@ class SipinHome extends CI_Controller {
       }
 
       public function logout() {	
-	$this->session->sess_destroy();
-	$data['logout'] = 'You have been logged out.';		
-	$this->index();
-	}
+		$this->session->sess_destroy();
+		$data['logout'] = 'You have been logged out.';		
+		$this->index();
+		}
 
 	/* register function. */
 	public function register() {

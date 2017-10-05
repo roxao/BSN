@@ -1,32 +1,147 @@
-<div class="">
-    <div class="box_title">
-      <!-- ||||  TITLE DINAMIS TERGANTUNG CONTENT YANG DITAMPILKAN |||| -->
-      <h1> $$DINAMIS TITLE$$ </h1>
-      <!-- ||||  END |||| -->
-      <div class="box_btn_close"><img src="assets/cancel.svg" /></div>
 
-    </div>
-    <div class="box_content">
-        <form id="login_frame" class="content_frame" action="<?php base_url()?>SipinHome/login" method="post" style="padding: 0 30px; width: 300px">
-          <label class="input_class">
-            <input type="text" id="username" name="username" autocomplete="off" placeholder="Username/Email/No. IIN:" required>
-          </label>
-          <label class="input_class">
-            <input type="password" id="password" name="password" autocomplete="off" placeholder="Password:" required>
-          </label>  
-          <button type="submit" class="login btn_modal_flat" style="width: 100%; margin: 10px 0">Masuk</button>
-          <div class="clearfix" style="padding: 10px 0; border-top: 1px solid #ddd">
-            <div class="float_left" action="modal_pupop" data-id="forgot_frame" style="line-height: 32px"><small><i>Lupa Password?</i></small></div>
-            <div class="float_right btn_modal_flat_line"><a href="#" action="modal_pupop" data-id="#register_frame">DAFTAR</a></div>
-          </div>
+
+
+<div class="o-layout">
+  <!-- LOGIN FORM -->
+  <div id="box-login" class="box-layout">
+      <div class="o-title">
+        <div class="o-text-title">MASUK</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Silakan masuk ke dalam akun</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="">
+            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+            <div class="o-error" data-msg="login">Tampilkan error message disini</div>
+            <input required type="username" name="username" placeholder="Username">
+            <input required type="password" name="password" placeholder="Password">
+            <div class="o-url float_right" o-data="box-forgot">Lupa Kata Sandi?</div>
+            <button type="submit">Masuk</button>
         </form>
-
+      </div>
+      <div class="o-footer">
+        <div class="o-separator">
+          <span>ATAU</span>
+        </div>
+        <div class="o-link-footer">
+          Belum Punya Akun?
+          <div class="o-url" o-data="box-register">Daftar Sekarang</div>
+        </div>
+    </div>
   </div>
+
+  <!-- REGISTER FORM -->
+  <div id="box-register" class="box-layout" style="display:none">
+    <div class="o-title">
+        <div class="o-text-title">DAFTAR</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Daftar akun baru sekarang</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="">
+            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+            <div class="o-error" data-msg="register">Tampilkan error message disini</div>
+            <input required required type="text" name="fullname" placeholder="Nama Lengkap">
+            <input required type="username" name="username" placeholder="Username">
+            <input required type="number" name="iin-number" placeholder="Nomor IIN">
+            <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
+            <input required type="email" name="E-mail" placeholder="E-mail">
+            <input required type="password" name="password" placeholder="Kata Sandi">
+            <input required type="password" name="retype-password" placeholder="Ulang Kata Sandi"> 
+            <button type="submit">Daftar</button>
+        </form>
+      </div>
+      <div class="o-footer">
+        <div class="o-separator">
+          <span>ATAU</span>
+        </div>
+        <div class="o-link-footer">
+          Sudah Punya Akun?
+          <div class="o-url" o-data="box-login">Masuk</div>
+        </div>
+    </div>
+  </div>
+
+    <!-- FORGOT FORM -->
+  <div id="box-forgot" class="box-layout" style="display:none">
+    <div class="o-title">
+        <div class="o-text-title">LUPA KATA SANDI</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Kirim ulang email aktivasi</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="">
+            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+            <div class="o-error" data-msg="forgot">Tampilkan error message disini</div>
+            <input required type="email" name="E-mail" placeholder="E-mail">
+            <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
+            <button type="submit">Kirim Kata Sandi</button>
+        </form>
+      </div>
+      <div class="o-footer">
+        <div class="o-separator">
+          <span>ATAU</span>
+        </div>
+        <div class="o-link-footer">
+          Kembali ke halaman 
+          <div class="o-url" o-data="box-login">Login</div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="<?php base_url() ?>/BSN/assets/style.css">
+<script type="text/javascript" src="<?php base_url() ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
 
 
 <script>
-  $('.message a').click(function(){
-   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});
-</script>
+  $('.o-url').on('click', function(event) {
+    event.preventDefault();
+    show_box($(this).attr('o-data'));
+  });
+  // show_box("box-login");
+  function show_box(x){  
+    $('.box-layout').hide();
+    $('#'+x).fadeIn('slow');
+    }
 
+  show_action("<?php echo $type ?>", "<?php echo $message ?>");
+  $('.o-close').on('click', function(event) {
+    event.preventDefault();
+    $('#show_popup').remove();
+  });
+  function show_action(a,b){
+    if(a!=""){
+      show_box("box-"+a+"");
+    }
+    else {
+      show_box("box-login");
+    }
+    if(b!=""){
+      show_box("box-"+a+"");
+      $('div[data-msg="'+a+'"').slideDown();
+      $('div[data-msg="'+a+'"').html(b);
+    }
+  }
+</script>
+<style>
+  .popup_box{position:fixed;margin:10vh auto;left:0;right:0;top:0;max-width:400px;min-width:300px;z-index:20000;background:#fff;max-height:80vh;overflow:auto;border-radius:2px}
+  .popup_box .o-header{ display: none  }
+  .popup_box .o-title{ display: block  }
+  .popup_box .o-content{ padding: 20px 25px 0 25px  }
+  .frame_popup{background: rgba(0,0,0,0.5); position: fixed; top:0;left:0;right:0;bottom: 0;z-index: 19999}
+</style>

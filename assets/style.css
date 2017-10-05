@@ -1388,6 +1388,103 @@ footer {
     width: 100%;
     font-size: 13px; }
 
+.o-layout {
+  background: #fff;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 20px auto; }
+  .o-layout .o-title {
+    background: #eee;
+    position: relative;
+    height: 50px;
+    display: none; }
+    .o-layout .o-title .o-text-title {
+      line-height: 50px;
+      padding-left: 25px;
+      color: #009240;
+      letter-spacing: 3px;
+      text-align: center; }
+    .o-layout .o-title .o-close {
+      background: url(cancel.svg) center no-repeat;
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 50px;
+      width: 50px;
+      background-size: 12px;
+      font-size: 0; }
+  .o-layout .o-header {
+    margin-top: 60px; }
+  .o-layout .o-error {
+    display: none;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 3px;
+    color: rgba(225, 0, 0, 0.6);
+    margin: 1px; }
+  .o-layout .o-logo {
+    text-align: center; }
+    .o-layout .o-logo img {
+      max-height: 50px;
+      margin: 0 auto; }
+    .o-layout .o-logo .o-sub-logo {
+      padding: 20px 0 10px 0;
+      color: #555;
+      font-size: 16px; }
+  .o-layout .o-form input {
+    width: 100%;
+    display: block;
+    border: 0;
+    background: #f2f4f7;
+    box-shadow: inset 100px 100px 100px #f2f4f7;
+    font-size: 13px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    margin: 10px 0; }
+  .o-layout .o-form button {
+    background: #01923f;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 20px 0;
+    box-shadow: none !important;
+    font-size: 12.5px;
+    padding: 10px; }
+  .o-layout .o-form span {
+    background: #f2f4f7;
+    display: block;
+    padding: 7px 10px;
+    border-radius: 0 0 2px 2px;
+    border-top: 1px dashed #e1e1e1;
+    margin-top: -11px;
+    color: #999; }
+  .o-layout .o-url {
+    display: block;
+    color: #507299; }
+    .o-layout .o-url:hover {
+      cursor: pointer; }
+    .o-layout .o-url.url-register {
+      padding: 5px;
+      font-size: 15px; }
+  .o-layout .o-footer {
+    text-align: center;
+    color: #999; }
+    .o-layout .o-footer .o-url {
+      margin-top: 10px; }
+    .o-layout .o-footer .o-separator {
+      margin: 20px;
+      background: #fff; }
+      .o-layout .o-footer .o-separator:before {
+        content: '';
+        display: block;
+        margin-bottom: -8px;
+        height: 1px;
+        background: #ddd; }
+      .o-layout .o-footer .o-separator span {
+        color: #999;
+        background: #fff;
+        padding: 10px; }
+
 @media screen and (max-width: 800px) {
   .input_dashed.right-input {
     float: left !important; }
