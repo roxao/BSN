@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/login" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="login">Tampilkan error message disini</div>
             <input required type="username" name="username" placeholder="Username">
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/register" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="register">Tampilkan error message disini</div>
             <input required required type="text" name="fullname" placeholder="Nama Lengkap">
@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/forgot_password" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="forgot">Tampilkan error message disini</div>
             <input required type="email" name="E-mail" placeholder="E-mail">
