@@ -30,20 +30,27 @@ class SipinHome extends CI_Controller {
 
 	// ALDY: LOGIN USER
 	public function user($param){
-		// ISI $param, UNTUK LAYOUT YANG INGIN DI BUKA, CONTOH: login, register, forgot 
-		// contoh url: localhost/BSN/user/login
-		// * lowercase
+		
 		$data['type']=$param;
-		// ISI MESSAGE JIKA BALIKAN ADA ERROR
-		// CONTOH 
-		// - USER LOGIN DENGAN PASSWORD YANG SALAH, 
-		// - USER DAFTAR DENGAN USERNAME YANG SUDAH TERDAFTAR
-		// - FORGOT PASSWORD: E-MAIL TIDAK TERDAFTAR
-		// JIKA TIDAK ADA ERROR ISI DENGAN ''
+	
 		$message = $this->session->flashdata('validasi-login');
 		$data['message']=$message;
 		$this->load->view('login', $data);
 	}
+
+public function log($Type, $detil, $username){
+		/*Insert Log*/
+		$dataLog = array(
+                'detail_log' => $username. $detil,
+                'log_type' => $Type .$username, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $username,
+                'last_update_date' => date('Y-m-j H:i:s'),
+                'modified_by' => date('Y-m-j H:i:s'),
+                );
+        $this->user_model->insert_log($dataLog);
+	}
+
 	/* User login function. */
 	 public function login() {
      $username = $this->input->post('username');
@@ -55,6 +62,7 @@ class SipinHome extends CI_Controller {
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
   $this->user('login');}
       else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
+      $this->log("login","Login", $username);
       $id_user = $this->session->userdata('id_user');
 
       $cek_menu= $this->user_model->get_aplication($id_user);
@@ -74,6 +82,8 @@ class SipinHome extends CI_Controller {
       }
 
       public function logout() {	
+      	$username = $this->session->userdata('username');
+      	$this->log("login","Login", $username);
 		$this->session->sess_destroy();
 		$data['logout'] = 'You have been logged out.';		
 		$this->index();
@@ -98,9 +108,10 @@ class SipinHome extends CI_Controller {
       $this->user('register');
 	    	}else {
 	    		if ($this->user_model->register_user($email ,$username, $password, $name)){
-						if ($this->user_model->sendMail($email,$username)) {
+						if ($this->user_model->sendMail($email,$username, "Please click on the below activation link to verify your email address.")) {
 				     
 				       $this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat');
+				       $this->log("login","Login", $username);
 				         $this->user('register');
 				      }else {echo  "Gagal";
 				       $this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
@@ -120,8 +131,9 @@ class SipinHome extends CI_Controller {
 	$username_forgot = $this->input->post('E-mail');
 	$cek = $this->user_model->forgot_password($username_forgot);
 	if ($cek->num_rows() > 0){
-	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name)) {
-  	$this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan reset password');
+	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,"Please click on the below activation link to verify your email address.")) {
+		$this->log("login","Login", $username_forgot );
+		$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
 	$this->user('forgot');
 }else {
 	$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
@@ -139,8 +151,6 @@ class SipinHome extends CI_Controller {
       echo  "Email gagal diverifikasi!"; // redirect('/url/register');
   		}
   	}
-
-
   	/*Regex falidasi karakter password*/
 	public function regex($password){
 	$uppercase = preg_match('@[A-Z]@', $password);

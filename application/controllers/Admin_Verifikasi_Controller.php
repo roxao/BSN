@@ -1816,9 +1816,8 @@ public function REV_ASSESS_REQ_PROSESS()
             echo "user name = ".$cek->row()->username;
         
 
-
        
-        if($this->usr_model->sendMail($cek->row()->email,$cek->row()->username))
+        if($this->usr_model->sendMail($cek->row()->email,$cek->row()->username, "Please click on the below activation link to verify your email address."))
         {
              $this->usr_model->sendMail($cek->row()->instance_email,$cek->row()->username);
             echo "terkirim";

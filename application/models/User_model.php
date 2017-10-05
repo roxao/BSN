@@ -29,10 +29,24 @@ class User_model extends CI_Model {
         return $this->db->insert('user', $data);        
     }
 
+
+
+
     public function cek_login($username,$password){  
     $this->db->where("email = '$username' or username = '$username'");  
     $this->db->where('password', $password); 
         return  $this->db->get('user');   
+    }
+
+      public function get_all_notifikasi($id_user){  
+    $this->db->where('notification_owner ','$id_user');  
+        return  $this->db->get('notification');   
+    }
+
+    public function get_count_notifikasi($id_user){  
+    $this->db->where('notification_owner ','$id_user');
+     $this->db->where('Status ','FALSE');   
+        return  $this->db->get('notification');   
     }
 
     /*Forgot Password*/
@@ -144,11 +158,10 @@ class User_model extends CI_Model {
     }
 
     /*Proses send email*/
-    public function sendMail($email,$username) {
+    public function sendMail($email,$username, $Desc) {
     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
     $subject = 'Verify Your Email Address';
-    $message = 'Dear '. $username .',<br /><br />
-                Please click on the below activation link to verify your email address.<br /><br />
+    $message = 'Dear '. $username .',<br /><br />'.$Desc .'<br /><br />
                 http://localhost/BSN/SipinHome/verify/' . md5($email) . '<br /><br /><br />
                 Thanks<br />
                 BSN';
@@ -182,7 +195,6 @@ class User_model extends CI_Model {
                 'last_updated_date' => date('Y-m-j H:i:s'));
         $this->db->where('id_application', $id_application);
         $this->db->where('id_application_status_name', $id_application_status_name);
-
         return $this->db->update('application_status', $data);
     }
 
