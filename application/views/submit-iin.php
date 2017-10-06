@@ -1,5 +1,10 @@
 <div class="content-background"></div>
 
+<div>
+	<button class="show_popup">TAMPILKAN POPUP BOX</button>
+</div>
+
+
 <div class="page" style="margin-top: 150px">
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">

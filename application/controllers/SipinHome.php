@@ -163,4 +163,9 @@ public function log($Type, $detil, $username){
 		return true;
 	}
 	}
+
+
+	public function modal_popup(){
+		$this->load->view('component/modal_popup');
+	}
  }
