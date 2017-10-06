@@ -148,17 +148,17 @@ class Dashboard extends CI_Controller {
             $doc_step       = 'verif_upldoc_req';
             $doc_step_name  = 'Verifikasi Kelengkapan Dokumen';
             /*Insert Log document Revisi*/
-            write_log($admin_name, $doc_step, 'do upload documents');
-            $upload_data = array(
-                'id_application '=> $get_documen->row->id_application,
-                'id_application_status_name' => $doc_step,
-                'process_status' => 'PENDING',
-                'approval_date' => 'null',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $username,
-                'modified_by' => $username,
-                'last_updated_date' => date('Y-m-j'));
-            $this->admin_model->insert_app_status($upload_data);
+            // write_log($admin_name, $doc_step, 'do upload documents');
+            // $upload_data = array(
+            //     'id_application '=> $get_documen->row->id_application,
+            //     'id_application_status_name' => $doc_step,
+            //     'process_status' => 'PENDING',
+            //     'approval_date' => 'null',
+            //     'created_date' => date('Y-m-j'),
+            //     'created_by' => $username,
+            //     'modified_by' => $username,
+            //     'last_updated_date' => date('Y-m-j'));
+            // $this->admin_model->insert_app_status($upload_data);
         } else {
             die('GAGAL UPLOAD');
       }
@@ -173,8 +173,8 @@ class Dashboard extends CI_Controller {
     public function read_tim_asesment() 
     {
         $data['data_asesment'] = $this->admin_model->get_assessment()->result();
-        // $this->load->view('admin/data_asesment', $data);
-        echo json_encode($data);
+        $this->load->view('admin/options/asesment_team_insert',$data);
+        // echo json_encode($data);
     }
 
      //untuk menuju form isian data tim asesment
@@ -197,8 +197,9 @@ class Dashboard extends CI_Controller {
         // 'created_by' => $this->session->userdata('username')
         );
 
-          $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_assesment($data);      
+        $this->admin_model->insert_log($dataL);
+        $this->admin_model->insert_assesment($data);     
+        $this->read_tim_asesment();
     }
 
     //get assesmen team by id assemsent team
@@ -237,8 +238,8 @@ class Dashboard extends CI_Controller {
     public function read_tim_asesment_title() 
     {
         $data['data_asesment_title'] = $this->admin_model->get_assessment_title()->result();
-        // $this->load->view('admin/data_asesment', $data);
-        echo json_encode($data);
+        $this->load->view('admin/options/asesment_title_insert',$data);
+        // echo json_encode($data);
     }
 
     public function read_tim_asesment_title_byprm($prm) 
@@ -285,8 +286,9 @@ class Dashboard extends CI_Controller {
         // 'created_by' => $this->session->userdata('username')
         );
 
-          $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_assesment_title($data);    
+        $this->admin_model->insert_log($dataL);
+        $this->admin_model->insert_assesment_title($data);    
+        $this->read_tim_asesment_title();
     }
 
 
@@ -297,9 +299,10 @@ class Dashboard extends CI_Controller {
     //menampilkan data admin (admin dan super admin)
     public function read_admin() 
     {
-        $data['data_asesment'] = $this->admin_model->get_admin()->result();
+        $data['data_admin'] = $this->admin_model->get_admin()->result();
         // $this->load->view('admin/data_asesment', $data);
-        echo json_encode($data);
+        $this->load->view('admin/options/admin_insert', $data);
+        // echo json_encode($data);
     }
 
     //untuk menuju form isian data tambah admin
@@ -327,8 +330,9 @@ class Dashboard extends CI_Controller {
         // 'created_by' => $this->session->userdata('username')
         );
 
-          $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_admin($data);      
+        $this->admin_model->insert_log($dataL);
+        $this->admin_model->insert_admin($data);
+        $this->read_admin();
     }
 
     //cari admin berdasarkan id admin
@@ -378,8 +382,8 @@ class Dashboard extends CI_Controller {
     public function read_document_config() 
     {
         $data['document']    = $this->admin_model->get_document()->result();
-        // $this->load->view('admin/data_asesment', $data);
-        echo json_encode($data);
+        $this->load->view('admin/options/doc_insert',$data);
+        // echo json_encode($data);
     }
 
      //cari admin berdasarkan id dokumen
@@ -441,26 +445,41 @@ class Dashboard extends CI_Controller {
     }
 
     //tambah admin doc
-    public function insert_doc_proses()
-    {      
+    public function insert_doc_proses(){   
+        $this->load->library('upload');
+ 
+      //Configure upload.
+        $this->upload->initialize(array(
+            "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+            "upload_path"   => "./upload/"
+        ));   
+        $this->upload->do_upload("file_url");
+            $uploaded = $this->upload->data();
+            print_r($uploaded) ;
+
         $data = array(
-        'type' => $this->input->post('type'),
-        'key' => $this->input->post('key'),
-        'display_name' => $this->input->post('display_name'),
-        'file_url' => $this->input->post('file_url'),
-        'mandatory' => $this->input->post('mandatory'),
-        'created_date' => date('Y-m-j H:i:s'),
-        // 'created_by' => $this->session->userdata('username')             
+            'type' => $this->input->post('type'),
+            'key' => $this->input->post('key'),
+            'display_name' => $this->input->post('display_name'),
+            'file_url' => 'jbt',
+            // 'file_url' => $this->input->post('file_url'),
+            'mandatory' => $this->input->post('mandatory'),
+            'created_date' => date('Y-m-j H:i:s'),
+            // 'created_by' => $this->session->userdata('username')             
         );
         $dataL = array(
-        'detail_log' => $this->session->userdata('admin_role').' adding new doc',
-        'log_type' => 'added '.$this->input->post('display_name'), 
-        'created_date' => date('Y-m-j H:i:s')
-        // 'created_by' => $this->session->userdata('username')
+            'detail_log' => $this->session->userdata('admin_role').' adding new doc',
+            'log_type' => 'added '.$this->input->post('display_name'), 
+            'created_date' => date('Y-m-j H:i:s')
+            // 'created_by' => $this->session->userdata('username')
         );
 
           $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_documenet_config($data);       
+          
+          
+          $this->admin_model->insert_document_config($data);
+          
+
     }
 
 
@@ -471,8 +490,8 @@ class Dashboard extends CI_Controller {
     public function read_cms() 
     {
         $data['cms'] = $this->admin_model->get_cms()->result();
-        // $this->load->view('admin/data_asesment', $data);
-        echo json_encode($data);
+        $this->load->view('admin/options/cms_insert',$data);
+        // echo json_encode($data);
     }
 
     //cari admin berdasarkan id cms
@@ -602,7 +621,8 @@ class Dashboard extends CI_Controller {
     public function get_iin_data()
     {
         $data['iin'] = $this->admin_model->get_iin()->result();
-        echo json_encode($data);
+        $this->load->view('admin/options/iin_insert',$data);
+        // echo json_encode($data);
     }
 
     //cari iin berdasarkan id iin
@@ -662,7 +682,8 @@ class Dashboard extends CI_Controller {
         );
 
           $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_iin($data);    
+          $this->admin_model->insert_iin($data);
+          $this->get_iin_data();    
     }
 
     public function all_data()
