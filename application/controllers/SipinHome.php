@@ -30,9 +30,7 @@ class SipinHome extends CI_Controller {
 
 	// ALDY: LOGIN USER
 	public function user($param){
-		
 		$data['type']=$param;
-	
 		$message = $this->session->flashdata('validasi-login');
 		$data['message']=$message;
 		$this->load->view('login', $data);
@@ -69,10 +67,10 @@ public function log($Type, $detil, $username){
       $this->index();
 
       $this->session->set_userdata(array(
-	    'id_user'  => $cek->row()->id_user,
-	    'username' => $cek->row()->username,
-	    'email'  => $cek->row()->email,
-	    'status_user'     => $cek->row()->status_user,
+	    'id_user'  		=> $cek->row()->id_user,
+	    'username' 		=> $cek->row()->username,
+	    'email' 		=> $cek->row()->email,
+	    'status_user'   => $cek->row()->status_user,
 		));
 	}
       }else{
@@ -104,12 +102,12 @@ public function log($Type, $detil, $username){
 		if ($password == $password_confirm){
 			$cek = $this->user_model->cek_status_user($username, $password);
 	        if($cek->num_rows() > 0){
-	        		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
-      $this->user('register');
+        		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
+  				$this->user('register');
 	    	}else {
 	    		if ($this->user_model->register_user($email ,$username, $password, $name)){
-						if ($this->user_model->sendMail($email,$username, "Please click on the below activation link to verify your email address.")) {
-				     
+					if ($this->user_model->sendMail($email,$username, "Please click on the below activation link to verify your email address.")) {
+			
 				       $this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda untuk mengaktifkan akun yang baru Anda buat');
 				       $this->log("login","Login", $username);
 				         $this->user('register');

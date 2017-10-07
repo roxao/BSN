@@ -6,9 +6,9 @@
 	<meta name="description" content="">
 	<title><?php site_url(); ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
-	<link rel="stylesheet" href="<?php base_url(); ?>/BSN/assets/main-admin.css">
-	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/admin.script.js"></script>
+	<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/main-admin.css">
+	<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/admin.script.js"></script>
 </head>
 <body>
 	<input type="hidden" id="base_url" value="<?php echo base_url(); ?>/dashboard">
@@ -18,7 +18,7 @@
 				<div class="clearfix" style="padding: 10px 20px">
 					<div class="nav_left float_left">
 						<div class="nav_logo">
-							<img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="" class="float_left">
+							<img src="<?php  echo base_url(); ?>/assets/logo.png" alt="" class="float_left">
 							<div class="float_right">
 								<h1>Sistem Informasi Penerbitan Issuer Identification Number (SIPIN)</h1>
 								<h2>Badan Standarisasi Nasional</h2>
@@ -38,7 +38,7 @@
 									<li class="notif true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
 								</ul>
 							</li>
-							<li><a href="<? base_url(); ?>logout">Keluar</a></li>
+							<li><a href="<?php base_url(); ?>logout">Keluar</a></li>
 						</ul>
 					</div>
 				</div>

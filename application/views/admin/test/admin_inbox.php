@@ -10,21 +10,21 @@
 					<th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
 					<th class="sort" data-sort="id_status">Status Pengajuan</th>
 				</tr>
-				<tbody class="list"><script>console.log(<? echo json_encode($applications) ?>)</script>
-					<? foreach($applications as $data) { ?>
+				<tbody class="list"><script>console.log(<?php echo json_encode($applications) ?>)</script>
+					<?php foreach($applications as $data) { ?>
 						<tr class="get_process" 
-							data-id="<? echo $data->id_application ?>" 
-							data-status="<? echo $data->display_name ?>" 
-							data-step="<? echo $data->application_status_name ?>">
-							<td class="id_no"><? echo $data->id_application ?></td>
-							<td class="id_name"><? echo $data->applicant ?></td>
-							<td class="id_pt"><? echo $data->instance_name ?></td>
-							<td class="id_type"><? echo $data->application_type ?></td>
-							<td class="id_date"><? echo $data->application_date ?></td>
-							<td class="id_status <? echo $data->application_status_name ?>">
-								<span><? echo $data->display_name ?></span></td></td>
+							data-id="<?php echo $data->id_application ?>" 
+							data-status="<?php echo $data->display_name ?>" 
+							data-step="<?php echo $data->application_status_name ?>">
+							<td class="id_no"><?php echo $data->id_application ?></td>
+							<td class="id_name"><?php echo $data->applicant ?></td>
+							<td class="id_pt"><?php echo $data->instance_name ?></td>
+							<td class="id_type"><?php echo $data->application_type ?></td>
+							<td class="id_date"><?php echo $data->application_date ?></td>
+							<td class="id_status <?php echo $data->application_status_name ?>">
+								<span><?php echo $data->display_name ?></span></td></td>
 						</tr>
-					<? } ?>
+					<?php } ?>
 				</tbody>
 			</table>
 
@@ -42,7 +42,7 @@
 		</div>
 	</section>
 
-	<script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/list.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/list.min.js"></script>
 	<script type="text/javascript">
 		$('document').ready(function(){
 			var options = {

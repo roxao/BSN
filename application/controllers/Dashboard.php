@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Dashboard extends CI_Controller {
-// public $messagess = array();
 
     var $params = null;
     var $subparams = null;
@@ -22,6 +21,7 @@ class Dashboard extends CI_Controller {
         // $this->session_login();
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
+        // echo json_encode($data);
         $this->load->view('admin/inbox', $data);
     }
 
@@ -53,66 +53,6 @@ class Dashboard extends CI_Controller {
         }
     }
 
-//coba test
-    public function login_admin() {
-        $this->load->view('admin/test/login_admin');
-    }
-
-    public function proses_login() {
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-
-        $cek = $this->admin_model->cek_login($username,$password);
-        echo $username;
-        echo $password;
-        echo $cek->num_rows();
-        if($cek->num_rows() > 0){
-            if ($cek->row()->admin_status == 0){ 
-                $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
-                echo "gagal dari status";
-            } else {
-                if($cek->row()->admin_role == 0) {
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang Supper Admin');
-                    // masuk ke tampilan super admin
-                     $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    $this->index();
-                     
-                } else {
-                    echo "Selamat Datang Admin";
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
-                     // masuk ke tampilan admin
-                    $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    $this->index();
-                }
-            }
-        }
-        else{
-            site_url('login_admin');
-        }
-    }
-
-    public function session()
-    {
-        $logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) redirect(site_url('login_admin'));
-    }
-
-    public function logout_admin(){ 
-        $this->session->sess_destroy();
-        $data['logout'] = 'You have been logged out.';      
-        $this->login_admin();
-    }
-
 
     public function get_app_data() {    
         // $this->session_login();
@@ -120,9 +60,6 @@ class Dashboard extends CI_Controller {
         $id_status = $this->input->post('id_status');
         $step = $this->input->post('step');
         // echo "<script>console.log('".$log."')</script>";
-        // $id = 42;
-        // $id_status = 252;
-        // $step = 'verif_new_req';
         if($id!=null){
             switch ($step) {
                 case 'verif_new_req':
@@ -187,16 +124,6 @@ class Dashboard extends CI_Controller {
         $this->load->view('admin/'.$param.'/'.$subparams);
     }
 
-    public function abc() {
-        $id_status = '9';
-        $id=9;
-        $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-        $data['doc_pay'] = $this->admin_model->get_pay($id_status)->result();
-        $data['assessment_list'] = $this->admin_model->get_assessment()->result();
-        $data['assessment_roles'] = $this->admin_model->get_doc_user($id_status)->result();
-        echo json_encode($data);
-    }
-
     function do_upload() {
         $this->load->library('upload');
         $this->upload->initialize(array("allowed_types" => "gif|jpg|png|jpeg|pdf|doc", "upload_path" => "./upload/"));
@@ -226,17 +153,370 @@ class Dashboard extends CI_Controller {
 
 
 
-
-
-//pengaturan 
-     //menampilkan data tim asesment
-    public function read_tim_asesment() 
-    {
-        $data['data_asesment'] = $this->admin_model->get_assessment()->result();
-        $this->load->view('admin/options/asesment_team_insert',$data);
+    public function settings($param = null){
+        
+        switch ($param) {
+            case 'user': $data['data'] = $this->admin_model->get_user()->result_array(); break;
+            case 'admin': $data['data'] = $this->admin_model->get_admin()->result_array(); break;
+            case 'assessment': $data['data'] = $this->admin_model->get_assessment()->result_array(); break;
+            case 'assessment_roles': $data['data'] = $this->admin_model->get_assessment_title()->result_array(); break;
+            case 'document': $data['data'] = $this->admin_model->get_document()->result_array(); break;
+            case 'cms': $data['data'] = $this->admin_model->get_cms()->result_array(); break;
+            case 'iin': $data['data'] = $this->admin_model->get_iin()->result_array(); break;
+            case 'survey': $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
+            default: redirect(base_url()); break;
+        }
+        $this->load->view('admin/header');
+        $this->load->view('admin/settings/'.$param ,$data);
+        // print_r($data);
         // echo json_encode($data);
     }
 
+    public function action_update($param){
+        switch ($param) {
+            case 'user':
+                $condition = array('id_user' => $this->input->post('id_user'));
+                $data = array(  'email' => $this->input->post('email'),
+                                'username' => $this->input->post('username'),
+                                'password' => $this->input->post('password'),
+                                'name' => $this->input->post('name'),
+                                'status_user' => $this->input->post('status_user'),
+                                'survey_status' => $this->input->post('survey_status'),
+                                'modified_date' => date('Y-m-j H:i:s')
+                                // 'modified_by' => 'Admin'                
+                                // 'modified_by' => $this->session->userdata('username')                
+                );
+                $log = array(   'detail_log' => $this->session->userdata('admin_role').' Update Data user',
+                                'log_type' => 'Update Data user '.$this->input->post('name'), 
+                                'created_date' => date('Y-m-j H:i:s')
+                                // 'created_by' => 'Admin'
+                                // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_user($condition,$data);
+                break;
+            case 'admin':
+                $condition = array('id_admin' => $this->input->post('id_admin'));
+                $data = array(
+                    'email' => $this->input->post('email'),
+                    'username' => $this->input->post('username'),
+                    'password' => $this->input->post('password'),
+                    'admin_status' => $this->input->post('admin_status'),
+                    'admin_role' => $this->input->post('admin_role'),
+                    'modified_date' => date('Y-m-j'),
+                    // 'modified_by' => $this->session->userdata('username')                
+                );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data Admin',
+                    'log_type' => 'Update Data '.$this->input->post('username'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_admin($condition,$data);
+                break;
+            case 'assessment':
+                $condition = array('id_assessment_team' => $this->input->post('id_assessment_team'));
+                $data = array(
+                    'name' => $this->input->post('name'),
+                    'status' => $this->input->post('status'),               
+                );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
+                    'log_type' => 'Update Data '.$this->input->post('name'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+
+                $this->admin_model->update_assessment($condition,$data);
+                break;
+            case 'assessment_roles':
+                $condition = array('id_assessment_team_title' => $this->input->post('id_assessment_team_title'));
+                $data = array(
+                    'title' => $this->input->post('title')          
+                );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team title',
+                    'log_type' => 'Update Data '.$this->input->post('title'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_assessment_team_title($condition,$data);
+                break;
+            case 'document':
+                $this->load->library('upload');
+                $this->upload->initialize(array(
+                    "allowed_types" => "gif|jpg|png|jpeg|png",
+                    "upload_path"   => "./upload/"
+                ));
+                
+                $this->upload->do_upload("file_url");
+                $uploaded = $this->upload->data();
+            
+                $condition = array('id_document_config' => $this->input->post('id_document_config'));
+                $data = array(
+                    'type' => $this->input->post('type'),
+                    'key' => $this->input->post('key'),
+                    'display_name' => $this->input->post('display_name'),
+                    'file_url' => $uploaded['full_path'],
+                    'mandatory' => $this->input->post('mandatory'),
+                    'modified_date' => date('Y-m-j H:i:s'),
+                    // 'modified_by' => $this->session->userdata('username')                
+                );
+                $log = array(
+                'detail_log' => $this->session->userdata('admin_role').' Update Data Dokumen',
+                'log_type' => 'Update Data '.$this->input->post('display_name'), 
+                'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_documenet_config($condition,$data);
+                break;
+            case 'contents':
+                $condition = array('id_cms' => $this->input->post('id_cms'));
+                $data = array(
+                    'content' => $this->input->post('content'),
+                    'title' => $this->input->post('title'),
+                    'url' => $this->input->post('url'),
+                    'modified_date' => date('Y-m-j H:i:s'),
+                    // 'modified_by' => $this->session->userdata('username')                
+                );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data CMS',
+                    'log_type' => 'Update Data '.$this->input->post('title'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_cms($condition,$data);
+                break;
+            case 'iin':
+                $condition = array('id_iin' => $this->input->post('id_iin'));
+                $data = array(
+                    'id_user' => $this->input->post('id_user'),
+                    'iin_number' => $this->input->post('iin_number'),
+                    'iin_established_date' => date('Y-m-j H:i:s'),
+                    'iin_expiry_date' => date('Y-m-j H:i:s'),
+                    'modified_date' => date('Y-m-j H:i:s')
+                    // 'modified_by' => $this->session->userdata('username')     
+                );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data IIN',
+                    'log_type' => 'Update Data '.$this->input->post('iin_number'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->update_iin($condition,$data);
+                break;
+            default:
+                break;
+        }
+        $this->admin_model->insert_log($log);
+        redirect(base_url('dashboard/settings/'.$param));
+    }
+
+    public function action_insert($param){
+        switch ($param) {
+            case 'admin':
+                $data = array(
+                    'email' => $this->input->post('email'),
+                    'username' => $this->input->post('username'),
+                    'password' => $this->input->post('password'),
+                    'admin_status' => $this->input->post('admin_status'),
+                    'admin_role' => $this->input->post('admin_role'),
+                    'created_date' => date('Y-m-j H:i:s'),
+                    // 'created_by' => $this->session->userdata('username')             
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new admin',
+                    'log_type' => 'added '.$this->input->post('username'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->insert_admin($data);
+                break;
+            case 'assessment':
+                $data = array(
+                    'name' => $this->input->post('name'),
+                    'status' => $this->input->post('status'),
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new tim_asesment',
+                    'log_type' => 'added '.$this->input->post('name'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                    );
+                $this->admin_model->insert_assesment($data);
+                break;
+            case 'assessment_roles':
+                $data = array(
+                    'title' => $this->input->post('title')
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new asesment title',
+                    'log_type' => 'added '.$this->input->post('name'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                    );
+                $this->admin_model->insert_assesment_title($data);    
+                break;
+            case 'document':
+                $this->load->library('upload');
+                $this->upload->initialize(array(
+                    "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+                    "upload_path"   => "./upload/"
+                    ));   
+                $this->upload->do_upload("file_url");
+                $uploaded = $this->upload->data();
+
+                $data = array(
+                    'type' => $this->input->post('type'),
+                    'key' => $this->input->post('key'),
+                    'display_name' => $this->input->post('display_name'),
+                    'file_url' => $this->input->post('file_url'),
+                    'mandatory' => $this->input->post('mandatory'),
+                    'created_date' => date('Y-m-j H:i:s'),
+                    // 'created_by' => $this->session->userdata('username')             
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new doc',
+                    'log_type' => 'added '.$this->input->post('display_name'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                );
+                $this->admin_model->insert_document_config($data);
+                break;
+            case 'contents':
+                $data = array(
+                    'content' => $this->input->post('content'),
+                    'title' => $this->input->post('title'),
+                    'url' => $this->input->post('url'),
+                    'created_date' => date('Y-m-j H:i:s'),
+                    // 'created_by' => $this->session->userdata('username')             
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new cms',
+                    'log_type' => 'added '.$this->input->post('title'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                    );
+                $this->admin_model->insert_cms($data); 
+                break;
+            case 'iin':
+                $data = array(
+                    'id_user' => $this->input->post('id_user'),
+                    'iin_number' => $this->input->post('iin_number'),
+                    'iin_established_date' => date('Y-m-j H:i:s'),
+                    'iin_expiry_date' => date('Y-m-j H:i:s'),
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')             
+                    );  
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' adding new IIN',
+                    'log_type' => 'added IIN '.$this->input->post('iin_number'), 
+                    'created_date' => date('Y-m-j H:i:s')
+                    // 'created_by' => $this->session->userdata('username')
+                    );
+                $this->admin_model->insert_iin($data);
+                break;
+            default:
+                break;
+        }
+        $this->admin_model->insert_log($log);
+        redirect(base_url('dashboard/settings/'.$param));
+    }
+
+
+
+
+public function login_admin() {
+        $this->load->view('admin/test/login_admin');
+    }
+
+    public function proses_login() {
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+
+        $cek = $this->admin_model->cek_login($username,$password);
+        echo $username;
+        echo $password;
+        echo $cek->num_rows();
+        if($cek->num_rows() > 0){
+            if ($cek->row()->admin_status == 0){ 
+                $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+                echo "gagal dari status";
+            } else {
+                if($cek->row()->admin_role == 0) {
+                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang Supper Admin');
+                    // masuk ke tampilan super admin
+                     $this->session->set_userdata(array(
+                    'id_admin'      => $cek->row()->id_admin,
+                    'username'      => $cek->row()->username,
+                    'email'         => $cek->row()->email,
+                    'admin_status'  => $cek->row()->admin_status,
+                    'admin_role'    => $cek->row()->admin_role));
+                    $this->index();
+                     
+                } else {
+                    echo "Selamat Datang Admin";
+                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
+                     // masuk ke tampilan admin
+                    $this->session->set_userdata(array(
+                    'id_admin'      => $cek->row()->id_admin,
+                    'username'      => $cek->row()->username,
+                    'email'         => $cek->row()->email,
+                    'admin_status'  => $cek->row()->admin_status,
+                    'admin_role'    => $cek->row()->admin_role));
+                    $this->index();
+                }
+            }
+        }
+        else{
+            site_url('login_admin');
+        }
+    }
+
+    public function session(){
+        $logged_in = $this->session->userdata('admin_status');
+        if (!$logged_in) redirect(site_url('login_admin'));
+    }
+
+    public function logout_admin(){ 
+        $this->session->sess_destroy();
+        $data['logout'] = 'You have been logged out.';      
+        $this->login_admin();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//pengaturan 
      //untuk menuju form isian data tim asesment
     public function insert_tim_asesment() 
     {
@@ -272,8 +552,7 @@ class Dashboard extends CI_Controller {
     }
 
     //edit data asesment
-    public function tim_asesment_edit_proses()
-    {
+    public function tim_asesment_edit_proses(){
         $condition = array('id_assessment_team' => $this->input->post('id_assessment_team'));
         $data = array(
         'name' => $this->input->post('name'),
@@ -297,7 +576,7 @@ class Dashboard extends CI_Controller {
      //menampilkan data tim asesment title
     public function read_tim_asesment_title() 
     {
-        $data['data_asesment_title'] = $this->admin_model->get_assessment_title()->result();
+
         $this->load->view('admin/options/asesment_title_insert',$data);
         // echo json_encode($data);
     }
@@ -359,7 +638,7 @@ class Dashboard extends CI_Controller {
     //menampilkan data admin (admin dan super admin)
     public function read_admin() 
     {
-        $data['data_admin'] = $this->admin_model->get_admin()->result();
+
         // $this->load->view('admin/data_asesment', $data);
         $this->load->view('admin/options/admin_insert', $data);
         // echo json_encode($data);
@@ -408,13 +687,13 @@ class Dashboard extends CI_Controller {
     {
         $condition = array('id_admin' => $this->input->post('id_admin'));
         $data = array(
-        'email' => $this->input->post('email'),
-        'username' => $this->input->post('username'),
-        'password' => $this->input->post('password'),
-        'admin_status' => $this->input->post('admin_status'),
-        'admin_role' => $this->input->post('admin_role'),
-        'modified_date' => date('Y-m-j'),
-        // 'modified_by' => $this->session->userdata('username')                
+            'email' => $this->input->post('email'),
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+            'admin_status' => $this->input->post('admin_status'),
+            'admin_role' => $this->input->post('admin_role'),
+            'modified_date' => date('Y-m-j'),
+            // 'modified_by' => $this->session->userdata('username')                
         );
         $dataL = array(
         'detail_log' => $this->session->userdata('admin_role').' Update Data Admin',
@@ -438,13 +717,7 @@ class Dashboard extends CI_Controller {
 
 
 
-    //menampilkan data document
-    public function read_document_config() 
-    {
-        $data['document']    = $this->admin_model->get_document()->result();
-        $this->load->view('admin/options/doc_insert',$data);
-        // echo json_encode($data);
-    }
+
 
      //cari admin berdasarkan id dokumen
     public function get_document_config($prm) 
@@ -459,30 +732,23 @@ class Dashboard extends CI_Controller {
     {
 
         $this->load->library('upload');
- 
-      //Configure upload.
         $this->upload->initialize(array(
-        "allowed_types" => "gif|jpg|png|jpeg|png",
-        "upload_path"   => "./upload/"
+            "allowed_types" => "gif|jpg|png|jpeg|png",
+            "upload_path"   => "./upload/"
         ));
         
         $this->upload->do_upload("file_url");
-        
-            $uploaded = $this->upload->data();
-            print_r($uploaded) ;
-        
-
+        $uploaded = $this->upload->data();
+    
         $condition = array('id_document_config' => $this->input->post('id_document_config'));
         $data = array(
-        'type' => $this->input->post('type'),
-        'key' => $this->input->post('key'),
-        /*==Tinggal ini yg gk masuk ki====*/
-        'display_name' => $this->input->post('display_name'),
-        /*==================================================*/
-        'file_url' => $uploaded['full_path'],
-        'mandatory' => $this->input->post('mandatory'),
-        // 'modified_date' => date('Y-m-j H:i:s'),
-        // 'modified_by' => $this->session->userdata('username')                
+            'type' => $this->input->post('type'),
+            'key' => $this->input->post('key'),
+            'display_name' => $this->input->post('display_name'),
+            'file_url' => $uploaded['full_path'],
+            'mandatory' => $this->input->post('mandatory'),
+            // 'modified_date' => date('Y-m-j H:i:s'),
+            // 'modified_by' => $this->session->userdata('username')                
         );
         $dataL = array(
         'detail_log' => $this->session->userdata('admin_role').' Update Data Dokumen',
@@ -521,8 +787,7 @@ class Dashboard extends CI_Controller {
             'type' => $this->input->post('type'),
             'key' => $this->input->post('key'),
             'display_name' => $this->input->post('display_name'),
-            'file_url' => 'jbt',
-            // 'file_url' => $this->input->post('file_url'),
+            'file_url' => $this->input->post('file_url'),
             'mandatory' => $this->input->post('mandatory'),
             'created_date' => date('Y-m-j H:i:s'),
             // 'created_by' => $this->session->userdata('username')             
@@ -535,28 +800,15 @@ class Dashboard extends CI_Controller {
         );
 
           $this->admin_model->insert_log($dataL);
-          
-          
           $this->admin_model->insert_document_config($data);
           
 
     }
 
-
-
-
-
-    //menampilkan data cms
-    public function read_cms() 
-    {
-        $data['cms'] = $this->admin_model->get_cms()->result();
-        $this->load->view('admin/options/cms_insert',$data);
-        // echo json_encode($data);
-    }
-
     //cari admin berdasarkan id cms
     public function get_cms($prm) 
     {
+
         $data['cms'] = $this->admin_model->get_cms_by_prm($prm)->result();
         // $this->load->view('admin/data_asesment', $data);
         echo json_encode($data);
@@ -607,56 +859,8 @@ class Dashboard extends CI_Controller {
         'created_date' => date('Y-m-j H:i:s')
         // 'created_by' => $this->session->userdata('username')
         );
-
-          $this->admin_model->insert_log($dataL);
-          $this->admin_model->insert_cms($data);    
-    }
-
-
-
-
-
-
-    //menampilkan data user
-    public function read_user()
-    {
-        $data['data_user'] = $this->admin_model->get_user()->result();
-        // $this->load->view('admin/data_user',$data);
-        echo json_encode($data);
-    }
-
-    //cari user berdasarkan id 
-    public function get_user($prm) 
-    {
-        $data['data_user'] = $this->admin_model->get_user_by_prm($prm)->result();
-        $this->load->view('admin/options/user_edit', $data);
-        // echo json_encode($data);
-    }
-
-    //edit data user
-    public function user_edit_proses()
-    {
-        $condition = array('id_user' => $this->input->post('id_user'));
-        $data = array(
-        'email' => $this->input->post('email'),
-        'username' => $this->input->post('username'),
-        'password' => $this->input->post('password'),
-        'name' => $this->input->post('name'),
-        'status_user' => $this->input->post('status_user'),
-        'survey_status' => $this->input->post('survey_status'),
-        'modified_date' => date('Y-m-j H:i:s')
-        // 'modified_by' => $this->session->userdata('username')                
-        );
-        $dataL = array(
-        'detail_log' => $this->session->userdata('admin_role').' Update Data user',
-        'log_type' => 'Update Data user '.$this->input->post('name'), 
-        'created_date' => date('Y-m-j H:i:s')
-        // 'created_by' => $this->session->userdata('username')
-        );
-
         $this->admin_model->insert_log($dataL);
-        $this->admin_model->update_user($condition,$data);
-
+        $this->admin_model->insert_cms($data);    
     }
 
 
@@ -664,12 +868,12 @@ class Dashboard extends CI_Controller {
 
 
 
-    //menampilkan data surve
-    public function get_survey()
-    {
-        $data['survey'] = $this->admin_model->question_survey_question()->result();
-        echo json_encode($data);
-        // $this->load->view('survey',$data);
+
+    // CARI USER BERDASARKAN ID
+    public function get_user($prm){
+        $data['data_user'] = $this->admin_model->get_user_by_prm($prm)->result();
+        print_r($data['data_user']);
+        // $this->load->view('admin/options/user_edit', $data);
     }
 
 
@@ -677,13 +881,10 @@ class Dashboard extends CI_Controller {
 
 
 
-    //menampilkan data IIN
-    public function get_iin_data()
-    {
-        $data['iin'] = $this->admin_model->get_iin()->result();
-        $this->load->view('admin/options/iin_insert',$data);
-        // echo json_encode($data);
-    }
+
+
+
+
 
     //cari iin berdasarkan id iin
     public function get_iin($prm) 
@@ -773,7 +974,5 @@ class Dashboard extends CI_Controller {
         $data['compalin'] = $this->admin_model->get_conplain()->result();
         echo json_encode($data);
     }
-
-
 
 }

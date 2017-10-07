@@ -166,7 +166,9 @@ header {
   background: #fff;
   max-width: 200px;
   min-width: 50px;
-  font-weight: 300; }
+  font-weight: 300;
+  overflow: auto;
+  text-overflow: ellipsis; }
 
 #popup_box {
   background: rgba(0, 0, 0, 0.7);
@@ -524,17 +526,108 @@ div.close_modal {
 
 #filtertable {
   display: inline-block;
-  margin: 20px;
+  margin: 10px;
   border: 1px solid #ddd;
   border-radius: 2px;
-  width: 200px; }
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+  #filtertable .clickfilter {
+    background: #fafafa;
+    padding: 10px 15px; }
   #filtertable .filtertable {
     position: absolute;
-    width: 200px; }
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 3px 3px;
+    box-sizing: border-box;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    background: #fff;
+    margin-top: -1px;
+    display: none; }
     #filtertable .filtertable label {
       display: block;
       padding: 7px 20px;
       background: #fff; }
+      #filtertable .filtertable label input {
+        margin-right: 10px; }
+
+.z-modal-frame {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.5); }
+
+#z-modal-edit {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10001;
+  max-width: 400px;
+  width: 100%;
+  background: #fff;
+  margin: 10% auto;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); }
+  #z-modal-edit .z-modal-title {
+    height: 50px;
+    line-height: 50px;
+    background: #eee;
+    font-size: 16px;
+    padding-left: 20px;
+    color: #01923f;
+    position: relative; }
+  #z-modal-edit .z-modal-close {
+    height: 50px;
+    width: 50px;
+    background: url("cancel.svg") center no-repeat;
+    background-size: 14px;
+    position: absolute;
+    right: 0;
+    top: 0; }
+  #z-modal-edit .z-modal-form {
+    box-sizing: border-box;
+    padding: 15px; }
+    #z-modal-edit .z-modal-form label {
+      display: block;
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 10px;
+      line-height: 20px;
+      font-weight: 500;
+      color: #999;
+      text-transform: uppercase; }
+    #z-modal-edit .z-modal-form input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      background: #f2f4f7;
+      border: 0;
+      font-size: 14px;
+      line-height: 24px; }
+    #z-modal-edit .z-modal-form select {
+      line-height: 40px;
+      background: #f2f4f8;
+      height: 40px;
+      width: 100%;
+      border: 0;
+      border-radius: 2px !important;
+      padding: 0 20px; }
+
+.btn-flat {
+  text-transform: uppercase;
+  padding: 10px 15px 12px 15px;
+  box-shadow: none;
+  background: #01923f;
+  border: 0;
+  margin: 10px;
+  min-width: 120px;
+  border-radius: 2px;
+  color: #fff;
+  letter-spacing: 0.11em; }
 
 .title_content {
   margin: 20px;

@@ -10,7 +10,7 @@
       </div>
       <div class="o-header">
         <div class="o-logo">
-          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
           <div class="o-sub-logo">Silakan masuk ke dalam akun</div>
         </div>
       </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="o-header">
         <div class="o-logo">
-          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
           <div class="o-sub-logo">Daftar akun baru sekarang</div>
         </div>
       </div>
@@ -53,7 +53,7 @@
             <div class="o-error" data-msg="register">Tampilkan error message disini</div>
             <input required required type="text" name="fullname" placeholder="Nama Lengkap">
             <input required type="username" name="username" placeholder="Username">
-            <input required type="number" name="iin-number" placeholder="Nomor IIN">
+            <input  type="number" name="iin-number" placeholder="Nomor IIN" >
             <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
             <input required type="email" name="E-mail" placeholder="E-mail">
             <input required type="password" name="password" placeholder="Kata Sandi">
@@ -80,7 +80,7 @@
       </div>
       <div class="o-header">
         <div class="o-logo">
-          <img src="<?php base_url(); ?>/BSN/assets/logo.png" alt="SIPIN">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
           <div class="o-sub-logo">Kirim ulang email aktivasi</div>
         </div>
       </div>
@@ -104,8 +104,8 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="<?php base_url() ?>/BSN/assets/style.css">
-<script type="text/javascript" src="<?php base_url() ?>/BSN/assets/js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">
+<script type="text/javascript" src="<?php echo base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
 
 
 <script>
@@ -119,11 +119,19 @@
     $('#'+x).fadeIn('slow');
     }
 
+    console.log("<?php echo $type ?> <?php echo $message ?>");
   show_action("<?php echo $type ?>", "<?php echo $message ?>");
   $('.o-close').on('click', function(event) {
     event.preventDefault();
     $('#show_popup').remove();
   });
+  $('input[type="number"]').keydown(function(event) {
+    console.log($(this).val().length);
+    if($(this).val().length > 5){
+      return false;
+    }
+  });
+
   function show_action(a,b){
     if(a!=""){
       show_box("box-"+a+"");

@@ -78,7 +78,7 @@
 		$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
 		$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
 	});
-	show_popup();
+	// show_popup();
 	function show_popup(){
 	  	$('body').append('<div class="a-popup-frame"></div>');
 	  	$(".a-popup-frame").load("<?php echo base_url() ?>/SipinHome/modal_popup/");

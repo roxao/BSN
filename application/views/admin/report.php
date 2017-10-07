@@ -56,7 +56,7 @@
     </div>
   </section>
 
-  <script type="text/javascript" src="<?php base_url(); ?>/BSN/assets/js/list.min.js"></script>
+  <script type="text/javascript" src="<?php  echo base_url(); ?>/assets/js/list.min.js"></script>
   <script type="text/javascript">
     $('document').ready(function(){
       var datasort = [<?php foreach($s_name as $key=>$x) {echo '"'.$x[0].'",';}?>]
