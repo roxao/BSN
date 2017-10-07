@@ -17,6 +17,7 @@ class SipinHome extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('home');
 		$this->load->view('footer');
+		$this->captcha();
 	}
 
 
@@ -51,6 +52,8 @@ public function log($Type, $detil, $username){
 
 	/* User login function. */
 	 public function login() {
+
+	 	
      $username = $this->input->post('username');
      // $password = hash ( "sha256", $this->input->post('password'));
 
@@ -64,14 +67,16 @@ public function log($Type, $detil, $username){
       $id_user = $this->session->userdata('id_user');
 
       $cek_menu= $this->user_model->get_aplication($id_user);
-      $this->index();
 
       $this->session->set_userdata(array(
 	    'id_user'  		=> $cek->row()->id_user,
 	    'username' 		=> $cek->row()->username,
 	    'email' 		=> $cek->row()->email,
 	    'status_user'   => $cek->row()->status_user,
+	    'status' => "login",
 		));
+
+      redirect(base_url("SipinHome"));
 	}
       }else{
       	$this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
@@ -81,10 +86,9 @@ public function log($Type, $detil, $username){
 
       public function logout() {	
       	$username = $this->session->userdata('username');
-      	$this->log("login","Login", $username);
-		$this->session->sess_destroy();
-		$data['logout'] = 'You have been logged out.';		
-		$this->index();
+      	$this->log("logout","logout", $username);
+		$this->session->sess_destroy();	
+		redirect(base_url("SipinHome"));
 		}
 
 	/* register function. */
@@ -98,7 +102,7 @@ public function log($Type, $detil, $username){
 		$password = $this->input->post('password');
 		$password_confirm = $this->input->post('retype-password');
 		// $password = hash ( "sha256", $this->input->post('password'));
-		
+		if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
 		if ($password == $password_confirm){
 			$cek = $this->user_model->cek_status_user($username, $password);
 	        if($cek->num_rows() > 0){
@@ -122,6 +126,12 @@ public function log($Type, $detil, $username){
 	$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
 				         $this->user('register');
 				     }	
+
+				 } else {
+$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+				         $this->user('register');
+
+				 }
 	}
 
 	/*Forgot Password*/
@@ -162,6 +172,111 @@ public function log($Type, $detil, $username){
 	}
 	}
 
+public function captcha()
+	{
+		$vals = array(
+			//'word' => 'Random word',
+			'img_path' => './captcha/',
+			'img_url' => base_url().'captcha/',
+			//'font_path' => './path/to/fonts/texb.ttf',
+			'img_width'	=> '120',
+			'img_height' => 32,
+			'border' => 0,
+			'expiration' => 7200,
+			'word_length' => 6,
+			'font_size' => 20,
+			//'img_id' => 'Imageid',
+			//'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			
+			// White background and border, black text and red grid
+			
+			'colors' => array(
+				'background' => array(255, 255, 255),
+				'border' => array(255, 255, 255),
+				'text' => array(0, 0, 0),
+				'grid' => array(255, 200, 200)
+			)
+		);
+		$cap = create_captcha($vals);
+		$this->session->set_userdata('mycaptcha', $cap['word']);
+		$this->session->set_userdata('myimgcaptcha', $cap['image']);
+		 $data['image'] = $cap['image'];
+		return $data;
+	}
+
+	public function submitiin () {
+		$id_user = $this->session->userdata('id_user');
+		$Status =  $this->user_model->get_applications_Status($id_user);
+		// echo $Status->row()->id_application_status_name ;
+		$this->load->view('header');
+		$this->load->view('submit-iin');
+		$this->load->view('footer');
+			
+		if ($Status->num_rows() > 0){
+		
+		switch ($Status->row()->id_application_status_name) {
+            case '1':
+            $this->session->set_flashdata('satu', $Status->row()->process_status);
+               break;
+            case '2':
+            $this->session->set_flashdata('dua', $Status->row()->process_status);
+                break;
+            case '3':
+            $this->session->set_flashdata('tiga', $Status->row()->process_status);
+                break;
+            case '4':
+            $this->session->set_flashdata('empat', $Status->row()->process_status);
+            	break;
+            case '5':
+            $this->session->set_flashdata('lima', $Status->row()->process_status);
+            	 break;
+            case '6':
+                 $this->session->set_flashdata('enam', $Status->row()->process_status);
+                break;
+            case '7':
+                 $this->session->set_flashdata('tujuh', $Status->row()->process_status);
+                break;
+            case '8':
+                 $this->session->set_flashdata('delapan', $Status->row()->process_status);
+                break;
+            case '9':
+                 $this->session->set_flashdata('sembilan', $Status->row()->process_status);
+                break;
+            case '10':
+            $this->session->set_flashdata('sepuluh', $Status->row()->process_status);
+               break;
+            case '11':
+            $this->session->set_flashdata('sebelas', $Status->row()->process_status);
+                break;
+            case '12':
+            $this->session->set_flashdata('duabelas', $Status->row()->process_status);
+                break;
+            case '13':
+            $this->session->set_flashdata('tigabelas', $Status->row()->process_status);
+            	break;
+            case '14':
+            $this->session->set_flashdata('empatbelas', $Status->row()->process_status);
+            	 break;
+            case '15':
+                 $this->session->set_flashdata('limabelas', $Status->row()->process_status);
+                break;
+            case '16':
+                 $this->session->set_flashdata('enambelas', $Status->row()->process_status);
+                break;
+            case '17':
+                 $this->session->set_flashdata('tujuhbelas', $Status->row()->process_status);
+                break;
+            case '18':
+                 $this->session->set_flashdata('delapanbelas', $Status->row()->process_status);
+                break;
+            case '19':
+                 $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
+                break;
+
+            
+        }
+        }	
+	}
 
 	public function modal_popup(){
 		$this->load->view('component/modal_popup');
