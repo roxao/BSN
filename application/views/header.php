@@ -22,11 +22,11 @@
 			<ul class="nav-list float_left nav-list-menu">
 
 				<li class="nav-link"><a href="<?php echo base_url();?>">Halaman Depan</a></li>
-				<?php if($this->session->flashdata('validasi-login') != '') {?>
+				<?php if($this->session->userdata('status') == "login") {?>
 				<li class="nav-link parent"><a href="<?php echo base_url();?>">Layanan IIN</a>
 					<ul>
-						<?php if ($this->session->flashdata('validasi-menu') != 'Pengajuan Baru') {?>
-						<li class="nav-link"><a href="<?php echo base_url();?>submit-iin">Penerbitan IIN Baru</a>
+						<?php if ($this->session->userdata('status') == "login") {?>
+						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/submitiin">Penerbitan IIN Baru</a>
 						<?php } else { ?>
 						<li class="nav-link"><a href="<?php echo base_url();?>extend-iin">Pengawasan IIN Lama</a>
 						<?php } ?>
@@ -43,9 +43,10 @@
 				<li class="nav-link"><a href="<?php echo base_url();?>">Hubungi Kami</a></li>
 			</ul>
 			<ul class="nav-list float_right" style="padding-right: 20px">
-				<?php if($this->session->flashdata('validasi-login') == '') {?>
+				<?php if($this->session->userdata('status') != "login") {?>
 				<li class="nav-sess"><a href="<?php echo base_url();?>" class="open_modal" action="login">Masuk</a></li>
 				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
+
 				<?php } else { ?>
 				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
 					<ul class="box_notif">
@@ -56,7 +57,7 @@
 						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
 					</ul>
 				</li>
-				<li class="nav-sess"><a href="<?php echo base_url();?>">Keluar</a></li>
+				<li class="nav-sess"><a href="<?php echo base_url();?>SipinHome/logout">Keluar</a></li>
 				<?php } ?>
 			</ul>
 		</nav>
