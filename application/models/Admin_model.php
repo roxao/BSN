@@ -407,5 +407,19 @@ class Admin_model extends CI_Model {
 
     }
 
+    public function get_applications_by_prm($prm)
+    {
+        $this->db->select('*');
+        $this->db->from('applications');
+        $this->db->where('id_application',$prm);
+        return $this->db->get(); 
+    }
+
+    public function update_applications($data,$prm)
+    {
+        $this->db->where($prm);
+        $this->db->update('applications',$data);
+    }
+
 }
 ?>

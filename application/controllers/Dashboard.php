@@ -451,7 +451,7 @@ public function login_admin() {
                     'email'         => $cek->row()->email,
                     'admin_status'  => $cek->row()->admin_status,
                     'admin_role'    => $cek->row()->admin_role));
-                    $this->index();
+                    redirect(base_url('dashboard'));
                      
                 } else {
                     echo "Selamat Datang Admin";
@@ -463,7 +463,7 @@ public function login_admin() {
                     'email'         => $cek->row()->email,
                     'admin_status'  => $cek->row()->admin_status,
                     'admin_role'    => $cek->row()->admin_role));
-                    $this->index();
+                    redirect(base_url('dashboard'));
                 }
             }
         }
