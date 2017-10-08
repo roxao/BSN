@@ -18,7 +18,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function index(){
-        // $this->session_login();
+        $this->session_login();
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
         // echo json_encode($data);
@@ -426,10 +426,10 @@ class Dashboard extends CI_Controller {
 
 
 public function login_admin() {
-        $this->load->view('admin/test/login_admin');
+        $this->load->view('admin/login');
     }
 
-    public function proses_login() {
+    public function login_process() {
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
@@ -468,13 +468,8 @@ public function login_admin() {
             }
         }
         else{
-            site_url('login_admin');
+            redirect(base_url('dashboard/login_admin'));
         }
-    }
-
-    public function session(){
-        $logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) redirect(site_url('login_admin'));
     }
 
     public function logout_admin(){ 

@@ -38,7 +38,7 @@
 									<li class="notif true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
 								</ul>
 							</li>
-							<li><a href="<?php base_url(); ?>logout">Keluar</a></li>
+							<li><a href="<?php echo base_url('dashboard/logout_admin')?>" >Keluar</a></li>
 						</ul>
 					</div>
 				</div>
