@@ -97,7 +97,7 @@ class Admin_model extends CI_Model {
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        $where = ('applications.iin_status = "OPEN" and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)');
+        $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
 
         return $this->db->get();

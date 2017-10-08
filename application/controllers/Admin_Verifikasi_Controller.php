@@ -37,7 +37,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         		$data = array(
         		'process_status' => 'COMPLETED',
             	'created_date' => date('Y-m-j'),
-      			// 'created_by' => $this->session->userdata('username'),
+      			'created_by' => $this->session->userdata('username'),
         		'last_updated_date' => date('Y-m-j H:i:s'));
 
         	$condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -45,21 +45,21 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' adding new applicant',
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
         	$this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
-                'id_application '=> $this->input->post('id_application'),
+                'id_application'=> $this->input->post('id_application'),
                 'id_application_status_name' => '2',
                 'process_status ' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'),
-                // 'modified_by ' => $this->session->userdata('username')
+                'modified_by ' => $this->session->userdata('username')
                 );
             
             $this->admin_model->insert_app_status($data2);
@@ -72,8 +72,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $this->get_doc($this->input->post('id_application'));
 
-                // $this->send_mail($this->input->post('id_application'));
-        	 // header("refresh:0; sipinAdmin/read_applications");
+                $this->send_mail($this->input->post('id_application'));
+        	 redirect(site_url('dashboard'));
         	
         
 	}
@@ -465,26 +465,27 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	}
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
-	{
-            print_r($this->input->post("bill")) ;
+	{  
+        // echo json_encode($this->input->post("bill"));
+            print_r($this->input->post("bill"));
         		$data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
         	$condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Upload Billing Code SIMPONI',
-                // 'log_type' => 'added '.$this->input->post('username'), 
+                'log_type' => 'added '.$this->input->post('username'), 
                 'log_type' => 'added by : ', 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
-         //    $this->admin_model->insert_log($dataL);
-        	// $this->admin_model->next_step($data,$condition);
+            $this->admin_model->insert_log($dataL);
+        	$this->admin_model->next_step($data,$condition);
 
              $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -492,10 +493,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '7',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            // $this->admin_model->insert_app_status($data2,$condition);
+            $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                 'id_application' => $this->input->post('id_application'),
@@ -511,43 +512,52 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'value' => $this->input->post('expired_date'),
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           // $this->admin_model->insert_app_sts_for_map($data4);
+           $this->admin_model->insert_app_sts_for_map($data4);
 
 
 
             $this->load->library('upload');
             $cek = $this->input->post("bill");
             $getDoc = $this->admin_model->get_doc_bill_res()->result();
-            
+           echo json_encode($cek); 
 
             $this->upload->initialize(array(
-                "allowed_types" => "gif|jpg|png|jpeg",
+                "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
                  "upload_path"   => "./upload/"
              ));
-             
-                 
+
+            if($this->upload->do_upload("bill"))
+                {
+                    $uploaded = $this->upload->data();     
            
-
-           if($this->upload->do_upload("images")) 
-           {
-                $uploaded = $this->upload->data();
-
                 for($x=0;$x < count($getDoc);$x++)
                 {
+                    for($y=0;$y < count($getDoc);$y++)
+                    {
+                        if($x == $y)
+                        {
                     $doc = array(
                     'id_application' => $this->input->post('id_application'),
                     'id_document_config' => $getDoc[$x]->id_document_config,
                     'status' => 'ACTIVE',
                     'created_date'=> date('y-m-d'),
-                    'file_url' => $cek[$x]
-                    // 'created_by' => $this->session->userdata('username')
+                    'path_id' => $uploaded[$x]['full_path'],
+                    'created_by' => $this->session->userdata('username')
                                 );
 
                     $uploaded = $this->upload->data();
+                    $this->admin_model->insert_doc_for_user($doc);
                     print_r($doc);
-                    // $this->admin_model->insert_doc_for_user($doc);
+                    
+
+                        }
+
+                    }
                 }
-           }
+           
+                }
+             
+            
             
 
 
@@ -1851,6 +1861,33 @@ public function REV_ASSESS_REQ_PROSESS()
             $this->admin_model->insert_doc_for_user($data);
 
         }
+    }
+
+    function do_upload() {
+        $this->load->library('upload');
+        $this->upload->initialize(array("allowed_types" => "gif|jpg|PNG|jpeg|pdf|doc", "upload_path" => "./upload/"));
+        //Perform upload.
+        if($this->upload->do_upload("bill")) {
+            echo '<script>console.log('.var_export($this->upload->data()).');</script>';
+
+            $admin_name     = 'Rinaldy Sam';
+            $doc_step       = 'verif_upldoc_req';
+            $doc_step_name  = 'Verifikasi Kelengkapan Dokumen';
+            /*Insert Log document Revisi*/
+            // write_log($admin_name, $doc_step, 'do upload documents');
+            // $upload_data = array(
+            //     'id_application '=> $get_documen->row->id_application,
+            //     'id_application_status_name' => $doc_step,
+            //     'process_status' => 'PENDING',
+            //     'approval_date' => 'null',
+            //     'created_date' => date('Y-m-j'),
+            //     'created_by' => $username,
+            //     'modified_by' => $username,
+            //     'last_updated_date' => date('Y-m-j'));
+            // $this->admin_model->insert_app_status($upload_data);
+        } else {
+            die('GAGAL UPLOAD');
+      }
     }
 
 }

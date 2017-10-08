@@ -151,6 +151,8 @@ class User_model extends CI_Model {
 
     public function insert_pengajuan ($data){
         $this->db->insert('applications', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
     public function insert_app_status($data)
     {
