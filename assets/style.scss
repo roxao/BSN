@@ -282,10 +282,13 @@ header {
         }
       }
     }
-    &:hover ul{
+    @media screen and (max-width: $desktop ){
+      &:hover ul{
       display: block;
       transition: all 1s ease;
+      }
     }
+    
   }
 }
 
@@ -1799,6 +1802,104 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     }
   }
 }
+#gmap {
+  margin-top: 60px;
+  height: 350px;
+  &:after{
+    background: rgba(255, 255, 255, 0);
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #fff);
+    background: -o-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #fff);
+    background: -moz-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #fff);
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), #fff);
+    content: '';
+    display: block;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+    right: 0;
+    left: 0;
+  }
+}
+#o-contact{
+    max-width: 1000px;
+    min-height: 200px;
+    background: #fff;
+    margin: -30px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    position: relative;
+    box-sizing: border-box;
+    .o-contact-title{
+      padding: 2% 3%;
+      font-size: 24px;
+      color: $c_1st;
+      border-bottom: 1px solid #eee;
+    }
+    .form-contact {
+        width: 70%;
+        background: #fff;
+        position: relative;
+        box-sizing: border-box;
+    }
+    .detail-contact {
+        background:  url('maps.png') center;
+        width: 30%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        div{
+          padding: 30px;
+          font-weight: 100;
+          background: rgba(80, 114, 153, .5);
+          background: -webkit-linear-gradient(170deg, rgba(80, 114, 153, 1),rgba(80, 114, 153, 1), rgba(80, 114, 153, .9), rgba(80, 114, 153, .5));
+          background: -o-linear-gradient(170deg, rgba(80, 114, 153, 1),rgba(80, 114, 153, 1), rgba(80, 114, 153, .9), rgba(80, 114, 153, .5));
+          background: -moz-linear-gradient(170deg, rgba(80, 114, 153, 1),rgba(80, 114, 153, 1), rgba(80, 114, 153, .9), rgba(80, 114, 153, .5));
+          background: linear-gradient(170deg, rgba(80, 114, 153, 1),rgba(80, 114, 153, 1),rgba(80, 114, 153, .9),rgba(80, 114, 153, .5));
+          height: 100%;
+          box-sizing: border-box;
+          color: #fff;
+          font-size: 14px;
+          h3{
+            font-size: 14px;
+            padding: 0 0 5px 0;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+          }
+          span{
+            color: rgba(255,255,255,0.8);
+            padding: 2px 0;
+            display: block;
+            font-size: 12px;
+            line-height: 12px;
+          }
+
+        }
+
+    }
+    .o-form{
+      padding: 3%;
+      label{
+        display: block;
+        margin: 5px;
+        div{
+          padding: 5px;
+          color: #777;
+        }
+        input, textarea{
+          width: 100%;
+          background: #f2f4f8;
+          margin: 2px -5px;
+          box-sizing: border-box;
+          border: 0;
+          padding: 10px 15px;
+          font-size: 14px;
+          color: $c_1st
+        }
+      }
+    }
+}
 
 @media screen and (max-width: $desktop ) {
   .input_dashed.right-input{
@@ -1815,6 +1916,27 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   }
   .nav-list-menu{
     display: none;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    background: #fff;
+    top: 52px;
+    border-top: 1px solid #eee;
+    height: calc(100vh - 52px);
+    .nav-link{
+      display: block;
+    margin: 0;
+    padding: 10px 20px;
+    }
+  }
+  .nav-link.parent.active{
+    > ul{
+      position: static;
+      background: #f7f7f7;
+      box-shadow: none;
+      margin: 0 -20px;
+    }
   }
   .nav-list-menu.open{
     display: block;
@@ -1834,3 +1956,5 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     border: 0
   }
 }
+
+

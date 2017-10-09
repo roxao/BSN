@@ -19,8 +19,7 @@
 			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
 			
-			<ul class="nav-list float_left nav-list-menu">
-
+			<ul class="nav-list float_left nav-list-menu">	
 				<li class="nav-link"><a href="<?php echo base_url();?>">Halaman Depan</a></li>
 				<?php if($this->session->userdata('status') == "login") {?>
 				<li class="nav-link parent"><a href="<?php echo base_url();?>">Layanan IIN</a>
@@ -64,30 +63,43 @@
 	</header>
 
 <script>
-	$('.open_modal').on('click', function(event) {
-		event.preventDefault();
-		action = $(this).attr('action');
-		$('#show_popup').remove();
-		$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
-		$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
-	});
-
-	$('.open_modal').on('click', function(event) {
-		event.preventDefault();
-		action = $(this).attr('action');
-		$('#show_popup').remove();
-		$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
-		$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
-	});
-	// show_popup();
-	function show_popup(){
-	  	$('body').append('<div class="a-popup-frame"></div>');
-	  	$(".a-popup-frame").load("<?php echo base_url() ?>/SipinHome/modal_popup/");
-	  	$('.a-box-close').on('click', function(event) {
+	$(document).ready(function() {
+		
+		$('.nav-menu').on('click', function(event) {
 			event.preventDefault();
-			$(".a-popup-frame").remove();
+			$('.nav-list-menu').slideToggle('fast', function() {
+				$(this).addClass('active')
+			});
 		});
-	  }
+		$('.nav-link.parent').on('click', function(event) {
+			return false;
+			$(this).addClass('active')
+		});
+		$('.open_modal').on('click', function(event) {
+			event.preventDefault();
+			action = $(this).attr('action');
+			$('#show_popup').remove();
+			$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
+			$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
+		});
+
+		$('.open_modal').on('click', function(event) {
+			event.preventDefault();
+			action = $(this).attr('action');
+			$('#show_popup').remove();
+			$('body').append('<span id="show_popup"><div class="frame_popup"></div><div class="popup_box"><div class="content_popup"></div></div></div>');
+			$(".content_popup").load("<?php echo base_url() ?>/user/"+$(this).attr('action'));
+		});
+		// show_popup();
+		function show_popup(){
+		  	$('body').append('<div class="a-popup-frame"></div>');
+		  	$(".a-popup-frame").load("<?php echo base_url() ?>/SipinHome/modal_popup/");
+		  	$('.a-box-close').on('click', function(event) {
+				event.preventDefault();
+				$(".a-popup-frame").remove();
+			});
+		  }
+	});
 	  
 </script>
 	<?php //$this->load->view('component/modal') ?>
