@@ -319,4 +319,18 @@ public function captcha()
 		$this->load->view('cms-post-view',$data);
 		// $this->load->view('footer');
 	}
+
+	public function contact_us_prossess()
+	{	
+		$email = $this->input->post('email');
+		$name = $this->input->post('name');
+		$message = $this->input->post('message');
+		echo $email;
+		echo $name;
+		echo $message;
+
+		$this->admin_model->sendMail($email,$name, $message);
+		// redirect(base_url('contact-us'));
+
+	}
  }

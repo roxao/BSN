@@ -7,7 +7,7 @@
 		Hubungi Kami
 	</div>
 	<div class="float_left form-contact">
-		<form class="o-form" action="<?php echo base_url('SipinHome/send_complaint') ?>" method="post" >
+		<form class="o-form" action="<?php echo base_url('SipinHome/contact_us_prossess') ?>" method="post" >
 			<label>
 				<div>Alamat E-mail:</div>
 				<input name="email" type="email" autocomplete="off"></label>

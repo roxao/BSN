@@ -94,14 +94,14 @@ class Dashboard extends CI_Controller {
             }
         }
         else{
-            redirect(base_url('dashboard/login_admin'));
+            redirect(base_url('dashboard/user/login'));
         }
     }
 
     public function logout_admin(){ 
         $this->session->sess_destroy();
         $data['logout'] = 'You have been logged out.';      
-       redirect(base_url('dashboard/login_admin'));
+       redirect(base_url('dashboard/user/login'));
     }
 
 
