@@ -22,7 +22,7 @@
 			<ul class="nav-list float_left nav-list-menu">	
 				<li class="nav-link"><a href="<?php echo base_url();?>">Halaman Depan</a></li>
 				<?php if($this->session->userdata('status') == "login") {?>
-				<li class="nav-link parent"><a href="<?php echo base_url();?>">Layanan IIN</a>
+				<li class="nav-link parent"><a>Layanan IIN</a>
 					<ul>
 						<?php if ($this->session->userdata('status') == "login") {?>
 						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/submitiin">Penerbitan IIN Baru</a>
@@ -32,7 +32,7 @@
 					</ul>
 				</li>
 				<?php } ?>
-				<li class="nav-link parent"><a href="<?php echo base_url();?>">Informasi IIN</a>
+				<li class="nav-link parent"><a>Informasi IIN</a>
 					<ul>
 						<li class="nav-link"><a href="<?php echo base_url();?>">Daftar penerima IIN</a>
 						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/file_iso_7812">File ISO 7812</a>
@@ -77,10 +77,9 @@
 			});
 		});
 		$('.nav-link.parent').on('click', function(event) {
-			$('.nav-link.parent').children('ul').slideUp();
-			$(this).children('ul').slideDown('fast');
-
-			return false;
+			$('.nav-link.parent').not(this).children('ul').slideUp();
+			$(this).children('ul').slideToggle('fast');
+			// return false;
 		});
 		$('.open_modal').on('click', function(event) {
 			event.preventDefault();

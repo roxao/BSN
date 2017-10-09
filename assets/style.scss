@@ -271,6 +271,9 @@ header {
     }
   }
   .nav-link.parent{
+    &:hover{
+      cursor: pointer;
+    }
     > ul{
       display: none;
       position: absolute;

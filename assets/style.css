@@ -232,6 +232,8 @@ header {
     background: #009240;
     color: #fff;
     transition: all .5s ease; }
+.nav-list .nav-link.parent:hover {
+  cursor: pointer; }
 .nav-list .nav-link.parent > ul {
   display: none;
   position: absolute;
