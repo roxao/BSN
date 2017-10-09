@@ -19,8 +19,8 @@ class User_model extends CI_Model {
             'username'   => $username,
             'password'   => $password,
             'name'   => $name,
-            'created_date' => date('Y-m-j H:i:s'),
-            'created_by'   => $name,
+            'created_date' => null,
+            'created_by'   => null,
             'modified_date'   => date('Y-m-j H:i:s'),
             'modified_by'   => $name,
             'status_user'   => "0",
@@ -161,12 +161,12 @@ class User_model extends CI_Model {
 
     /*Proses send email*/
     public function sendMail($email,$username, $Desc) {
+    $encrypted_id = md5($email) ;
     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
     $subject = 'Verify Your Email Address';
-    $message = 'Dear '. $username .',<br /><br />'.$Desc .'<br /><br />
-                http://localhost/BSN/SipinHome/verify/' . md5($email) . '<br /><br /><br />
-                Thanks<br />
-                BSN';
+    $message =  "Terimakasih telah melakuan registrasi, untuk memverifikasi silahkan klik tautan dibawah ini<br><br>".
+      base_url("SipinHome/verify/$encrypted_id");
+
 
     $config['protocol'] = 'smtp';
     $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
@@ -183,7 +183,8 @@ class User_model extends CI_Model {
     $this->email->from($from_email, 'Bsn');
     $this->email->to($email);
     $this->email->subject($subject);
-    $this->email->message($message);
+    $this->email->message($Desc."<br><br>".
+      base_url("SipinHome/verify/$encrypted_id");
     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
     return $this->email->send();
     }
