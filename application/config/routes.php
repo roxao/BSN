@@ -85,3 +85,4 @@ $route['edit_user/(:any)'] ='sipinAdmin/edit_data_user/$1';
 $route['proses_login_admin'] = 'dashboard/proses_login';
 
 $route['contact-us'] = 'SipinHome/contact_us';
+$route['post/(:any)'] = 'SipinHome/get_cms/$1';

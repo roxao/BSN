@@ -183,8 +183,7 @@ class User_model extends CI_Model {
     $this->email->from($from_email, 'Bsn');
     $this->email->to($email);
     $this->email->subject($subject);
-    $this->email->message($Desc."<br><br>".
-      base_url("SipinHome/verify/$encrypted_id");
+    $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
     return $this->email->send();
     }

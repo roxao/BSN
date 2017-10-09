@@ -11,6 +11,7 @@ class SipinHome extends CI_Controller {
 		$this->load->library('email','form_validation', 'curl');
 		$this->model = $this->user_model;
         $this->load->database();
+        $this->load->model('admin_model','adm_model');
 	}
  
 	public function index(){		
@@ -309,5 +310,13 @@ public function captcha()
 
 		redirect(base_url('contact-us'));
 
+	}
+
+	public function get_cms($prm)
+	{
+		$data['cms'] = $this->adm_model->get_cms_by_prm($prm)->result();
+		// $this->load->view('header');
+		$this->load->view('cms-post-view',$data);
+		// $this->load->view('footer');
 	}
  }
