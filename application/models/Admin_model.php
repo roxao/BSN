@@ -9,8 +9,10 @@ class Admin_model extends CI_Model {
         
     }
 
+    //query untuk login berdasarkan username atau email dan pasword sha256
     public function cek_login($username,$password) {  
         $this->db->where('username', $username);
+        $this->db->or_where('email', $username);
         $this->db->where('password', $password);
         return  $this->db->get('admin');   
     }
@@ -419,6 +421,30 @@ class Admin_model extends CI_Model {
     {
         $this->db->where($prm);
         $this->db->update('applications',$data);
+    }
+
+    public function application_file_get_transaction($id_app)
+    {
+        $this->db->select('*');
+        $this->db->from('application_file');
+        $this->db->where('id_application',$id_app);
+        $this->db->where('status','ACTIVE');
+        $this->db->where('id_document_config','24');
+        return $this->db->get(); 
+    }
+
+    public function application_file_update($condition,$data)
+    {
+        $this->db->where($condition);
+        $this->db->update('application_file',$data);
+    }
+
+    public function document_config_get_by_key()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key','BT PT');
+        return $this->db->get(); 
     }
 
 }

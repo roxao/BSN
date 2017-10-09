@@ -132,6 +132,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             // print_r($this->input->post('coment'));
             // echo $this->input->post('coment');
          // ditolak dll
+
+        //untuk menapilkan nama applicant yang akan disimpan di tabel log
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
         echo $id_app->row()->applicant;
             $data = array(
@@ -693,9 +695,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran',
-                'log_type' => 'added new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'log_type' => 'added new applicant '.$condition->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             // $this->admin_model->insert_log($dataL);
 
@@ -789,13 +791,14 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
     //bukti pembayaran revisi
     public function VERIF_PAY_REQ_REVISI()
-    {
-        if($this->input->post('revisi') == "revisi")
-        {
-           $data = array(
+    {       
+
+            //untuk menapilkan nama applicant yang akan disimpan di tabel log
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+            $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -803,8 +806,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' revisi bukti pembayaran',
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -816,19 +819,33 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
 
-                 $data5 = array(
-                    'type' => 'Bukti Transfer',
-                    'value' => 'Revisi bukti transfer',
-                    'id_application_status'=> $this->input->post('id_application_status')
-                    );
-           $this->admin_model->insert_app_sts_for_map($data5);
-        }
+            //pengecekan bukti transaksi dari user
+            $cek = $this->admin_model->application_file_get_transaction($this->input->post('id_application'));
+
+            $data3 = array(
+                'status' => 'INACTIVE',
+                'modified_by' => $this->session->userdata('username'),
+                'modified_date' => date('Y-m-j')
+                );
+            $id_app_file = array('id_application_file' => $cek->row()->id_application_file);
+            $this->admin_model->application_file_update($id_app_file,$data3);
+
+            $data4 = array(
+                'type' => 'REJECTED Bukti Transfer',
+                'value' => $this->input->post('coment'),
+                'id_application_status'=> $this->input->post('id_application_status')
+                );
+                
+            $this->admin_model->insert_app_sts_for_map($data4);
+
+            redirect(site_url('dashboard'));
+
     }
 
 

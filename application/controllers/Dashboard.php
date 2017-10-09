@@ -199,7 +199,8 @@ class Dashboard extends CI_Controller {
                 $data = array(
                     'email' => $this->input->post('email'),
                     'username' => $this->input->post('username'),
-                    'password' => $this->input->post('password'),
+                    // 'password' => $this->input->post('password'),
+                    'password' => hash ( "sha256", $this->input->post('password')),
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
                     'modified_date' => date('Y-m-j'),
@@ -317,11 +318,12 @@ class Dashboard extends CI_Controller {
                 $data = array(
                     'email' => $this->input->post('email'),
                     'username' => $this->input->post('username'),
-                    'password' => $this->input->post('password'),
+                    // 'password' => $this->input->post('password'),
+                    'password' => hash ( "sha256", $this->input->post('password')),
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
                     'created_date' => date('Y-m-j H:i:s'),
-                    // 'created_by' => $this->session->userdata('username')             
+                    'created_by' => $this->session->userdata('username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new admin',
@@ -431,7 +433,8 @@ public function login_admin() {
 
     public function login_process() {
         $username = $this->input->post('username');
-        $password = $this->input->post('password');
+        // $password = $this->input->post('password');
+        $password = hash ( "sha256", $this->input->post('password'));
 
         $cek = $this->admin_model->cek_login($username,$password);
         echo $username;
@@ -468,14 +471,14 @@ public function login_admin() {
             }
         }
         else{
-            redirect(base_url('dashboard/login_admin'));
+            // redirect(base_url('dashboard/login_admin'));
         }
     }
 
     public function logout_admin(){ 
         $this->session->sess_destroy();
         $data['logout'] = 'You have been logged out.';      
-        $this->login_admin();
+       redirect(base_url('dashboard/login_admin'));
     }
 
 

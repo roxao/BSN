@@ -54,6 +54,24 @@
     </div>
 </section>
 
+<!-- COMMENT BOX -->
+<section class="slide_comment" style="display: none">
+	<p>Masukan keterangan perbaikan Bukti Transfer</p>
+	
+	<div class="clearfix">
+		
+		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_REVISI') ?>" method="post" accept-chaset="utf-8">
+
+		<textarea name="coment" id="coment" cols="30" rows="10" class="text_comment"></textarea>
+		<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
+		<input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value="">
+
+		<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
+		</form>
+	</div>
+</section>
+
 
 <!-- VERIFICATION BOX -->
 <div class="verify_section">
@@ -67,6 +85,10 @@
 <script>
 	doc_pay=respon.doc_pay;
 	assess_list=respon.assessment_list;
+	value=respon.application;
+	$("input[name='id_application_status']").val(value.id_application_status);
+	$("input[name='id_application']").val(value.id_application);
+
 	console.log(respon);
 	for (var i = 0; i < doc_pay.length; i++) {
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ doc_pay[i].display_name +'</div><a href="'+ doc_pay[i].file_url +'" class="btn_download float_right">Download</a></div>');

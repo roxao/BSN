@@ -235,5 +235,27 @@ class User_model extends CI_Model {
     public function simpan($data){
         $this->db->insert('upload', $data);
      }
+
+     public function get_file_iso()
+     {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key', 'ISO7812');
+        return  $this->db->get();  
+     }
+
+     public function get_user_by_prm($email,$name)
+     {
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('email', $email);
+        $this->db->where('name', $name);
+        return $this->db->get(); 
+     }
+
+     public function insert_complain($data)
+     {
+        $this->db->insert('complaint', $data);
+     }
     
 }

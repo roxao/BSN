@@ -1,5 +1,5 @@
-<form action="<?php echo base_url('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
-
+<!-- <form action="<?php echo base_url('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8"> -->
+<?php echo form_open_multipart('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>
 <section class="clearfix content_application" style="margin: 20px" >
 	<label class="input_dashed float_left" style="width: 100%">
 		Kode Billing SIMPONI
@@ -37,7 +37,7 @@
 
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
 
-	</form>
+	
 	</div>
 </div>
 </form>
