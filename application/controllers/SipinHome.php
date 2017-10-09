@@ -59,9 +59,9 @@ public function log($Type, $detil, $username){
 
 	 	
      $username = $this->input->post('username');
-     // $password = hash ( "sha256", $this->input->post('password'));
+     $password = hash ( "sha256", $this->input->post('password'));
 
-     $password =  $this->input->post('password');
+     // $password =  $this->input->post('password');
      $cek = $this->user_model->cek_login($username, $password);
      if($cek->num_rows() > 0){
      if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
@@ -103,8 +103,9 @@ public function log($Type, $detil, $username){
 		$username = $this->input->post('username');
 		$no_iin    = $this->input->post('iin-number');
 		$email    = $this->input->post('email');
+		$password = hash ( "sha256", $this->input->post('password'));
 		$password = $this->input->post('password');
-		$password_confirm = $this->input->post('retype-password');
+		$password_confirm = hash ( "sha256", $this->input->post('retype-password'));
 		// $password = hash ( "sha256", $this->input->post('password'));
 		if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
 		if ($password == $password_confirm){

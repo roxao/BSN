@@ -35,6 +35,11 @@ class submit_iin extends CI_Controller {
 	/*Melakukan penyimpanan form step ke 0*/ 
 	public function insert_letter_submission(){
 		
+		if($this->session->userdata('status') != "login"){
+			redirect(base_url("SipinHome"));
+		}
+
+if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
 	$id_user = $this->session->userdata('id_user');
 	$get_document = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
@@ -75,11 +80,22 @@ class submit_iin extends CI_Controller {
 		}
 	} else {
 		echo "Dibatalkan";
-	}	
 	}
+} else {
+	echo "Tidak Sama";
+}
+
+		
+	}
+
+	
 	/*Melkukan penarikan dokumen*/
 	public function download(){
 	
+	if($this->session->userdata('status') != "login"){
+			redirect(base_url("SipinHome"));
+		}
+
 	$iamge_id = $this->input->get('var1');
    	force_download($iamge_id, NULL);	
 	}
@@ -118,12 +134,6 @@ class submit_iin extends CI_Controller {
                 'last_updated_date' => date('Y-m-j'));
             $this->user_model->insert_app_status($data1);
 
-
-
-					// if ($get_document->row()->id_application_status_name =="PENDING"){
-					// 	$this->log("New document","New step3");
-					// $this->user_model->update_aplication_status("COMPLETED", $get_document->row()->id_application, "3", $username);
-					// }
 		}
 	// }
 	}
@@ -146,8 +156,7 @@ class submit_iin extends CI_Controller {
                 'modified_by' => $username,
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
-                 
-                 
+                     
 			
             // 7 Belum dirubah jadi update
 		}
@@ -177,6 +186,9 @@ function  step_tujuh_team (){
 	
 /*Melakukan Upload document*/
 	 function do_upload() {
+	 	if($this->session->userdata('status') != "login"){
+			redirect(base_url("SipinHome"));
+		}
 	$id_user = $this->session->userdata('id_user');
 	$get_document = $this->user_model->get_aplication($id_user);
 	$username = $this->session->userdata('username');
@@ -185,7 +197,7 @@ function  step_tujuh_team (){
  
       //Configure upload.
              $this->upload->initialize(array(
-   "allowed_types" => "gif|jpg|png|jpeg",
+   "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
                  "upload_path"   => "./upload/"
              ));
              //Perform upload.
@@ -197,7 +209,6 @@ function  step_tujuh_team (){
 			} else if ($this->input->post('upload') == "uploadstep6") {
 				 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
 			}
-
 
 		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
 		   for ($j = 0; $j < count($query); $j++){
@@ -229,38 +240,6 @@ function  step_tujuh_team (){
 			}
   } 
  
-    
-
-
-	public function captcha()
-	{
-		$vals = array(
-			//'word' => 'Random word',
-			'img_path' => './captcha/',
-			'img_url' => base_url().'captcha/',
-			//'font_path' => './path/to/fonts/texb.ttf',
-			'img_width'	=> '120',
-			'img_height' => 32,
-			'border' => 0,
-			'expiration' => 7200,
-			'word_length' => 6,
-			'font_size' => 20,
-			//'img_id' => 'Imageid',
-			//'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			
-			// White background and border, black text and red grid
-			
-			'colors' => array(
-				'background' => array(255, 255, 255),
-				'border' => array(255, 255, 255),
-				'text' => array(0, 0, 0),
-				'grid' => array(255, 200, 200)
-			)
-		);
-		$cap = create_captcha($vals);
-		$this->session->set_userdata('mycaptcha', $cap['word']);
-		$data = $cap['image'];
-		return $data;
-	}
+	
 	
  }
