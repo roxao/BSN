@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'SipinHome';
 $route['submit-iin'] = 'submit_iin';
-// $route['dashboard'] = 'dashboard';
+// $route['dashboard'] = 'dashboard/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['user/(:any)'] = 'SipinHome/user/$1';
@@ -83,3 +83,5 @@ $route['edit_user/(:any)'] ='sipinAdmin/edit_data_user/$1';
 
 
 $route['proses_login_admin'] = 'dashboard/proses_login';
+
+$route['contact-us'] = 'SipinHome/contact_us';

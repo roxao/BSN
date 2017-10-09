@@ -39,7 +39,7 @@
 						<li class="nav-link"><a href="<?php echo base_url();?>">Hasil Survey</a>
 					</ul>
 				</li>
-				<li class="nav-link"><a href="<?php echo base_url();?>">Hubungi Kami</a></li>
+				<li class="nav-link"><a href="<?php echo base_url('contact-us');?>">Hubungi Kami</a></li>
 			</ul>
 			<ul class="nav-list float_right" style="padding-right: 20px">
 				<?php if($this->session->userdata('status') != "login") {?>

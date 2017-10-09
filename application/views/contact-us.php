@@ -7,16 +7,16 @@
 		Hubungi Kami
 	</div>
 	<div class="float_left form-contact">
-		<form class="o-form" action="">
+		<form class="o-form" action="<?php echo base_url('SipinHome/send_complaint') ?>" method="post" >
 			<label>
 				<div>Alamat E-mail:</div>
-				<input type="text" autocomplete="off"></label>
+				<input name="email" type="email" autocomplete="off"></label>
 			<label>
 				<div>Nama Lengkap:</div>
-				<input type="email" autocomplete="off"></label>
+				<input name="name" type="text" autocomplete="off"></label>
 			<label>
 				<div>Pesan:</div>
-				<textarea name="" id="" cols="30" rows="10"></textarea>
+				<textarea name="message" id="" cols="30" rows="10"></textarea>
 			</label>
 			<button class="float_right">Kirim</button>
 			<br/><br/><br/>

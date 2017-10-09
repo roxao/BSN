@@ -21,12 +21,16 @@ class SipinHome extends CI_Controller {
 	}
 
 
-	// ALDY: FILE ISO 
+	// ALDY: FILE ISO
+	// public function iso_document(){ 
 	public function file_iso_7812(){		
-		$data['file_iso'] = 'http://localhost/BSN/assets/sample.pdf';
+		// $data['file_iso'] = 'http://localhost:8090/BSN/assets/sample.pdf';
+		$data['file_iso'] = $this->user_model->get_file_iso()->result();
+
+		// echo json_encode($dat);
 		$this->load->view('header');
-		$this->load->view('iso7812', $data);
-		$this->load->view('footer');
+		$this->load->view('iso-document-view', $data);
+		// $this->load->view('footer');
 	}
 
 	// ALDY: LOGIN USER
@@ -280,5 +284,29 @@ public function captcha()
 
 	public function modal_popup(){
 		$this->load->view('component/modal_popup');
+	}
+
+	public function contact_us()
+	{
+		$this->load->view('header');
+		$this->load->view('contact-us');
+		$this->load->view('footer');
+		
+	}
+
+	public function send_complaint()
+	{
+		$cek = $this->user_model->get_user_by_prm($this->input->post('email'),$this->input->post('name'));
+		
+		$data = array(
+                'id_user' => $cek->row()->id_user,
+                'complaint_details' => $this->input->post('message'),
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->input->post('name'));
+		// echo json_encode($data);
+		$this->user_model->insert_complain($data);
+
+		redirect(base_url('contact-us'));
+
 	}
  }
