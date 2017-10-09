@@ -54,6 +54,57 @@ class Dashboard extends CI_Controller {
     }
 
 
+    public function login_process() {
+        $username = $this->input->post('username');
+        // $password = $this->input->post('password');
+        $password = hash ( "sha256", $this->input->post('password'));
+
+        $cek = $this->admin_model->cek_login($username,$password);
+        echo $username;
+        echo $password;
+        echo $cek->num_rows();
+        if($cek->num_rows() > 0){
+            if ($cek->row()->admin_status == 0){ 
+                $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+                echo "gagal dari status";
+            } else {
+                if($cek->row()->admin_role == 0) {
+                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang Supper Admin');
+                    // masuk ke tampilan super admin
+                     $this->session->set_userdata(array(
+                    'id_admin'      => $cek->row()->id_admin,
+                    'username'      => $cek->row()->username,
+                    'email'         => $cek->row()->email,
+                    'admin_status'  => $cek->row()->admin_status,
+                    'admin_role'    => $cek->row()->admin_role));
+                    redirect(base_url('dashboard'));
+                     
+                } else {
+                    echo "Selamat Datang Admin";
+                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
+                     // masuk ke tampilan admin
+                    $this->session->set_userdata(array(
+                    'id_admin'      => $cek->row()->id_admin,
+                    'username'      => $cek->row()->username,
+                    'email'         => $cek->row()->email,
+                    'admin_status'  => $cek->row()->admin_status,
+                    'admin_role'    => $cek->row()->admin_role));
+                    redirect(base_url('dashboard'));
+                }
+            }
+        }
+        else{
+            redirect(base_url('dashboard/login_admin'));
+        }
+    }
+
+    public function logout_admin(){ 
+        $this->session->sess_destroy();
+        $data['logout'] = 'You have been logged out.';      
+       redirect(base_url('dashboard/login_admin'));
+    }
+
+
     public function get_app_data() {    
         // $this->session_login();
         $id = $this->input->post('id_app');
@@ -427,59 +478,7 @@ class Dashboard extends CI_Controller {
 
 
 
-public function login_admin() {
-        $this->load->view('admin/login');
-    }
-
-    public function login_process() {
-        $username = $this->input->post('username');
-        // $password = $this->input->post('password');
-        $password = hash ( "sha256", $this->input->post('password'));
-
-        $cek = $this->admin_model->cek_login($username,$password);
-        echo $username;
-        echo $password;
-        echo $cek->num_rows();
-        if($cek->num_rows() > 0){
-            if ($cek->row()->admin_status == 0){ 
-                $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
-                echo "gagal dari status";
-            } else {
-                if($cek->row()->admin_role == 0) {
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang Supper Admin');
-                    // masuk ke tampilan super admin
-                     $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    redirect(base_url('dashboard'));
-                     
-                } else {
-                    echo "Selamat Datang Admin";
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
-                     // masuk ke tampilan admin
-                    $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    redirect(base_url('dashboard'));
-                }
-            }
-        }
-        else{
-            // redirect(base_url('dashboard/login_admin'));
-        }
-    }
-
-    public function logout_admin(){ 
-        $this->session->sess_destroy();
-        $data['logout'] = 'You have been logged out.';      
-       redirect(base_url('dashboard/login_admin'));
-    }
+    
 
 
 
