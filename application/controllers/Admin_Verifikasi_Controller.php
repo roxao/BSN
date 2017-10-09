@@ -98,7 +98,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             $this->admin_model->insert_log($dataL);
 
-            $this->admin_model->next_step($data,$condition);
+            // $this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
                 'id_application '=> $this->input->post('id_application'),
@@ -109,7 +109,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'last_updated_date' => date('Y-m-j H:i:s'),
                 // 'modified_by ' => $this->session->userdata('username')
                 );
-            $this->admin_model->insert_app_status($data2);
+            // $this->admin_model->insert_app_status($data2);
 
             $data4 = array(
                     'type' => 'REJECTED',
@@ -121,7 +121,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         'iin_status'=> 'CLOSED');
 
                     $id_application = array('id_application'=> $this->input->post('id_application'));
-            $this->admin_model->update_app($data5,$id_application);
+            // $this->admin_model->update_app($data5,$id_application);
 
         
     }
@@ -129,21 +129,24 @@ class Admin_Verifikasi_Controller extends CI_Controller
     //tolak pengajuan karena kesalahan sesuatu
     public function VERIF_NEW_REQ_ETC()
     {
-        
+            // print_r($this->input->post('coment'));
+            // echo $this->input->post('coment');
          // ditolak dll
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+        echo $id_app->row()->applicant;
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'modified_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Rejected new applicant',
-                'log_type' => 'reject new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'log_type' => 'reject new applicant '.$id_app->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -164,15 +167,16 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                 $data4 = array(
                     'type' => 'REJECTED',
-                    'value' => $this->input->post('coment')
+                    'value' => $this->input->post('coment'),
+                    'id_application_status'=> $this->input->post('id_application_status')
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
                     
                     $data5 = array(
                         'iin_status'=> 'CLOSED');
             $id_application = array('id_application'=> $this->input->post('id_application'));
-            $this->admin_model->update_app($data5,$id_application);
-
+            $this->admin_model->update_applications($data5,$id_application);
+           redirect(base_url('dashboard'));
         
     }
 
