@@ -9,18 +9,16 @@
 <div class="page" style="margin-top: 150px">
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">
-			<li stepId="0" class="<?php $Status ; $Status= $this->session->flashdata('satu') == "COMPLETED" ? "COMPLETED": (  $this->session->flashdata('satu') == "PENDING"  ? 'PENDING' : ''); echo $Status ?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
-			<li stepId="1" class="<?php $Status ; $Status= $this->session->flashdata('dua') == "COMPLETED" ? "PENDING": (  $this->session->flashdata('dua') == "COMPLETED"
-					? 'COMPLETED' : ''
-				   ); echo $Status ?>"><button>Hasil Verifikasi Status Permohonan</button></li>
+			<li stepId="0" class="COMPLETED"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="1" class="COMPLETED"><button>Hasil Verifikasi Status Permohonan</button></li>
 			<li stepId="2" class="COMPLETED"><button>Submit Kelengkapan Dokumen</button></li>
-			<li stepId="3" class="PENDING"><button>Proses Verifikasi dan Validasi</button></li>
-			<li stepId="4" class=""><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
-			<li stepId="5" class=""><button>Submit Bukti Transfer Pembayaran</button></li>
-			<li stepId="6" class=""><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
-			<li stepId="7" class=""><button>Assessment Lapangan</button></li>
-			<li stepId="8" class=""><button>Proses Permohonan ke CRA</button></li>
-			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
+			<li stepId="3" class="COMPLETED"><button>Proses Verifikasi dan Validasi</button></li>
+			<li stepId="4" class="COMPLETED"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
+			<li stepId="5" class="COMPLETED"><button>Submit Bukti Transfer Pembayaran</button></li>
+			<li stepId="6" class="COMPLETED"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
+			<li stepId="7" class="COMPLETED"><button>Assessment Lapangan</button></li>
+			<li stepId="8" class="COMPLETED"><button>Proses Permohonan ke CRA</button></li>
+			<li stepId="9" class="COMPLETED"><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
 		</ul>
 
 
