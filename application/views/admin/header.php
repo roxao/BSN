@@ -13,36 +13,27 @@
 <body>
 	<input type="hidden" id="base_url" value="<?php echo base_url(); ?>/dashboard">
 	<header>
-		<nav id="wrapper">
-			<div id="nav">
-				<div class="clearfix" style="padding: 10px 20px">
-					<div class="nav_left float_left">
-						<div class="nav_logo">
-							<img src="<?php  echo base_url(); ?>/assets/logo.png" alt="" class="float_left">
-							<div class="float_right">
-								<h1>Sistem Informasi Penerbitan Issuer Identification Number (SIPIN)</h1>
-								<h2>Badan Standarisasi Nasional</h2>
-								<h2>National Standardization Agency of Indonesia</h2>
-							</div>
-						</div>
-					</div>
-					<div class="nav_right float_right" style="margin-top: 10px">
-						<ul class="user_nav clearfix">
-							<li><div id="btn_register" onclick="unfade('popup_box')" action="btnPopUp" data-id="register_frame">Selamat Datang, <b>Admin</b></div></li>
-							<li><div href="" id="btn_login" action="btnPopUp" data-id="login_frame">Notifikasi</div>
-								<ul class="notif_box">
-									<li class="notif false">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
-									<li class="notif false">Lorem ipsum dolor sit amet, consectetur elit. Voluptatem, neque libero</li>
-									<li class="notif true">Lorem ipsum dolor sit amet,  elit. , neque libero</li>
-									<li class="notif true">Lorem ipsum dolor sit amet, consectetur consectetur adipisicing elit. Voluptatem, neque libero</li>
-									<li class="notif true">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, neque libero</li>
-								</ul>
-							</li>
-							<li><a href="<?php echo base_url('dashboard/logout_admin')?>" >Keluar</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+		<nav class="clearfix">
+			<div class="nav-menu float_left"><div>MENU</div></div>
+			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
+			<ul class="nav-list float_right" style="padding-right: 20px">
+				<?php if($this->session->userdata('status') != "login") {?>
+				<li class="nav-sess"><a href="<?php echo base_url();?>" class="open_modal" action="login">Masuk</a></li>
+				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
+
+				<?php } else { ?>
+				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
+					<ul class="box_notif">
+						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
+						<li class="false"><a href="#">Ipsum vitae quos at esse cumque obcaecati ullam temporibus ex eveniet totam</a></li>
+						<li class="true"><a href="#">Similique quae nisi, quibusdam recusandae accusantium non consectetur dignissimos </a></li>
+						<li class="true"><a href="#">Eius saepe expedita, eum dolor nostrum aspernatur voluptas quo eaque aperiam error </a></li>
+						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
+					</ul>
+				</li>
+				<li class="nav-sess"><a href="<?php echo base_url();?>SipinHome/logout">Keluar</a></li>
+				<?php } ?>
+			</ul>
 		</nav>
 	</header>
 

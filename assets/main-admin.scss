@@ -13,6 +13,8 @@ $fsize_normal : 12px;
 $width_cont   : 1200px;
 $header_h     : 75px;
 $menu_w       : 200px;
+$width_cont   : 1200px;
+$desktop      : 800px;
 /*RESET DEFAULT HTML*/
 
 * {margin: 0;padding: 0}
@@ -666,6 +668,8 @@ div.close_modal {
   }
 }
 
+
+
 .btn-flat {
   text-transform: uppercase;
   padding: 10px 15px 12px 15px;
@@ -696,4 +700,203 @@ div.close_modal {
   border-radius: 2px;
   box-shadow:0 1px 3px rgba(0, 0, 0, 0.1), 0 10px 0 -6px #fff, 0 9px 5px -5px rgba(0, 0, 0, 0.2), 0 19px 0 -11px #fff, 0 18px 5px -10px rgba(0, 0, 0, 0.2);
 }
+
+
+
+/*HEADER*/
+
+header {
+  background: rgba(255, 255, 255, 1);
+  z-index: 1000;
+  box-shadow: 0 2px 100px rgba(0,0,0,.1);
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
+.nav-logo{
+  display: inline-block;
+  border-right: 1px solid #eee;
+  margin-right: 20px;
+  img{
+    transition: all .5s ease;
+    @media screen and (min-width: $desktop) {
+    max-height: 32px;
+    margin: 13px 10px 13px 30px;
+
+    }
+    @media screen and (max-width: $desktop) {
+    max-height: 25px;
+    margin: 13px 10px 13px 0px;
+    }
+  }
+}
+
+.nav-menu{
+    display: none;
+    div{
+      transition: all ease .5s;
+      font-size: 0;
+      background: #009240;
+      height: 2px;
+      width: 20px;
+      margin: 25px;
+      position: relative;
+      &:before, &:after{
+        transition: all ease .5s;
+        background: #009240;
+        width: 100%;
+        display: block;
+        position: absolute;
+        content: '';
+        height: 2px;
+      }
+      &:before {
+        margin-top: -6px;
+      }
+      &:after {
+        margin-top: 6px;
+      }
+    }
+    &.active div{
+      background: none !important;
+      transition: all ease .5s;
+      &:before {
+        margin-top: 0;
+        transform: rotate(45deg) !important;
+        transition: all ease .5s;
+      }
+      &:after {
+        margin-top: 0;
+        transform: rotate(-45deg) !important;
+        transition: all ease .5s;
+      }
+    }
+}
+
+
+
+.nav-list{
+  >li{
+    display: inline-block;
+    line-height: 32px; 
+    margin: 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    >a {
+      color: #777; 
+      line-height: 32px; 
+      transition: all .5s ease;
+      margin-right: 15px;
+      font-size: 12px;
+      &:hover{
+        color: $c_2nd
+      }
+    }
+  }
+  .nav-sess{
+    border-radius: 4px;
+    transition: all .5s ease;
+    font-size: 11px;
+    a{
+      margin-right: 10px;
+    }
+  }
+  .nav-sess.register{
+    a{
+      color: #009240;
+      border: 1px solid #009240;
+      padding: 6px 12px;
+      border-radius: 4px;
+      transition: all .5s ease;
+      font-size: 11px;
+      &:hover{
+        background: #009240;
+        color: #fff;
+        transition: all .5s ease;
+      }
+    }
+  }
+  .nav-link.parent{
+    &:hover{
+      cursor: pointer;
+    }
+    > ul{
+      display: none;
+      position: absolute;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,.3),0 0px 2px rgba(0,0,0,.1);
+      border-radius: 2px;
+      margin: 0px -15px;
+      padding: 10px 0;
+      line-height: 32px; 
+      z-index: 100;
+      li {padding: 2px 15px;transition: all 1s ease;
+        a{font-size: 12px;color: #777;}
+        &:hover{background: rgba(0, 146, 64, 0.2);transition: all 1s ease;padding: 2px 10px 2px 20px;
+          a{color: $c_2nd !important}
+          }
+      }
+    }
+    &.active{
+       ul {
+        display: block !important;
+      }
+    }
+  }
+}
+
+
+.nav-notif{
+  position: relative;
+  >a{
+    span{
+          border: 1px solid red;
+          color: red;
+          padding: 3px 7px 2px 7px;
+          line-height: 0;
+          border-radius: 7px;
+        }
+  }
+  .box_notif{
+    display: none;
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    margin: 0px 0 0 -15px;
+    padding: 5px 0;
+    z-index: 100;
+    text-transform: none;
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 300px;
+    width: 100vw;
+    right: 0;
+    max-height: 250px;
+    overflow: scroll;
+    li{
+      padding: 10px 15px;
+      font-size: 12px;
+      line-height: 15px;
+      letter-spacing: 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      a{
+        color: #999
+      }
+    }
+    .false{
+      background: #edf2fa;
+      a{
+        color: #555
+      }
+    }
+  }
+  &:hover .box_notif{
+    display: block;
+  }
+}
+
 
