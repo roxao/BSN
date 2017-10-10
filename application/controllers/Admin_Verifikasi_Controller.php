@@ -32,7 +32,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     //proses pertama setujui permohonan baru
 	public function VERIF_NEW_REQ_PROSES()
 	{
-
+            //untuk menapilkan nama applicant yang akan disimpan di tabel log
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
       
         		$data = array(
         		'process_status' => 'COMPLETED',
@@ -81,7 +82,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     //tolak pengajuan karena sudah punya iin
     public function VERIF_NEW_REQ_HAS_IIN()
     {
-       
+            
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -215,7 +216,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //setujui kelemngkapan document dari user
 	public function VERIF_UPLDOC_REQ_PROSES_SUCCEST()
 	{
-            echo $this->input->post('id_application')." = id_application";
+            //untuk menapilkan nama applicant yang akan disimpan di tabel log
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
         	$data = array(
                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
@@ -229,7 +231,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             echo $this->input->post('id_application_status')." = id_application_status";
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approved new document',
-                'log_type' => 'added '.$this->input->post('username'), 
+                'log_type' => 'added '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
@@ -279,31 +281,30 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data2);
-
+           redirect(base_url('dashboard'));
 
 	}
 
 //revisi document untuk user
     public function VERIF_UPLDOC_REQ_PROSES_REVITIONS()
     {
-        if($this->input->post('revisi') == "revisi")
-        {
+            //untuk menapilkan nama applicant yang akan disimpan di tabel log
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '3',
               
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Revisi Kelengkapan Dokumen',
-                'log_type' => 'revisi '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'log_type' => 'revisi '.$id_app->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -315,23 +316,48 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '4',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data4,$condition);
 
-            //multipel update buat data document
-             $data2 = array(
-                    'type' => 'REVISED_DOC',
-                    'value' => '(plih document apa aja yang perlu direvisi)',
-                    'id_application_status'=> $this->input->post('id_application_status')
-                    );
-           $this->admin_model->insert_app_sts_for_map($data2);
 
            //update data
 
-        }
+             $doc = $this->input->post("docRef");
+
+             for ($i=0; $i < count($doc); $i++) { 
+                    //data untuk insert ke tabel applications_form_mapping
+                    if(!$doc[$i] == null)
+                    {
+                        $data2 = array(
+                        'type' => 'REVISED_DOC',
+                        'value' => 'plih document apa aja yang perlu direvisi nomer = '.$doc[$i],
+                        'id_application_status'=> $this->input->post('id_application_status')
+                        );
+                        //insert ke tabel application form mapping
+                         $this->admin_model->insert_app_sts_for_map($data2);
+                        
+                        //untuk mendapatkan id_document_config
+                        $dc = $this->admin_model->document_config_get_by_prm_key($doc[$i]);
+
+                        //app file search dgn 2 parameter yaitu id_application dan id_document_config
+                        $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
+                        $id_app_file = array('id_application_file' => $apf->row()->id_application_file);
+                        
+                        $data3 = array(
+                            'status' => 'ACTIVE',
+                            'modified_date' => date('y-m-d'),
+                            'modified_by' => $this->session->userdata('username')
+                        );
+                        //update applications file untuk direfisi
+                        $this->admin_model->application_file_update($id_app_file, $data3);
+
+                    }
+             }
+
+            redirect(base_url('dashboard'));
     }
 
    
@@ -1876,8 +1902,8 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application' => $prm,
                 'id_document_config' => $query[$x]->id_document_config,
                 'status' => 'ACTIVE',
-                'created_date'=> date('y-m-d')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date'=> date('y-m-d'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_doc_for_user($data);
 

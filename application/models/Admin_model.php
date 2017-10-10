@@ -447,5 +447,22 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
+    public function document_config_get_by_prm_key($key)
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key',$key);
+        return $this->db->get(); 
+    }
+
+    public function application_file_get_by_idapp_iddc($idapp,$iddc)
+    {
+        $this->db->select('*');
+        $this->db->from('application_file');
+        $this->db->where('id_application',$idapp);
+        $this->db->where('id_document_config',$iddc);
+        return $this->db->get(); 
+    }
+
 }
 ?>
