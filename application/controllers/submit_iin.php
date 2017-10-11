@@ -38,9 +38,13 @@ class submit_iin extends CI_Controller {
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
 		}
-
-if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
-	$id_user = $this->session->userdata('id_user');
+		$id_user = $this->session->userdata('id_user');
+		$Check = $this->user_model->getdocument_aplication($id_user);
+if ($Check->num_rows() > 0){
+echo "Anda sudah memiliki aplikasi iin yg mash aktif";
+}  else { 
+	if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
+	
 	$get_document = $this->user_model->get_applications_Status($id_user);
 	$username = $this->session->userdata('username');
 	if($this->input->post('kirim') == "kirim"){
@@ -84,8 +88,7 @@ if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'
 } else {
 	echo "Tidak Sama";
 }
-
-		
+} 	
 	}
 
 	

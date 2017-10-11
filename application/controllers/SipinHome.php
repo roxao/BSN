@@ -60,12 +60,12 @@ public function log($Type, $detil, $username){
 
 	 	
      $username = $this->input->post('username');
-     $password = hash ( "sha256", $this->input->post('password'));
+     // $password = hash ( "sha256", $this->input->post('password'));
 
-     // $password =  $this->input->post('password');
+     $password =  $this->input->post('password');
      $cek = $this->user_model->cek_login($username, $password);
      if($cek->num_rows() > 0){
-     if ($cek->row()->status_user == 0){ $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+     if ($cek->row()->status_user == 0) { $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
   $this->user('login');}
       else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
       $this->log("login","Login", $username);
@@ -81,7 +81,9 @@ public function log($Type, $detil, $username){
 	    'status' => "login",
 		));
 
-      redirect(base_url("SipinHome"));
+     $this->load->view('header');
+		$this->load->view('home');
+		$this->load->view('footer');
 	}
       }else{
       	$this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
@@ -97,6 +99,7 @@ public function log($Type, $detil, $username){
 		}
 
 	/* register function. */
+	/* register function. */
 	public function register() {
 		$regex = $this->regex($this->input->post('password'));
 		if ($regex == "true"){
@@ -104,10 +107,9 @@ public function log($Type, $detil, $username){
 		$username = $this->input->post('username');
 		$no_iin    = $this->input->post('iin-number');
 		$email    = $this->input->post('email');
-		$password = hash ( "sha256", $this->input->post('password'));
 		$password = $this->input->post('password');
-		$password_confirm = hash ( "sha256", $this->input->post('retype-password'));
-		// $password = hash ( "sha256", $this->input->post('password'));
+		$password_confirm = $this->input->post('retype-password');
+		
 		if (($this->input->post('secutity_code') == $this->session->userdata('mycaptcha'))){
 		if ($password == $password_confirm){
 			$cek = $this->user_model->cek_status_user($username, $password);
@@ -125,16 +127,19 @@ public function log($Type, $detil, $username){
 				       $this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
 				         $this->user('register'); }}}
 		}else { 
+			$this->captcha();
 	$this->session->set_flashdata('validasi-login', 'password yang anda masukkan tidak sesuai');
 				         $this->user('register');}	
 		} else {
-
-	$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
+$this->captcha();
+$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
 				         $this->user('register');
 				     }	
 
 				 } else {
-$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+
+				 	$this->captcha();
+	$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
 				         $this->user('register');
 
 				 }
@@ -180,12 +185,14 @@ $this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
 
 public function captcha()
 	{
+
+		 $this->load->helper('captcha');
+ 
 		$vals = array(
 			//'word' => 'Random word',
 			'img_path' => './captcha/',
 			'img_url' => base_url().'captcha/',
-			//'font_path' => './path/to/fonts/texb.ttf',
-			'img_width'	=> '120',
+			'img_width'	=> '200',
 			'img_height' => 32,
 			'border' => 0,
 			'expiration' => 7200,
@@ -211,25 +218,43 @@ public function captcha()
 	}
 
 	public function submitiin () {
+		$this->captcha();
 		$id_user = $this->session->userdata('id_user');
 		$Status =  $this->user_model->get_applications_Status($id_user);
 		// echo $Status->row()->id_application_status_name ;
-		$this->load->view('header');
-		$this->load->view('submit-iin');
-		$this->load->view('footer');
-			
+		// $this->session->set_flashdata('satu', "PENDING");
+		$this->session->set_flashdata('satu', "PENDING");
 		if ($Status->num_rows() > 0){
 		
 		switch ($Status->row()->id_application_status_name) {
             case '1':
-            $this->session->set_flashdata('satu', $Status->row()->process_status);
+            if ($Status->row()->process_status == "COMPLETED"){
+            $this->session->set_flashdata('satu', "COMPLETED");
+             $this->session->set_flashdata('dua', "PENDING");
+            } else if ($Status->row()->process_status == "PENDING"){
+			$this->session->set_flashdata('satu', "PENDING");
+            } 
+            
                break;
             case '2':
-            $this->session->set_flashdata('dua', $Status->row()->process_status);
+            if ($Status->row()->process_status == "COMPLETED"){
+            $this->session->set_flashdata('dua', "COMPLETED");
+              $this->session->set_flashdata('tiga', "PENDING");
+            } else if ($Status->row()->process_status == "PENDING"){
+			$this->session->set_flashdata('dua', "PENDING");
+            } else{
+            $this->session->set_flashdata('dua', "");
+            }
                 break;
             case '3':
-            $this->session->set_flashdata('tiga', $Status->row()->process_status);
-                break;
+             if ($Status->row()->process_status == "COMPLETED"){
+            $this->session->set_flashdata('tiga', "COMPLETED");
+            } else if ($Status->row()->process_status == "PENDING"){
+			$this->session->set_flashdata('tiga', "PENDING");
+            } else{
+            $this->session->set_flashdata('tiga', "");
+            }
+
             case '4':
             $this->session->set_flashdata('empat', $Status->row()->process_status);
             	break;
@@ -281,7 +306,13 @@ public function captcha()
 
             
         }
-        }	
+        }
+
+		$this->load->view('header');
+		$this->load->view('submit-iin');
+		$this->load->view('footer');
+		
+			
 	}
 
 	public function modal_popup(){

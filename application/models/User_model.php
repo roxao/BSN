@@ -19,8 +19,8 @@ class User_model extends CI_Model {
             'username'   => $username,
             'password'   => $password,
             'name'   => $name,
-            'created_date' => null,
-            'created_by'   => null,
+            'created_date' => "",
+            'created_by'   => "",
             'modified_date'   => date('Y-m-j H:i:s'),
             'modified_by'   => $name,
             'status_user'   => "0",
@@ -31,12 +31,21 @@ class User_model extends CI_Model {
 
 
 
-
-    public function cek_login($username,$password){  
-    $this->db->where("email = '$username' or username = '$username'");  
-    $this->db->where('password', $password); 
-        return  $this->db->get('user');   
+public function cek_login($username,$password){ 
+    $this->db->select('*');
+    $this->db->from('user'); 
+    $this->db->join('iin', 'user.id_user=applications.id_user');
+    $this->db->where("user.email = '$username' or user.username = '$username' or iin.number = '$username' ");
+    $this->db->where('user.password', $password);         
+    $query = $this->db->get(); 
+ 
+        return  $query;   
     }
+    // public function cek_login($username,$password){  
+    // $this->db->where("email = '$username' or username = '$username'");  
+    // $this->db->where('password', $password); 
+    //     return  $this->db->get('user');   
+    // }
 
       public function get_all_notifikasi($id_user){  
     $this->db->where('notification_owner ','$id_user');  
@@ -164,8 +173,6 @@ class User_model extends CI_Model {
     $encrypted_id = md5($email) ;
     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
     $subject = 'Verify Your Email Address';
-    $message =  "Terimakasih telah melakuan registrasi, untuk memverifikasi silahkan klik tautan dibawah ini<br><br>".
-      base_url("SipinHome/verify/$encrypted_id");
 
 
     $config['protocol'] = 'smtp';
@@ -224,8 +231,8 @@ class User_model extends CI_Model {
     /*Verifikasi Email dan Update status user*/
     public function verifyEmail($key) {
         // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-        $data = array('user_status' => "1");
-        $this->db->where('md5(email)', $key);
+        $data = array('status_user' => "1");
+        $this->db->where('email', $key);
 
         return $this->db->update('user', $data);
       }
