@@ -12,4 +12,6 @@
 
 <script>
     document.title = '<?php echo $cms[0]['title'] ?>';
+    parseDate(".date-format");
+  function parseDate(o){date=$(o).attr('date-id');var x=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];y=date.substr(0,4);m=date.substr(5,2);d=date.substr(8,2);$(o).html(d+" "+x[m-1]+" "+y)}
 </script>

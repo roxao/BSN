@@ -1695,6 +1695,38 @@ footer {
     background: #fff;
     position: relative;
     box-sizing: border-box; } }
+.main_pagination {
+  display: block;
+  text-align: center;
+  margin-top: 10px; }
+  .main_pagination ul {
+    display: inline-block; }
+  .main_pagination li {
+    display: inline-block;
+    padding: 6px 12px;
+    font-weight: 700;
+    background: #f7f7f7;
+    border-radius: 3px;
+    margin: 5px;
+    color: #507299;
+    transition: all 1s ease; }
+    .main_pagination li a {
+      color: #507299;
+      border: 0;
+      background: none;
+      position: static;
+      max-width: auto;
+      margin: 0 auto;
+      padding: 0;
+      min-height: 0; }
+    .main_pagination li:hover {
+      cursor: pointer;
+      background: #507299;
+      color: #fff;
+      transition: all 1s ease; }
+      .main_pagination li:hover a {
+        color: #fff; }
+
 #cms-section {
   display: block;
   max-width: 1000px;

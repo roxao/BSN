@@ -350,8 +350,7 @@ public function captcha()
 		$this->load->view('footer');
 	}
 
-	public function contact_us_prossess()
-	{	
+	public function contact_us_prossess(){	
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
 		$message = $this->input->post('message');
@@ -360,9 +359,10 @@ public function captcha()
 
 	}
 
-	public function get_iin_data()
-	{
+	public function iin_list(){
 		$data['iin'] = $this->user_model->get_iin()->result();
-		echo json_encode($data);
+		$this->load->view('header');
+		$this->load->view('iin-list-view',$data);
+		$this->load->view('footer');
 	}
  }

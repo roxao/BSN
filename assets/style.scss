@@ -13,7 +13,7 @@ $fsize_normal : 13px;
 $width_cont   : 1200px;
 $desktop      : 800px;
 
-/*RESET DEFAULT HTML*/
+/*RESET DEFAULT HTML*/ 
 
 * {margin: 0;padding: 0}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section {display: block}
@@ -1967,7 +1967,43 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     }
 }
 
-
+.main_pagination {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  ul{
+    display: inline-block
+  }
+  li{
+    display: inline-block;
+    padding: 6px 12px;
+    font-weight: 700;
+    background: #f7f7f7;
+    border-radius: 3px;
+    margin: 5px;
+    color: $c_1st;
+    transition: all 1s ease;
+    a{
+      color: $c_1st;
+      border: 0;
+      background: none;
+      position: static;
+      max-width: auto;
+      margin: 0 auto;
+      padding: 0;
+      min-height: 0;
+    }
+    &:hover{
+      cursor: pointer;
+      background: $c_1st;
+      color: #fff;
+      transition: all 1s ease;
+      a{
+        color:#fff; 
+      }
+    }
+  } 
+}
 
 
 #cms-section{
