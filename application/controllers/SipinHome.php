@@ -42,7 +42,7 @@ class SipinHome extends CI_Controller {
 		$this->load->view('login', $data);
 	}
 
-public function log($Type, $detil, $username){
+	public function log($Type, $detil, $username){
 		/*Insert Log*/
 		$dataLog = array(
                 'detail_log' => $username. $detil,
@@ -343,12 +343,11 @@ public function captcha()
 
 	}
 
-	public function get_cms($prm)
-	{
-		$data['cms'] = $this->adm_model->get_cms_by_prm($prm)->result();
-		// $this->load->view('header');
+	public function cms_post($prm){
+		$data['cms'] = $this->adm_model->get_cms_by_prm($prm)->result_array();
+		$this->load->view('header');
 		$this->load->view('cms-post-view',$data);
-		// $this->load->view('footer');
+		$this->load->view('footer');
 	}
 
 	public function contact_us_prossess()
