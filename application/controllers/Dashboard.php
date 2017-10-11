@@ -802,12 +802,17 @@ class Dashboard extends CI_Controller {
 
     }
 
+    public function get_cms_insert() 
+    {
+$this->load->view('admin/options/cms_insert');
+    }
+
     //cari admin berdasarkan id cms
     public function get_cms($prm) 
     {
 
         $data['cms'] = $this->admin_model->get_cms_by_prm($prm)->result();
-        // $this->load->view('admin/data_asesment', $data);
+        $this->load->view('admin/options/cms_insert',$data);
         echo json_encode($data);
     }
 
@@ -836,8 +841,15 @@ class Dashboard extends CI_Controller {
 
     //untuk menuju form isian data tambah cms
     public function insert_cms() 
-    {
-        $this->load->view('');
+    {   
+        // $data['cms'] = $this->admin_model->get_cms()->result();
+        // $this->load->view('admin/options/cms_view_all',$data);
+    }
+
+    public function get_all_cms() 
+    {   
+        $data['cms'] = $this->admin_model->get_cms()->result();
+        $this->load->view('admin/options/cms_view_all',$data);
     }
 
     //tambah cms
@@ -953,12 +965,7 @@ class Dashboard extends CI_Controller {
         $ast['data_asesment_title'] = $this->admin_model->get_assessment_title()->result();
         $doc['document']    = $this->admin_model->get_document()->result();
 // $doc['document']    = $this->admin_model->all_dat()->result();
-        // echo json_encode($iin);
-        // echo json_encode($usr);
-        // echo json_encode($cms);
-        // echo json_encode($ass);
-        // echo json_encode($ast);
-        echo json_encode($doc);
+        
     }
 
 

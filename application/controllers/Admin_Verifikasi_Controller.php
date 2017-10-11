@@ -130,8 +130,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     //tolak pengajuan karena kesalahan sesuatu
     public function VERIF_NEW_REQ_ETC()
     {
-            // print_r($this->input->post('coment'));
-            // echo $this->input->post('coment');
+
          // ditolak dll
 
         //untuk menapilkan nama applicant yang akan disimpan di tabel log
@@ -373,8 +372,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //revisi dokumen disetujui
    public function VERIF_REVDOC_REQ_PROSES()
    {
-        if($this->input->post('setujui') == "setujui")
-        {   
+  
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -411,11 +409,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data3);    
-            
-        }else
-        {
-            echo "bukan tombol setujui";
-        }
+            redirect(base_url('dashboard'));
+
    }
 
 //revisi dokumen kembali jika ada kesalahan dokumen 
@@ -498,8 +493,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
 	{  
-        // echo json_encode($this->input->post("bill"));
-            print_r($this->input->post("bill"));
+        
+            
         		$data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
@@ -579,7 +574,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $uploaded = $this->upload->data();
                     $this->admin_model->insert_doc_for_user($doc);
-                    print_r($doc);
+                   
                     
 
                         }
@@ -589,13 +584,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
            
                 }
              
-            
-            
-
-
-
-  	
-   
+            redirect(base_url('dashboard'));       
+  
 	}
 
 //yg ini belum
