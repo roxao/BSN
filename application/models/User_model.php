@@ -263,5 +263,15 @@ public function cek_login($username,$password){
      {
         $this->db->insert('complaint', $data);
      }
+
+     public function get_iin()
+     {
+        
+        $this->db->select('iin.id_iin, iin.iin_number, iin.iin_established_date, iin.iin_expiry_date, applications.instance_name, applications.instance_email, applications.instance_phone, applications.mailing_location');
+        $this->db->from('user');
+        $this->db->join('iin', 'user.id_user=iin.id_user');
+        $this->db->join('applications','applications.id_user=user.id_user');
+        return $this->db->get(); 
+     }
     
 }

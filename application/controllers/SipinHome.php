@@ -359,4 +359,10 @@ public function captcha()
 		redirect(base_url('contact-us'));
 
 	}
+
+	public function get_iin_data()
+	{
+		$data['iin'] = $this->user_model->get_iin()->result();
+		echo json_encode($data);
+	}
  }
