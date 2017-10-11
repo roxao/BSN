@@ -9,7 +9,7 @@
 <div class="page" style="margin-top: 150px">
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">
-			<li stepId="0" class="<?php echo $this->session->flashdata('satu') == 'PENDING' ? 'PENDING' : $this->session->flashdata('satu');?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<!-- <li stepId="0" class="<?php echo $this->session->flashdata('satu') == 'PENDING' ? 'PENDING' : $this->session->flashdata('satu');?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $this->session->flashdata('dua') == 'PENDING' ? 'PENDING' : $this->session->flashdata('dua');?>"><button>Hasil Verifikasi Status Permohonan</button></li>
 			<li stepId="2" class="<?php echo $this->session->flashdata('tiga') == 'PENDING' ? 'PENDING' : $this->session->flashdata('tiga');?>"><button>Submit Kelengkapan Dokumen</button></li>
 			<li stepId="3" class=""><button>Proses Verifikasi dan Validasi</button></li>
@@ -18,7 +18,18 @@
 			<li stepId="6" class=""><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
 			<li stepId="7" class=""><button>Assessment Lapangan</button></li>
 			<li stepId="8" class=""><button>Proses Permohonan ke CRA</button></li>
-			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
+			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li> -->
+
+			<li stepId="0" class="PENDING"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="1" class="PENDING"><button>Hasil Verifikasi Status Permohonan</button></li>	   
+			<li stepId="2" class="PENDING"><button>Submit Kelengkapan Dokumen</button></li>
+			<li stepId="3" class="PENDING"><button>Proses Verifikasi dan Validasi</button></li>
+			<li stepId="4" class="PENDING"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
+			<li stepId="5" class="PENDING"><button>Submit Bukti Transfer Pembayaran</button></li>
+			<li stepId="6" class="PENDING"><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
+			<li stepId="7" class="PENDING"><button>Assessment Lapangan</button></li>
+			<li stepId="8" class="PENDING"><button>Proses Permohonan ke CRA</button></li>
+			<li stepId="9" class="PENDING"><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li>
 		</ul>
 
 
