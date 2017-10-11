@@ -18,8 +18,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url('dashboard/login_process') ?>" method = "POST">
-            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+        <form class="o-form" action="<?php echo base_url('dashboard/user/authorize') ?>" method = "POST">
             <div class="o-error" data-msg="login">Tampilkan error message disini</div>
             <input required type="username" name="username" placeholder="Username">
             <input required type="password" name="password" placeholder="Password">

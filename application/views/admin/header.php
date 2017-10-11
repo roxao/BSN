@@ -17,11 +17,7 @@
 			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
 			<ul class="nav-list float_right" style="padding-right: 20px">
-				<?php if($this->session->userdata('status') != "login") {?>
-				<li class="nav-sess"><a href="<?php echo base_url();?>" class="open_modal" action="login">Masuk</a></li>
-				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
-
-				<?php } else { ?>
+				<li class="nav-sess"><span class="nav-welcome">Selamat Datang, <b><?php echo $this->session->userdata('username') ?></b></span></li>
 				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
 					<ul class="box_notif">
 						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
@@ -31,17 +27,39 @@
 						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
 					</ul>
 				</li>
-				<li class="nav-sess"><a href="<?php echo base_url();?>SipinHome/logout">Keluar</a></li>
-				<?php } ?>
+				<li class="nav-sess"><a href="<?php echo base_url('dashboard/user/logout');?>">Keluar</a></li>
 			</ul>
 		</nav>
 	</header>
 
 	<ul id="dashboard_menu">
-		<li><a href="">Dashboard / Inbox</a></li>
-		<li><a href="">Penerbitan IIN</a></li>
-		<li><a href="">Pengawasan IIN</a></li>
-		<li><a href="">Penerima IIN</a></li>
-		<li><a href="">Laporan</a></li>
-		<li><a href="">Pengaturan</a></li>
+		<li><a class="ic-adm ic-inbox " href="<?php echo base_url('dashboard') ?>">Dashboard / Inbox</a></li>
+		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/new-iin') ?>">Penerbitan IIN</a></li>
+		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/extend-iin') ?>">Pengawasan IIN</a></li>
+		<li><a class="ic-adm ic-iin " href="<?php echo base_url('dashboard/iin-list') ?>">Penerima IIN</a></li>
+		<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/report') ?>">Laporan</a></li>
+		<li><a class="ic-adm ic-history " href="<?php echo base_url('dashboard/report') ?>">Historical Data Entry</a></li>
+		<li><a class="ic-adm ic-setting parent">Pengaturan</a>
+			<ul>
+				<li><a class="ic-adm ic-user " href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
+				<li><a class="ic-adm ic-cms " href="<?php echo base_url('dashboard/settings/cms') ?>">Content Management</a></li>
+				<li><a class="ic-adm ic-survey " href="<?php echo base_url('dashboard/settings/survey') ?>">Survey</a></li>
+				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document') ?>">Dokumen Statis</a></li>
+				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_config') ?>">Kelengkapan Dokumen</a></li>
+				<li><a class="ic-adm ic-team " href="<?php echo base_url('dashboard/settings/assessment') ?>">Tim Assessment</a></li>
+			</ul>
+		</li>
 	</ul>
+
+	<script>
+		$('.nav-menu').on('click', function(event) {
+			if($('#dashboard_menu').hasClass('active')){
+				$(this).removeClass('active');
+				$('#dashboard_menu').removeClass('active')
+			} else {
+				$(this).addClass('active');
+				$('#dashboard_menu').addClass('active')
+			}
+		});
+	</script>
+	

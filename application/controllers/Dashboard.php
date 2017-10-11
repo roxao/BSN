@@ -18,7 +18,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function index(){
-        $this->session_login();
+        $this->user('check-autho');
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
         // echo json_encode($data);
@@ -26,14 +26,14 @@ class Dashboard extends CI_Controller {
     }
 
     public function registered_iin(){
-        // $this->session_login();
+        $this->user('check-autho');
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
         $this->load->view('admin/registered_iin', $data);
     }
 
      public function report(){
-        // $this->session_login();
+        $this->user('check-autho');
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result_array();
         $this->load->view('admin/report', $data);
@@ -42,75 +42,56 @@ class Dashboard extends CI_Controller {
     public function user($subparams = null) {
         switch ($subparams) {
             case 'login':
+                print_r($this->session->userdata('admin_status'));
                 $this->load->view('admin/login');
                 break;
             case 'register':
                 $this->load->view('admin/register');
                 break;
-            case null:
-                $this->load->view('admin/login');
+            case 'logout':
+                $array_items = array('id_admin','username','email','admin_status','admin_role');
+                $this->session->unset_userdata($array_items);
+                $this->session->sess_destroy('sipin_cookies');
+                redirect(base_url('dashboard/user/login'));
                 break;
-        }
-    }
-
-
-    public function login_process() {
-        $username = $this->input->post('username');
-        // $password = $this->input->post('password');
-        $password = hash ( "sha256", $this->input->post('password'));
-
-        $cek = $this->admin_model->cek_login($username,$password);
-        echo $username;
-        echo $password;
-        echo $cek->num_rows();
-        if($cek->num_rows() > 0){
-            if ($cek->row()->admin_status == 0){ 
-                $this->session->set_flashdata('falidasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
-                echo "gagal dari status";
-            } else {
-                if($cek->row()->admin_role == 0) {
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang Supper Admin');
-                    // masuk ke tampilan super admin
-                     $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    redirect(base_url('dashboard'));
-                     
-                } else {
-                    echo "Selamat Datang Admin";
-                    $this->session->set_flashdata('falidasi-login', 'Selamat Datang admin');
-                     // masuk ke tampilan admin
-                    $this->session->set_userdata(array(
-                    'id_admin'      => $cek->row()->id_admin,
-                    'username'      => $cek->row()->username,
-                    'email'         => $cek->row()->email,
-                    'admin_status'  => $cek->row()->admin_status,
-                    'admin_role'    => $cek->row()->admin_role));
-                    redirect(base_url('dashboard'));
+            case 'authorize':
+                $username = $this->input->post('username');
+                $password = hash ( "sha256", $this->input->post('password'));
+                $cek = $this->admin_model->cek_login($username,$password);
+                if($cek->num_rows() > 0){
+                    if ($cek->row()->admin_status == 0){ 
+                        redirect(base_url('dashboard/user/login'));
+                    } else {
+                        $this->session->set_userdata(array(
+                            'id_admin'      => $cek->row()->id_admin,
+                            'username'      => $cek->row()->username,
+                            'email'         => $cek->row()->email,
+                            'admin_status'  => $cek->row()->admin_status,
+                            'admin_role'    => $cek->row()->admin_role));
+                        redirect(base_url('dashboard'));
+                    }
                 }
-            }
-        }
-        else{
-            redirect(base_url('dashboard/user/login'));
+                else{
+                    redirect(base_url('dashboard/user/login'));
+                }
+                break;
+            case 'check-autho':
+                if (!($this->session->userdata('admin_status'))){
+                    redirect(base_url('dashboard/user/login'));
+                }
+                return false;
+                break;
+            case null:
+                redirect(base_url('dashboard/user/login'));
+                break;       
         }
     }
-
-    public function logout_admin(){ 
-        $this->session->sess_destroy();
-        $data['logout'] = 'You have been logged out.';      
-       redirect(base_url('dashboard/user/login'));
-    }
-
 
     public function get_app_data() {    
-        // $this->session_login();
+        $this->user('check-autho');
         $id = $this->input->post('id_app');
         $id_status = $this->input->post('id_status');
         $step = $this->input->post('step');
-        // echo "<script>console.log('".$log."')</script>";
         if($id!=null){
             switch ($step) {
                 case 'verif_new_req':
@@ -165,47 +146,11 @@ class Dashboard extends CI_Controller {
         }
     }
 
-    private function session_login(){
-        $logged_in = $this->session->userdata('admin_status');
-        if (!$logged_in) redirect(base_url('dashboard/user/login'));
-        return false;
-    }
-
     public function set_view($param = null, $subparams = null) {
         $this->load->view('admin/'.$param.'/'.$subparams);
     }
 
-    function do_upload() {
-        $this->load->library('upload');
-        $this->upload->initialize(array("allowed_types" => "gif|jpg|png|jpeg|pdf|doc", "upload_path" => "./upload/"));
-        //Perform upload.
-        if($this->upload->do_upload("images")) {
-            echo '<script>console.log('.var_export($this->upload->data()).');</script>';
-
-            $admin_name     = 'Rinaldy Sam';
-            $doc_step       = 'verif_upldoc_req';
-            $doc_step_name  = 'Verifikasi Kelengkapan Dokumen';
-            /*Insert Log document Revisi*/
-            // write_log($admin_name, $doc_step, 'do upload documents');
-            // $upload_data = array(
-            //     'id_application '=> $get_documen->row->id_application,
-            //     'id_application_status_name' => $doc_step,
-            //     'process_status' => 'PENDING',
-            //     'approval_date' => 'null',
-            //     'created_date' => date('Y-m-j'),
-            //     'created_by' => $username,
-            //     'modified_by' => $username,
-            //     'last_updated_date' => date('Y-m-j'));
-            // $this->admin_model->insert_app_status($upload_data);
-        } else {
-            die('GAGAL UPLOAD');
-      }
-    }
-
-
-
     public function settings($param = null){
-        
         switch ($param) {
             case 'user': $data['data'] = $this->admin_model->get_user()->result_array(); break;
             case 'admin': $data['data'] = $this->admin_model->get_admin()->result_array(); break;
@@ -219,8 +164,6 @@ class Dashboard extends CI_Controller {
         }
         $this->load->view('admin/header');
         $this->load->view('admin/settings/'.$param ,$data);
-        // print_r($data);
-        // echo json_encode($data);
     }
 
     public function action_update($param){
@@ -478,6 +421,31 @@ class Dashboard extends CI_Controller {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 
@@ -497,7 +465,32 @@ class Dashboard extends CI_Controller {
 
     
 
+    function do_upload() {
+        $this->load->library('upload');
+        $this->upload->initialize(array("allowed_types" => "gif|jpg|png|jpeg|pdf|doc", "upload_path" => "./upload/"));
+        //Perform upload.
+        if($this->upload->do_upload("images")) {
+            echo '<script>console.log('.var_export($this->upload->data()).');</script>';
 
+            $admin_name     = 'Rinaldy Sam';
+            $doc_step       = 'verif_upldoc_req';
+            $doc_step_name  = 'Verifikasi Kelengkapan Dokumen';
+            /*Insert Log document Revisi*/
+            // write_log($admin_name, $doc_step, 'do upload documents');
+            // $upload_data = array(
+            //     'id_application '=> $get_documen->row->id_application,
+            //     'id_application_status_name' => $doc_step,
+            //     'process_status' => 'PENDING',
+            //     'approval_date' => 'null',
+            //     'created_date' => date('Y-m-j'),
+            //     'created_by' => $username,
+            //     'modified_by' => $username,
+            //     'last_updated_date' => date('Y-m-j'));
+            // $this->admin_model->insert_app_status($upload_data);
+        } else {
+            die('GAGAL UPLOAD');
+      }
+    }
 
 
 

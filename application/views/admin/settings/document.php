@@ -1,5 +1,10 @@
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
+    <div class="site-map">
+      <a href="<?php echo base_url('dashboard') ?>">Dashboard</a><span></span>
+      <a href="<?php echo base_url('dashboard') ?>">Pengaturan</a><span></span>
+      DOKUMEN STATIS
+    </div>
     <h2 class="title_content">PENGATURAN DOKUMEN</h2>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <?php

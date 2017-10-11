@@ -1,16 +1,20 @@
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
+    <div class="site-map">
+      <a href="<?php echo base_url('dashboard') ?>">Dashboard</a>
+      <span></span>Inbox
+    </div>
     <h2 class="title_content">Inbox Status </h2>
-    
-    <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
+
+    <div id="tableInbox" style=" margin: 0 -20px 0 -20px;overflow: auto; ">
       <table class="table_def tableInbox" style="width: 100%;">
         <tr>
-          <th class="sort click_auto"  data-sort="id_no"><center>#</center></th>
-          <th class="sort" data-sort="id_name">Nama Pemohon</th>
-          <th class="sort" data-sort="id_pt">Nama Instansi</th>
-          <th class="sort" data-sort="id_type">Jenis Pengajuan</th>
-          <th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
-          <th class="sort" data-sort="id_status"><center>Status Pengajuan</center></th>
+          <th style="min-width:55px" class="sort sort-center click_auto"  data-sort="id_no">#</th>
+          <th style="min-width:140px" class="sort" data-sort="id_name">Nama Pemohon</th>
+          <th style="min-width:190px" class="sort" data-sort="id_pt">Nama Instansi</th>
+          <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
+          <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
+          <th width="" class="sort sort-center" data-sort="id_status">Status Pengajuan</th>
         </tr>
         <tbody class="list">
           <?php  foreach($applications as $data) { ?>
@@ -22,8 +26,8 @@
               <td class="id_no"><?php  echo $data->id_application ?></td>
               <td class="id_name"><?php  echo $data->applicant ?></td>
               <td class="id_pt"><?php  echo $data->instance_name ?></td>
-              <td class="id_type"><?php  echo $data->application_type ?></td>
-              <td class="id_date"><?php  echo $data->application_date ?></td>
+              <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Pengajuan Baru": "Pengawasan IIN Lama") ?></td>
+              <td class="id_date"><?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
               <td class="id_status"><span class="<?php  echo $data->owner ?>"><?php  echo $data->display_name ?></span></td>
             </tr>
           <?php  } ?>

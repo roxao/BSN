@@ -74,17 +74,6 @@ body {
   font-weight: 300;
   color: #666
 }
-header {
-  position: fixed;
-  display: block;
-  background: $c_white;
-  box-shadow: 0 0 10px rgba(0,0,0,.3);
-  top: 0;
-  left: 0;
-  right: 0;
-  height: $header_h;
-  z-index: 1000
-}
 .nav_logo {
   img{max-width: 100px; padding:5px 10px 5px 0 }
   h1 {font-size: 16px; color: $c_2nd }
@@ -93,60 +82,180 @@ header {
 .user_nav {
   > li { display: inline-block; padding: 9px;}
 }
+.site-map {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 10px;
+    font-weight: bold;
+    color: $c_1st;
+    span{
+      display: inline-block;
+      content: '';
+      border-right: 2px solid $c_1st;
+      border-top: 2px solid $c_1st;
+      height: 4px;
+      width: 4px;
+      transform: rotate(45deg);
+      margin: 0 7px 2px 5px;
+    }
+    a{
+      color: $c_1st;
+      font-weight: normal;
+    }
+}
+@media screen and (max-width: $desktop) {
+    #dashboard_menu{
+      left: -100% !important;
+      transition: left 1s ease;
+    }
+    #dashboard_menu.active{
+      left: 0 !important;
+      transition: left 1s ease;
+    }
+    .dashboard_content{
+      margin: 85px 5px 20px 5px !important;
+    }
+    .nav-menu{
+      display: block !important;
+    }
+}
 
 #dashboard_menu { 
-  background: #fff;padding: 20px 10px;position: fixed;left: 0; top: $header_h; bottom: 0; width: $menu_w; z-index: 999;
-  li {display: block;padding: 10px;
-    &:hover { cursor: pointer; background: $c_grey}
-  }
-  li.active {background:$c_grey;
-    &:hover { cursor: pointer}
+  background: #333a45;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 63px;
+  bottom: 0;
+  width: 230px;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,.4);
+  font-size: 12.5px;
+  box-sizing: border-box;
+  overflow-y: scroll; 
+  li {
+    a{
+      margin: 3px 0 3px 10px;
+      display: block;
+      padding: 10px 10px 10px 40px;
+      border-radius: 3px;
+      color: rgba(255,255,255,1);
+      opacity: 0.6;
+      filter: alpha(opacity=60);
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(0,0,0,0.2);
+        opacity: 1;
+      filter: alpha(opacity=100);
+      }
+    }
+    ul{
+      padding: 5px 0 5px 10px;
+      background: rgba(0,0,0,0.2);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
   }
 }
 .dashboard_content {
   background: #fff;
-  margin: ($header_h+20px) 20px 50px ($menu_w+40px);
+  margin: ($header_h+10px) 20px 20px ($menu_w+50px);
   padding: 20px
 }
 
 
-.table_def tr {
-  td:first-child {
-    border-left: 5px solid rgba(0, 0, 0, 0);
+.sort-center{
+  text-align: center !important;
+}
+.sort{
+  position: relative;
+  &.asc:after, &.desc:after  {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    content: '';
+    border: 2px solid #7996B7;
+    transform: rotate(45deg);
+    margin: 0 5px;
   }
-  &:hover td {
-    cursor: pointer;
-    background: #fffbe7;
-    border-left-color: #507299;
+  &.asc:after{
+    border-left-color: transparent;
+    border-top-color: transparent;
   }
-  th {
-    background: #f7f7f7;
-    color: #507299;
-    text-align: left;
-    text-transform: uppercase;
-    font-size: 10px;
-    padding: 15px 5px;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
-    font-weight: 400;
-    &:hover {cursor:pointer}
+  &.desc:after{
+    border-right-color: transparent;
+    border-bottom-color: transparent;
   }
-  td:first-child{
-    text-align: center;
-  }
-  td {
-    vertical-align: middle;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-    padding: 10px 5px;
-    font-size: 12px;
-    color: #777;
-    background: #fff;
-    max-width: 200px;
-    min-width: 50px;
-    font-weight: 300;
-    overflow: auto;
-    text-overflow: ellipsis;
+}
+
+.ic-adm{
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  &.ic-inbox
+    {background-image: url('admin/inbox.png')}
+  &.ic-submission
+    {background-image: url('admin/submission.png')}
+  &.ic-iin
+    {background-image: url('admin/iin.png')}
+  &.ic-report
+    {background-image: url('admin/docs.png')}
+  &.ic-history
+    {background-image: url('admin/history.png')}
+  &.ic-setting
+    {background-image: url('admin/settings2.png')}
+  &.ic-user
+    {background-image: url('admin/user.png')}
+  &.ic-cms
+    {background-image: url('admin/cms.png')}
+  &.ic-survey
+    {background-image: url('admin/survey.png')}
+  &.ic-doc
+    {background-image: url('admin/doc.png')}
+  &.ic-team
+    {background-image: url('admin/team.png')}
+}
+
+.table_def {
+  border-box: box-sizing;
+  overflow: auto; 
+  tr {
+    td:first-child {
+      border-left: 5px solid rgba(0, 0, 0, 0);
+    }
+    &:hover td {
+      cursor: pointer;
+      background: #fffbe7;
+      border-left-color: #507299;
+    }
+    th {
+      background: #f7f7f7;
+      color: #507299;
+      text-align: left;
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 15px 5px;
+      border-bottom: 1px solid #eee;
+      border-top: 1px solid #eee;
+      font-weight: 400;
+      &:hover {cursor:pointer}
+    }
+    td:first-child{
+      text-align: center;
+    }
+    td {
+      vertical-align: middle;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+      padding: 10px 5px;
+      font-size: 12px;
+      color: #777;
+      background: #fff;
+      max-width: 200px;
+      min-width: 50px;
+      font-weight: 300;
+      overflow: auto;
+      text-overflow: ellipsis;
+    }
   }
 }
 
@@ -562,7 +671,29 @@ div.close_modal {
     white-space: nowrap;
   }
 }
-
+.filter_search {
+    height: 18px;
+    margin: 10px -12px;
+    border-radius: 2px;
+    line-height: 18px;
+    font-size: 13px;
+    color: #777;
+    padding-left: 40px;
+    border-right: 0;
+    border-color: #ddd;
+    width: 60px;
+    transition: all 1s ease;
+    background-image: url('admin/magnifier.png');
+    background-repeat: no-repeat;
+    background-position: 10px center ;
+    &:focus{
+      padding-left: 10px;
+      background-image: none;
+      width: 200px;
+      border-color: #ddd;
+      transition: all 1s ease;
+    }
+}
 #filtertable{
     display: inline-block;
     margin: 10px;
@@ -585,6 +716,7 @@ div.close_modal {
       background: #fff;
       margin-top: -1px;
       display: none;
+      z-index: 1;
       label{
         display: block;
         padding: 7px 20px;
@@ -803,6 +935,12 @@ header {
     a{
       margin-right: 10px;
     }
+  }
+  .nav-welcome {
+    margin: 0 10px;
+    text-transform: capitalize;
+    letter-spacing: 0;
+    font-size: 13px;
   }
   .nav-sess.register{
     a{
