@@ -56,40 +56,78 @@ class SipinHome extends CI_Controller {
 	}
 
 	/* User login function. */
-	 public function login() {
+	//  public function login() {
 
 	 	
-     $username = $this->input->post('username');
-     // $password = hash ( "sha256", $this->input->post('password'));
+ //     $username = $this->input->post('username');
+ //     $password = hash ( "sha256", $this->input->post('password'));
 
-     $password =  $this->input->post('password');
-     $cek = $this->user_model->cek_login($username, $password);
-     if($cek->num_rows() > 0){
-     if ($cek->row()->status_user == 0) { $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
-  $this->user('login');}
-      else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
-      $this->log("login","Login", $username);
-      $id_user = $this->session->userdata('id_user');
+	//  echo $password;
+ //     // $password =  $this->input->post('password');
+ //     $cek = $this->user_model->cek_login($username, $password);
+ //     if($cek->num_rows() > 0){
+ //     if ($cek->row()->status_user == 0) { $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
+ //  $this->user('login');}
+ //      else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
+ //      $this->log("login","Login", $username);
+ //      $id_user = $this->session->userdata('id_user');
 
-      $cek_menu= $this->user_model->get_aplication($id_user);
+ //      $cek_menu= $this->user_model->get_aplication($id_user);
 
-      $this->session->set_userdata(array(
-	    'id_user'  		=> $cek->row()->id_user,
-	    'username' 		=> $cek->row()->username,
-	    'email' 		=> $cek->row()->email,
-	    'status_user'   => $cek->row()->status_user,
-	    'status' => "login",
-		));
+ //      $this->session->set_userdata(array(
+	//     'id_user'  		=> $cek->row()->id_user,
+	//     'username' 		=> $cek->row()->username,
+	//     'email' 		=> $cek->row()->email,
+	//     'status_user'   => $cek->row()->status_user,
+	//     'status' => "login",
+	// 	));
 
-     $this->load->view('header');
-		$this->load->view('home');
-		$this->load->view('footer');
-	}
-      }else{
-      	$this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
-      $this->user('login');
-  }
-      }
+ //  //    	$this->load->view('header');
+	// 	// $this->load->view('home');
+	// 	// $this->load->view('footer');
+ //      redirect(base_url("SipinHome"));
+	// }
+ //      }else{
+	// $this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
+	// $this->user('login');
+	// 	}
+ //      }
+
+    public function login() {
+	    $username = $this->input->post('username');
+	    $password = hash ( "sha256", $this->input->post('password'));
+	    // $password =  $this->input->post('password');
+	    echo $password;
+	    $cek = $this->user_model->cek_login($username, $password);
+	    if($cek->num_rows() > 0){
+		    if ($cek->row()->status_user == 0){ 
+		     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
+				$this->user('login');
+				} else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
+					$this->log("login","Login", $username);
+					$id_user = $this->session->userdata('id_user');
+
+					$cek_menu= $this->user_model->get_aplication($id_user);
+
+					$this->session->set_userdata(array(
+					'id_user'  		=> $cek->row()->id_user,
+					'username' 		=> $cek->row()->username,
+					'email' 		=> $cek->row()->email,
+					'status_user'   => $cek->row()->status_user,
+					'status' => "login",
+					));
+
+
+				// $this->load->view('header');
+				// $this->load->view('home');
+				// $this->load->view('footer');
+					redirect(base_url("SipinHome"));
+				}
+		} else{
+		    $this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
+		    $this->user('login');
+		}
+    }
 
       public function logout() {	
       	$username = $this->session->userdata('username');
