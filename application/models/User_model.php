@@ -31,21 +31,21 @@ class User_model extends CI_Model {
 
 
 
-public function cek_login($username,$password){ 
-    $this->db->select('*');
-    $this->db->from('user'); 
-    $this->db->join('iin', 'user.id_user=applications.id_user');
-    $this->db->where("user.email = '$username' or user.username = '$username' or iin.number = '$username' ");
-    $this->db->where('user.password', $password);         
-    $query = $this->db->get(); 
+// public function cek_login($username,$password){ 
+//     $this->db->select('*');
+//     $this->db->from('user'); 
+//     $this->db->join('iin', 'user.id_user=applications.id_user');
+//     $this->db->where("user.email = '$username' or user.username = '$username' or iin.number = '$username' ");
+//     $this->db->where('user.password', $password);         
+//     $query = $this->db->get(); 
  
-        return  $query;   
+//         return  $query;   
+//     }
+    public function cek_login($username,$password){  
+    $this->db->where("email = '$username' or username = '$username'");  
+    $this->db->where('password', $password); 
+        return  $this->db->get('user');   
     }
-    // public function cek_login($username,$password){  
-    // $this->db->where("email = '$username' or username = '$username'");  
-    // $this->db->where('password', $password); 
-    //     return  $this->db->get('user');   
-    // }
 
       public function get_all_notifikasi($id_user){  
     $this->db->where('notification_owner ','$id_user');  
