@@ -355,12 +355,8 @@ public function captcha()
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
 		$message = $this->input->post('message');
-		echo $email;
-		echo $name;
-		echo $message;
-
-		$this->admin_model->sendMail($email,$name, $message);
-		// redirect(base_url('contact-us'));
+		$this->user_model->sendMail($email,$name, $message);
+		redirect(base_url('contact-us'));
 
 	}
  }
