@@ -58,13 +58,21 @@
 <!-- VERIFICATION BOX -->
 <div class="verify_section">
 	<div class="clearfix">
+<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_REVISI') ?>" method="post" accept-chaset="utf-8">
+
 		<button class="btn_reject float_left" style="background: red">REVISI</button>
+</form>
+		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
+		</form>
 	</div>
 </div>
 
 
 <script>
+
+
+
 	doc_pay=respon.doc_pay;
 	assess_list=respon.assessment_list;
 	console.log(respon);
