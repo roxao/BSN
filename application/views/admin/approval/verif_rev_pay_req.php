@@ -58,10 +58,7 @@
 <!-- VERIFICATION BOX -->
 <div class="verify_section">
 	<div class="clearfix">
-<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_REVISI') ?>" method="post" accept-chaset="utf-8">
-
-		<button class="btn_reject float_left" style="background: red">REVISI</button>
-</form>
+<button class="btn_reject float_left" style="background: red">REVISI</button>
 		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
 		</form>
@@ -75,6 +72,9 @@
 
 	doc_pay=respon.doc_pay;
 	assess_list=respon.assessment_list;
+	value=respon.application;
+	$("input[name='id_application_status']").val(value.id_application_status);
+	$("input[name='id_application']").val(value.id_application);
 	console.log(respon);
 	for (var i = 0; i < doc_pay.length; i++) {
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ doc_pay[i].display_name +'</div><a href="'+ doc_pay[i].file_url +'" class="btn_download float_right">Download</a></div>');

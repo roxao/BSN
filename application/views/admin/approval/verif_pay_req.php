@@ -64,8 +64,8 @@
 
 		<textarea name="coment" id="coment" cols="30" rows="10" class="text_comment"></textarea>
 		<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
-		<input type="hidden" name="id_application_status" value="">
-		<input type="hidden" name="id_application" value="">
+		<!-- <input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value=""> -->
 
 		<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
 		</form>
@@ -77,9 +77,13 @@
 <div class="verify_section">
 	<div class="clearfix">
 		<button class="btn_reject float_left" style="background: red">REVISI</button>
+
+		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
+		</form>
 	</div>
 </div>
+
 
 
 <script>
