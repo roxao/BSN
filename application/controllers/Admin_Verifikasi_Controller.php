@@ -130,8 +130,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     //tolak pengajuan karena kesalahan sesuatu
     public function VERIF_NEW_REQ_ETC()
     {
-            // print_r($this->input->post('coment'));
-            // echo $this->input->post('coment');
+  
          // ditolak dll
 
         //untuk menapilkan nama applicant yang akan disimpan di tabel log
@@ -328,26 +327,27 @@ class Admin_Verifikasi_Controller extends CI_Controller
              $doc = $this->input->post("docRef");
 
              for ($i=0; $i < count($doc); $i++) { 
+                    //untuk mendapatkan id_document_config
+                    $dc = $this->admin_model->document_config_get_by_prm_key($doc[$i]);
+
+                    //app file search dgn 2 parameter yaitu id_application dan id_document_config
+                    $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
+
                     //data untuk insert ke tabel applications_form_mapping
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC',
-                        'value' => 'plih document apa aja yang perlu direvisi nomer = '.$doc[$i],
+                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'value' => $doc[$i],
                         'id_application_status'=> $this->input->post('id_application_status')
                         );
                         //insert ke tabel application form mapping
                          $this->admin_model->insert_app_sts_for_map($data2);
-                        
-                        //untuk mendapatkan id_document_config
-                        $dc = $this->admin_model->document_config_get_by_prm_key($doc[$i]);
 
-                        //app file search dgn 2 parameter yaitu id_application dan id_document_config
-                        $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
                         $id_app_file = array('id_application_file' => $apf->row()->id_application_file);
                         
                         $data3 = array(
-                            'status' => 'ACTIVE',
+                            'status' => 'INACTIVE',
                             'modified_date' => date('y-m-d'),
                             'modified_by' => $this->session->userdata('username')
                         );
@@ -373,12 +373,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //revisi dokumen disetujui
    public function VERIF_REVDOC_REQ_PROSES()
    {
-        if($this->input->post('setujui') == "setujui")
-        {   
+            
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'modified_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -386,8 +385,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approve revisi dokumen',
                 'log_type' => 'added '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -399,7 +398,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '6',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
@@ -411,11 +410,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data3);    
-            
-        }else
-        {
-            echo "bukan tombol setujui";
-        }
+            redirect(base_url('dashboard'));
+
    }
 
 //revisi dokumen kembali jika ada kesalahan dokumen 
@@ -498,16 +494,16 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //mengupload biling
 	public function UPL_BILL_REQ_SUCCEST()
 	{  
-        // echo json_encode($this->input->post("bill"));
-            print_r($this->input->post("bill"));
-        		$data = array(
+        
+            
+                $data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-        	$condition = array('id_application_status' => $this->input->post('id_application_status'));
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Upload Billing Code SIMPONI',
@@ -517,7 +513,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
-        	$this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
              $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -579,7 +575,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $uploaded = $this->upload->data();
                     $this->admin_model->insert_doc_for_user($doc);
-                    print_r($doc);
+                   
                     
 
                         }
@@ -589,14 +585,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
            
                 }
              
-            
-            
-
-
-
-  	
-   
-	}
+            redirect(base_url('dashboard'));       
+  
+    }
 
 //yg ini belum
     public function REUPL_BILL_REQ($id_application_status)
