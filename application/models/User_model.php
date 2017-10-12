@@ -19,13 +19,13 @@ class User_model extends CI_Model {
             'username'   => $username,
             'password'   => $password,
             'name'   => $name,
-            'created_date' => "",
-            'created_by'   => "",
-            'modified_date'   => date('Y-m-j H:i:s'),
-            'modified_by'   => $name,
+            'created_date'   => date('Y-m-j H:i:s'),
+            'created_by'   => $name,
+            'modified_date' => "",
+            'modified_by'   => "",
             'status_user'   => "0",
             'survey_status'   => "0",
-);
+            );
         return $this->db->insert('user', $data);        
     }
 
@@ -98,20 +98,20 @@ class User_model extends CI_Model {
     }
 /*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document configth di buat untuk global*/
     public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
-    $this->db->select('*');
-    $this->db->from('applications'); 
-    $this->db->join('application_file', 'applications.id_application=application_file.id_application');
-    $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
-    $this->db->where('applications.id_user',$id_user);
-    $this->db->where('applications.iin_status',"OPEN");
-    $this->db->where($type,$type1);
-    $this->db->where('application_file.status',$status);
-    $this->db->order_by('document_config.id_document_config', 'ASC');
+        $this->db->select('*');
+        $this->db->from('applications'); 
+        $this->db->join('application_file', 'applications.id_application=application_file.id_application');
+        $this->db->join('document_config', 'application_file.id_document_config=document_config.id_document_config');
+        $this->db->where('applications.id_user',$id_user);
+        $this->db->where('applications.iin_status',"OPEN");
+        $this->db->where($type,$type1);
+        $this->db->where('application_file.status',$status);
+        $this->db->order_by('document_config.id_document_config', 'ASC');
 
 
 
-    $query = $this->db->get(); 
-    $results = $query->result();
+        $query = $this->db->get(); 
+        $results = $query->result();
  
         return  $results ;   
     }
@@ -133,13 +133,13 @@ class User_model extends CI_Model {
      return  $results ; 
     }
 
-       public function get_applications_Status($id_user){
+    public function get_applications_Status($id_user){
         $this->db->select('*');
         $this->db->from('application_status');
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-    $this->db->where('applications.id_user',$id_user);
-    $this->db->where('applications.iin_status',"OPEN");
+        $this->db->where('applications.id_user',$id_user);
+        $this->db->where('applications.iin_status',"OPEN");
 
         return $this->db->get();
     }
@@ -153,7 +153,7 @@ class User_model extends CI_Model {
 }
 
     /*Cek Status User*/
-    public function cek_status_user($username,$password){  
+    public function cek_status_user($username){  
     $this->db->where("email = '$username' or username = '$username'"); 
         return  $this->db->get('user');   
     }
@@ -169,33 +169,60 @@ class User_model extends CI_Model {
     }
 
     /*Proses send email*/
+    // public function sendMail($email,$username, $Desc) {
+    //     $encrypted_id = md5($email) ;
+    //     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
+    //     $subject = 'Verify Your Email Address';
+
+
+    //     $config['protocol'] = 'smtp';
+    //     $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
+    //     $config['smtp_timeout'] = '7';
+    //     $config['smtp_port'] = '465'; // sesuaikan
+    //     $config['smtp_user'] = $from_email;
+    //     $config['smtp_pass'] = '14071989'; // ganti dengan password email
+    //     $config['mailtype'] = 'html';
+    //     $config['charset'] = 'iso-8859-1';
+    //     $config['wordwrap'] = TRUE;
+    //     $config['newline'] = "\r\n";
+    //     $config['crlf'] = "\r\n";
+    //     $this->email->initialize($config);
+    //     $this->email->from($from_email, 'Bsn');
+    //     $this->email->to($email);
+    //     $this->email->subject($subject);
+    //     $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
+    //     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
+    //     return $this->email->send();
+    // }
+
     public function sendMail($email,$username, $Desc) {
-    $encrypted_id = md5($email) ;
-    $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
-    $subject = 'Verify Your Email Address';
+        $encrypted_id = md5($email) ;
+        echo "|encrypted_id : {$encrypted_id} |";
+        $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
+        $subject = 'Verify Your Email Address';
 
 
-    $config['protocol'] = 'smtp';
-    $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
-    $config['smtp_timeout'] = '7';
-    $config['smtp_port'] = '465'; // sesuaikan
-    $config['smtp_user'] = $from_email;
-    $config['smtp_pass'] = '14071989'; // ganti dengan password email
-    $config['mailtype'] = 'html';
-    $config['charset'] = 'iso-8859-1';
-    $config['wordwrap'] = TRUE;
-    $config['newline'] = "\r\n";
-    $config['crlf'] = "\r\n";
-    $this->email->initialize($config);
-    $this->email->from($from_email, 'Bsn');
-    $this->email->to($email);
-    $this->email->subject($subject);
-    $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
-    // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
-    return $this->email->send();
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
+        $config['smtp_timeout'] = '7';
+        $config['smtp_port'] = '465'; // sesuaikan
+        $config['smtp_user'] = $from_email;
+        $config['smtp_pass'] = '14071989'; // ganti dengan password email
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n";
+        $config['crlf'] = "\r\n";
+        $this->email->initialize($config);
+        $this->email->from($from_email, 'Bsn');
+        $this->email->to($email);
+        $this->email->subject($subject);
+        $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
+        // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
+        return $this->email->send();
     }
 
-// UpdateStatus
+    // UpdateStatus
     public function update_aplication_status($process_status, $id_application, $id_application_status_name, $modified_by)
     {
         $data = array('process_status' => $process_status,
@@ -208,7 +235,7 @@ class User_model extends CI_Model {
     }
 
 
- public function update_document($id_application, $id_application_file, $id_document_config, $path_id, $modified_by)
+    public function update_document($id_application, $id_application_file, $id_document_config, $path_id, $modified_by)
     {
         $data = array('path_id' => $path_id,
                 // 'created_date' => date('Y-m-j'),
@@ -228,14 +255,38 @@ class User_model extends CI_Model {
          $this->db->insert('log', $data);
     }
     
-    /*Verifikasi Email dan Update status user*/
+    /*Email Activation and status_user update*/
     public function verifyEmail($key) {
         // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-        $data = array('status_user' => "1");
-        $this->db->where('email', $key);
+        echo " key : {$key}|";
+        $this->db->from('user');
+        $this->db->where('md5(email)', $key);
+        $query = $this->db->get()->row();
+        echo "SIZE : ".sizeof($query)."|";
+        
+        if ($query) {
+            $username = $query->username;
+            $email = $query->email;
+            $status = $query->status_user;
+            echo "username : ".$username."|"."email : ".$email."|"."status : ".$status."|";
+            if ($status == 1) {
+                /*Set Registration Message on Current Session*/
+                $this->session->set_flashdata('regis_msg', "Email Anda Telah Aktif!");
+            } else {
+                
+                /*Updating User Table, Set status_user='1'*/
+                $this->db->update('user', array('status_user' => '1'));
 
-        return $this->db->update('user', $data);
-      }
+                /*Set Registration Message on Current Session*/
+                $this->session->set_flashdata('regis_msg', "Aktivasi Email Berhasil!");
+
+            }
+        } else {
+            /*Set Registration Message on Current Session*/
+            $this->session->set_flashdata('regis_msg', "Aktivasi Email Gagal!!!");
+        }
+
+    }
 
     /*Simpan File*/
     public function simpan($data){
