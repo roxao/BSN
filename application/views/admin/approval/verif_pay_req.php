@@ -12,9 +12,7 @@
 			<div class="custom_autocomplete assessment_autocomplete float_left">
 				<input class="input_autocomplete assess_ac_text" type="text" placeholder="Ketik Nama Anggota" />
 				<ul class="ul_autocomplete assessment_list"></ul>
-				<select name="">
-					<option value="">Ketua Tim</option>
-					<option value="">Anggota Tim</option>
+				<select id="a_roles" class="a_roles" name="a_roles">
 				</select>
 			</div>
 			<div class="btn_submit_assess">Submit</div>
@@ -28,13 +26,8 @@
           <th class="sort" data-sort="id_roles">Jabatan</th>
           <th></th>
         </tr>
-        <tbody class="list">
-            <tr>
-              <td class="id_no">ab</td>
-              <td class="id_name">a</td>
-              <td class="id_roles">a</td>
-              <td></td>
-            </tr>
+        <tbody class="list data-assessment">
+            
         </tbody>
       </table>
     </div>
@@ -79,6 +72,8 @@
 		<button class="btn_reject float_left" style="background: red">REVISI</button>
 
 		<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
+		<input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value="">
 		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
 		</form>
 	</div>
@@ -89,14 +84,30 @@
 <script>
 	doc_pay=respon.doc_pay;
 	assess_list=respon.assessment_list;
+	assess_role=respon.assessment_roles;
 	value=respon.application;
 	$("input[name='id_application_status']").val(value.id_application_status);
 	$("input[name='id_application']").val(value.id_application);
 
-	console.log(respon);
 	for (var i = 0; i < doc_pay.length; i++) {
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ doc_pay[i].display_name +'</div><a href="'+ doc_pay[i].file_url +'" class="btn_download float_right">Download</a></div>');
 	}
+	for (var j = 0; j < assess_role.length; j++) {
+		var select_roles = (j == 0 ? 'selected' : null );
+		$('#a_roles').append('<option value="'+assess_role[j].id_assessment_team_title+'"'+select_roles+'>'+assess_role[j].title+'</option>');
+	}
+	$('.btn_submit_assess').on('click', function(event){
+		if($('.assess_ac_text').val().length > 1){
+			a_name = $('.assess_ac_text').val();
+			a_name_id = $('.assess_ac_text').attr('data-id');
+			a_role = $( ".a_roles option:selected" ).text();
+			a_role_id = $( ".a_roles option:selected" ).val();
+			console.log(a_name+' | '+a_name_id+' | '+a_role+' | '+a_role_id);
+			$('.data-assessment').append(
+			'<tr><td></td><td><input type="hidden" id="a_name" name="a_name[]" value="'+a_name_id+'" disabled/>'+a_name+'</td><td><input type="hidden" id="a_role" name="a_role[]" value="'+ a_role_id +'" disabled/>'+a_role+'</td><td></td></tr>');
+		}
+		
+	})
 
 	$('.assess_ac_text').keyup(function(event) {
 		key = $(this).val();
@@ -116,7 +127,6 @@
 	});
 
 	$('.input_roles').click(function(event) {
-		console.log("alksjdlkajskld");
 		$('.roles_list').slideDown();
 	});
 	$('.assess_roles input').click(function(event) {
@@ -130,7 +140,6 @@
 	$("input[type=file]").change(function() {
 	    var fileName = $(this).val().split('/').pop().split('\\').pop();
 	    $(this).next().next().html(fileName);
-	    console.log(fileName);
 	});
 
 	$('document').ready(function(){

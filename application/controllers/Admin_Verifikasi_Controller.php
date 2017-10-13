@@ -700,30 +700,27 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //bukti pembayaran diterima dan 
     public function VERIF_PAY_REQ_SUCCEST()
     {
-
-        $dataAplicant  = $this->admin_model->get_applications();
-        $Username = $this->session->userdata('username');
-
-            $data = array(
+        
+        $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            $condition = array('id_application_status' => $dataAplicant->row()->id_application_status );
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran',
-                // 'log_type' => 'added new applicant '.$condition->row()->applicant, 
+                'log_type' => 'added new applicant '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
-                'created_by' => $Username
+                'created_by' => $this->session->userdata('username')
                 );
             // $this->admin_model->insert_log($dataL);
 
             // $this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
-                 'id_application '=> $dataAplicant->row()->id_application,
+                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '10',
              
@@ -732,10 +729,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            $this->admin_model->insert_app_status($data2,$condition);
+            // $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
-                 'id_application '=> $dataAplicant->row()->id_application,
+                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '11',
              
@@ -747,7 +744,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             // $this->admin_model->insert_app_status($data3,$condition);
 
              $data4 = array(
-                 'id_application '=> $dataAplicant->row()->id_application,
+                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '14',
              
@@ -761,7 +758,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $data5 = array(
                     'type' => 'APPROVED',
                     'value' => 'APPROVED',
-                    'id_application_status'=> $dataAplicant->row()->id_application_status
+                    'id_application_status'=> $this->input->post('id_application_status')
                     );
            // $this->admin_model->insert_app_sts_for_map($data5);
 
@@ -773,15 +770,15 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             // $this->admin_model->insert_log($dataL2);
 
-            // $this->assesment_application();
+            $this->assesment_application();
 
-            $id_ass_app = $this->admin_model->get_assesment_application_byprm($dataAplicant->row()->id_application);
+            $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
 
             $team = $this->input->post('id_assessment_team');
             $title = $this->input->post('id_assessment_team_title');
             
             
-            // print_r($id_ass_app->row()->id_assessment_application);
+            print_r($id_ass_app->row()->id_assessment_application);
 
               for($x=0;$x < count($team);$x++)
                 {
@@ -799,10 +796,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $data6 = array(
                 'id_document_config' => '26',
-                'id_application' => $dataAplicant->row()->id_application,
+                'id_application' => $this->input->post('id_application'),
                 'path_id' =>  $this->input->post(),
                 'status' => 'ACTIVE',
-                'created_date' => date('Y-m-j')
+                'created_date' => date('y-m-d')
                 // 'created_by' => ''
                 );
     }
@@ -1117,10 +1114,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
         $data = array(
             'id_application' => $this->input->post('id_application'),
-            'assessment_date' => $this->input->post('assessment_date'),
+            // 'assessment_date' => $this->input->post('expired_date'), tanggal input dari depan belum dapet valuenya
+            'assessment_date' => '2017-12-12',
             'assessment_status' => 'OPEN',
-            'created_date' => date('y-m-d')
-            // 'created_by' => $this->input->post('created_by')
+            'created_date' => date('y-m-d'),
+            'created_by' => $this->session->userdata('username')
             );
 
             $dataL = array(
@@ -1129,7 +1127,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-            // $this->admin_model->insert_log($dataL);
+            $this->admin_model->insert_log($dataL);
             $this->admin_model->insert_assessment_application($data);     
 
     }
