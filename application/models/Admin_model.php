@@ -101,7 +101,7 @@ class Admin_model extends CI_Model {
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
-        $this->db->where('application_type','Pengajuan Baru');
+        $this->db->where('application_type','new');
 
         return $this->db->get();
     }
@@ -487,7 +487,8 @@ class Admin_model extends CI_Model {
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
-       ->like('application_status_form_mapping.type','REVISED_DOC');
+        ->where('id_application_status_name','5')
+        ->like('application_status_form_mapping.type','REVISED_DOC');
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
@@ -495,7 +496,9 @@ class Admin_model extends CI_Model {
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
+        $this->db->join('application_status', 'applications.id_application=application_status.id_application');
         $this->db->where('application_file.id_application', $idapp);
+        $this->db->where('application_status.id_application_status_name','5');
         $this->db->where_in('document_config.key',$sub, false);
 
 

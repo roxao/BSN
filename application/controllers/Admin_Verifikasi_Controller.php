@@ -417,12 +417,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //revisi dokumen kembali jika ada kesalahan dokumen 
    public function VERIF_REVDOC_REQ_REVITION()
    {
-        if($this->input->post('revisi') == "revisi")
-        {   
+        
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -430,8 +429,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' revisi dokumen',
                 'log_type' => 'added '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -443,20 +442,12 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '4',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
             
-         //multipel update buat data document
-             $data3 = array(
-                    'type' => 'REVISED_DOC',
-                    'value' => '(plih document apa aja yang perlu direvisi)',
-                    'id_application_status'=> $this->input->post('id_application_status')
-                    );
-           $this->admin_model->insert_app_sts_for_map($data3);
-
            //update data
 
              $doc = $this->input->post("docRef");
@@ -494,10 +485,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             redirect(base_url('dashboard')); 
             
-        }else
-        {
-            echo "bukan tombol setujui";
-        }
+ 
    }
 
 
