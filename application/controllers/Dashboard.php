@@ -119,17 +119,21 @@ class Dashboard extends CI_Controller {
                 case 'verif_pay_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
-                    $data['assessment_list'] = $this->admin_model->get_assessment($id)->result();
-                    $data['assessment_roles'] = $this->admin_model->get_doc_user($id_status)->result();
-                    // $data['assesment_title'] = $this->admin_model->get_assessment_title_by_name()->result();
+                    $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);
                     break;
                 case 'verif_rev_pay_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+                    $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
                     $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);    
                     break;
                 case 'rev_assess_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);
                     break;  
                 case 'field_assess_req':
@@ -152,15 +156,25 @@ class Dashboard extends CI_Controller {
 
     public function settings($param = null){
         switch ($param) {
-            case 'user': $data['data'] = $this->admin_model->get_user()->result_array(); break;
-            case 'admin': $data['data'] = $this->admin_model->get_admin()->result_array(); break;
-            case 'assessment': $data['data'] = $this->admin_model->get_assessment()->result_array(); break;
-            case 'assessment_roles': $data['data'] = $this->admin_model->get_assessment_title()->result_array(); break;
-            case 'document': $data['data'] = $this->admin_model->get_document()->result_array(); break;
-            case 'cms': $data['data'] = $this->admin_model->get_cms()->result_array(); break;
-            case 'iin': $data['data'] = $this->admin_model->get_iin()->result_array(); break;
-            case 'survey': $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
-            default: redirect(base_url()); break;
+            case 'user': 
+                $data['data'] = $this->admin_model->get_user()->result_array(); break;
+            case 'admin': 
+                $data['data'] = $this->admin_model->get_admin()->result_array(); break;
+            case 'assessment': 
+                $data['data'] = $this->admin_model->get_assessment()->result_array(); break;
+                $data['data_title'] = $this->admin_model->get_assessment_title()->result_array(); break;
+            case 'assessment_roles': 
+                
+            case 'document': 
+                $data['data'] = $this->admin_model->get_document()->result_array(); break;
+            case 'cms': $data['data'] = 
+                $this->admin_model->get_cms()->result_array(); break;
+            case 'iin': 
+                $data['data'] = $this->admin_model->get_iin()->result_array(); break;
+            case 'survey': 
+                $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
+            default: 
+                redirect(base_url()); break;
         }
         $this->load->view('admin/header');
         $this->load->view('admin/settings/'.$param ,$data);
@@ -971,5 +985,6 @@ $this->load->view('admin/options/cms_insert');
         $data['compalin'] = $this->admin_model->get_conplain()->result();
         echo json_encode($data);
     }
+
 
 }
