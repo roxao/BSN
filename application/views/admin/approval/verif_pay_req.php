@@ -6,8 +6,8 @@
 		</div>
 		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
-
-	<form action="<?php echo base_url('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8">
+<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST');?>
+	
 		<input type="hidden" name="id_application_status" value="">
 		<input type="hidden" name="id_application" value="">
 		<div id="table_assessment" style=" margin: 20px -20px 0 -20px">
@@ -43,7 +43,7 @@
 			<div class="multiple_upload">
 				<label class="input_dashed_file float_left" style="width: 100%">
 					Dokumen
-					<input id="" name="" type="file"/>
+					<input id="images[]" name="images[]" type="file"/>
 					<span>Pilih</span><i class="float_right"></i>
 				</label>
 			</div>

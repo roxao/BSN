@@ -730,17 +730,20 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            $condition = array('id_application_status' => $this->input->post('id_application_status'));
+        
 
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
+           
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran',
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
-            // $this->admin_model->insert_log($dataL);
+            
+            $this->admin_model->insert_log($dataL);
 
-            // $this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -748,11 +751,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            // $this->admin_model->insert_app_status($data2,$condition);
+            $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -760,11 +763,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '11',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            // $this->admin_model->insert_app_status($data3,$condition);
+            $this->admin_model->insert_app_status($data3,$condition);
 
              $data4 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -772,31 +775,29 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '14',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
-            // $this->admin_model->insert_app_status($data4,$condition);
+            $this->admin_model->insert_app_status($data4,$condition);
 
             $data5 = array(
                     'type' => 'APPROVED',
                     'value' => 'APPROVED',
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
-           // $this->admin_model->insert_app_sts_for_map($data5);
+           $this->admin_model->insert_app_sts_for_map($data5);
 
             $dataL2 = array(
                 'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
                 'log_type' => 'added new team_assessment '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
-            // $this->admin_model->insert_log($dataL2);
-
+            $this->admin_model->insert_log($dataL2);
            $data_ass_app = array(
             'id_application' => $this->input->post('id_application'),
             'assessment_date' => $this->input->post('expired_date'),
-            'assessment_date' => '2017-12-12',
             'assessment_status' => 'OPEN',
             'created_date' => date('y-m-d'),
             'created_by' => $this->session->userdata('username')
@@ -808,19 +809,18 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
-            // $this->admin_model->insert_log($dataLass);
+            $this->admin_model->insert_log($dataLass);
 
            $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
 
-            // $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+            $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
 
-            $team = $this->input->post('id_assessment_team');
-            $title = $this->input->post('id_assessment_team_title');
+            $team = $this->input->post('a_names');
+            $title = $this->input->post('a_roles');
             
             
-            print_r($id_ass_app);
-            echo "team = ".$team." . title = ".$title;
-
+            // print_r($id_ass_app);
+            // print_r($team);
               for($x=0;$x < count($team);$x++)
                 {
                     $dat = array(
@@ -834,15 +834,37 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         echo "save  Sucses";
                     }
                 }
+ $this->load->library('upload');
+ 
+      //Configure upload.
+             $this->upload->initialize(array(
+   "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+                 "upload_path"   => "./upload/"
+                
+             ));
 
-            $data6 = array(
-                'id_document_config' => '26',
+              $getLetterAssigment = $this->admin_model->get_letter_of_assignment();
+             //Perform upload.
+             if($this->upload->do_upload("images")) {
+                $uploaded = $this->upload->data();
+                
+                $data6 = array(
+                'id_document_config' => $getLetterAssigment->row()->id_document_config,
                 'id_application' => $this->input->post('id_application'),
-                'path_id' =>  $this->input->post(),
+                'path_id' =>  $uploaded['full_path'],
                 'status' => 'ACTIVE',
                 'created_date' => date('y-m-d')
                 // 'created_by' => ''
                 );
+
+$this->admin_model->insert_application_file($data6);
+
+// echo $uploaded['raw_name'];
+              } else{
+   die('GAGAL UPLOAD');
+      } 
+            
+
     }
 
 
