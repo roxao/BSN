@@ -378,7 +378,7 @@ class Admin_model extends CI_Model {
     }
 
     //untuk mengambil document surat penugasan tim assesment
-    public function get_news_for_user()
+    public function get_letter_of_assignment()
     {
         $this->db->select('*');
         $this->db->from('document_config dc');
