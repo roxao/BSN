@@ -379,6 +379,7 @@ div.close_modal {
     width: 410px;
     padding: 3px 1px;
     box-shadow: 0 1px 4px rgba(0,0,0,.1);
+    position: relative;
     select{
       height: 28px;
       border: 0;
@@ -396,12 +397,14 @@ div.close_modal {
       margin: -2px;
       width: 410px;
       box-sizing: border-box;
+      z-index: 1; 
       li {
           border-right: 1px solid #ddd;
           padding: 6px 10px;
           background: #fff;
           border-left: 1px solid #ddd;
           margin-top: -1px;
+
           &:last-child{
             border-radius: 0 0 3px 3px;
             border-bottom: 1px solid #ddd;

@@ -29,9 +29,9 @@
 
         <div id="filtertable" class="float_right">
           <div class="clickfilter">Filter... </div>
-          <div class="filtertable"> 
+          <div class="filtertable filters"> 
             <?php foreach($s_name as $x){
-              if($x[0] != $s_name[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';              
+              if($x[0] != $s_name[0][0]) echo '<label><input type="checkbox" checked data-criteria="'.$x[0].'">'.$x[1].'</label>';              
             } ?>
           </div>
         </div>
@@ -82,7 +82,7 @@
        var datasort = [<?php foreach($s_name as $key=>$x) {echo '"'.$x[0].'",';}?>]
        var options = {
            valueNames: datasort,
-           page: 10,
+           page: 3,
            pagination: true
        };
        var inboxList = new List('tableInbox', options);
