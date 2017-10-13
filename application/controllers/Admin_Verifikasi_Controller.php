@@ -457,7 +457,42 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
 
-           //update data  
+           //update data
+
+             $doc = $this->input->post("docRef");
+
+             for ($i=0; $i < count($doc); $i++) { 
+                    //untuk mendapatkan id_document_config
+                    $dc = $this->admin_model->document_config_get_by_prm_key($doc[$i]);
+
+                    //app file search dgn 2 parameter yaitu id_application dan id_document_config
+                    $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
+
+                    //data untuk insert ke tabel applications_form_mapping
+                    if(!$doc[$i] == null)
+                    {
+                        $data2 = array(
+                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'value' => $doc[$i],
+                        'id_application_status'=> $this->input->post('id_application_status')
+                        );
+                        //insert ke tabel application form mapping
+                         $this->admin_model->insert_app_sts_for_map($data2);
+
+                        $id_app_file = array('id_application_file' => $apf->row()->id_application_file);
+                        
+                        $data3 = array(
+                            'status' => 'INACTIVE',
+                            'modified_date' => date('y-m-d'),
+                            'modified_by' => $this->session->userdata('username')
+                        );
+                        //update applications file untuk direfisi
+                        $this->admin_model->application_file_update($id_app_file, $data3);
+
+                    }
+             }
+
+            redirect(base_url('dashboard')); 
             
         }else
         {
@@ -770,20 +805,38 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             // $this->admin_model->insert_log($dataL2);
 
-            $this->assesment_application();
+           $data_ass_app = array(
+            'id_application' => $this->input->post('id_application'),
+            'assessment_date' => $this->input->post('expired_date'),
+            'assessment_date' => '2017-12-12',
+            'assessment_status' => 'OPEN',
+            'created_date' => date('y-m-d'),
+            'created_by' => $this->session->userdata('username')
+            );
 
-            $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+            $dataLass = array(
+                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application',
+                'log_type' => 'added '.$this->input->post('username'), 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
+                );
+            // $this->admin_model->insert_log($dataLass);
+
+           $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
+
+            // $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
 
             $team = $this->input->post('id_assessment_team');
             $title = $this->input->post('id_assessment_team_title');
             
             
-            print_r($id_ass_app->row()->id_assessment_application);
+            print_r($id_ass_app);
+            echo "team = ".$team." . title = ".$title;
 
               for($x=0;$x < count($team);$x++)
                 {
                     $dat = array(
-                    'id_assessment_application' => $id_ass_app.row()->id_assessment_application,
+                    'id_assessment_application' => $id_ass_app,
                     'id_assessment_team' => $team[$x],
                     'id_assessment_team_title' => $title[$x]
                                 );
@@ -975,9 +1028,24 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             // $this->admin_model->insert_log($dataL2);
 
-            $this->assesment_application();
+            $data_ass_app = array(
+            'id_application' => $this->input->post('id_application'),
+            'assessment_date' => $this->input->post('expired_date'),
+            'assessment_date' => '2017-12-12',
+            'assessment_status' => 'OPEN',
+            'created_date' => date('y-m-d'),
+            'created_by' => $this->session->userdata('username')
+            );
 
-           $id_ass_app = $this->admin_model->get_assesment_application_byprm($this->input->post('id_application'));
+            $dataLass = array(
+                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application',
+                'log_type' => 'added '.$this->input->post('username'), 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
+                );
+            $this->admin_model->insert_log($dataLass);
+
+           $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
 
             $team = $this->input->post('id_assessment_team');
             $title = $this->input->post('id_assessment_team_title');
@@ -1110,27 +1178,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-    public function assesment_application()
-    {
-        $data = array(
-            'id_application' => $this->input->post('id_application'),
-            // 'assessment_date' => $this->input->post('expired_date'), tanggal input dari depan belum dapet valuenya
-            'assessment_date' => '2017-12-12',
-            'assessment_status' => 'OPEN',
-            'created_date' => date('y-m-d'),
-            'created_by' => $this->session->userdata('username')
-            );
-
-            $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application',
-                'log_type' => 'added '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
-                );
-            $this->admin_model->insert_log($dataL);
-            $this->admin_model->insert_assessment_application($data);     
-
-    }
 
 
 

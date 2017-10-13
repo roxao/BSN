@@ -215,6 +215,8 @@ class Admin_model extends CI_Model {
 
     public function insert_assessment_application($data){
         $this->db->insert('assessment_application', $data);
+         $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     public function get_assessment_team($data){
