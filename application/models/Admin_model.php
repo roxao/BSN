@@ -365,6 +365,27 @@ class Admin_model extends CI_Model {
 
         return $this->db->get();
     }
+    //untuk mengambil document berita acara dan juga hasil asessment lapangan
+    public function get_news_for_user()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config dc');
+            $con = 'dc.key = "BA" 
+            or dc.key="HAL" ';
+        $this->db->where($con);
+
+        return $this->db->get();
+    }
+
+    //untuk mengambil document surat penugasan tim assesment
+    public function get_news_for_user()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config dc');
+        $this->db->where('key','SPTAL');
+
+        return $this->db->get();
+    }
 
     public function get_assesment_application_byprm($prm)
     {
