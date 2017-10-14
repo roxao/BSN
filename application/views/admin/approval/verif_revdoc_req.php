@@ -11,6 +11,8 @@
 
 <!-- COMMENT BOX -->
 <section class="slide_comment" style="display: none">
+<div>
+<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
 <form action="<?php echo base_url('admin_verifikasi_controller/VERIF_REVDOC_REQ_REVITION') ?>" method="post" accept-chaset="utf-8">
 	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon nomer 1 - 12</p>
 	<div class="doc_rev">
@@ -21,7 +23,7 @@
 		<input type="hidden" name="id_application_status" value="">
 		<input type="hidden" name="id_application" value="">
 	
-		<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
+		
 		<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
 	</form>
 	</div>

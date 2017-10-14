@@ -458,7 +458,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     //app file search dgn 2 parameter yaitu id_application dan id_document_config
                     $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
-
+                    echo json_encode($dc->row()->id_document_config) ;
                     //data untuk insert ke tabel applications_form_mapping
                     if(!$doc[$i] == null)
                     {
@@ -871,47 +871,48 @@ $this->admin_model->insert_application_file($data6);
     //bukti pembayaran revisi
     public function VERIF_PAY_REQ_REVISI()
     {       
-         $dataAplicant  = $this->admin_model->get_applications();
-        $Username = $this->session->userdata('username');
-
-            //untuk menapilkan nama applicant yang akan disimpan di tabel log
-            $id_app = $this->admin_model->get_applications_by_prm($dataAplicant->row()->id_application);
+        echo $this->input->post('id_application')." ";
+        $usr_id = $this->admin_model->get_user_application_data($this->input->post('id_application'));
+        $usrnme = $this->admin_model->get_user_by_prm($usr_id->row()->id_user);
+        
+         //untuk menapilkan nama applicant yang akan disimpan di tabel log
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-            $condition = array('id_application_status' =>$dataAplicant->row()->id_application_status);
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' revisi bukti pembayaran',
-                'log_type' => 'added new applicant '.$Username, 
+                'log_type' => 'added new applicant '.$usrnme->row()->username, 
                 'created_date' => date('Y-m-j H:i:s'),
-                'created_by' => $Username
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
             $this->admin_model->next_step($data,$condition);
 
             $data2 = array(
-                 'id_application '=> $dataAplicant->row()->id_application,
+                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $Username,
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
 
             //pengecekan bukti transaksi dari user
-            $cek = $this->admin_model->application_file_get_transaction($dataAplicant->row()->id_application);
+            $cek = $this->admin_model->application_file_get_transaction($this->input->post('id_application'));
 
             $data3 = array(
                 'status' => 'INACTIVE',
-                'modified_by' => $Username,
+                'modified_by' => $this->session->userdata('username'),
                 'modified_date' => date('Y-m-j')
                 );
             $id_app_file = array('id_application_file' => $cek->row()->id_application_file);
@@ -920,12 +921,13 @@ $this->admin_model->insert_application_file($data6);
             $data4 = array(
                 'type' => 'REJECTED Bukti Transfer',
                 'value' => $this->input->post('coment'),
-                'id_application_status'=> $dataAplicant->row()->id_application_status
+                'id_application_status'=> $this->input->post('id_application_status')
                 );
                 
             $this->admin_model->insert_app_sts_for_map($data4);
 
             redirect(site_url('dashboard'));
+
 
     }
 

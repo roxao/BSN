@@ -62,8 +62,9 @@
 
 		<textarea name="coment" id="coment" cols="30" rows="10" class="text_comment"></textarea>
 		<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
-		<!-- <input type="hidden" name="id_application_status" value="">
-		<input type="hidden" name="id_application" value=""> -->
+		<input type="hidden" name="id_application_status" value="">
+		<input type="hidden" name="id_application" value="">
+		
 
 		<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
 		</form>
