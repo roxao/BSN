@@ -21,27 +21,27 @@ class Admin_Verifikasi_Controller extends CI_Controller
 	}
 
     //proses pertama
-	public function VERIF_NEW_REQ($id_application_status)
-	{
+    public function VERIF_NEW_REQ($id_application_status)
+    {
 
         $data['aplication_setujui'] = $this->admin_model->get_application($id_application_status)->result();
         
         $this->load->view('admin_pengajuan_permohonan', $data);
-	}
+    }
 
     //proses pertama setujui permohonan baru
-	public function VERIF_NEW_REQ_PROSES()
-	{
+    public function VERIF_NEW_REQ_PROSES()
+    {
             //untuk menapilkan nama applicant yang akan disimpan di tabel log
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
       
-        		$data = array(
-        		'process_status' => 'COMPLETED',
-            	'created_date' => date('Y-m-j'),
-      			'created_by' => $this->session->userdata('username'),
-        		'last_updated_date' => date('Y-m-j H:i:s'));
+                $data = array(
+                'process_status' => 'COMPLETED',
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->session->userdata('username'),
+                'last_updated_date' => date('Y-m-j H:i:s'));
 
-        	$condition = array('id_application_status' => $this->input->post('id_application_status'));
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' adding new applicant',
@@ -51,7 +51,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             $this->admin_model->insert_log($dataL);
 
-        	$this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
                 $data2 = array(
                 'id_application'=> $this->input->post('id_application'),
@@ -74,10 +74,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->get_doc($this->input->post('id_application'));
 
                 $this->send_mail($this->input->post('id_application'));
-        	 redirect(site_url('dashboard'));
-        	
+             redirect(site_url('dashboard'));
+            
         
-	}
+    }
 
     //tolak pengajuan karena sudah punya iin
     public function VERIF_NEW_REQ_HAS_IIN()
@@ -205,19 +205,19 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-	public function VERIF_UPLDOC_REQ($id_application_status)
-	{
-	    $data['aplication_setujui'] = $this->admin_model->get_application_file($id_application_status)->result();
+    public function VERIF_UPLDOC_REQ($id_application_status)
+    {
+        $data['aplication_setujui'] = $this->admin_model->get_application_file($id_application_status)->result();
         // echo json_encode($data);
         $this->load->view('admin_cek_upload_document', $data);
-	}
+    }
 
 //setujui kelemngkapan document dari user
-	public function VERIF_UPLDOC_REQ_PROSES_SUCCEST()
-	{
+    public function VERIF_UPLDOC_REQ_PROSES_SUCCEST()
+    {
             //untuk menapilkan nama applicant yang akan disimpan di tabel log
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
-        	$data = array(
+            $data = array(
                 'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
                 // 'id_application_status_name' => '3',
@@ -226,7 +226,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 // 'modified_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
-        	$condition = array('id_application_status' => $this->input->post('id_application_status'));
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
             echo $this->input->post('id_application_status')." = id_application_status";
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approved new document',
@@ -236,7 +236,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             $this->admin_model->insert_log($dataL);
 
-        	$this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
             $data4 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -250,7 +250,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
            
             $this->admin_model->insert_app_status($data4,$condition);
 
-        	$data5 = array(
+            $data5 = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '5',
@@ -282,7 +282,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $this->admin_model->insert_app_sts_for_map($data2);
            redirect(base_url('dashboard'));
 
-	}
+    }
 
 //revisi document untuk user
     public function VERIF_UPLDOC_REQ_PROSES_REVITIONS()
@@ -508,15 +508,15 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-	public function UPL_BILL_REQ($id_application_status)
-	{
+    public function UPL_BILL_REQ($id_application_status)
+    {
         $data['aplication_setujui'] = $this->admin_model->get_application($id_application_status)->result();
         
         $this->load->view('admin_upload_biling_code_simponi', $data);
-	}
+    }
 //mengupload biling
-	public function UPL_BILL_REQ_SUCCEST()
-	{  
+    public function UPL_BILL_REQ_SUCCEST()
+    {  
         
             
                 $data = array(
@@ -570,7 +570,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->load->library('upload');
             $cek = $this->input->post("bill");
             $getDoc = $this->admin_model->get_doc_bill_res()->result();
-           echo json_encode($cek); 
+           
 
             $this->upload->initialize(array(
                 "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
@@ -611,6 +611,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             redirect(base_url('dashboard'));       
   
     }
+
 
 //yg ini belum
     public function REUPL_BILL_REQ($id_application_status)
@@ -819,8 +820,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $title = $this->input->post('a_roles');
             
             
-            // print_r($id_ass_app);
-            // print_r($team);
+
               for($x=0;$x < count($team);$x++)
                 {
                     $dat = array(
@@ -859,7 +859,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 $this->admin_model->insert_application_file($data6);
 
-// echo $uploaded['raw_name'];
+
               } else{
    die('GAGAL UPLOAD');
       } 
@@ -1523,21 +1523,20 @@ public function REV_ASSESS_REQ_PROSESS()
     }
 
     public function UPL_RES_ASSESS_REQ_SUCCESS()
-    {
-        if ($this->input->post('setujui') == "setujui") {
-            
+    {          
+      
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' hasil asesment',
+                'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment',
                 'log_type' => 'added  '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -1549,7 +1548,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application_status_name' => '16',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1560,7 +1559,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application_status_name' => '17',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data3,$condition);
@@ -1571,7 +1570,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application_status_name' => '18',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data4,$condition);
@@ -1583,7 +1582,39 @@ public function REV_ASSESS_REQ_PROSESS()
                     );
            $this->admin_model->insert_app_sts_for_map($data5);
 
-        }
+            $this->load->library('upload');
+
+            $docIn = $this->input->post("bill");
+            $getDoc = $this->admin_model->get_news_for_user()->result();
+
+           $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
+                 "upload_path"   => "./upload/"
+             ));
+           
+            if($this->upload->do_upload("bill"))
+                {
+                    echo "sucses";
+                    $uploaded = $this->upload->data();     
+           
+                    for($x=0;$x < count($getDoc);$x++)
+                    {
+                        $doc = array(
+                            'id_application' => $this->input->post('id_application'),
+                            'id_document_config' => $getDoc[$x]->id_document_config,
+                            'status' => 'ACTIVE',
+                            'created_date'=> date('y-m-d'),
+                            'path_id' => $uploaded[$x]['full_path'],
+                            'created_by' => $this->session->userdata('username')
+                        );
+                        echo json_encode($doc);
+                        $this->admin_model->insert_doc_for_user($doc);
+                  
+                    }
+
+           
+                }
+        
     }
 
     public function UPL_RES_ASSESS_REQ_REVISI()
