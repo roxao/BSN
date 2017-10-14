@@ -13,12 +13,9 @@
 <section class="slide_comment" style="display: none">
 <form action="<?php echo base_url('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_REVITIONS') ?>" method="post" accept-chaset="utf-8">
 	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon nomer 1 - 12</p>
-	<!-- <textarea name="" id="" cols="30" rows="10" class="text_comment"></textarea> -->
-	<input name="docRef[]" type="text" id="id_admin"  placeholder="nomer surat yang ingin direfisi"/>
-	<input name="docRef[]" type="text" id="id_admin"  placeholder="nomer surat yang ingin direfisi"/>
-	<input name="docRef[]" type="text" id="id_admin"  placeholder="nomer surat yang ingin direfisi"/>
-	<input name="docRef[]" type="text" id="id_admin"  placeholder="nomer surat yang ingin direfisi"/>
-	<input name="docRef[]" type="text" id="id_admin"  placeholder="nomer surat yang ingin direfisi"/>
+	<div class="doc_rev">
+		
+	</div>
 	<div class="clearfix">
 
 		<input type="hidden" name="id_application_status" value="">
@@ -59,6 +56,11 @@ for (var i = 0; i < value.length; i++) {
 	$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ value[i].display_name
 	 			+'</div><a href="<?php echo base_url();?>submit_iin/download?var1='+ value[i].path_id 
 	 			+'" class="btn_download float_right">Download</a></div>');
+
+}
+
+for (var i = 0; i < value.length; i++) {
+	$('.doc_rev').append('<div><label><input name="docRef[]" type="checkbox" id="id_admin" value="'+value[i].key+'" />'+value[i].display_name+'</label></div>');
 
 }
 </script>
