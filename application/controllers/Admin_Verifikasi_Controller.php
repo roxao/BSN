@@ -1594,7 +1594,7 @@ public function REV_ASSESS_REQ_PROSESS()
            
             if($this->upload->do_upload("bill"))
                 {
-                    echo "sucses";
+                   
                     $uploaded = $this->upload->data();     
            
                     for($x=0;$x < count($getDoc);$x++)
@@ -1607,14 +1607,14 @@ public function REV_ASSESS_REQ_PROSESS()
                             'path_id' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('username')
                         );
-                        echo json_encode($doc);
+                       
                         $this->admin_model->insert_doc_for_user($doc);
                   
                     }
 
            
                 }
-        
+        redirect(site_url('dashboard'));
     }
 
     public function UPL_RES_ASSESS_REQ_REVISI()
@@ -1839,20 +1839,19 @@ public function REV_ASSESS_REQ_PROSESS()
 
     public function CRA_APPROVAL_REQ_PROSES()
     {
-        
-            
+                   
                $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' approve ',
+                'detail_log' => $this->session->userdata('admin_role').' CRA ',
                 'log_type' => 'added  '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -1864,7 +1863,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application_status_name' => '19',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1875,6 +1874,41 @@ public function REV_ASSESS_REQ_PROSESS()
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data5);
+
+            $id_doc_conf = $this->admin_model->get_doc_cra();
+            $doc = $this->input->post('doc');
+            $this->load->library('upload');
+            $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
+                "upload_path"   => "./upload/",
+                "max_size"      => "10000"
+             ));
+
+            if($this->upload->do_upload("doc")){
+
+                    $uploaded = $this->upload->data(); 
+
+             for($x=0; $x < $id_doc_conf->num_rows(); $x++) { 
+                
+                        $data6 = array(
+                            'id_application'=> $this->input->post('id_application'),
+                            'id_document_config' => $id_doc_conf->row($x)->id_document_config,
+                            'status' => 'ACTIVE',
+                            'created_date' => date('y-m-d'),
+                            // 'path_id' => $doc[$y],uploaded
+                            'path_id' => $uploaded[$x]['full_path'],
+                            'created_by' => $this->session->userdata('username')
+                        );
+                        //insert applications file untuk surat cra
+                        $this->admin_model->insert_application_file($data6);  
+
+                }
+                        
+             }
+
+            redirect(base_url('dashboard'));
+
+
         
     }
 
@@ -1911,6 +1945,48 @@ public function REV_ASSESS_REQ_PROSESS()
                     'id_application_status'=> $this->input->post('id_application_status')
                     );
            $this->admin_model->insert_app_sts_for_map($data5);
+
+            $data6 = array(
+                    'id_user' => $this->input->post('id_user'),
+                    'iin_number' => $this->input->post('iin_number'),
+                    'iin_established_date'=> $this->input->post('iin_established_date'),
+                    'iin_expiry_date' => $this->input->post('iin_expiry_date'),
+                    'created_date' => date('y-m-d'),
+                    'created_by' => $this->session->userdata('username')
+                    );
+
+            $id_iin = $this->admin_model->insert_iin($data6);
+            
+
+            $doc_iin = $this->admin_model->get_doc_iin();
+
+
+            
+            $this->load->library('upload');
+            $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
+                "upload_path"   => "./upload/",
+                "max_size"      => "10000"
+             ));
+
+            if($this->upload->do_upload("doc")){
+
+                $uploaded = $this->upload->data(); 
+
+                $data7 = array(
+                    'id_document_config' => $doc_iin->row()->id_document_config,
+                    'id_application' => $this->input->post('id_application'),
+                    'path_id'=> $uploaded['full_path'],
+                    'status' => 'ACTIVE',
+                    'created_date' => date('y-m-d'),
+                    'created_by' => $this->session->userdata('username')
+                    );
+            
+            $this->admin_model->insert_application_file($data7);            
+
+            }
+            redirect(base_url('dashboard'));
+
     }   
 
    
@@ -1945,7 +2021,7 @@ public function REV_ASSESS_REQ_PROSESS()
     public function send_mail($prm)
     {   
         
-        echo "prm".$prm;
+        
         $cek = $this->admin_model->get_data_for_mail($prm);
         
             // echo "jumlah ".$cek->num_rows();
@@ -1965,12 +2041,7 @@ public function REV_ASSESS_REQ_PROSESS()
         }
     }
 
-    public function get_report_excel()
-    {
-        $data['report']=$this->admin_model->get_admin()->result();
-        $this->load->view('excel_import',$data);
-        // echo json_encode($data);
-    }
+
 
     public function get_doc($prm)
     {

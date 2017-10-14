@@ -59,8 +59,9 @@ class Dashboard extends CI_Controller {
                 $password = hash ( "sha256", $this->input->post('password'));
                 $cek = $this->admin_model->cek_login($username,$password);
                 if($cek->num_rows() > 0){
-                    if ($cek->row()->admin_status == 0){ 
+                    if ($cek->row()->admin_status == "INACTIVE"){ 
                         redirect(base_url('dashboard/user/login'));
+                       
                     } else {
                         $this->session->set_userdata(array(
                             'id_admin'      => $cek->row()->id_admin,
@@ -145,8 +146,11 @@ class Dashboard extends CI_Controller {
                 case 'verif_rev_assess_res_req':
                     echo json_encode($data);break;  
                 case 'cra_approval_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+                    $data['revdoc_user'] = $this->admin_model->get_doc_cra()->result();
                     echo json_encode($data);break;  
                 case 'upl_iin_doc_req':
+                $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     echo json_encode($data);break;  
             }
         }
@@ -988,5 +992,6 @@ $this->load->view('admin/options/cms_insert');
         echo json_encode($data);
     }
 
+    
 
 }

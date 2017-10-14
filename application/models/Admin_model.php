@@ -278,6 +278,8 @@ class Admin_model extends CI_Model {
 
     public function insert_iin($data){
         $this->db->insert('iin', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     public function get_cms(){
@@ -527,5 +529,22 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
+    public function get_doc_cra()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key','CRADOC');
+        $this->db->where('mandatory','1');
+        return $this->db->get();
+    }
+
+    public function get_doc_iin()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key','IIN');
+        
+        return $this->db->get();
+    }
 }
 ?>
