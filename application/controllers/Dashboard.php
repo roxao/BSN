@@ -167,12 +167,12 @@ class Dashboard extends CI_Controller {
             case 'admin': 
                 $data['data'] = $this->admin_model->get_admin()->result_array(); break;
             case 'assessment': 
-                $data['data'] = $this->admin_model->get_assessment()->result_array(); break;
+                $data['data_name'] = $this->admin_model->get_assessment()->result_array(); break;
                 $data['data_title'] = $this->admin_model->get_assessment_title()->result_array(); break;
-            case 'assessment_roles': 
-                
-            case 'document': 
-                $data['data'] = $this->admin_model->get_document()->result_array(); break;
+            case 'document_dynamic': 
+                $data['data'] = $this->admin_model->get_document_config('DYNAMIC')->result_array(); break;
+            case 'document_static': 
+                $data['data'] = $this->admin_model->get_document_config('STATIC')->result_array(); break;
             case 'cms': $data['data'] = 
                 $this->admin_model->get_cms()->result_array(); break;
             case 'iin': 
@@ -188,26 +188,6 @@ class Dashboard extends CI_Controller {
 
     public function action_update($param){
         switch ($param) {
-            case 'user':
-                $condition = array('id_user' => $this->input->post('id_user'));
-                $data = array(  'email' => $this->input->post('email'),
-                                'username' => $this->input->post('username'),
-                                'password' => $this->input->post('password'),
-                                'name' => $this->input->post('name'),
-                                'status_user' => $this->input->post('status_user'),
-                                'survey_status' => $this->input->post('survey_status'),
-                                'modified_date' => date('Y-m-j H:i:s')
-                                // 'modified_by' => 'Admin'                
-                                // 'modified_by' => $this->session->userdata('username')                
-                );
-                $log = array(   'detail_log' => $this->session->userdata('admin_role').' Update Data user',
-                                'log_type' => 'Update Data user '.$this->input->post('name'), 
-                                'created_date' => date('Y-m-j H:i:s')
-                                // 'created_by' => 'Admin'
-                                // 'created_by' => $this->session->userdata('username')
-                );
-                $this->admin_model->update_user($condition,$data);
-                break;
             case 'admin':
                 $condition = array('id_admin' => $this->input->post('id_admin'));
                 $data = array(
@@ -240,21 +220,7 @@ class Dashboard extends CI_Controller {
                     'created_date' => date('Y-m-j H:i:s')
                     // 'created_by' => $this->session->userdata('username')
                 );
-
                 $this->admin_model->update_assessment($condition,$data);
-                break;
-            case 'assessment_roles':
-                $condition = array('id_assessment_team_title' => $this->input->post('id_assessment_team_title'));
-                $data = array(
-                    'title' => $this->input->post('title')          
-                );
-                $log = array(
-                    'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team title',
-                    'log_type' => 'Update Data '.$this->input->post('title'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
-                );
-                $this->admin_model->update_assessment_team_title($condition,$data);
                 break;
             case 'document':
                 $this->load->library('upload');
@@ -438,7 +404,9 @@ class Dashboard extends CI_Controller {
         redirect(base_url('dashboard/settings/'.$param));
     }
 
-
+    public function export_excel($param = null){
+        
+    }
 
 
 
@@ -584,8 +552,7 @@ class Dashboard extends CI_Controller {
 
 
      //menampilkan data tim asesment title
-    public function read_tim_asesment_title() 
-    {
+    public function read_tim_asesment_title() {
 
         $this->load->view('admin/options/asesment_title_insert',$data);
         // echo json_encode($data);

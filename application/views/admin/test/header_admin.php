@@ -41,7 +41,7 @@
 							<li><div> <a href="<?php echo base_url('data_asesment')?>">tampilTimAsesement </a></div></li>
 							<li><div> <a href="<?php echo base_url('data_user')?>">tampilUser </a></div></li>
 							<li><div> <a href="<?php echo base_url('inbox')?>">Inbox </a></div></li>
-							<li><div> <a href="<?php echo base_url('logout_admin')?>">Keluar </a></div></li>
+							<li><div> <a href="<?php echo base_url('user/logout')?>">Keluar </a></div></li>
 						</ul>
 					</div>
 				</div>

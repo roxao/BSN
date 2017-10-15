@@ -237,8 +237,11 @@ class Admin_model extends CI_Model {
         $this->db->update('assessment_team_title',$data);
     }
 
-    public function get_document(){
-        return $this->db->get('document_config');
+    public function get_document_config($param){
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->like('type', $param);
+        return $this->db->get();
     }
 
     public function get_document_by_prm($id){

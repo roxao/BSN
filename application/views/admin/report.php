@@ -1,61 +1,57 @@
+<?php
+  $page_title = 'Dashboard :: Laporan';
+  $page_section = 'LAPORAN';
+  $data_table = [
+    ['id_application'         ,'#'                    ,'50'], 
+    ['applicant'              ,'Nama Pemohon'         ,'200'], 
+    ['applicant_phone_number' ,'Telepon Pemohon'      ,'120'],
+    ['application_date'       ,'Tanggal Pengajuan'    ,'120'],
+    ['instance_name'          ,'Nama Perusahaan'      ,'250'],
+    ['instance_email'         ,'E-mail Perusahaan'    ,'200'],
+    ['instance_director'      ,'Direktur Perusahaan'  ,'200'],
+    ['mailing_location'       ,'Lokasi Pengajuan'     ,'200'],
+    ['mailing_number'         ,'Nomor Surat'          ,'100'],
+    ['application_type'       ,'Jenis Pengajuan'      ,'100'],
+    ['display_name'           ,'Status Pengajuan'     ,'250']
+  ];
+?>
+
+
+
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
     <div class="site-map">
       <a href="<?php echo base_url('dashboard') ?>">Dashboard</a><span></span>
-      Laporan
+      <a href="<?php echo base_url('dashboard') ?>">Pengaturan</a><span></span>
+      <?php echo $page_section ?>
     </div>
-    <center><h2 class="title_content">LAPORAN</h2></center>
+    <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
-      <?php
-        $s_name = [
-          ['id_application', '#'], 
-          ['applicant', 'Nama Pemohon'], 
-          ['applicant_phone_number', 'Telepon Pemohon'],
-          ['application_date', 'Tanggal Pengajuan'],
-          ['instance_name', 'Nama Perusahaan'],
-          ['instance_email', 'E-mail Perusahaan'],
-          ['instance_director', 'Direktur Perusahaan'],
-          ['mailing_location', 'Lokasi Pengajuan'],
-          ['mailing_number', 'Nomor Surat'],
-          ['application_type', 'Jenis Pengajuan'],
-          ['display_name', 'Status Pengajuan'],
-        ];
-      ?>
-      <div class="clearfix"  style="margin: 0 15px">
-        <div class="float_left">
-          <button id="btnExport" class="btn-flat ">EXPORT</button>
-          
-        </div>
+      <div class="opt-table clearfix">
+        <button id="btn-export" class="btn-flat float_left">DOWNLOAD</button>
 
-        <div id="filtertable" class="float_right">
-          <div class="clickfilter">Filter... </div>
-          <div class="filtertable filters"> 
-            <?php foreach($s_name as $x){
-              if($x[0] != $s_name[0][0]) echo '<label><input type="checkbox" checked data-criteria="'.$x[0].'">'.$x[1].'</label>';              
-            } ?>
+        <div class="opt-table-filter float_right">
+          <input class="search filter_search" placeholder="Search ..." />
+          <div id="filtertable">
+            <div class="clickfilter">Filter... </div>
+            <div class="filtertable filters">
+              <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
+            </div>
           </div>
-        </div>
-        <input class="search filter_search float_right" placeholder="Search ..." />
+        </div> 
       </div>
-      
 
       <div id="targetExcel" class="parent_table">
-        <table class="table_def tableInbox" style="width: 100%;">
-          <tr>
-            <?php foreach($s_name as $x) {
-            echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';
-            } ?>
-          </tr>
+        <table id="tableInbox" class="table_def tableInbox" style="width: 100%;table-layout: fixed">
+          <tr><?php foreach($data_table as $x){echo '<th class="sort" data-sort="'.$x[0].'" style="width:'.$x[2].'px !important">'.$x[1].'</th>';}?></tr>
           <tbody class="list">
             <?php foreach($applications as $key=>$data) {
               echo '<tr class="row_select"';
-                foreach($s_name as $x) {
-                  echo ' o-'.$x[0].'="'.$data[$x[0]].'"';
-                }
+                  foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
               echo '>';
-                foreach($s_name as $x) {
-                echo '<td class="'.$x[0].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
-              }
+                  foreach($data_table as $x) {
+                    echo '<td class="'.$x[0].'" data-sort="'.$x[0].'">'.($x[0]=='application_type'?($data[$x[0]]=='new'?'Pengajuan Baru':'Pengawasan IIN Lama'):$data[$x[0]]).'</td>';
+                  }
               echo '</tr>';
             } ?>
           </tbody>
@@ -72,72 +68,44 @@
     </div>
   </section>
 
-  <script type="text/javascript" src="<?php  echo  base_url(); ?>/assets/js/list.min.js"></script>
-  <script type="text/javascript" src="<?php  echo  base_url(); ?>/assets/js/export.js"></script>
+  <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
+  <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
   <script type="text/javascript">
-    $('document').ready(function() {
+    $('document').ready(function(){
+      document.title = '<?php echo $page_title ?>';
+      var url_u = "<?php echo base_url('dashboard/action_update/admin') ?>";
+      var url_i = "<?php echo base_url('dashboard/action_insert/admin') ?>";
+      $('#filtertable input').click(function(event) {
+        if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
+        $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
+        $('td[data-sort="' + $(this).attr('value') + '"]').toggle();
+      });
+      $('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
+      var datasort = [<?php foreach($data_table as $key=>$x) {echo '"'.$x[0].'",';}?>]
+      var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
+      $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
+      $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
+      $('.tableInbox tr th:first-child').click();
 
-       var url_u = "<?php echo base_url('dashboard/action_update/admin') ?>";
-       var url_i = "<?php echo base_url('dashboard/action_insert/admin') ?>";
-       var datasort = [<?php foreach($s_name as $key=>$x) {echo '"'.$x[0].'",';}?>]
-       var options = {
-           valueNames: datasort,
-           page: 3,
-           pagination: true
-       };
-       var inboxList = new List('tableInbox', options);
 
-       fd = $('#filtertable :checked');
 
-       $('#filtertable input').click(function(event) {
-            checked = $("input[type=checkbox]:checked").length;
-            if(checked < 4 ) {
-              alert('Anda harus memilih minimal 5 kolom')
-              return false;
-            };
-           fdv = $(this).attr('value');
-           $('th[data-sort="' + fdv + '"]').toggle();
-           $('td[data-sort="' + fdv + '"]').toggle();
-       });
-       $('#filtertable .clickfilter').click(function(event) {
-           $('.filtertable').slideToggle();
-       });
-       $('.row_select').on('click', function() {
-           <?php foreach($s_name as $x) { echo '$("#'.$x[0].'").val($(this).attr("o-'.$x[0].'"));';} ?>
-           $('.z-modal-frame').fadeIn('fast', function() {
-               $('#z-modal-edit').slideDown()
-               $('.modal-form').attr('action', url_u);
-           });
-       })
-       $('#expor-btn').on('click', function() {
-          
-       })
-       $('.z-modal-close').on('click', function() {
-           $('#z-modal-edit').slideUp('fast', function() {
-               $('.z-modal-frame').fadeOut()
-           });
-       })
-       $('.listjsnext').on('click', function() {
-           var list = $('.pagination').find('li');
-           $.each(list, function(position, element) {
-               if ($(element).is('.active')) {
-                   $(list[position + 1]).trigger('click');
-               }
-           })
-       })
-       $('.listjsprev').on('click', function() {
-           var list = $('.pagination').find('li');
-           $.each(list, function(position, element) {
-               if ($(element).is('.active')) {
-                   $(list[position - 1]).trigger('click');
-               }
-           })
-       })
+      $('.row_select').on('click', function() {
+        <?php //foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
+
+        //   $('.z-modal-frame').fadeIn('fast', function() {
+        //   $('#z-modal-edit').slideDown()
+        //   $('.modal-form').attr('action', url_u);
+        // });
+      })
+      $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
+
+      $('#expor-btn').on('click', function() {
+        
+      })
    });
   </script>
-  <style> tr th:first-child{text-align: center !important} </style>
+  <style>
+    tr th:first-child{text-align: center !important}
+    .mailing_location {text-transform:capitalize}
+  </style>
 </section>
-
-
-
-

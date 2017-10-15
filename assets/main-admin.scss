@@ -676,14 +676,12 @@ div.close_modal {
 }
 .filter_search {
     height: 18px;
-    margin: 10px -12px;
     border-radius: 2px;
     line-height: 18px;
     font-size: 13px;
     color: #777;
     padding-left: 40px;
-    border-right: 0;
-    border-color: #ddd;
+    border:0;
     width: 60px;
     transition: all 1s ease;
     background-image: url('admin/magnifier.png');
@@ -691,7 +689,7 @@ div.close_modal {
     background-position: 10px center ;
     &:focus{
       padding-left: 10px;
-      background-image: none;
+      background-position: -50%;
       width: 200px;
       border-color: #ddd;
       transition: all 1s ease;
@@ -699,17 +697,16 @@ div.close_modal {
 }
 #filtertable{
     display: inline-block;
-    margin: 10px;
-    border: 1px solid #ddd;
     border-radius: 2px;
-    width: 200px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 100px;
+    position: relative;
     .clickfilter {
       background: #fafafa;
       padding: 10px 15px;
     }
     .filtertable{
       position: absolute;
+      right: 0;
       width: 200px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       border-radius: 0 0 3px 3px;
@@ -772,34 +769,54 @@ div.close_modal {
   .z-modal-form{
     box-sizing: border-box;
     padding: 15px;
+    button{
+      width: 100% !important;
+      margin: 20px 0 5px 0
+    }
     label{
-      display: block;
-      padding: 5px;
-      box-sizing: border-box;
-      font-size: 10px;
-      line-height: 20px;
-      font-weight: 500;
-      color: #999;
-      text-transform: uppercase;  
+        border: 1px solid #e7eaed;
+        background: #f2f4f7;
+        display: flex;
+        box-sizing: border-box;
+        font-size: 10px;
+        line-height: 20px;
+        font-weight: 500;
+        color: #999;
+        text-transform: uppercase;
+        margin: 10px 0;
+        border-radius: 2px;
+        overflow: hidden;
+        span {
+          width: 30%;
+          flex-basis: 30%;
+          display: block;
+          line-height: 36px;
+          padding: 0 10px;
+          color: #999;
+          }
+        input, select{
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          -o-appearance: none;
+          width: 100%;
+          flex-basis: 100%;
+          background: #f2f4f7;
+          display: block;
+          border: 0;
+          font-size: 13px;
+          line-height: 36px;
+          padding: 0 0 0 10px;
+          border-left: 0;
+          border-radius: 0 2px 2px 0 !important;
+          }
+        &:after{
+          display: table;
+          content: '';
+          clear: both
+        }
     }
-    input{
-      display: block;
-      width: 100%;
-      box-sizing: border-box;
-      background: #f2f4f7;
-      border: 0;
-      font-size: 14px;
-      line-height: 24px;
-    }
-    select{
-      line-height: 40px;
-      background: #f2f4f8;
-      height: 40px;
-      width: 100%;
-      border: 0;
-      border-radius: 2px !important;
-      padding: 0 20px;
-    }
+    select:focus{outline: none}
+    select::-ms-expand{display: none}
   }
 }
 
@@ -807,11 +824,11 @@ div.close_modal {
 
 .btn-flat {
   text-transform: uppercase;
-  padding: 10px 15px 12px 15px;
+  padding: 12px 15px 12px 15px;
   box-shadow: none;
   background: #01923f;
   border: 0;
-  margin: 10px;
+  margin: 0;
   min-width: 120px;
   border-radius: 2px;
   color: #fff;
@@ -989,6 +1006,14 @@ header {
   }
 }
 
+
+.opt-table{
+  padding: 10px;
+  .opt-table-filter{
+    border: 1px solid #eee;
+    border-radius: 2px;
+  }
+}
 
 .nav-notif{
   position: relative;
