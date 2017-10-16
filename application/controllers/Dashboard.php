@@ -223,23 +223,28 @@ class Dashboard extends CI_Controller {
                 $this->admin_model->update_assessment($condition,$data);
                 break;
             case 'document':
-                $this->load->library('upload');
-                $this->upload->initialize(array(
-                    "allowed_types" => "gif|jpg|png|jpeg|png",
-                    "upload_path"   => "./upload/"
-                ));
-                
-                $this->upload->do_upload("file_url");
-                $uploaded = $this->upload->data();
             
-                $condition = array('id_document_config' => $this->input->post('id_document_config'));
-                $data = array(
-                    'type' => $this->input->post('type'),
+            $this->load->library('upload');
+ 
+      //Configure upload.
+             $this->upload->initialize(array(
+   "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+                 "upload_path"   => "./upload/"
+                
+             ));
+
+              $condition = array('id_document_config' => $this->input->post('id_document_config'));
+             //Perform upload.
+             $this->upload->do_upload("images");
+                $uploaded = $this->upload->data();
+                
+                 $data = array(
+                    'type' => $this->input->post('type_doc'),
                     'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $uploaded['full_path'],
                     'mandatory' => $this->input->post('mandatory'),
-                    'modified_date' => date('Y-m-j H:i:s'),
+                    'last_updated_date' => date('Y-m-j H:i:s'),
                     // 'modified_by' => $this->session->userdata('username')                
                 );
                 $log = array(
@@ -248,6 +253,9 @@ class Dashboard extends CI_Controller {
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
+             
+
+              
                 $this->admin_model->update_documenet_config($condition,$data);
                 break;
             case 'contents':
