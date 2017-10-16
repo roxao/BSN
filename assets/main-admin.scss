@@ -1007,6 +1007,48 @@ header {
 }
 
 
+#cms_editor{
+  margin: 0 -20px -20px -20px;
+  #mceu_11{
+    border: 0 !important;
+    box-shadow: none !important;
+    .mce-btn:hover, .mce-btn:active{
+      border-radius: 2px;
+    }
+  }
+  .mce-top-part::before {
+      content: '';
+      position: absolute;
+      -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1); 
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      pointer-events: none;
+  }
+  button{
+    min-width: auto;
+    text-transform: capitalize;
+    box-shadow: none;
+    border-radius:0;
+    letter-spacing: normal;
+  }
+  .mce-branding {
+    display: none;
+  }
+  .cms_title{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    padding: 18px;
+    font-size: 14px;
+  }
+}
 .opt-table{
   padding: 10px;
   .opt-table-filter{

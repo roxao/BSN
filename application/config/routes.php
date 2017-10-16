@@ -56,32 +56,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['user/(:any)'] = 'SipinHome/user/$1';
 
-$route['index_admin'] = 'SipinAdmin/index';
-$route['login_admin'] = 'SipinAdmin/login_admin';
-$route['get_admin'] = 'SipinAdmin/get_admin';
-$route['insert_admin'] = 'SipinAdmin/insert_admin';
-$route['insert_admin_proses'] = 'SipinAdmin/insert_admin_proses';
-
-
-$route['inbox_admin'] = 'sipinAdmin/read_applications';
-$route['inbox_tes'] = 'sipinAdmin/read_applications2';
-
-$route['document_config'] = 'sipinAdmin/get_document_config';
-$route['edit_document_config/(:any)'] = 'sipinAdmin/document_config_edit/$1';
-$route['edit_proses_document_config'] = 'sipinAdmin/edit_document_config_proses';
-
-$route['survey'] = 'sipinAdmin/get_survey';
-
-$route['historical_data_entry'] = 'sipinAdmin/get_iin_data';
-$route['edit_iin/(:any)'] = 'sipinAdmin/edit_iin/$1';
-
-$route['cms']  = 'sipinAdmin/get_data_cms';
-$route['edit_cms/(:any)'] ='sipinAdmin/edit_data_cms/$1';
-
-$route['user_data'] = 'sipinAdmin/get_data_user';
-$route['edit_user/(:any)'] ='sipinAdmin/edit_data_user/$1';
-
-
 $route['proses_login_admin'] = 'dashboard/proses_login';
 
 $route['contact-us'] = 'SipinHome/contact_us';

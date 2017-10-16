@@ -65,7 +65,7 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
+      var url_u = "<?php echo base_url('dashboard/setting/assessment') ?>";
       var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
@@ -82,15 +82,14 @@
 
 
       $('.row_select').on('click', function() {
+        $('[name=id_cms').val($(this).attr('data-id'));
+        $('[name=type_editor').val('update');
+        $('.modal-form button').click();
       })
 
       $('#btn-add').on('click', function() {
-        $('.z-modal-title').html('Tambah Anggota Assessment');
-        $('.z-modal-frame').fadeIn('fast', function() {
-          $('.z-modal-frame input').val('');
-          $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_i);
-        });
+        $('[name=type_editor').val('insert');
+        $('.modal-form button').click();
       })
    });
   </script>
@@ -108,30 +107,10 @@
 
 
 <div class="z-modal-frame" style="display: none;">
-  <div id="z-modal-edit" style="display: none;">
-    <div class="z-modal-header">
-      <div class="z-modal-title">Ubah Administrator</div>
-      <div class="z-modal-close"></div>
-    </div>
-    <div class="z-modal-content">
-      <form action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
-        <div class="z-modal-form">
-            <input name="id_assessment_team" type="hidden"/>
-            <label><span>Nama Lengkap</span>
-                <input name="name" type="text" placeholder="Username"/>
-            </label>
-            <label>
-                <span>Status</span>       
-                <select name="STATUS">
-                  <option>ACTIVE</option>
-                  <option>INACTIVE</option>
-                </select>
-              </label>
-
-            <button class="btn-flat">LANJUTKAN</button>
-          </div>
-      </form>
-    </div>
-  </div>
+  <form class="modal-form" action="<?php echo base_url('dashboard/settings/cms_editor') ?>" method="post">
+    <input name="id_cms" type="text">
+    <input name="type_editor" type="text">
+    <button type="submit"></button>
+  </form>
 </div>
 
