@@ -96,6 +96,14 @@ class User_model extends CI_Model {
  
         return  $results ;   
     }
+
+    public function get_doc_statis()
+    {
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
+        $this->db->from('document_config dc')
+        return $this->db->get();
+    }
+
 /*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document configth di buat untuk global*/
     public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
         $this->db->select('*');

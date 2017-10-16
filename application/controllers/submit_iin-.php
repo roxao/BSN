@@ -91,6 +91,13 @@ echo "Anda sudah memiliki aplikasi iin yg mash aktif";
 } 	
 	}
 
+	//step 1 list document yang harus di download oleh user yang bertype static 
+	public function get_doc_static($id_user)
+	{
+		$data['download_upload']    = $this->user_model->getdocument_aplication($id_user);
+
+	}
+
 	
 	/*Melkukan penarikan dokumen*/
 	public function download(){

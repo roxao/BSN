@@ -128,6 +128,36 @@ class User_model extends CI_Model {
  
         return  $results ;   
     }
+
+    //menampilkan data documen yang harus di download user typenya yang static
+    public function get_doc_statis()
+    {
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
+        $this->db->from('document_config dc');
+        $this->db->where('mandatory','1');
+        return $this->db->get()->result();
+    }
+
+
+    //menampilkan data documen yang harus di download user typenya yang static
+    public function get_doc_dynamic()
+    {
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
+        $this->db->from('document_config dc');
+        $this->db->where('mandatory','1');
+        $this->db->where('type','DYNAMIC');
+        return $this->db->get();
+    }
+
+    //menampilkan data documen yang harus di download user typenya yang static
+    public function get_doc_kbs()
+    {
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
+        $this->db->from('document_config dc');
+        
+        return $this->db->get()->result();
+    }
+
     /*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document config di buat untuk global*/
     public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
         $this->db->select('*');
@@ -375,6 +405,14 @@ class User_model extends CI_Model {
         $this->db->from('user');
         $this->db->join('iin', 'user.id_user=iin.id_user');
         $this->db->join('applications','applications.id_user=user.id_user');
+        return $this->db->get(); 
+     }
+
+     public function get_app_by_prm($id_usr)
+     {
+        $this->db->select('id_application');
+        $this->db->from('applications');
+        $this->db->where('id_user', $id_usr);
         return $this->db->get(); 
      }
     
