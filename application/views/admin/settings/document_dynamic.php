@@ -123,10 +123,10 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <form action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
+  <?php echo form_open_multipart('dashboard/action_update/document') ?>
         <div class="z-modal-form">
             <input name="id_document_config" type="hidden"/>
-            <input name="type" type="hidden"/>
+            <input name="type_doc" type="hidden" value="DYNAMIC"/>
             <label><span>Key</span>
                 <input name="key" type="text" placeholder="Username"/>
             </label>
@@ -134,7 +134,7 @@
                 <input name="display_name" type="text" placeholder="Username"/>
             </label>
             <label><span>Dokumen</span>
-                <input name="document[]" type="file" placeholder="Username"/>
+                <input name="images[]" type="file" placeholder="Username"/>
             </label>
             <label>
                 <span>Mandatory</span>       
