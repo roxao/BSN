@@ -41,14 +41,45 @@ class User_model extends CI_Model {
  
 //         return  $query;   
 //     }
-    public function cek_login($username,$password){  
-    $this->db->where("email = '$username' or username = '$username'");  
-    $this->db->where('password', $password); 
+
+    public function cek_login2($username,$password){  
+        $this->db->where("email = '$username' or username = '$username'");  
+        $this->db->where('password', $password); 
         return  $this->db->get('user');   
     }
 
-      public function get_all_notifikasi($id_user){  
-    $this->db->where('notification_owner ','$id_user');  
+    /*This Query to Validate User login, Already have iin?, Any Open Application?, Application Type?*/
+    public function cek_login($username,$password){  
+        $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type');
+        $this->db->from('user us'); 
+        $this->db->join('applications ap', 'us.id_user = ap.id_user','left');
+        $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
+        $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
+        $this->db->where('us.password', $password);
+        $query = $this->db->get(); 
+
+        // $this->db->select('us.username, us.email, us.status_user, ii.iin_number');
+        // $this->db->from('user us'); 
+        // $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
+        // $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
+        // $this->db->where('us.password', $password);
+        // $query = $this->db->get(); 
+ 
+        return  $query;    
+    }
+
+    /*Check any open application*/
+    // public function validate_active_application($username) {  
+    //     $this->db->select('ap.iin_status');
+    //     $this->db->from('user us'); 
+    //     $this->db->join('applications ap', 'us.id_user = ap.id_user');
+    //     $this->db->join('iin ii', 'us.id_user = ii.id_user');
+    //     $this->db->where("email = '$username' or username = '$username'");
+    //     return  $this->db->get('applications'); 
+    // }
+
+    public function get_all_notifikasi($id_user){  
+        $this->db->where('notification_owner ','$id_user');  
         return  $this->db->get('notification');   
     }
 
@@ -60,16 +91,17 @@ class User_model extends CI_Model {
 
     /*Forgot Password*/
     public function forgot_password($username){ 
-    $this->db->select('*');
-    $this->db->from('user'); 
-    $this->db->join('applications', 'user.id_user=applications.id_user');
-    $this->db->where("user.email = '$username' or user.username = '$username' or instance_name = '$username'");        
-    $query = $this->db->get(); 
+        $this->db->select('*');
+        $this->db->from('user'); 
+        $this->db->join('applications', 'user.id_user=applications.id_user');
+        $this->db->where("user.email = '$username' or user.username = '$username' or instance_name = '$username'");        
+        $query = $this->db->get(); 
  
         return  $query;   
     }
-/*Kondisi dimana user ingin mengganti password*/
-      public function Update_password($id_user, $modified_by, $password)
+
+    /*Kondisi dimana user ingin mengganti password*/
+    public function Update_password($id_user, $modified_by, $password)
     {
         $data = array('password' => $password,
             'modified_by' => $modified_by,
@@ -96,7 +128,7 @@ class User_model extends CI_Model {
  
         return  $results ;   
     }
-/*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document configth di buat untuk global*/
+    /*Function ini di buat untuk mengambil id dari dokument untuk insert path documentdi document config di buat untuk global*/
     public function getdocument_aplication_forUpload($id_user, $type, $type1,  $status){ 
         $this->db->select('*');
         $this->db->from('applications'); 
@@ -116,41 +148,55 @@ class User_model extends CI_Model {
         return  $results ;   
     }
 
-    /*Melkukan Assesment Status*/
+    /*Melakukan Assesment Status*/
     public function getAssesmentStatus($id_user){ 
-    $this->db->select('*');
-    $this->db->from('applications'); 
-    $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
-    $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_registered.id_assessment_application');
-    $this->db->join('assessment_team','assessment_registered.id_assessment_team=assessment_team.id_assessment_team');
-    $this->db->join('assessment_team_title','assessment_registered.id_assessment_team_title=assessment_team_title.id_assessment_team_title');
-    $this->db->where('applications.id_user',$id_user);
-    $this->db->where('applications.iin_status',"OPEN");
-    // $this->db->where('document_config.type','STATIC'); 
-    // $this->db->where('document_config.key',"IPPSA"); 
-     $query = $this->db->get(); 
-    $results = $query->result(); 
-     return  $results ; 
-    }
-
-    public function get_applications_Status($id_user){
         $this->db->select('*');
-        $this->db->from('application_status');
-        $this->db->join ('applications', 'application_status.id_application = applications.id_application');
-        $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
+        $this->db->from('applications'); 
+        $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
+        $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_registered.id_assessment_application');
+        $this->db->join('assessment_team','assessment_registered.id_assessment_team=assessment_team.id_assessment_team');
+        $this->db->join('assessment_team_title','assessment_registered.id_assessment_team_title=assessment_team_title.id_assessment_team_title');
         $this->db->where('applications.id_user',$id_user);
         $this->db->where('applications.iin_status',"OPEN");
+        // $this->db->where('document_config.type','STATIC'); 
+        // $this->db->where('document_config.key',"IPPSA"); 
+         $query = $this->db->get(); 
+        $results = $query->result(); 
+         return  $results ; 
+        }
 
-        return $this->db->get();
+        // public function get_applications_Status($id_user){
+        //     $this->db->select('*');
+        //     $this->db->from('application_status');
+        //     $this->db->join ('applications', 'application_status.id_application = applications.id_application');
+        //     $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
+        //     $this->db->where('applications.id_user',$id_user);
+        //     $this->db->where('applications.iin_status',"OPEN");
+
+        //     return $this->db->get();
+        // }
+
+        /*
+        Get Application Status
+        */
+        public function get_applications_Status($id_user){
+            $this->db->select('MAX(apsn.id_application_status_name) AS id_application_status_name, aps.process_status, ap.iin_status');
+            $this->db->from('application_status aps');
+            $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
+            $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
+            $this->db->where('ap.id_user',$id_user);
+            $this->db->where('ap.iin_status','OPEN');
+
+            return $this->db->get();
+        }
+
+        public function get_aplication($id_user){ 
+        // $this->db->select('*');
+        // $this->db->from('applications'); 
+        $this->db->where('id_user',$id_user);
+        $this->db->where('iin_status','OPEN');
+        return  $this->db->get('applications');
     }
-
-    public function get_aplication($id_user){ 
-    // $this->db->select('*');
-    // $this->db->from('applications'); 
-    $this->db->where('id_user',$id_user);
-    $this->db->where('iin_status','OPEN');
-    return  $this->db->get('applications');
-}
 
     /*Cek Status User*/
     public function cek_status_user($username){  
@@ -158,14 +204,21 @@ class User_model extends CI_Model {
         return  $this->db->get('user');   
     }
 
+    /*
+    Insert applications Table
+    */
     public function insert_pengajuan ($data){
         $this->db->insert('applications', $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;
     }
+
+    /*
+    Insert application_status Table
+    */
     public function insert_app_status($data)
     {
-       $this->db->insert('application_status', $data);
+       return $this->db->insert('application_status', $data);
     }
 
     /*Proses send email*/

@@ -24,8 +24,8 @@
 				<?php if($this->session->userdata('status') == "login") {?>
 				<li class="nav-link parent"><a>Layanan IIN</a>
 					<ul>
-						<?php if ($this->session->userdata('status') == "login") {?>
-						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/submitiin">Penerbitan IIN Baru</a>
+						<?php if ($this->session->userdata('have_iin') == "N") {?>
+						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/submit_application">Penerbitan IIN Baru</a>
 						<?php } else { ?>
 						<li class="nav-link"><a href="<?php echo base_url();?>extend-iin">Pengawasan IIN Lama</a>
 						<?php } ?>

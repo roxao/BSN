@@ -62,7 +62,7 @@
 
               <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
 
-          <input type="text" name='secutity_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
+          <input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
 
 
             <button type="submit">Daftar</button>
