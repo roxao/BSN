@@ -508,14 +508,14 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-        public function application_status_form_mapping_rev_by_idapp5($idapp)
+    public function application_status_form_mapping_rev_by_idapp5($idapp,$id_app_status)
     {
         $sub = $this->db->select('application_status_form_mapping.value as key');
         $sub = $this->db->from('application_status')
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
-        ->where('id_application_status_name','5')
+        ->where('application_status_form_mapping.id_application_status', $id_app_status)
         ->like('application_status_form_mapping.type','REVISED_DOC');
         $sub = $this->db->get_compiled_select();
 
@@ -526,7 +526,7 @@ class Admin_model extends CI_Model {
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
         $this->db->join('application_status', 'applications.id_application=application_status.id_application');
         $this->db->where('application_file.id_application', $idapp);
-        $this->db->where('application_status.id_application_status_name','5');
+
         $this->db->where('application_file.status','ACTIVE');
         $this->db->where_in('document_config.key',$sub, false);
 
@@ -535,31 +535,6 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-    public function application_status_form_mapping_rev_by_idapp($idapp)
-    {
-        $sub = $this->db->select('application_status_form_mapping.value as key');
-        $sub = $this->db->from('application_status')
-        ->join('applications','application_status.id_application=applications.id_application')
-        ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
-        $sub = $this->db->where('applications.id_application',$idapp)
-        ->like('application_status_form_mapping.type','REVISED_DOC');
-        $sub = $this->db->get_compiled_select();
-
-        $this->db->distinct();
-        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config');
-        $this->db->from('applications');
-        $this->db->join('application_file', 'applications.id_application=application_file.id_application');
-        $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
-        $this->db->join('application_status', 'applications.id_application=application_status.id_application');
-        $this->db->where('application_file.id_application', $idapp);
-        $this->db->where('application_status.id_application_status_name','5');
-        $this->db->where('application_file.status','ACTIVE');
-        $this->db->where_in('document_config.key',$sub, false);
-
-
-
-        return $this->db->get(); 
-    }
 
     public function get_doc_cra()
     {
