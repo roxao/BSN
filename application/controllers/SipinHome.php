@@ -459,7 +459,7 @@ class SipinHome extends CI_Controller {
 		    redirect(base_url("user/login"));
 		}
     }
-
+    
 	/*
 	Render submit-iin page
 	@var id_user
@@ -481,76 +481,76 @@ class SipinHome extends CI_Controller {
 
 		
 		// if ($get_app_status->num_rows() > 0){
-		if ($iin_status == "OPEN"){
+		// if ($iin_status == "OPEN"){
 
-			$id_application_status_name = $get_app_status->row()->id_application_status_name;
-			$process_status = $get_app_status->row()->process_status;
+		$id_application_status_name = $get_app_status->row()->id_application_status_name;
+		$process_status = $get_app_status->row()->process_status;
 
-			echo 
-			"
-			|id_user : {$id_user}|
-			id_application_status_name :  {$id_application_status_name}|
-			process_status :  {$process_status}|
-			iin_status :  {$iin_status}|
-			<br>";
+		echo 
+		"
+		|id_user : {$id_user}|
+		id_application_status_name :  {$id_application_status_name}|
+		process_status :  {$process_status}|
+		iin_status :  {$iin_status}|
+		<br>";
 
-			$page = '0';
+		$page = '0';
 
-			$id_application_status_name = '10';
-			$process_status = "PENDING";
-			// $process_status = "PENDING";
+		$id_application_status_name = '10';
+		$process_status = "PENDING";
+		// $process_status = "PENDING";
 
-			if ( $id_application_status_name >= '1' )
-				$page = '1';
-			if ( $id_application_status_name >= '3' )
-				$page = '2';
+		if ( $id_application_status_name >= '1' )
+			$page = '1';
+		if ( $id_application_status_name >= '3' )
+			$page = '2';
 
-			//STEP 3 should be validated by button from step 2
+		//STEP 3 should be validated by button from step 2
+		
+		if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
+			$page = '4';
+		if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
+			$page = '5';
+		if ( $id_application_status_name >= '12' )
+			$page = '6';
+		if ( $id_application_status_name >= '14' )
+			$page = '7';
+		if ( $id_application_status_name >= '16' )
+			$page = '8';
+		if ( $id_application_status_name == '19' )
+			$page = '9';
+
+		$box_string_array = array();
+		$box_status_array = array();
+		for ($i = 0; $i <= 9; $i++) {
 			
-			if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
-				$page = '4';
-			if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
-				$page = '5';
-			if ( $id_application_status_name >= '12' )
-				$page = '6';
-			if ( $id_application_status_name >= '14' )
-				$page = '7';
-			if ( $id_application_status_name >= '16' )
-				$page = '8';
-			if ( $id_application_status_name == '19' )
-				$page = '9';
 
-			$box_string_array = array();
-			$box_status_array = array();
-			for ($i = 0; $i <= 9; $i++) {
-				
+			$string_status = "box_status_";
+			$string_status .= $i;
+			array_push($box_string_array, $string_status );
+			
 
-				$string_status = "box_status_";
-				$string_status .= $i;
-				array_push($box_string_array, $string_status );
-				
-
-				echo "<br>page : {$page}";
+			echo "<br>page : {$page}";
 
 
-				if ($i == $page) {
-					array_push($box_status_array, "PENDING" );
-				} else if ($i < $page){
-					array_push($box_status_array, "COMPLETED" );
-				} else {
-					array_push($box_status_array, "" );
-				}
-
-				// print_r($box_array);
+			if ($i == $page) {
+				array_push($box_status_array, "PENDING" );
+			} else if ($i < $page){
+				array_push($box_status_array, "COMPLETED" );
+			} else {
+				array_push($box_status_array, "" );
 			}
 
-			/*
-			Passing $data from Controller to View
-			*/
-			$data = array_combine($box_string_array, $box_status_array);
-			echo "<br>";
+			// print_r($box_array);
+		}
 
-			print_r($data);
+		/*
+		Passing $data from Controller to View
+		*/
+		$data = array_combine($box_string_array, $box_status_array);
+		echo "<br>";
+
+		print_r($data);
 
 			
 			// $values = range(18, 50);
@@ -650,12 +650,12 @@ class SipinHome extends CI_Controller {
 
 			
 
-		} else {
-			echo "ERROR ::SipinHome/submit_application - Active Application NOT Found!!";
-			$data = array(
-			    'box_status_0' => $box_status_0
-			);
-		}
+		// } else {
+		// 	echo "ERROR ::SipinHome/submit_application - Active Application NOT Found!!";
+		// 	$data = array(
+		// 	    'box_status_0' => $box_status_0
+		// 	);
+		// }
 
 		$this->load->view('header');
 		$this->load->view('submit-iin',$data);

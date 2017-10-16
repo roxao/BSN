@@ -76,14 +76,6 @@ class submit_iin extends CI_Controller {
 
 
 	/*
-	Render submit-iin page
-	
-	*/
-	public function application_submit(){
-
-	}
-	
-	/*
 	Pengajuan Surat Permohonan Ke BSN
 	@view step0.php
 	*/
