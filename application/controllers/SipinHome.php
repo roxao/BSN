@@ -17,7 +17,7 @@ class SipinHome extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('home');
 		$this->load->view('footer');
-		$this->captcha();
+		// $this->captcha();
 	}
 
 	public function captcha() {
@@ -154,11 +154,7 @@ class SipinHome extends CI_Controller {
 	*/
 	public function register() {
 
-		/*
-		Generate Captcha
-		*/
-		$this->captcha();
-
+	
 		/*
 		Password Validation
 		*/
