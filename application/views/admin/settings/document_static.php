@@ -1,16 +1,14 @@
 <?php
-  $page_title = 'Dashboard :: Pengaturan Administrator';
-  $page_section = 'ADMINISTRATOR';
+  $page_title = 'Dashboard :: Pengaturan Dokumen Statis';
+  $page_section = 'DOKUMEN STATIS';
   $data_table = [
-    ['id_admin', 'ID Admin', '100px'],
-    ['username', 'Username', '100px'],  
-    ['email', 'Alamat Email', '200px'],
-    ['admin_role', 'Jabatan Admin', '100px'],
-    ['admin_status', 'Status Admin', '100px']
+    ['id_document_config', 'ID', '50'],
+    ['key', 'Key', '50'], 
+    ['display_name', 'Nama Dokumen', '400'],
+    ['file_url', 'Dokumen', '120'],
+    ['mandatory', 'Mandatory', '50']
   ];
 ?>
-
-
 
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
@@ -22,7 +20,8 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
-        <button id="btn-add" class="btn-flat float_left">TAMBAH ADMIN</button>
+        <!-- <button id="btn-add" class="btn-flat float_left">TAMBAH DOKUMEN</button> -->
+
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
           <div id="filtertable" style="display:none">
@@ -43,7 +42,9 @@
                   foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
               echo '>';
                   foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].' '. ($x[0]=='admin_status'? strtolower($data[$x[0]]) : '') .'" width="'.$x[2].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
+                    echo '<td class="'.$x[0].'" width="'.$x[2].'" data-sort="'.$x[0].'" title="'.
+                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'">'.
+                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'</td>';
                   }
               echo '</tr>';
             } ?>
@@ -66,8 +67,8 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      var url_u = "<?php echo base_url('dashboard/action_update/admin') ?>";
-      var url_i = "<?php echo base_url('dashboard/action_insert/admin') ?>";
+      var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
+      var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
@@ -84,7 +85,7 @@
 
       $('.row_select').on('click', function() {
         <?php foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
-        $('.z-modal-title').html('Ubah Administrator');
+        $('.z-modal-title').html('Ubah Dokumen Statis');
         $('.z-modal-frame').fadeIn('fast', function() {
           $('#z-modal-edit').slideDown()
           $('.modal-form').attr('action', url_u);
@@ -93,7 +94,7 @@
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#btn-add').on('click', function() {
-        $('.z-modal-title').html('Tambah Administrator');
+        $('.z-modal-title').html('Tambah Anggota Assessment');
         $('.z-modal-frame').fadeIn('fast', function() {
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
@@ -104,15 +105,16 @@
   </script>
   <style>
     tr th:first-child{text-align: center !important}
-    .admin_status{text-transform:uppercase;font-weight: bold !important;font-size: 11px !important;}
-    .admin_status.active:before,.admin_status.inactive:before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:5px}
-    .admin_status.active:before{background:#01923f;}
-    .admin_status.inactive:before{background:#999;}
+    .status{text-transform:uppercase;font-weight: bold !important;font-size: 11px !important;}
+    .status.active:before,.admin.inactive:before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:5px}
+    .status.active:before{background:#01923f;}
+    .status.inactive:before{background:#999;}
   </style>
 </section>
 
 
 
+<!--  Nama Dokumen | file_url  -->
 
 
 <div class="z-modal-frame" style="display: none;">
@@ -124,42 +126,19 @@
     <div class="z-modal-content">
       <form action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
         <div class="z-modal-form">
-            <input name="id_admin" type="hidden"/>
-            <label>
-                <span>Username</span>
-                <input name="username" type="text" placeholder="Username"/>
+            <input name="id_document_config" type="hidden"/>
+            <input name="type" type="hidden"/>
+            <label><span>Nama </span>
+                <input name="display_name" type="text" placeholder="Username"/>
             </label>
-
-            <label>
-                <span>Password</span>
-                <input name="password" type="password" placeholder="Pa$$w0rd"/>
+            <label><span>Dokumen</span>
+                <input name="document[]" type="file" placeholder="Username"/>
             </label>
-
-            <label>
-                <span>E-mail</span>
-                <input name="email" type="email" placeholder="example@mail.com"/>
-            </label>
-            
-            <label>
-                <span>Jabatan Admin</span> 
-                <select name="admin_role">
-                  <option>Super Admin</option>
-                  <option>Admin</option>
-                </select>
-              </label>
-
-            <label>
-                <span>Status Admin</span>       
-                <select name="admin_status">
-                  <option>ACTIVE</option>
-                  <option>INACTIVE</option>
-                </select>
-              </label>
-
-            <button class="btn-flat">Lanjutkan</button>
+            <button class="btn-flat">LANJUTKAN</button>
           </div>
       </form>
     </div>
   </div>
 </div>
+
 

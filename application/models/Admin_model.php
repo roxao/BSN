@@ -101,7 +101,8 @@ class Admin_model extends CI_Model {
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
-        $this->db->where('application_type','Pengajuan Baru');
+        $this->db->where('application_type','new');
+
 
         return $this->db->get();
     }
@@ -215,6 +216,8 @@ class Admin_model extends CI_Model {
 
     public function insert_assessment_application($data){
         $this->db->insert('assessment_application', $data);
+         $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     public function get_assessment_team($data){
@@ -234,8 +237,11 @@ class Admin_model extends CI_Model {
         $this->db->update('assessment_team_title',$data);
     }
 
-    public function get_document(){
-        return $this->db->get('document_config');
+    public function get_document_config($param){
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->like('type', $param);
+        return $this->db->get();
     }
 
     public function get_document_by_prm($id){
@@ -276,6 +282,8 @@ class Admin_model extends CI_Model {
 
     public function insert_iin($data){
         $this->db->insert('iin', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     public function get_cms(){
@@ -326,7 +334,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config');
-            $con = 'type = "STATIC" or type="DYNAMIC" and mandatory = "1"';
+            $con = 'type="DYNAMIC" and mandatory = "1"';
         $this->db->where($con);
         // $this->db->or('type','DYNAMIC');
         // $this->db->where('mandatory','1');
@@ -360,6 +368,27 @@ class Admin_model extends CI_Model {
             $con = 'dc.key = "KBS" 
             or dc.key="SPNP" or dc.key="SPPNBP"';
         $this->db->where($con);
+
+        return $this->db->get();
+    }
+    //untuk mengambil document berita acara dan juga hasil asessment lapangan
+    public function get_news_for_user()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config dc');
+            $con = 'dc.key = "BA" 
+            or dc.key="HAL" ';
+        $this->db->where($con);
+
+        return $this->db->get();
+    }
+
+    //untuk mengambil document surat penugasan tim assesment
+    public function get_letter_of_assignment()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config dc');
+        $this->db->where('key','SPTAL');
 
         return $this->db->get();
     }
@@ -475,17 +504,19 @@ class Admin_model extends CI_Model {
         $this->db->from('application_file');
         $this->db->where('id_application',$idapp);
         $this->db->where('id_document_config',$iddc);
+        $this->db->order_by('id_application_file', 'desc');
         return $this->db->get(); 
     }
 
-    public function application_status_form_mapping_rev_by_idapp($idapp)
+    public function application_status_form_mapping_rev_by_idapp5($idapp,$id_app_status)
     {
         $sub = $this->db->select('application_status_form_mapping.value as key');
         $sub = $this->db->from('application_status')
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
-       ->like('application_status_form_mapping.type','REVISED_DOC');
+        ->where('application_status_form_mapping.id_application_status', $id_app_status)
+        ->like('application_status_form_mapping.type','REVISED_DOC');
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
@@ -493,7 +524,10 @@ class Admin_model extends CI_Model {
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
+        $this->db->join('application_status', 'applications.id_application=application_status.id_application');
         $this->db->where('application_file.id_application', $idapp);
+
+        $this->db->where('application_file.status','ACTIVE');
         $this->db->where_in('document_config.key',$sub, false);
 
 
@@ -501,5 +535,23 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
+
+    public function get_doc_cra()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key','CRADOC');
+        $this->db->where('mandatory','1');
+        return $this->db->get();
+    }
+
+    public function get_doc_iin()
+    {
+        $this->db->select('*');
+        $this->db->from('document_config');
+        $this->db->where('key','IIN');
+        
+        return $this->db->get();
+    }
 }
 ?>

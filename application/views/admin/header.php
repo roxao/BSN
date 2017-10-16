@@ -6,9 +6,10 @@
 	<meta name="description" content="">
 	<title><?php site_url(); ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
-	<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/main-admin.css">
-	<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/admin.script.js"></script>
+	<link rel="stylesheet" href="<?php echo base_url('assets/main-admin.css'); ?>">
+	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/admin.script.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
 </head>
 <body>
 	<input type="hidden" id="base_url" value="<?php echo base_url(); ?>/dashboard">
@@ -44,8 +45,8 @@
 				<li><a class="ic-adm ic-user " href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
 				<li><a class="ic-adm ic-cms " href="<?php echo base_url('dashboard/settings/cms') ?>">Content Management</a></li>
 				<li><a class="ic-adm ic-survey " href="<?php echo base_url('dashboard/settings/survey') ?>">Survey</a></li>
-				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document') ?>">Dokumen Statis</a></li>
-				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_config') ?>">Kelengkapan Dokumen</a></li>
+				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_static') ?>">Dokumen Statis</a></li>
+				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_dynamic') ?>">Kelengkapan Dokumen</a></li>
 				<li><a class="ic-adm ic-team " href="<?php echo base_url('dashboard/settings/assessment') ?>">Tim Assessment</a></li>
 			</ul>
 		</li>

@@ -59,8 +59,9 @@ class Dashboard extends CI_Controller {
                 $password = hash ( "sha256", $this->input->post('password'));
                 $cek = $this->admin_model->cek_login($username,$password);
                 if($cek->num_rows() > 0){
-                    if ($cek->row()->admin_status == 0){ 
+                    if ($cek->row()->admin_status == "INACTIVE"){ 
                         redirect(base_url('dashboard/user/login'));
+                       
                     } else {
                         $this->session->set_userdata(array(
                             'id_admin'      => $cek->row()->id_admin,
@@ -105,7 +106,7 @@ class Dashboard extends CI_Controller {
                     break;
                 case 'verif_revdoc_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp($id)->result();
+                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp5($id,$id_status)->result();
                     echo json_encode($data);
                     break;  
                 case 'upl_bill_req':
@@ -119,28 +120,37 @@ class Dashboard extends CI_Controller {
                 case 'verif_pay_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
-                    $data['assessment_list'] = $this->admin_model->get_assessment($id)->result();
-                    $data['assessment_roles'] = $this->admin_model->get_doc_user($id_status)->result();
-                    // $data['assesment_title'] = $this->admin_model->get_assessment_title_by_name()->result();
+                    $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);
                     break;
                 case 'verif_rev_pay_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+                    $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
                     $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);    
                     break;
                 case 'rev_assess_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['assessment_list'] = $this->admin_model->get_assessment()->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     echo json_encode($data);
                     break;  
                 case 'field_assess_req':
                     echo json_encode($data);break;  
                 case 'upl_res_assess_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     echo json_encode($data);
+                    break;
                 case 'verif_rev_assess_res_req':
                     echo json_encode($data);break;  
                 case 'cra_approval_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+                    $data['revdoc_user'] = $this->admin_model->get_doc_cra()->result();
                     echo json_encode($data);break;  
                 case 'upl_iin_doc_req':
+                $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     echo json_encode($data);break;  
             }
         }
@@ -152,15 +162,25 @@ class Dashboard extends CI_Controller {
 
     public function settings($param = null){
         switch ($param) {
-            case 'user': $data['data'] = $this->admin_model->get_user()->result_array(); break;
-            case 'admin': $data['data'] = $this->admin_model->get_admin()->result_array(); break;
-            case 'assessment': $data['data'] = $this->admin_model->get_assessment()->result_array(); break;
-            case 'assessment_roles': $data['data'] = $this->admin_model->get_assessment_title()->result_array(); break;
-            case 'document': $data['data'] = $this->admin_model->get_document()->result_array(); break;
-            case 'cms': $data['data'] = $this->admin_model->get_cms()->result_array(); break;
-            case 'iin': $data['data'] = $this->admin_model->get_iin()->result_array(); break;
-            case 'survey': $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
-            default: redirect(base_url()); break;
+            case 'user': 
+                $data['data'] = $this->admin_model->get_user()->result_array(); break;
+            case 'admin': 
+                $data['data'] = $this->admin_model->get_admin()->result_array(); break;
+            case 'assessment': 
+                $data['data_name'] = $this->admin_model->get_assessment()->result_array(); break;
+                $data['data_title'] = $this->admin_model->get_assessment_title()->result_array(); break;
+            case 'document_dynamic': 
+                $data['data'] = $this->admin_model->get_document_config('DYNAMIC')->result_array(); break;
+            case 'document_static': 
+                $data['data'] = $this->admin_model->get_document_config('STATIC')->result_array(); break;
+            case 'cms': $data['data'] = 
+                $this->admin_model->get_cms()->result_array(); break;
+            case 'iin': 
+                $data['data'] = $this->admin_model->get_iin()->result_array(); break;
+            case 'survey': 
+                $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
+            default: 
+                redirect(base_url()); break;
         }
         $this->load->view('admin/header');
         $this->load->view('admin/settings/'.$param ,$data);
@@ -168,26 +188,6 @@ class Dashboard extends CI_Controller {
 
     public function action_update($param){
         switch ($param) {
-            case 'user':
-                $condition = array('id_user' => $this->input->post('id_user'));
-                $data = array(  'email' => $this->input->post('email'),
-                                'username' => $this->input->post('username'),
-                                'password' => $this->input->post('password'),
-                                'name' => $this->input->post('name'),
-                                'status_user' => $this->input->post('status_user'),
-                                'survey_status' => $this->input->post('survey_status'),
-                                'modified_date' => date('Y-m-j H:i:s')
-                                // 'modified_by' => 'Admin'                
-                                // 'modified_by' => $this->session->userdata('username')                
-                );
-                $log = array(   'detail_log' => $this->session->userdata('admin_role').' Update Data user',
-                                'log_type' => 'Update Data user '.$this->input->post('name'), 
-                                'created_date' => date('Y-m-j H:i:s')
-                                // 'created_by' => 'Admin'
-                                // 'created_by' => $this->session->userdata('username')
-                );
-                $this->admin_model->update_user($condition,$data);
-                break;
             case 'admin':
                 $condition = array('id_admin' => $this->input->post('id_admin'));
                 $data = array(
@@ -220,21 +220,7 @@ class Dashboard extends CI_Controller {
                     'created_date' => date('Y-m-j H:i:s')
                     // 'created_by' => $this->session->userdata('username')
                 );
-
                 $this->admin_model->update_assessment($condition,$data);
-                break;
-            case 'assessment_roles':
-                $condition = array('id_assessment_team_title' => $this->input->post('id_assessment_team_title'));
-                $data = array(
-                    'title' => $this->input->post('title')          
-                );
-                $log = array(
-                    'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team title',
-                    'log_type' => 'Update Data '.$this->input->post('title'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
-                );
-                $this->admin_model->update_assessment_team_title($condition,$data);
                 break;
             case 'document':
                 $this->load->library('upload');
@@ -418,7 +404,9 @@ class Dashboard extends CI_Controller {
         redirect(base_url('dashboard/settings/'.$param));
     }
 
-
+    public function export_excel($param = null){
+        
+    }
 
 
 
@@ -564,8 +552,7 @@ class Dashboard extends CI_Controller {
 
 
      //menampilkan data tim asesment title
-    public function read_tim_asesment_title() 
-    {
+    public function read_tim_asesment_title() {
 
         $this->load->view('admin/options/asesment_title_insert',$data);
         // echo json_encode($data);
@@ -971,5 +958,7 @@ $this->load->view('admin/options/cms_insert');
         $data['compalin'] = $this->admin_model->get_conplain()->result();
         echo json_encode($data);
     }
+
+    
 
 }

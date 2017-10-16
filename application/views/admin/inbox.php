@@ -9,7 +9,7 @@
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px;overflow: auto; ">
       <table class="table_def tableInbox" style="width: 100%;">
         <tr>
-          <th style="min-width:55px" class="sort sort-center click_auto"  data-sort="id_no">#</th>
+          <th style="min-width:55px"  class="sort sort-center click_auto"  data-sort="id_no">#</th>
           <th style="min-width:140px" class="sort" data-sort="id_name">Nama Pemohon</th>
           <th style="min-width:190px" class="sort" data-sort="id_pt">Nama Instansi</th>
           <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
@@ -48,7 +48,7 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/list.min.js"></script>
   <script type="text/javascript">
     $('document').ready(function(){
-      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date' ],page: 10,pagination: true};
+      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date','id_status' ],page: 10,pagination: true};
       var inboxList = new List('tableInbox', options);
     });
     $('.listjsnext').on('click', function(){
