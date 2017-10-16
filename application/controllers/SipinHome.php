@@ -648,18 +648,20 @@ class SipinHome extends CI_Controller {
 			//     'box_status_9' => $box_status_9
 			// );
 
-			// $this->load->view('header');
-			// $this->load->view('submit-iin',$data);
-			// $this->load->view('footer');
+			
 
 		} else {
 			echo "ERROR ::SipinHome/submit_application - Active Application NOT Found!!";
+			$data = array(
+			    'box_status_0' => $box_status_0
+			);
 		}
 
-		$this->session->set_flashdata('satu', "PENDING");
+		$this->load->view('header');
+		$this->load->view('submit-iin',$data);
+		$this->load->view('footer');
 
-
-
+	}
 
 		// if ($status->num_rows() > 0){
 			
@@ -751,7 +753,6 @@ class SipinHome extends CI_Controller {
 	 //        }
   //       }
 
-	}
 	
 
 	public function modal_popup(){
