@@ -80,7 +80,8 @@ class submit_iin extends CI_Controller {
 	@view step0.php
 	*/
 	public function step_0() {
-
+		
+		// $this->captcha();
 		$a = $this->session->userdata('status');
 		echo $a."\r";
 		// echo base_url()."\r";
