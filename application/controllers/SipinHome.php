@@ -459,7 +459,7 @@ class SipinHome extends CI_Controller {
 		    redirect(base_url("user/login"));
 		}
     }
-    
+
 	/*
 	Render submit-iin page
 	@var id_user
@@ -478,8 +478,6 @@ class SipinHome extends CI_Controller {
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 		$iin_status = $get_app_status->row()->iin_status;
 
-
-		
 		// if ($get_app_status->num_rows() > 0){
 		// if ($iin_status == "OPEN"){
 
@@ -496,7 +494,7 @@ class SipinHome extends CI_Controller {
 
 		$page = '0';
 
-		$id_application_status_name = '10';
+		$id_application_status_name = '19';
 		$process_status = "PENDING";
 		// $process_status = "PENDING";
 

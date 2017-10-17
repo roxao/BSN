@@ -10,7 +10,7 @@
 		 	 	switch ($data->key) {
 		 	 		case 'SPP':?>
 		 				<div class="item-download">
-							<div><?php $no++; echo "$no.  "; echo $data->display_name; ?></div>
+							<div><?php echo $data->display_name; ?></div>
 							 <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a>
 		 				</div>	
 		 <?php 			break;
@@ -23,7 +23,7 @@
 		 	 	switch ($data->key) {
 		 	 		case 'SPL PNBP':?>
 		 				<div class="item-download">
-							<div><?php $no++; echo "22.  "; echo $data->display_name; ?></div>
+							<div><?php echo $data->display_name; ?></div>
 							 <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a>
 		 				</div>	
 		 <?php 			break;
@@ -37,7 +37,7 @@
 		 	 	switch ($data->key) {
 		 	 		case 'KBS':?>
 		 				<div class="item-download">
-							<div><?php $no++; echo "$no.  "; echo $data->display_name; ?></div>
+							<div><?php echo $data->display_name; ?></div>
 							 <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download"  >Download</a>
 		 				</div>	
 		 <?php 			break;
