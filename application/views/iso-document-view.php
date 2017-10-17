@@ -1,13 +1,22 @@
 <div id="the-canvas"></div>
 <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+		
+
+ 
+
 <script>
 	$(document).ready(function() {
-		$('body').bind('cut copy paste', function (e) {e.preventDefault();});
-	    $("body").on("contextmenu",function(e){return false;});
+		// $('body').bind('cut copy paste', function (e) {e.preventDefault();});
+	 //    $("body").on("contextmenu",function(e){return false;});
 
 	    // UNTUK  MENGULANG PDF READER SILAHKAN DIULANG FUNCTION implement_pdf() DAN DI LOOPING
 	    // MENGGUNAKAN PHP, SERTA ISI FUNCTION implement_pdf('pdf file') dengan url file pdf
-		implement_pdf('<?php echo $file_iso ?>');
+		
+		<?php foreach($file_iso as $data) { 
+		 	echo 'implement_pdf("'.base_url().$data->file_url.'");';
+		 	 
+	  	} ?> 
+
 
 		function implement_pdf(url){
 			var currPage=1;var numPages=0;var thePDF=null;PDFJS.getDocument(url).then(function(pdf){thePDF=pdf;numPages=pdf.numPages;pdf.getPage(1).then(handlePages)});function handlePages(page)
