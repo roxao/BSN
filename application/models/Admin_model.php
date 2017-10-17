@@ -101,9 +101,17 @@ class Admin_model extends CI_Model {
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
+        // $this->db->where('application_type','new')
+        return $this->db->get();
+    }
+    public function get_applications_new(){
+        $this->db->select('*');
+        $this->db->from('application_status');
+        $this->db->join ('applications', 'application_status.id_application = applications.id_application');
+        $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
+        $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
+        $this->db->where($where);
         $this->db->where('application_type','new');
-
-
         return $this->db->get();
     }
     //untuk menampilkan data pengawasan iin lama
@@ -115,6 +123,22 @@ class Admin_model extends CI_Model {
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
         $this->db->where('application_type','extend');
+
+        return $this->db->get();
+    }
+
+        //untuk menampilkan data pengawasan yang sudah memiliki IIN
+    public function get_applications_finish(){
+        $this->db->select('*');
+        $this->db->from('application_status');
+        $this->db->join ('applications', 'application_status.id_application = applications.id_application');
+        $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
+        $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
+        $this->db->join('user','user.id_user=applications.id_user');
+        $this->db->join('iin','iin.id_user=user.id_user');
+        $this->db->where($where);
+        $this->db->where('application_status.id_application_status_name','19');
+        $this->db->where('application_status.process_status','COMPLETED');
 
         return $this->db->get();
     }

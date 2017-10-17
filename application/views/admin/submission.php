@@ -2,9 +2,9 @@
   <section class="main_dashboard_slidetab">
     <div class="site-map">
       <a href="<?php echo base_url('dashboard') ?>">Dashboard</a>
-      <span></span>Pengawasan IIN Lama
+      <span></span>Penerbitan IIN Baru
     </div>
-    <h2 class="title_content">Pengawasan IIN Lama</h2>
+    <h2 class="title_content">Penerbitan IIN Baru</h2>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <table class="table_def tableInbox" style="width: 100%;">
         <tr>
@@ -21,7 +21,7 @@
               <td class="id_no"><?php echo $data->id_application ?></td>
               <td class="id_name"><?php echo $data->applicant ?></td>
               <td class="id_pt"><?php echo $data->instance_name ?></td>
-              <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
+              <td class="id_type"><?php  echo ($data->application_type === 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
               <td class="id_date"><?php echo $data->application_date ?></td>
               <td class="id_status"><span class="<?php echo $data->owner ?>"><?php echo $data->display_name ?></span></td>
             </tr>

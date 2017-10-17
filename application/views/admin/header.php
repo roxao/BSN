@@ -35,9 +35,9 @@
 
 	<ul id="dashboard_menu">
 		<li><a class="ic-adm ic-inbox " href="<?php echo base_url('dashboard') ?>">Dashboard / Inbox</a></li>
-		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/new-iin') ?>">Penerbitan IIN</a></li>
-		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/extend-iin') ?>">Pengawasan IIN</a></li>
-		<li><a class="ic-adm ic-iin " href="<?php echo base_url('dashboard/iin-list') ?>">Penerima IIN</a></li>
+		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/submission') ?>">Penerbitan IIN</a></li>
+		<li><a class="ic-adm ic-submission" href="<?php echo base_url('dashboard/extend') ?>">Pengawasan IIN</a></li>
+		<li><a class="ic-adm ic-iin " href="<?php echo base_url('dashboard/iinlist') ?>">Penerima IIN</a></li>
 		<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/report') ?>">Laporan</a></li>
 		<li><a class="ic-adm ic-history " href="<?php echo base_url('dashboard/report') ?>">Historical Data Entry</a></li>
 		<li><a class="ic-adm ic-setting parent">Pengaturan</a>

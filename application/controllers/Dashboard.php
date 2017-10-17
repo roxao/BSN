@@ -21,8 +21,31 @@ class Dashboard extends CI_Controller {
         $this->user('check-autho');
         $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result();
-        // echo json_encode($data);
         $this->load->view('admin/inbox', $data);
+    }
+
+    public function iinlist(){
+        $this->user('check-autho');
+        
+        $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        echo json_encode($data);
+        return false;
+        $this->load->view('admin/header');
+        $this->load->view('admin/finish_iin', $data);
+    }
+
+    public function extend(){
+        $this->user('check-autho');
+        $this->load->view('admin/header');
+        $data['applications'] = $this->admin_model->get_applications_ext()->result();
+        $this->load->view('admin/extend', $data);
+    }
+
+    public function submission(){
+        $this->user('check-autho');
+        $this->load->view('admin/header');
+        $data['applications'] = $this->admin_model->get_applications_new()->result();
+        $this->load->view('admin/submission', $data);
     }
 
     public function registered_iin(){
@@ -106,7 +129,7 @@ class Dashboard extends CI_Controller {
                     break;
                 case 'verif_revdoc_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp5($id,$id_status)->result();
+                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp($id)->result();
                     echo json_encode($data);
                     break;  
                 case 'upl_bill_req':
@@ -173,15 +196,20 @@ class Dashboard extends CI_Controller {
                 $data['data'] = $this->admin_model->get_document_config('DYNAMIC')->result_array(); break;
             case 'document_static': 
                 $data['data'] = $this->admin_model->get_document_config('STATIC')->result_array(); break;
-            case 'cms': $data['data'] = 
-                $this->admin_model->get_cms()->result_array(); break;
+            case 'cms': 
+                $data['data'] = $this->admin_model->get_cms()->result_array(); break;
+            case 'cms_editor':
+                $data['data'] = $this->admin_model->get_cms_by_prm('1')->result_array();
+                break;
             case 'iin': 
                 $data['data'] = $this->admin_model->get_iin()->result_array(); break;
-            case 'survey': 
+            case 'survey':
                 $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
             default: 
                 redirect(base_url()); break;
         }
+        // echo json_encode($data);
+        // return false;
         $this->load->view('admin/header');
         $this->load->view('admin/settings/'.$param ,$data);
     }
@@ -223,28 +251,23 @@ class Dashboard extends CI_Controller {
                 $this->admin_model->update_assessment($condition,$data);
                 break;
             case 'document':
-            
-            $this->load->library('upload');
- 
-      //Configure upload.
-             $this->upload->initialize(array(
-   "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
-                 "upload_path"   => "./upload/"
+                $this->load->library('upload');
+                $this->upload->initialize(array(
+                    "allowed_types" => "gif|jpg|png|jpeg|png",
+                    "upload_path"   => "./upload/"
+                ));
                 
-             ));
-
-              $condition = array('id_document_config' => $this->input->post('id_document_config'));
-             //Perform upload.
-             $this->upload->do_upload("images");
+                $this->upload->do_upload("file_url");
                 $uploaded = $this->upload->data();
-                
-                 $data = array(
-                    'type' => $this->input->post('type_doc'),
+            
+                $condition = array('id_document_config' => $this->input->post('id_document_config'));
+                $data = array(
+                    'type' => $this->input->post('type'),
                     'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $uploaded['full_path'],
                     'mandatory' => $this->input->post('mandatory'),
-                    'last_updated_date' => date('Y-m-j H:i:s'),
+                    'modified_date' => date('Y-m-j H:i:s'),
                     // 'modified_by' => $this->session->userdata('username')                
                 );
                 $log = array(
@@ -253,9 +276,6 @@ class Dashboard extends CI_Controller {
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('username')
                 );
-             
-
-              
                 $this->admin_model->update_documenet_config($condition,$data);
                 break;
             case 'contents':
@@ -541,16 +561,15 @@ class Dashboard extends CI_Controller {
     public function tim_asesment_edit_proses(){
         $condition = array('id_assessment_team' => $this->input->post('id_assessment_team'));
         $data = array(
-        'name' => $this->input->post('name'),
-        'status' => $this->input->post('status'),               
+            'name' => $this->input->post('name'),
+            'status' => $this->input->post('status'),               
         );
         $dataL = array(
-        'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
-        'log_type' => 'Update Data '.$this->input->post('name'), 
-        'created_date' => date('Y-m-j H:i:s')
+            'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
+            'log_type' => 'Update Data '.$this->input->post('name'), 
+            'created_date' => date('Y-m-j H:i:s')
         // 'created_by' => $this->session->userdata('username')
         );
-
         $this->admin_model->insert_log($dataL);
         $this->admin_model->update_assessment($condition,$data);
     }
@@ -955,9 +974,6 @@ $this->load->view('admin/options/cms_insert');
 // $doc['document']    = $this->admin_model->all_dat()->result();
         
     }
-
-
-
 
 
     //menampilkan user yang komplain

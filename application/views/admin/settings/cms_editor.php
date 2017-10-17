@@ -24,7 +24,7 @@
       <!-- JIKA type_editor = INSERT, VALUE $DATA[X]['X']  TIDAK PERLU DI ECHO TAPI DI KOSONGKAN-->
       <!-- DAN ISI FORM ACTION DI BAWAH JIKA INSERT MENJADI base_url('dashboard/action_insert/cms') dan sebaliknya jika update -->
       <form action="cms_editor_submit" method="get" accept-charset="utf-8">
-        <input type="hidden" name="id_cms" value="<?php echo $data[0]['id_cms'] ?>">
+        <input type="hidden" name="id_cms" value="<?php echo ($data == undefined) ? '' : data[0]['id_cms'] ?>">
         <input class="cms_title" type="text" name="title" value="<?php echo $data[0]['title']?>" placeholder="Judul Content">
         <textarea class='test' name="content" > </textarea>
       </form>
