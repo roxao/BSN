@@ -129,7 +129,7 @@ class Dashboard extends CI_Controller {
                     break;
                 case 'verif_revdoc_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp($id)->result();
+                    $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp($id,$id_status)->result();
                     echo json_encode($data);
                     break;  
                 case 'upl_bill_req':
@@ -158,6 +158,7 @@ class Dashboard extends CI_Controller {
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['assessment_list'] = $this->admin_model->get_assessment()->result();
                     $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
+                    $data['date_req'] = $this->admin_model->get_date_rev($id_status)->result();
                     echo json_encode($data);
                     break;  
                 case 'field_assess_req':
