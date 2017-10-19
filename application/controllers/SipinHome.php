@@ -163,8 +163,6 @@ class SipinHome extends CI_Controller {
 			$username = $this->input->post('username');
 			$no_iin    = $this->input->post('iin-number');
 			$email    = $this->input->post('email');
-			// $password = $this->input->post('password');
-			// $password_confirm = $this->input->post('retype-password');
 			$password = hash ( "sha256", $this->input->post('password'));
 			$password_confirm = hash ( "sha256", $this->input->post('retype-password'));
 			
@@ -189,7 +187,8 @@ class SipinHome extends CI_Controller {
 								$this->log("login","Login", $username);
 								$this->user('register');
 
-						    } else {echo  "Gagal";
+						    } else {
+						    	// echo  "Gagal";
 								$this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
 								$this->user('register'); 
 							}
@@ -255,7 +254,6 @@ class SipinHome extends CI_Controller {
         /*Get Registration Message on Current Session*/
 	 	echo $this->session->flashdata('regis_msg');
 		redirect(base_url("SipinHome"));
-
   	}
 
 
@@ -377,8 +375,6 @@ class SipinHome extends CI_Controller {
 
 	    $username = $this->input->post('username');
 	    $password = hash ( "sha256", $this->input->post('password'));
-	    // $password =  $this->input->post('password');
-	    echo $password;
 
 	    /*
 	    Validate User Login
@@ -387,17 +383,8 @@ class SipinHome extends CI_Controller {
 
     	echo json_encode($cek->result_array());
 
-
-
-
-
-    	// if (is_null($cek->row()->id_application)) {
-    	// 	echo "ngehe";
-    	// }
-
-
 	    // if($cek->num_rows() > 0){
-    	if (!is_null($cek->row()->id_application)) {
+    	if (!is_null($cek->row()->status_user)) {
 	    	// echo '|'.$cek->row()->status_user.'|'.$cek->row()->username;
 		    if ($cek->row()->status_user == 0){ 
 		     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');

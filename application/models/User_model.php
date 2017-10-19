@@ -280,7 +280,7 @@ class User_model extends CI_Model {
 
     public function sendMail($email,$username, $Desc) {
         $encrypted_id = md5($email) ;
-        echo "|encrypted_id : {$encrypted_id} |";
+        // echo "|encrypted_id : {$encrypted_id} |";
         $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
         $subject = 'Verify Your Email Address';
 
