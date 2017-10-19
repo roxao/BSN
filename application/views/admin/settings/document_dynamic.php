@@ -1,4 +1,4 @@
-<?php
+  <?php
   $page_title = 'Dashboard :: Konfigurasi Daftar Kelengkapan Dokumen ';
   $page_section = 'KELENGKAPAN DOKUMEN';
   $data_table = [

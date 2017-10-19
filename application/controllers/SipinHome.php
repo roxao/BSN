@@ -17,7 +17,7 @@ class SipinHome extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('home');
 		$this->load->view('footer');
-		// $this->captcha();
+		$this->captcha();
 	}
 
 	public function captcha() {
@@ -153,8 +153,6 @@ class SipinHome extends CI_Controller {
 	
 	*/
 	public function register() {
-
-	
 		/*
 		Password Validation
 		*/
@@ -209,7 +207,8 @@ class SipinHome extends CI_Controller {
 		} else {
 			$this->captcha();
 			$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
-			$this->user('register');
+			// $this->user('register');
+			redirect(base_url('user/register'));
 		}
 	}
 
@@ -236,6 +235,7 @@ class SipinHome extends CI_Controller {
 		} 
 	}
 
+
 	/*
 	Verifying User Activation Link
 	@var link
@@ -254,6 +254,7 @@ class SipinHome extends CI_Controller {
 
         /*Get Registration Message on Current Session*/
 	 	echo $this->session->flashdata('regis_msg');
+		redirect(base_url("SipinHome"));
 
   	}
 
@@ -265,7 +266,7 @@ class SipinHome extends CI_Controller {
 		$number    = preg_match('@[0-9]@', $password);
 		$specialcaracter    = preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $password);
 		if(!$uppercase || !$lowercase || !$number || !$specialcaracter || strlen($password) < 8) {
-		 return false;
+			return false;
 		} else {
 			return true;
 		}
@@ -357,8 +358,6 @@ class SipinHome extends CI_Controller {
 	            case '19':
 	                 $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
 	                break;
-
-	            
 	        }
         }
 
@@ -388,7 +387,17 @@ class SipinHome extends CI_Controller {
 
     	echo json_encode($cek->result_array());
 
-	    if($cek->num_rows() > 0){
+
+
+
+
+    	// if (is_null($cek->row()->id_application)) {
+    	// 	echo "ngehe";
+    	// }
+
+
+	    // if($cek->num_rows() > 0){
+    	if (!is_null($cek->row()->id_application)) {
 	    	// echo '|'.$cek->row()->status_user.'|'.$cek->row()->username;
 		    if ($cek->row()->status_user == 0){ 
 		     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
@@ -442,7 +451,8 @@ class SipinHome extends CI_Controller {
 
 					} else {
 						echo "|{$cek->row()->application_type}|";
-						redirect(base_url('extend'));
+						// redirect(base_url('extend'));
+						redirect(base_url("SipinHome/submit_application/", $base_url));
 					}
 
 				} else {
@@ -484,18 +494,18 @@ class SipinHome extends CI_Controller {
 		$id_application_status_name = $get_app_status->row()->id_application_status_name;
 		$process_status = $get_app_status->row()->process_status;
 
-		echo 
-		"
-		|id_user : {$id_user}|
-		id_application_status_name :  {$id_application_status_name}|
-		process_status :  {$process_status}|
-		iin_status :  {$iin_status}|
-		<br>";
+		// echo 
+		// "
+		// |id_user : {$id_user}|
+		// id_application_status_name :  {$id_application_status_name}|
+		// process_status :  {$process_status}|
+		// iin_status :  {$iin_status}|
+		// <br>";
 
 		$page = '0';
 
-		$id_application_status_name = '19';
-		$process_status = "PENDING";
+		$id_application_status_name = '19';	
+		// $process_status = "PENDING";
 		// $process_status = "PENDING";
 
 		if ( $id_application_status_name >= '1' )
@@ -528,7 +538,7 @@ class SipinHome extends CI_Controller {
 			array_push($box_string_array, $string_status );
 			
 
-			echo "<br>page : {$page}";
+			// echo "<br>page : {$page}";
 
 
 			if ($i == $page) {
@@ -546,114 +556,7 @@ class SipinHome extends CI_Controller {
 		Passing $data from Controller to View
 		*/
 		$data = array_combine($box_string_array, $box_status_array);
-		echo "<br>";
-
-		print_r($data);
-
-			
-			// $values = range(18, 50);
-			// $array = array_combine($box_array, $values);
-			// print_r($array);
-
-			// $a=array();
-			// array_push($a,"blue","yellow");
-			// print_r($a);
-
-			// print_r($data);
-
-			// for ($x = 0; $x <= 10; $x++) {
-			//     echo "The number is: $x <br>";
-			// } 
-
-			// $x = 0;
-			// while($x  < 5) {
-			//     echo "The number is: $x <br>";
-			//     $x++;
-			// } 
-
-			
-			/*
-			UI BOX Validation (using IF)
-			*/
-			// if ($id_application_status_name >= 1 && $process_status = "COMPLETED")
-			// 	$box_status = "COMPLETED"; $box_status_1 = "PENDING";
-			// if ($id_application_status_name >= 2 && $process_status = "COMPLETED")
-			// 	$box_status_1 = "COMPLETED"; $box_status_2 = "PENDING";
-			// // if ($id_application_status_name >= 3 && $process_status = "COMPLETED")$box_status_2 = "PENDING";
-			// if ($id_application_status_name >= 4 && $process_status = "COMPLETED")
-			// 	$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 5 && $process_status = "COMPLETED")
-			// 	$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 6 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-			// if ($id_application_status_name >= 7 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 8 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-			// if ($id_application_status_name >= 9 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 10 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 11 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 12 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-			// if ($id_application_status_name >= 13 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 14 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 15 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-			// if ($id_application_status_name >= 16 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 17 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// if ($id_application_status_name >= 18 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-			// if ($id_application_status_name >= 19 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-
-			/*
-			UI BOX Validation (using Switch Case)
-			*/
-			// switch ($id_application_status_name) {
-			// 	case 1:
-			// 		echo "string0";
-			// 		if ($id_application_status_name >= 1 && $process_status = "COMPLETED")$box_status_0 = "COMPLETED";
-			// 		break;
-			// 	case 2:
-			// 		echo "string1";
-			// 		if ($id_application_status_name >= 2 && $process_status = "COMPLETED")$box_status_1 = "COMPLETED";
-						
-			// 	case 3:
-			// 	    echo "string2";
-			// 		if ($id_application_status_name >= 3 && $process_status = "COMPLETED")$box_status_2 = "COMPLETED";
-			// 	    break;
-			// 	case 4:
-			// 	    echo "i is 3";
-			// }
-
-			// $box_status_0 = "PENDING";
-			// $box_status_1 = "PENDING";
-			// $box_status_2 = "PENDING";
-			// $box_status_3 = "PENDING";
-			// $box_status_4 = "PENDING";
-			// $box_status_5 = "PENDING";
-			// $box_status_6 = "PENDING";
-			// $box_status_7 = "PENDING";
-			// $box_status_8 = "PENDING";
-			// $box_status_9 = "PENDING";
-
-			/*
-			Passing Data from Controller to View
-			*/
-			// $data = array(
-			//     'box_status_0' => $box_status_0,
-			//     'box_status_1' => $box_status_1,
-			//     'box_status_2' => $box_status_2,
-			//     'box_status_3' => $box_status_3,
-			//     'box_status_4' => $box_status_4,
-			//     'box_status_5' => $box_status_5,
-			//     'box_status_6' => $box_status_6,
-			//     'box_status_7' => $box_status_7,
-			//     'box_status_8' => $box_status_8,
-			//     'box_status_9' => $box_status_9
-			// );
-
-			
-
-		// } else {
-		// 	echo "ERROR ::SipinHome/submit_application - Active Application NOT Found!!";
-		// 	$data = array(
-		// 	    'box_status_0' => $box_status_0
-		// 	);
-		// }
+		
 
 		$this->load->view('header');
 		$this->load->view('submit-iin',$data);
@@ -794,7 +697,6 @@ class SipinHome extends CI_Controller {
 		$message = $this->input->post('message');
 		$this->user_model->sendMail($email,$name, $message);
 		redirect(base_url('contact-us'));
-
 	}
 
 	public function iin_list(){

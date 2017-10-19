@@ -15,10 +15,10 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>SipinHome/login" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/login" onSubmit="return saveInputLogin();" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="login">Tampilkan error message disini</div>
-            <input required type="username" name="username" placeholder="Username">
+            <input required type="username" id="username_login" name="username" placeholder="Username">
             <input required type="password" name="password" placeholder="Password">
             <div class="o-url float_right" o-data="box-forgot">Lupa Kata Sandi?</div>
             <button type="submit">Masuk</button>
@@ -36,7 +36,7 @@
   </div>
 
   <!-- REGISTER FORM -->
-  <div id="box-register" class="box-layout" style="display:none">
+  <div id="box-register" class="box-layout" style="display:none" >
     <div class="o-title">
         <div class="o-text-title">DAFTAR</div>
         <div class="o-close">x</div>
@@ -48,14 +48,15 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>SipinHome/register" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/register" onSubmit="return saveInputRegis();" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="register">Tampilkan error message disini</div>
-            <input required required type="text" name="fullname" placeholder="Nama Lengkap">
-            <input required type="username" name="username" placeholder="Username">
-            <input  type="number" name="iin-number" placeholder="Nomor IIN" >
+            <input required required type="text" id= "fullname" name="fullname" placeholder="Nama Instansi">
+            <span><i style="color:red" >*</i> Tidak Boleh Disingkat</span>
+            <input required type="username" id= "username" name="username" placeholder="Username">
+            <input  type="number" id= "iin-number" name="iin-number" placeholder="Nomor IIN" >
             <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
-            <input required type="email" name="email" placeholder="E-mail">
+            <input required type="email" id= "email" name="email" placeholder="E-mail">
             <input required type="password" name="password" placeholder="Kata Sandi">
             <input required type="password" name="retype-password" placeholder="Ulang Kata Sandi"> 
 
@@ -113,7 +114,10 @@
 
 <link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">
 <script type="text/javascript" src="<?php echo base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
-
+  
+<script type="text/javascript">
+    
+</script>
 
 <script>
   $('.o-url').on('click', function(event) {
@@ -152,6 +156,35 @@
       $('div[data-msg="'+a+'"').html(b);
     }
   }
+
+
+
+  document.getElementById("username_login").value = localStorage.getItem("loginUsername");
+  function saveInputLogin() {
+      var ulogin = document.getElementById("username_login").value;
+      localStorage.setItem("loginUsername", ulogin);
+  }
+
+  document.getElementById("fullname").value = localStorage.getItem("regisFullname");
+  document.getElementById("username").value = localStorage.getItem("regisUsername");
+  document.getElementById("iin-number").value = localStorage.getItem("regisIin");
+  document.getElementById("email").value = localStorage.getItem("regisMail");
+
+
+  function saveInputRegis() {
+
+      var fname = document.getElementById("fullname").value;
+      var uname = document.getElementById("username").value;
+      var iin = document.getElementById("iin-number").value;
+      var mail = document.getElementById("email").value;
+
+      localStorage.setItem("regisFullname", fname);
+      localStorage.setItem("regisUsername", uname);
+      localStorage.setItem("regisIin", iin);
+      localStorage.setItem("regisMail", mail);
+      // alert("Your comment has been saved!");
+  }
+
 </script>
 <style>
   .popup_box{position:fixed;margin:10vh auto;left:0;right:0;top:0;max-width:400px;min-width:300px;z-index:20000;background:#fff;max-height:80vh;overflow:auto;border-radius:2px}

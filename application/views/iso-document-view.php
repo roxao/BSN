@@ -6,8 +6,8 @@
 
 <script>
 	$(document).ready(function() {
-		// $('body').bind('cut copy paste', function (e) {e.preventDefault();});
-	 //    $("body").on("contextmenu",function(e){return false;});
+		$('body').bind('cut copy paste', function (e) {e.preventDefault();});
+	    $("body").on("contextmenu",function(e){return false;});
 
 	    // UNTUK  MENGULANG PDF READER SILAHKAN DIULANG FUNCTION implement_pdf() DAN DI LOOPING
 	    // MENGGUNAKAN PHP, SERTA ISI FUNCTION implement_pdf('pdf file') dengan url file pdf
