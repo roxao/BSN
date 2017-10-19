@@ -270,101 +270,101 @@ class SipinHome extends CI_Controller {
 		}
 	}
 
-	public function submitiin () {
-		// $this->captcha();
-		$id_user = $this->session->userdata('id_user');
-		$Status =  $this->user_model->get_applications_Status($id_user);
-		// echo $Status->row()->id_application_status_name ;
-		// $this->session->set_flashdata('satu', "PENDING");
-		$this->session->set_flashdata('satu', "PENDING");
-		if ($Status->num_rows() > 0){
+	// public function submitiin () {
+	// 	// $this->captcha();
+	// 	$id_user = $this->session->userdata('id_user');
+	// 	$Status =  $this->user_model->get_applications_Status($id_user);
+	// 	// echo $Status->row()->id_application_status_name ;
+	// 	// $this->session->set_flashdata('satu', "PENDING");
+	// 	$this->session->set_flashdata('satu', "PENDING");
+	// 	if ($Status->num_rows() > 0){
 		
-			switch ($Status->row()->id_application_status_name) {
-	            case '1':
-	            if ($Status->row()->process_status == "COMPLETED"){
-					$this->session->set_flashdata('satu', "COMPLETED");
-					$this->session->set_flashdata('dua', "PENDING");
-	            } else if ($Status->row()->process_status == "PENDING"){
-					$this->session->set_flashdata('satu', "PENDING");
-	            } 
+	// 		switch ($Status->row()->id_application_status_name) {
+	//             case '1':
+	//             if ($Status->row()->process_status == "COMPLETED"){
+	// 				$this->session->set_flashdata('satu', "COMPLETED");
+	// 				$this->session->set_flashdata('dua', "PENDING");
+	//             } else if ($Status->row()->process_status == "PENDING"){
+	// 				$this->session->set_flashdata('satu', "PENDING");
+	//             } 
 	            
-	               break;
-	            case '2':
-	            if ($Status->row()->process_status == "COMPLETED"){
-					$this->session->set_flashdata('dua', "COMPLETED");
-					$this->session->set_flashdata('tiga', "PENDING");
-	            } else if ($Status->row()->process_status == "PENDING"){
-					$this->session->set_flashdata('dua', "PENDING");
-	            } else{
-	            	$this->session->set_flashdata('dua', "");
-	            }
-	                break;
-	            case '3':
-				if ($Status->row()->process_status == "COMPLETED"){
-					$this->session->set_flashdata('tiga', "COMPLETED");
-	            } else if ($Status->row()->process_status == "PENDING"){
-					$this->session->set_flashdata('tiga', "PENDING");
-	            } else{
-	            	$this->session->set_flashdata('tiga', "");
-	            }
+	//                break;
+	//             case '2':
+	//             if ($Status->row()->process_status == "COMPLETED"){
+	// 				$this->session->set_flashdata('dua', "COMPLETED");
+	// 				$this->session->set_flashdata('tiga', "PENDING");
+	//             } else if ($Status->row()->process_status == "PENDING"){
+	// 				$this->session->set_flashdata('dua', "PENDING");
+	//             } else{
+	//             	$this->session->set_flashdata('dua', "");
+	//             }
+	//                 break;
+	//             case '3':
+	// 			if ($Status->row()->process_status == "COMPLETED"){
+	// 				$this->session->set_flashdata('tiga', "COMPLETED");
+	//             } else if ($Status->row()->process_status == "PENDING"){
+	// 				$this->session->set_flashdata('tiga', "PENDING");
+	//             } else{
+	//             	$this->session->set_flashdata('tiga', "");
+	//             }
 
-	            case '4':
-	            $this->session->set_flashdata('empat', $Status->row()->process_status);
-	            	break;
-	            case '5':
-	            $this->session->set_flashdata('lima', $Status->row()->process_status);
-	            	 break;
-	            case '6':
-	                 $this->session->set_flashdata('enam', $Status->row()->process_status);
-	                break;
-	            case '7':
-	                 $this->session->set_flashdata('tujuh', $Status->row()->process_status);
-	                break;
-	            case '8':
-	                 $this->session->set_flashdata('delapan', $Status->row()->process_status);
-	                break;
-	            case '9':
-	                 $this->session->set_flashdata('sembilan', $Status->row()->process_status);
-	                break;
-	            case '10':
-	            $this->session->set_flashdata('sepuluh', $Status->row()->process_status);
-	               break;
-	            case '11':
-	            $this->session->set_flashdata('sebelas', $Status->row()->process_status);
-	                break;
-	            case '12':
-	            $this->session->set_flashdata('duabelas', $Status->row()->process_status);
-	                break;
-	            case '13':
-	            $this->session->set_flashdata('tigabelas', $Status->row()->process_status);
-	            	break;
-	            case '14':
-	            $this->session->set_flashdata('empatbelas', $Status->row()->process_status);
-	            	 break;
-	            case '15':
-	                 $this->session->set_flashdata('limabelas', $Status->row()->process_status);
-	                break;
-	            case '16':
-	                 $this->session->set_flashdata('enambelas', $Status->row()->process_status);
-	                break;
-	            case '17':
-	                 $this->session->set_flashdata('tujuhbelas', $Status->row()->process_status);
-	                break;
-	            case '18':
-	                 $this->session->set_flashdata('delapanbelas', $Status->row()->process_status);
-	                break;
-	            case '19':
-	                 $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
-	                break;
-	        }
-        }
+	//             case '4':
+	//             $this->session->set_flashdata('empat', $Status->row()->process_status);
+	//             	break;
+	//             case '5':
+	//             $this->session->set_flashdata('lima', $Status->row()->process_status);
+	//             	 break;
+	//             case '6':
+	//                  $this->session->set_flashdata('enam', $Status->row()->process_status);
+	//                 break;
+	//             case '7':
+	//                  $this->session->set_flashdata('tujuh', $Status->row()->process_status);
+	//                 break;
+	//             case '8':
+	//                  $this->session->set_flashdata('delapan', $Status->row()->process_status);
+	//                 break;
+	//             case '9':
+	//                  $this->session->set_flashdata('sembilan', $Status->row()->process_status);
+	//                 break;
+	//             case '10':
+	//             $this->session->set_flashdata('sepuluh', $Status->row()->process_status);
+	//                break;
+	//             case '11':
+	//             $this->session->set_flashdata('sebelas', $Status->row()->process_status);
+	//                 break;
+	//             case '12':
+	//             $this->session->set_flashdata('duabelas', $Status->row()->process_status);
+	//                 break;
+	//             case '13':
+	//             $this->session->set_flashdata('tigabelas', $Status->row()->process_status);
+	//             	break;
+	//             case '14':
+	//             $this->session->set_flashdata('empatbelas', $Status->row()->process_status);
+	//             	 break;
+	//             case '15':
+	//                  $this->session->set_flashdata('limabelas', $Status->row()->process_status);
+	//                 break;
+	//             case '16':
+	//                  $this->session->set_flashdata('enambelas', $Status->row()->process_status);
+	//                 break;
+	//             case '17':
+	//                  $this->session->set_flashdata('tujuhbelas', $Status->row()->process_status);
+	//                 break;
+	//             case '18':
+	//                  $this->session->set_flashdata('delapanbelas', $Status->row()->process_status);
+	//                 break;
+	//             case '19':
+	//                  $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
+	//                 break;
+	//         }
+ //        }
 
-		$this->load->view('header');
-		$this->load->view('submit-iin');
-		$this->load->view('footer');
-		
-			
-	}
+	// 	$this->load->view('header');
+	// 	$this->load->view('submit-iin');
+	// 	$this->load->view('footer');	
+	// }
+
+
 
 	/*
 	Login Function
@@ -447,9 +447,8 @@ class SipinHome extends CI_Controller {
 					redirect(base_url());
 				}
 
-				
-		
 			}
+			
 		} else {
 		    $this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
 		    // $this->user('login');
@@ -491,7 +490,7 @@ class SipinHome extends CI_Controller {
 
 		$page = '0';
 
-		$id_application_status_name = '19';	
+		$id_application_status_name = '19';
 		// $process_status = "PENDING";
 		// $process_status = "PENDING";
 

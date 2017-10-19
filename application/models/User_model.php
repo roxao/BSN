@@ -48,7 +48,13 @@ class User_model extends CI_Model {
         return  $this->db->get('user');   
     }
 
-    /*This Query to Validate User login, Already have iin?, Any Open Application?, Application Type?*/
+    /*
+    This Query to Validate :
+    - User login 
+    - Already have iin? 
+    - Any Open Application?
+    - Application Type?
+    */
     public function cek_login($username,$password){  
         $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type');
         $this->db->from('user us'); 
@@ -57,16 +63,28 @@ class User_model extends CI_Model {
         $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
         $this->db->where('us.password', $password);
         $query = $this->db->get(); 
-
-        // $this->db->select('us.username, us.email, us.status_user, ii.iin_number');
-        // $this->db->from('user us'); 
-        // $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
-        // $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
-        // $this->db->where('us.password', $password);
-        // $query = $this->db->get(); 
  
         return  $query;    
     }
+
+    /*
+    Validate if there is more than 1 OPEN(iin_status) Application
+    */
+    public function step_0_validation_1($id_user){  
+        // SELECT * FROM applications WHERE applicant LIKE '%novalen%' AND iin_status ='OPEN' ORDER BY id_application DESC;
+        // echo $id_user;
+        $this->db->select('COUNT(*) AS totals');
+        $this->db->from('applications'); 
+        $this->db->where('id_user', $id_user);
+        $this->db->where('iin_status', 'OPEN');
+        // $this->db->order_by('id_application', 'DESC');
+        $query = $this->db->get(); 
+ 
+        return  $query;    
+    }
+
+
+
 
     /*Check any open application*/
     // public function validate_active_application($username) {  

@@ -83,19 +83,18 @@ class submit_iin extends CI_Controller {
 		
 		// $this->captcha();
 		$a = $this->session->userdata('status');
-		echo $a."\r";
-		// echo base_url()."\r";
-		// echo base_url(TRUE, TRUE, TRUE)."\r";
-		// redirect(base_url().'SipinHome',refresh);
-		// redirect(base_url("SipinHome/submitiin"));
 
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url(""));
 		} else {
 
-			// $this->SipinHome->captcha();
+			$id_user = $this->session->userdata('id_user');
+			$first_validation = $this->user_model->step_0_validation_1($id_user)->row()->totals;
+
+			// echo $first_validation;
+
 			/*Validasi apakah ada applikasi yang status nya OPEN*/
-			// if ($a == '1') {
+			if ($first_validation == 0) {
 
 				echo "|security_code : {$this->input->post('security_code')}|mycaptcha : {$this->session->userdata('mycaptcha')}";
 
@@ -103,7 +102,6 @@ class submit_iin extends CI_Controller {
 
 				if($this->input->post('kirim')  == 'kirim') {
 
-					$id_user = $this->session->userdata('id_user');
 					$get_document = $this->user_model->get_applications_Status($id_user);
 					$username = $this->session->userdata('username');
 
@@ -133,16 +131,14 @@ class submit_iin extends CI_Controller {
 						'iin_status' => "OPEN",
 						'application_type' => "New",
 						'created_date' => date('Y-m-j H:i:s'),
-						'created_by' => $username,
-						'modified_date' => date('Y-m-j H:i:s'),
-						'modified_by' =>$username);
+						'created_by' => $username);
 
 						/*
 						AUDIT TRAIL Step 1
 						*/
 						$this->log("added new application","Created new application");
 				        /*Insert Pengajuan*/
-						$a = $this->user_model->insert_pengajuan($data);
+						// $a = $this->user_model->insert_pengajuan($data);
 
 
 
@@ -160,14 +156,18 @@ class submit_iin extends CI_Controller {
 				                'last_updated_date' => date('Y-m-j'));
 				            $this->user_model->insert_app_status($data1);
 						
-				            /*
+				            
+						}
+							/*
 				            	REMINDER : 
 				            	At this point , user should be stuck in this page
 								and waiting for admin verification
 				            */
+
+
 							// redirect(base_url().'SipinHome',refresh);
 
-						}
+							$this->load->view('submitIIN/step0-verification');
 					} else {
 						$this->session->set_flashdata('validasi-captcha', 'Captcha tidak sesuai');
 						echo "Tidak Sama";
@@ -179,9 +179,9 @@ class submit_iin extends CI_Controller {
 						// redirect(base_url(""));
 						// redirect(base_url().'SipinHome',refresh);
 				}
-			// } else {
-
-			// }
+			} else {
+				echo "|Tidak dapat melakukan pengajuan - Masih ada aplikasi dengan iin_status 'OPEN'|";
+			}
 		}
 	}
 
