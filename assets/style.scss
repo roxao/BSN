@@ -2005,7 +2005,14 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   } 
 }
 
-
+.step-process{
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    max-width: 600px;
+    margin: 10px auto !important;
+}
 #cms-section{
   display: block;
   max-width: 1000px;
