@@ -54,6 +54,13 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_assessment_by_prm($data){
+        $this->db->select('*');
+        $this->db->from('assessment_team');
+        $this->db->like('name', $data);
+        return $this->db->get();
+    }
+
     public function update_assessment($condition,$data){
         $this->db->where($condition);
         $this->db->update('assessment_team',$data);
@@ -247,7 +254,7 @@ class Admin_model extends CI_Model {
     }
 
     public function get_assessment_team($data){
-        $this->db->select('*');
+        $this->db->select('id_assessment_team, name');
         $this->db->from('assessment_team');
         $this->db->like('name', $data);
         $this->db->where('status','active');
