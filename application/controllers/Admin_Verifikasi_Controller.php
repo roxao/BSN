@@ -45,7 +45,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' adding new applicant',
-                'log_type' => 'added new applicant '.$this->input->post('username'), 
+                'log_type' => 'added new applicant '..$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
@@ -1531,7 +1531,7 @@ public function REV_ASSESS_REQ_PROSESS()
 
     public function UPL_RES_ASSESS_REQ_SUCCESS()
     {          
-      
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -1541,7 +1541,7 @@ public function REV_ASSESS_REQ_PROSESS()
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment',
-                'log_type' => 'added  '.$this->input->post('username'), 
+                'log_type' => 'added  '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
@@ -1627,19 +1627,19 @@ public function REV_ASSESS_REQ_PROSESS()
 //revisi untuk hasil asessment lapangan
     public function UPL_RES_ASSESS_REQ_REVISI()
     {
-        
+             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' hasil asesment',
-                'log_type' => 'added  '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'log_type' => 'added  '.$id_app->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -1651,7 +1651,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'id_application_status_name' => '16',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
