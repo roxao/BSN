@@ -40,8 +40,7 @@
 
 		</script>
 
-		<?php 
-// echo $this->session->flashdata('1');
+		<?php
 		
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
@@ -70,15 +69,17 @@
 				'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
 			);
 		$this->load->view('submitIIN/process', $data);
+
+		
 		$data['rejected_view'] = array(
 				'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
 				'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
 			);
-		$this->load->view('submitIIN/process', $data);
+		$this->load->view('submitIIN/rejected', $data);
+
 
 		// REVISION VIEW
 		$this->load->view('submitIIN/step2-revision');
-
 
 ?>
 	</div>
