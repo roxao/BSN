@@ -1017,7 +1017,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             
             print_r($id_ass_app->row()->id_assessment_application);
 
-              for($x=0;$x < count($team);$x++)
+            for($x=0;$x < count($team);$x++)
                 {
                     $dat = array(
                     'id_assessment_application' => $id_ass_app.row()->id_assessment_application,
@@ -1030,6 +1030,34 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         echo "save  Sucses";
                     }
                 }
+
+        $this->load->library('upload');
+ 
+        //Configure upload.
+        $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+                 "upload_path"   => "./upload/"
+                ));
+
+            $getLetterAssigment = $this->admin_model->get_letter_of_assignment();
+             //Perform upload.
+            if($this->upload->do_upload("images")) {
+                $uploaded = $this->upload->data();
+                
+                $data6 = array(
+                'id_document_config' => $getLetterAssigment->row()->id_document_config,
+                'id_application' => $this->input->post('id_application'),
+                'path_id' =>  $uploaded['full_path'],
+                'status' => 'ACTIVE',
+                'created_date' => date('y-m-d')
+                // 'created_by' => ''
+                );
+
+                $this->admin_model->insert_application_file($data6);
+
+              } 
+
+
     }
 
     //revisi bukti revisi pembayaran yg direvisi
@@ -1235,23 +1263,22 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $this->load->view('input_tim_asesmen', $data);
 	}
 
-    //input tim asesment dan tgl asesment
+    //input dokumen penugasan tim asesment dan tgl asesment
 	public function FIELD_ASSESS_REQ_SUCCEST()
 	{
-       if($this->input->post('setujui') == "setujui")
-        {	
+     	$id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
         	$data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' tim asesment',
-                'log_type' => 'added new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'detail_log' => $this->session->userdata('admin_role').' dokumen penugasan tim asesment',
+                'log_type' => 'added new applicant '.$id_app->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -1260,69 +1287,55 @@ class Admin_Verifikasi_Controller extends CI_Controller
         	  $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
-                'id_application_status_name' => '12',
+                'id_application_status_name' => '15',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
-            $this->admin_model->insert_app_status($data2,$condition);
+            $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
 
              $data3 = array(
                     'type' => 'APPROVAL_STATUS',
                     'value' => 'APPROVED',
-                    'id_application_status'=> $this->input->post('id_application_status')
+                    'id_application_status'=> $id_app_sts
                     );
-           $this->admin_model->insert_app_sts_for_map($data3);
+            $this->admin_model->insert_app_sts_for_map($data3);
 
-           // $data4 = array(
-           //      'id_application' => $this->input->post('id_application'),
-           //      'assessment_date' => $this->input->post('assessment_date'),
-           //      'assessment_status' => 'OPEN',
-           //      'created_date' => date('y-mj'),
-           //      // 'created_by' => $this->session->userdata('username'),
+            //upload file penugasan
+            $this->load->library('upload');
+ 
+            //Configure upload.
+            $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+                 "upload_path"   => "./upload/"
+                ));
 
-           //  );
-           //  $this->admin_model->insert_application_file($data4);
-
-
-            //  $data5 = array(
-            //         'id_document_config' => '',
-            //         'path_id' => '///',
-            //         'id_application_status'=> $this->input->post('id_application_status')
-            //         );
-            // $this->admin_model->insert_application_file($data5);
-
-             $data6 = array(
+            //mencari documen usulan tim asessmen lapangan dan surat informasi tim asessmen
+            $getLetterAssigment = $this->admin_model->get_letter_of_assignment_SPTAL()->result();
+           
+             //Perform upload.
+            if($this->upload->do_upload("images")) {
+                $uploaded = $this->upload->data();
+                
+                for($y=0; $y< count($getLetterAssigment);$y++)
+                {
+                    $data6 = array(
+                    'id_document_config' => $getLetterAssigment[$y]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    // 'assessment_date' => $this->input->post('assessment_date'),
-                    'assessment_status'=> 'OPEN',
-                    'created_date' => date('y-m-d')
-                    // 'created_by' => $this->session->username('username')
+                    'path_id' =>  $uploaded['full_path'],
+                    'status' => 'ACTIVE',
+                    'created_date' => date('y-m-d'),
+                    'created_by' =>  $this->session->userdata('username')
                     );
-                $this->admin_model->insert_assessment_application($data6);
+                            
+                    $this->admin_model->insert_application_file($data6);    
+                }
+                
 
-                // $id = $this->input->post('id_application');
-                // $cekApp = $this->admin_model->get_assesment_application($id); 
-
-                // $id_ass_app = $cekApp->row()->id_assessment_application;
-
-                // $data7 = array(
-                //         'id_assessment_application' => $id_ass_app,
-                //         'id_assessment_team' => $this->input->post('id_assessment_team'),
-                //         'id_assessment_team_title'=> $this->input->post('id_assessment_team_title')
-                //         );
-                // $this->admin_model->insert_assessment_registered($data7);
-
-
-
-
-
-        	
-        }else
-        {
-        	echo "bukan tombol setujui";
-        }
+              }
+              redirect(site_url('dashboard')); 
+   
 	}
 
 
@@ -1348,7 +1361,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('username'),
+                'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1425,21 +1438,27 @@ public function REV_ASSESS_REQ_PROSESS()
                  "upload_path"   => "./upload/"
                 ));
 
-            $getLetterAssigment = $this->admin_model->get_letter_of_assignment();
+            //mencari documen usulan tim asessmen lapangan dan surat informasi tim asessmen
+            $getLetterAssigment = $this->admin_model->get_letter_of_assignment()->result();
+           
              //Perform upload.
             if($this->upload->do_upload("images")) {
                 $uploaded = $this->upload->data();
                 
-                $data6 = array(
-                'id_document_config' => $getLetterAssigment->row()->id_document_config,
-                'id_application' => $this->input->post('id_application'),
-                'path_id' =>  $uploaded['full_path'],
-                'status' => 'ACTIVE',
-                'created_date' => date('y-m-d')
-                // 'created_by' => ''
-                );
-
-                $this->admin_model->insert_application_file($data6);
+                for($y=0; $y< count($getLetterAssigment);$y++)
+                {
+                    $data6 = array(
+                    'id_document_config' => $getLetterAssigment[$y]->id_document_config,
+                    'id_application' => $this->input->post('id_application'),
+                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'status' => 'ACTIVE',
+                    'created_date' => date('y-m-d'),
+                    'created_by' =>  $this->session->userdata('username')
+                    );
+                    
+                    $this->admin_model->insert_application_file($data6);    
+                }
+                
 
               } 
             redirect(site_url('dashboard'));   
@@ -1605,10 +1624,10 @@ public function REV_ASSESS_REQ_PROSESS()
         redirect(site_url('dashboard'));
     }
 
+//revisi untuk hasil asessment lapangan
     public function UPL_RES_ASSESS_REQ_REVISI()
     {
-        if ($this->input->post('revisi') == "revisi") 
-        {
+        
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -1635,16 +1654,18 @@ public function REV_ASSESS_REQ_PROSESS()
                 // 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
-            $this->admin_model->insert_app_status($data4,$condition);
+            $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
 
-            $data5 = array(
-                    'type' => 'REVITION',
-                    'value' => '(dokumen apa aja)',
-                    'id_application_status'=> $this->input->post('id_application_status')
+            for($x=0;$x < length($this->input->post(""));$x++)
+            {
+                $data5 = array(
+                    'type' => 'REV_DOC_ASS',
+                    'value' => $this->input->post(''),
+                    'id_application_status'=> $id_app_sts
                     );
-           $this->admin_model->insert_app_sts_for_map($data5);
+                $this->admin_model->insert_app_sts_for_map($data5);
+            }
 
-        }
 
     }
 

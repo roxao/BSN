@@ -162,6 +162,7 @@ class Dashboard extends CI_Controller {
                     echo json_encode($data);
                     break;  
                 case 'field_assess_req':
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     echo json_encode($data);break;  
                 case 'upl_res_assess_req':
                     $data['application'] = $this->admin_model->get_application($id_status)->result()[0];

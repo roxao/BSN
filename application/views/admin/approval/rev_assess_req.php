@@ -38,12 +38,17 @@
 	    <div style="margin-top: 20px">
 	    	<label class="input_dashed float_left " style="width: 100%">
 				Tanggal Pelaksanaan
-				<input id="app_expired_date" name="expired_date" type="date" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI"/>
+				<input id="app_expired_date" name="expired_date" type="date" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI" required />
 			</label>
 			<div class="multiple_upload">
 				<label class="input_dashed_file float_left" style="width: 100%">
-					Dokumen
-					<input id="images[]" name="images[]" type="file"/>
+					Dokumen Usulan Tim Verivikasi Lapangan
+					<input id="images[]" name="images[]" type="file" required/>
+					<span>Pilih</span><i class="float_right"></i>
+				</label>
+				<label class="input_dashed_file float_left" style="width: 100%">
+					Dokumen Surat Informasi Tim Verifikasi Lapangan IIN
+					<input id="images[]" name="images[]" type="file" required />
 					<span>Pilih</span><i class="float_right"></i>
 				</label>
 			</div>

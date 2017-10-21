@@ -167,6 +167,8 @@ class Admin_model extends CI_Model {
 
     public function insert_app_status($data){
        $this->db->insert('application_status', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     public function insert_app_sts_for_map($data){
@@ -407,13 +409,22 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
-    //untuk mengambil document surat penugasan tim assesment
+    //untuk mengambil document Usulan Tim Verivikasi Lapangan dan Surat Informasi Tim Verifikasi Lapangan IIN
     public function get_letter_of_assignment()
     {
-        $this->db->select('*');
+        $this->db->select('id_document_config, key, display_name, file_url');
+        $this->db->from('document_config dc');
+        $this->db->where('key','UTVLI');
+        $this->db->or_where('key','SITVL');
+        return $this->db->get();
+    }
+
+    //untuk mengambil document surat Surat Penugasan Tim Penugasan Asessment Lapangan
+    public function get_letter_of_assignment_SPTAL()
+    {
+        $this->db->select('id_document_config, key, display_name, file_url');
         $this->db->from('document_config dc');
         $this->db->where('key','SPTAL');
-
         return $this->db->get();
     }
 
@@ -532,7 +543,7 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-    public function application_status_form_mapping_rev_by_idapp5($idapp,$id_app_status)
+    public function application_status_form_mapping_rev_by_idapp($idapp,$id_app_status)
     {
         $sub = $this->db->select('application_status_form_mapping.value as key');
         $sub = $this->db->from('application_status')
@@ -574,6 +585,15 @@ class Admin_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('document_config');
         $this->db->where('key','IIN');
+        
+        return $this->db->get();
+    }
+
+    public function get_date_rev($id_app_status)
+    {
+        $this->db->select('id_application_status, type, value');
+        $this->db->from('application_status_form_mapping');
+        $this->db->where('id_application_status', $id_app_status);
         
         return $this->db->get();
     }
