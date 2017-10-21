@@ -10,6 +10,8 @@
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.slides.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/script.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
+
 
 </head>
 <body>

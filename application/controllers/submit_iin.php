@@ -167,7 +167,7 @@ class submit_iin extends CI_Controller {
 
 							// redirect(base_url().'SipinHome',refresh);
 
-							$this->load->view('submitIIN/step0-verification');
+							// $this->load->view('submitIIN/step0-verification');
 					} else {
 						$this->session->set_flashdata('validasi-captcha', 'Captcha tidak sesuai');
 						echo "Tidak Sama";

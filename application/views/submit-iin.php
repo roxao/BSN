@@ -21,7 +21,7 @@
 			<li stepId="8" class=""><button>Proses Permohonan ke CRA</button></li>
 			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li> -->
 
-			<li stepId="0" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="0-verification" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $box_status_1?>"><button>Hasil Verifikasi Status Permohonan</button></li>	   
 			<li stepId="2" class="<?php echo $box_status_2?>"><button>Submit Kelengkapan Dokumen</button></li>
 			<li stepId="3" class="<?php echo $box_status_3?>"><button>Proses Verifikasi dan Validasi</button></li>
@@ -53,7 +53,10 @@
 		$data['download_upload_kode_bill']    = $this->user_model->get_doc_kbs();
 		$datas['aplication_asesment']    = $this->user_model->getAssesmentStatus($id_user);
 
+		$a = "asdasdS";
+
 		$this->load->view('submitIIN/step0');
+		$this->load->view('submitIIN/step0-verification');
 		$this->load->view('submitIIN/step1',$data); 
 		$this->load->view('submitIIN/step2',$data,$id_user);
 		$this->load->view('submitIIN/step3',$data);	

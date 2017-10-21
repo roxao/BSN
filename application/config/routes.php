@@ -60,3 +60,6 @@ $route['proses_login_admin'] = 'dashboard/proses_login';
 
 $route['contact-us'] = 'SipinHome/contact_us';
 $route['post/(:any)'] = 'SipinHome/cms_post/$1';
+
+
+$route['Layanan'] = 'SipinHome/submit_application';
