@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>user/login" onSubmit="return saveInputLogin();" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>SipinHome/login" onSubmit="return saveInputLogin();" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="login">Tampilkan error message disini</div>
             <input required type="username" id="username_login" name="username" placeholder="Username">

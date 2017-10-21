@@ -385,6 +385,7 @@ class SipinHome extends CI_Controller {
 
 	    // if($cek->num_rows() > 0){
     	if (!is_null($cek->row()->status_user)) {
+    		
 	    	// echo '|'.$cek->row()->status_user.'|'.$cek->row()->username;
 		    if ($cek->row()->status_user == 0){ 
 		     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
