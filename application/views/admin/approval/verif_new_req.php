@@ -78,12 +78,10 @@
 
 
 <script>
-
 	value=respon.application;
-$("input[name=id_application_status]").val(value.id_application_status);
-$("input[name=id_application]").val(value.id_application);
+	$("input[name=id_application_status]").val(value.id_application_status);
+	$("input[name=id_application]").val(value.id_application);
 
-	
 	console.log(respon);
 	$("input[name=applicant]").val(value.applicant);
 	$("input[name=applicant_phone_number]").val(value.applicant_phone_number);

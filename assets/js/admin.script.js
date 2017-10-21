@@ -14,7 +14,6 @@ $(document).ready(function() {
 	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 		        success: function (data) {
 	        		respon=data;
-	        		console.log(data);
 					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
 						$(".title_modal").html(status);
 						$(this).slideDown('400',function(){setContentModal()});
@@ -27,7 +26,27 @@ $(document).ready(function() {
 	   	 })
     }
 
-    // getStep('9','45', 'verif_new_req','Verifikasi Pembayaran');
+    function getApproval(id, id_status, step, status) {
+		$("body").append("<div id='modal_approval'></div>");
+		$("#modal_approval").load(base_url + "/set_modal", function () {
+			$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
+		        success: function (data) {
+	        		respon=data;
+					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
+						$(".title_modal").html(status);
+						$(this).slideDown('400',function(){setContentModal()});
+					 	reject_function();
+					 	setModal();
+					});
+				},
+				error: function(data){
+
+				}
+			})
+		});
+    }
+
+    getApproval('163','5297', 'verif_new_req','Verifikasi Pembayaran');
 
     // Modal Customize
 	function setModal(){
