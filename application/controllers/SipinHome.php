@@ -507,31 +507,14 @@ class SipinHome extends CI_Controller {
 			Validate StepId (step0)
 			*/
 			if ( $id_application_status_name == '1' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
-				// $page = '0';
-				$state0 = "rejected";
-				// array_push($box_status_array, $state0 );
-				// echo $state0;
-				// array_push($box_string_array, "title" );
-				// array_push($box_status_array, "Hasil Verifikasi Status Permohonan" );
-				// array_push($box_string_array, "text" );
-				// array_push($box_status_array, "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru." );
-
 				$data['state0'] = "rejected";
 				$data['title'] = "Hasil Verifikasi Status Permohonan";
 				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 			} elseif ( $id_application_status_name == '1' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
-				// $state0 = "process";
-				// echo $state0;
-				// array_push($box_status_array, $state0 );
 				$data['state0'] = "process";
 				$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
 				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 			} else {
-
-				// echo $state0;
-				// $page = '1';
-				// array_push($box_status_array, $state0 );
-
 				$data['state0'] = "0";
 			}
 		}
