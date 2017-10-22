@@ -8,8 +8,8 @@ $c_white      : #ffffff;
 $c_red        : #ff0000;
 $c_grey       : #f2f4f7;
 $c_none       : none;
-$fsize_s      : 11px;
-$fsize_normal : 12px;
+$fsize_s      : 12px;
+$fsize_normal : 13px;
 $width_cont   : 1200px;
 $header_h     : 75px;
 $menu_w       : 200px;
@@ -294,6 +294,115 @@ body {
   overflow-y: scroll;
 }
 
+
+.the-skeleton{
+  min-width: 50px;
+  min-height: 24px;
+  display: block;
+  padding: 0;
+  .the-skeleton-1 {
+      background: rgba(0,0,0,0.1);
+      height: 20px;
+      display: block;
+      width: 100px;
+      margin:  8px 0 ;
+  }
+}
+
+
+#modal_approval{
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    .box-modal {
+        margin: 20vh auto;
+        max-width: 500px;
+        background: #fff;
+        min-height: 200px;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+        border-radius: 2px;
+        .modal-title:empty {
+          background: rgba(0,0,0,0.1);
+          width: calc(100% - 100px);
+        }
+        .modal-content {
+            padding: 20px;
+        }
+        .modal-header {
+            background: rgba(0,0,0,0.1);
+            position: relative;
+            box-sizing: border-box;
+            padding: 11px 20px;
+            .modal-title {
+              height: 20px;
+              font-size: 14px;
+              font-weight: 400;
+              line-height: 20px;
+              color: $c_2nd;
+            }
+            .modal-close{
+              position:absolute;
+              right: 0;
+              top: 0;
+              padding: 15px;
+              svg {
+                height: 32px;
+                width: 32px;
+              } 
+            }
+        }
+      .modal-footer{
+        background: rgba(0,0,0,0.05);
+        padding: 10px;
+        .modal-footer-button{
+          box-shadow: none;
+        }
+      }
+
+      .item-revision{
+        div{
+          position: relative;
+          background: #f2f4f7;
+          padding: 0 20px;
+          line-height: 32px;
+          margin: 2px 0;
+          color: #507299;
+          border-radius: 2px;
+          font-size: 13px;
+          font-weight: 400;
+          height: 32px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          border: 1px solid #e4e9f1;
+          .item-revision-del{
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-image: url(cancel.svg);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 12px;
+          }
+        }
+
+      }
+    }
+}
+
+.float-left{float: left}
+.float-right{float: right}
+
+
+
 div.close_modal {
     background-position: -4px -4px;
     width: 12px;
@@ -318,7 +427,6 @@ div.close_modal {
     border: 0;
     padding: 0;
     width: 100%;
-    font-size: 12px;
     font-size: $fsize_normal;
     box-sizing: border-box;
   }
@@ -330,7 +438,7 @@ div.close_modal {
   margin: 0px;
   line-height: 32px;
   padding: 5px 10px;
-  font-size: 11px;
+  font-size: 12px;
   color: #aaa;
   background: #FFF;
   box-sizing: border-box;
@@ -361,12 +469,128 @@ div.close_modal {
   }
 }
 
+#assessment_team {
+    display: flex;
+    background: #fff;
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    > div:first-child{
+      border-right: 1px solid #ddd;
+    }
+    input{
+      display: block;
+      border: 0 !important;
+      box-sizing: border-box;
+      width: 100%;
+      line-height: 20px;
+      background-image: url(admin/enter.svg);
+      background-repeat: no-repeat;
+      background-size: 28px;
+      background-position: top 1px right 9px;
+    }
+    select{
+      display: block;
+      width: 100%;
+      border: 0;
+      box-sizing: border-box;
+      height: 100%;
+      border-radius: 0 !important;
+      background: transparent;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding: 10px;
+      background: url(admin/roles.png) no-repeat center right 8px;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline-offset: 0;
+      outline: -webkit-focus-ring-color auto 0px;
+    }
+}
+
+.assessment-team-list{
+  padding: 10px 0 30px 0;
+  .team-header{
+    border-bottom: 1px dashed #ddd;
+    color: #01923f;
+    font-weight: 700;
+    font-size: 11.5px;
+    letter-spacing: 1px;
+    .x3{
+      background: none !important
+    }
+  }
+  li{
+    display: flex;
+    .x1{flex:2}
+    .x2{flex:6}
+    .x3{
+      flex:1;
+      background: url(delete.svg) no-repeat center;
+      background-size: 16px;
+      color: transparent;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .x1, .x2, .x3{
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding: 10px
+    }
+    
+  }
+}
+[name=autocomplete]{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    border-bottom: 1px solid #ddd;
+    &::placeholder{
+      color: rgba(0,0,0,0.3)
+    }
+}
+
+
+.autocomplete-parent-approval{
+    margin: -20px -20px 0 -20px;
+    padding: 20px 20px 10px 20px;
+    background: #f2f4f7;
+    position: relative;
+    box-sizing: border-box
+}
 .notes_modal {
     background: #f2f4f8;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 2px;
     border: 1px dotted #ddd;
+}
+
+.ui-menu {
+  background: #fff;
+    z-index: 10000;
+    position: absolute;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 -20px;
+    max-height: 120px;
+    overflow: auto;
+    padding: 5px 0;
+    box-shadow: 0 3px 4px rgba(0,0,0,.2);
+    border-radius: 0 0 2px 2px;
+    .ui-menu-item div {
+      line-height: 32px;
+      padding: 0 10px;
+    }
+    .ui-menu-item  .ui-state-active {
+        background: rgba(0,0,0,0.1);
+    }
+    
 }
 
 .custom_autocomplete {
@@ -563,6 +787,48 @@ div.close_modal {
     input{
       display: none;
     }
+  }
+}
+ 
+ .content-upload {
+  .item-upload-v2:first-child{
+    .img-del{
+      display: none;
+    }
+  }
+ }
+ .item-upload-v2{
+    position: relative;
+    > label{
+      width: calc(100%);
+      padding-right: 35px;
+    }
+ }
+
+ .p-desc {
+    line-height: 28px;
+    margin: 5px 0;
+}
+.btn-add-doc {
+    background: #01923f;
+    padding: 10px;
+    margin: 10px 0 0 0;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    border-radius: 3px;
+    &:hover{
+      cursor: pointer
+    }
+}
+.img-del{
+  position: absolute;
+  right: 10px;
+  top: 0;
+  margin-top: 13px;
+  &:hover{
+    cursor: pointer
   }
 }
 
@@ -822,6 +1088,16 @@ div.close_modal {
 
 
 
+.text_comment{
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 10px 0 0 0;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 10px;
+    font-size: 12px;
+}
 .btn-flat {
   text-transform: uppercase;
   padding: 12px 15px 12px 15px;
@@ -1107,4 +1383,67 @@ header {
   }
 }
 
+
+#ui-datepicker-div {
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 0 1px rgba(0,0,0,.1);
+    border-radius: 2px;
+    .ui-datepicker-header{
+      padding:10px 0 20px 0;
+      &:after{
+        display: table;
+        content: '';
+        clear: both;
+      }
+      .ui-datepicker-prev {
+        float: left;
+        font-size: 0;
+        background: url(admin/back.png);
+        width: 16px;
+        height: 16px;
+      }
+      .ui-datepicker-next {
+          float: right;
+          font-size: 0;
+          background: url(admin/next.png);
+          width: 16px;
+          height: 16px;
+      }
+      .ui-datepicker-title{
+        text-align: center
+      }
+    }
+    .ui-datepicker-calendar{
+      th{
+        text-transform: uppercase;
+        font-weight: 100;
+        color: #888;
+      }
+      td{
+        height: 36px;
+        width: 36px;
+        text-align: center;
+        .ui-state-default{
+          width: 25px;
+          height: 25px;
+          line-height: 25px;
+          color: #888;
+          display: inline-block;
+          border-radius: 50px;
+          transition: background .5s ease, color .5s ease;
+          &:hover{
+            transition: background .5s ease, color .5s ease;
+            background:$c_2nd;
+            color: #fff;
+          }
+          &.ui-state-active{
+            transition: background .5s ease, color .5s ease;
+            background:$c_2nd;
+            color: #fff;
+          }
+        }
+      }
+    }
+}
 

@@ -1,9 +1,5 @@
 $(document).ready(function() {
-	// SET BASE URL
 	var base_url = $('#base_url').val();
-	// $(window).on('resize', function(){ setPosition('.class_modal')});
-	// $('.class_modal').on('resize', function(){setPosition('.class_modal')});
-
 	$('.get_process').click(function(event) {
   		if($(this).attr('data-step')!=null) getStep($(this).attr('data-id'), $(this).attr('data-id-status'),  $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
 	  });
@@ -11,9 +7,11 @@ $(document).ready(function() {
 	function getStep(id, id_status, step, status) {
     	$("#popup_box").load(base_url + "/set_view/component/modal", function () {
     		setModal();
+    		console.log(id);
 	   	 	$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 		        success: function (data) {
 	        		respon=data;
+	        		console.log(data);
 					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
 						$(".title_modal").html(status);
 						$(this).slideDown('400',function(){setContentModal()});
@@ -28,26 +26,25 @@ $(document).ready(function() {
 
     function getApproval(id, id_status, step, status) {
 		$("body").append("<div id='modal_approval'></div>");
-		$("#modal_approval").load(base_url + "/set_modal", function () {
+		$("#modal_approval").load(base_url + "/set_view/approval/modal_approval", function () {
 			$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 		        success: function (data) {
 	        		respon=data;
-					$("#content_modal").load(base_url + "/set_view/approval/"+step, function () {
-						$(".title_modal").html(status);
+					$(".modal-content").load(base_url + "/set_view/approval/"+step, function () {
+						$(".modal-title").html(status);
+						$("#section-approval").slideDown('fast');
 						$(this).slideDown('400',function(){setContentModal()});
-					 	reject_function();
-					 	setModal();
 					});
 				},
 				error: function(data){
-
+					console.log(data);
 				}
 			})
 		});
     }
 
-    getApproval('163','5297', 'verif_new_req','Verifikasi Pembayaran');
-
+	getApproval('42','528', 'verif_pay_req','Verifikasi Pembayaran');
+	// getApproval('15','571', 'upl_iin_doc_req','Upload Dokumen IIN');
     // Modal Customize
 	function setModal(){
 		$('#popup_box').fadeIn('400',function(){});
@@ -97,9 +94,4 @@ $(document).ready(function() {
 			});
 		});
 	}
-
-
-	$(window).resize(function(event) {
-		setContentModal()
-	});
 });

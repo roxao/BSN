@@ -175,11 +175,36 @@ class Dashboard extends CI_Controller {
                     $data['revdoc_user'] = $this->admin_model->get_doc_cra()->result();
                     echo json_encode($data);break;  
                 case 'upl_iin_doc_req':
-                $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);break;  
+                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
+                    echo json_encode($data);break; 
             }
         }
     }
+
+    public function get_autocomplete($step){
+        $result =  array();
+        switch ($step) {
+            case 'assessment_team':
+                foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $key):
+                    $result[] = array(
+                        'label'   => trim($key['name']),
+                        'id_team' => trim($key['id_assessment_team']),
+                        'name'    => trim($key['name']),
+                        'status'  => trim($key['status'])
+                    );
+                endforeach;
+                break; 
+            case 'dynamic_doc':
+                foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $key):
+                    $result[] = array(
+                        'label'   => trim($key['name']),
+                    );
+                endforeach;
+                break;  
+        }
+        echo json_encode($result);
+    }
+
 
     public function set_view($param = null, $subparams = null) {
         $this->load->view('admin/'.$param.'/'.$subparams);
@@ -509,19 +534,6 @@ class Dashboard extends CI_Controller {
             die('GAGAL UPLOAD');
       }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //pengaturan 

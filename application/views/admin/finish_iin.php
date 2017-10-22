@@ -6,7 +6,14 @@
     </div>
     <h2 class="title_content">Inbox Status </h2>
 
-    <div id="tableInbox" style=" margin: 0 -20px 0 -20px;overflow: auto; ">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.2.2/css/autoFill.dataTables.css"/>
+     
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.2.2/js/dataTables.autoFill.min.js"></script>
+
+
+    <div id="tableInbox" style=" margin: 0 -20px 0 -20px;overflow: auto;">
       <table class="table_def tableInbox" style="width: 100%;">
         <tr>
           <th style="min-width:55px"  class="sort sort-center click_auto"  data-sort="id_no">#</th>

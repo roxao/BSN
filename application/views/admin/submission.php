@@ -21,7 +21,7 @@
               <td class="id_no"><?php echo $data->id_application ?></td>
               <td class="id_name"><?php echo $data->applicant ?></td>
               <td class="id_pt"><?php echo $data->instance_name ?></td>
-              <td class="id_type"><?php  echo ($data->application_type === 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
+              <td class="id_type"><?php  echo (strtolower($data->application_type) == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
               <td class="id_date"><?php echo $data->application_date ?></td>
               <td class="id_status"><span class="<?php echo $data->owner ?>"><?php echo $data->display_name ?></span></td>
             </tr>

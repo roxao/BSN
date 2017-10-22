@@ -1,49 +1,46 @@
-<!-- <form action="<?php echo base_url('admin_verifikasi_controller/FIELD_ASSESS_REQ_SUCCEST') ?>" method="post" accept-chaset="utf-8"> -->
-<?php echo form_open_multipart('admin_verifikasi_controller/FIELD_ASSESS_REQ_SUCCEST') ?>
-<section class="clearfix content_application" style="margin: 20px" >
-	<label class="input_dashed float_left" style="width: 100%">
-	<label class="input_dashed_file float_left" style="width: 100%">
-		Surat Penugasan Tim Assessment Lapangan
-		<input id="app_pnbp" name="images[]"  type="file" placeholder="Masukan Surat Permohonan PNBP" required />
-		<span>Pilih</span><i class="float_right"></i>
-	</label>
+<section class="clearfix content-approval">
+	<p class="p-desc">Silakan unggah dokumen penugasan Tim Assessment:</p>
+	<?php echo form_open_multipart('admin_verifikasi_controller/CRA_APPROVAL_REQ_PROSES') ?>
+		<input type="hidden" name="id_application_status">
+		<input type="hidden" name="id_application">
+		<div class="content-upload clearfix"></div>
+		<input type="submit" name="submit_approval" hidden/>
+	</form>
 </section>
-
-<!-- VERIFICATION BOX -->
-<div class="verify_section">
-	<div class="clearfix">
-		<!-- <button class="btn_reject float_left" style="background: red">REVISI</button> -->
-			
-
-		<input type="hidden" name="id_application_status" value="">
-		<input type="hidden" name="id_application" value="">
-
-		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
-
-	
-	</div>
-</div>
-</form>
 
 
 <script>
+	doc=respon.revdoc_user;
 	value=respon.application;
-$("input[name=id_application_status]").val(value.id_application_status);
-$("input[name=id_application]").val(value.id_application);
-	
-	// $('.input_dashed_file input').click(function(event) {
-		$("input[type=file]").change(function() {
+	$("[name=id_application_status]").val(value.id_application_status);
+	$("[name=id_application]").val(value.id_application);
+
+	add_upload();
+	function add_upload(){
+		html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" >';
+		html +=	'Pilih Dokumen';
+		html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg"/>';
+		html +=	'<span>Pilih</span><i class="float_right"></i>';
+		html +=	'</label><img fill="#fff" src="<?php echo base_url('assets/delete.svg')?>" class="img-del" alt="Hapus" height="16px" width="16px"></div>';
+		$('.content-upload').append(html);
+			$("[type=file]").change(function() {
 		    var fileName = $(this).val().split('/').pop().split('\\').pop();
 		    $(this).next().next().html(fileName);
 		    console.log(fileName);
 		});
-	// });
-</script>
+		$('.img-del').on('click', function(event) {
+			$(this).parent().remove();
+		});	
+	}
 
-<!-- <script>
-$(document).ready(function(){
-	console.log(respJson);
-	value = respJson.doc_user;
-});
+	$('#btn-approval').html('Unggah Dokumen').css('margin',"5px auto");
+   	$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
+	$('#btn-revision').remove();
+	$('#section-revision').remove();
+	
 </script>
- -->
+<style>
+	.item-upload-v2>label{
+		padding-right: 10px !important
+	}
+</style>

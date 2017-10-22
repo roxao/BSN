@@ -39,9 +39,9 @@
         <ul class="pagination"></ul>
         <li class="listjsnext">></li>
       </ul>
-
+<!-- 
       <div id="popup_box" style="display: none">
-      </div>
+      </div> -->
     </div>
   </section>
 
