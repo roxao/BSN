@@ -188,8 +188,6 @@ class User_model extends CI_Model {
         $this->db->where('application_file.status',$status);
         $this->db->order_by('document_config.id_document_config', 'ASC');
 
-
-
         $query = $this->db->get(); 
         $results = $query->result();
  
@@ -210,8 +208,8 @@ class User_model extends CI_Model {
         // $this->db->where('document_config.key',"IPPSA"); 
          $query = $this->db->get(); 
         $results = $query->result(); 
-         return  $results ; 
-        }
+        return  $results ; 
+    }
 
         // public function get_applications_Status($id_user){
         //     $this->db->select('*');
@@ -224,21 +222,21 @@ class User_model extends CI_Model {
         //     return $this->db->get();
         // }
 
-        /*
-        Get Application Status
-        */
-        public function get_applications_Status($id_user){
-            $this->db->select('MAX(apsn.id_application_status_name) AS id_application_status_name, aps.process_status, ap.iin_status');
-            $this->db->from('application_status aps');
-            $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
-            $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
-            $this->db->where('ap.id_user',$id_user);
-            $this->db->where('ap.iin_status','OPEN');
+    /*
+    Get Application Status
+    */
+    public function get_applications_Status($id_user) {
+        $this->db->select('MAX(apsn.id_application_status_name) AS id_application_status_name, aps.process_status, ap.iin_status');
+        $this->db->from('application_status aps');
+        $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
+        $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
+        $this->db->where('ap.id_user',$id_user);
+        $this->db->where('ap.iin_status','OPEN');
 
-            return $this->db->get();
-        }
+        return $this->db->get();
+    }
 
-        public function get_aplication($id_user){ 
+    public function get_aplication($id_user){ 
         // $this->db->select('*');
         // $this->db->from('applications'); 
         $this->db->where('id_user',$id_user);

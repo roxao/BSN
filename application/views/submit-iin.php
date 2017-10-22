@@ -7,21 +7,10 @@
  -->
 
 <div class="page" style="margin-top: 150px">
-
+<?php echo "state0 : {$state0}"?>
 	<div class="clearfix">
 		<ul id="section_progress" style="width: 100%">
-			<!-- <li stepId="0" class="<?php echo $this->session->flashdata('satu') == 'PENDING' ? 'PENDING' : $this->session->flashdata('satu');?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
-			<li stepId="1" class="<?php echo $this->session->flashdata('dua') == 'PENDING' ? 'PENDING' : $this->session->flashdata('dua');?>"><button>Hasil Verifikasi Status Permohonan</button></li>
-			<li stepId="2" class="<?php echo $this->session->flashdata('tiga') == 'PENDING' ? 'PENDING' : $this->session->flashdata('tiga');?>"><button>Submit Kelengkapan Dokumen</button></li>
-			<li stepId="3" class=""><button>Proses Verifikasi dan Validasi</button></li>
-			<li stepId="4" class=""><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
-			<li stepId="5" class=""><button>Submit Bukti Transfer Pembayaran</button></li>
-			<li stepId="6" class=""><button>Menerima Konfirmasi Tim Verifikasi Lapangan</button></li>
-			<li stepId="7" class=""><button>Assessment Lapangan</button></li>
-			<li stepId="8" class=""><button>Proses Permohonan ke CRA</button></li>
-			<li stepId="9" class=""><button>Menerima IIN Baru Berserta Kelengkapan Dokumen</button></li> -->
-
-			<li stepId="0" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
+			<li stepId="<?php echo $state0?>" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $box_status_1?>"><button>Hasil Verifikasi Status Permohonan</button></li>	   
 			<li stepId="process" class="<?php echo $box_status_2?>"><button>Submit Kelengkapan Dokumen</button></li>
 			<li stepId="3" class="<?php echo $box_status_3?>"><button>Proses Verifikasi dan Validasi</button></li>
@@ -70,16 +59,23 @@
 			);
 		$this->load->view('submitIIN/process', $data);
 
+
+		// $data['rejected_view'] = array(
+		// 		'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
+		// 		'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
+		// 	);
+
+
 		
 		$data['rejected_view'] = array(
-				'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
-				'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
-			);
+			'title' => $title,
+			'text'  => $text
+		);
 		$this->load->view('submitIIN/rejected', $data);
 
 
 		// REVISION VIEW
-		$this->load->view('submitIIN/step2-revision');
+		// $this->load->view('submitIIN/step2-revision');
 
 ?>
 	</div>

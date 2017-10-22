@@ -16,7 +16,7 @@
 		<?php $no=0; foreach($download_upload as $data) { 
 		 	 switch ($data->key) {
 		 	 	case 'IPPSA':?>
-		<button style="background: #01923f; color: #fff"  class="float_right"> <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download">Download IIN</button>		
+		<button style="background: #01923f; color: #fff"  class="float_right"> <a href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $data->file_url;?>" class="btn_download">Download IIN></a></button>		
 	</div>
 	<?php break;} 
  } ?>

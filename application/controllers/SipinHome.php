@@ -385,7 +385,7 @@ class SipinHome extends CI_Controller {
 
 	    // if($cek->num_rows() > 0){
     	if (!is_null($cek->row()->status_user)) {
-    		
+
 	    	// echo '|'.$cek->row()->status_user.'|'.$cek->row()->username;
 		    if ($cek->row()->status_user == 0){ 
 		     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
@@ -458,7 +458,7 @@ class SipinHome extends CI_Controller {
     }
 
 	/*
-	Render submit-iin page
+	Render submit-iin view
 	@var id_user
 	@var get_app_status
 	@var iin_status
@@ -475,28 +475,69 @@ class SipinHome extends CI_Controller {
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 		$iin_status = $get_app_status->row()->iin_status;
 
-		// if ($get_app_status->num_rows() > 0){
-		// if ($iin_status == "OPEN"){
-
 		$id_application_status_name = $get_app_status->row()->id_application_status_name;
 		$process_status = $get_app_status->row()->process_status;
 
-		// echo 
-		// "
-		// |id_user : {$id_user}|
-		// id_application_status_name :  {$id_application_status_name}|
-		// process_status :  {$process_status}|
-		// iin_status :  {$iin_status}|
-		// <br>";
 
+		/*
+		Default Var
+		@page
+		*/
 		$page = '0';
 
-		$id_application_status_name = '19';
-		// $process_status = "PENDING";
-		// $process_status = "PENDING";
+		/*
+		Instantiate arr $data
+		*/
+		$data = array(
+			'title' => '',
+			'text' => '',
+			'state0' => '0'			
+		);
 
-		if ( $id_application_status_name >= '1' )
-			$page = '1';
+		// $id_application_status_name = '19';
+		// $id_application_status_name = '1';
+		// $process_status = 'PENDING';
+		// $iin_status = 'OPEN';
+		// $process_status = 'COMPLETED';
+		// $iin_status = 'CLOSED';
+
+		if ( $id_application_status_name >= '1' ) {
+
+			/*
+			Validate StepId (step0)
+			*/
+			if ( $id_application_status_name == '1' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
+				// $page = '0';
+				$state0 = "rejected";
+				// array_push($box_status_array, $state0 );
+				// echo $state0;
+				// array_push($box_string_array, "title" );
+				// array_push($box_status_array, "Hasil Verifikasi Status Permohonan" );
+				// array_push($box_string_array, "text" );
+				// array_push($box_status_array, "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru." );
+
+				$data['state0'] = "rejected";
+				$data['title'] = "Hasil Verifikasi Status Permohonan";
+				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+			} elseif ( $id_application_status_name == '1' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
+				// $state0 = "process";
+				// echo $state0;
+				// array_push($box_status_array, $state0 );
+				$data['state0'] = "process";
+				$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
+				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+			} else {
+
+				// echo $state0;
+				// $page = '1';
+				// array_push($box_status_array, $state0 );
+
+				$data['state0'] = "0";
+			}
+		}
+
+
+
 		if ( $id_application_status_name >= '3' )
 			$page = '2';
 
@@ -515,132 +556,33 @@ class SipinHome extends CI_Controller {
 		if ( $id_application_status_name == '19' )
 			$page = '9';
 
-		$box_string_array = array();
-		$box_status_array = array();
+
 		for ($i = 0; $i <= 9; $i++) {
 			
-
 			$string_status = "box_status_";
 			$string_status .= $i;
-			array_push($box_string_array, $string_status );
-			
-
-			// echo "<br>page : {$page}";
-
 
 			if ($i == $page) {
-				array_push($box_status_array, "PENDING" );
+				$data[$string_status] = "PENDING";
 			} else if ($i < $page){
-				array_push($box_status_array, "COMPLETED" );
+				$data[$string_status] = "COMPLETED";
 			} else {
-				array_push($box_status_array, "" );
+				// array_push($box_status_array, "" );
+				$data[$string_status] = "";
 			}
 
-			// print_r($box_array);
 		}
 
 		/*
 		Passing $data from Controller to View
 		*/
-		$data = array_combine($box_string_array, $box_status_array);
-		
-
 		$this->load->view('header');
 		$this->load->view('submit-iin',$data);
 		$this->load->view('footer');
 
 	}
 
-		// if ($status->num_rows() > 0){
-			
-
-
-		// 	switch ($status->row()->id_application_status_name) {
-	 //            case '1':
-
-
-
-
-		//             if ($status->row()->process_status == "COMPLETED"){
-		// 				$this->session->set_flashdata('satu', "COMPLETED");
-		// 				$this->session->set_flashdata('dua', "PENDING");
-		//             } else if ($status->row()->process_status == "PENDING"){
-		// 				$this->session->set_flashdata('satu', "PENDING");
-		//             } 
-	            
-	 //            break;
-	 //            case '2':
-	 //            if ($status->row()->process_status == "COMPLETED"){
-		// 			$this->session->set_flashdata('dua', "COMPLETED");
-		// 			$this->session->set_flashdata('tiga', "PENDING");
-	 //            } else if ($Status->row()->process_status == "PENDING"){
-		// 			$this->session->set_flashdata('dua', "PENDING");
-	 //            } else{
-	 //            	$this->session->set_flashdata('dua', "");
-	 //            }
-	 //                break;
-	 //            case '3':
-		// 		if ($status->row()->process_status == "COMPLETED"){
-		// 			$this->session->set_flashdata('tiga', "COMPLETED");
-	 //            } else if ($Status->row()->process_status == "PENDING"){
-		// 			$this->session->set_flashdata('tiga', "PENDING");
-	 //            } else{
-	 //            	$this->session->set_flashdata('tiga', "");
-	 //            }
-
-	 //            case '4':
-	 //            $this->session->set_flashdata('empat', $Status->row()->process_status);
-	 //            	break;
-	 //            case '5':
-	 //            $this->session->set_flashdata('lima', $Status->row()->process_status);
-	 //            	 break;
-	 //            case '6':
-	 //                 $this->session->set_flashdata('enam', $Status->row()->process_status);
-	 //                break;
-	 //            case '7':
-	 //                 $this->session->set_flashdata('tujuh', $Status->row()->process_status);
-	 //                break;
-	 //            case '8':
-	 //                 $this->session->set_flashdata('delapan', $Status->row()->process_status);
-	 //                break;
-	 //            case '9':
-	 //                 $this->session->set_flashdata('sembilan', $Status->row()->process_status);
-	 //                break;
-	 //            case '10':
-	 //            $this->session->set_flashdata('sepuluh', $Status->row()->process_status);
-	 //               break;
-	 //            case '11':
-	 //            $this->session->set_flashdata('sebelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '12':
-	 //            $this->session->set_flashdata('duabelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '13':
-	 //            $this->session->set_flashdata('tigabelas', $Status->row()->process_status);
-	 //            	break;
-	 //            case '14':
-	 //            $this->session->set_flashdata('empatbelas', $Status->row()->process_status);
-	 //            	 break;
-	 //            case '15':
-	 //                 $this->session->set_flashdata('limabelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '16':
-	 //                 $this->session->set_flashdata('enambelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '17':
-	 //                 $this->session->set_flashdata('tujuhbelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '18':
-	 //                 $this->session->set_flashdata('delapanbelas', $Status->row()->process_status);
-	 //                break;
-	 //            case '19':
-	 //                 $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
-	 //                break;
-
-	            
-	 //        }
-  //       }
-
+	
 	
 
 	public function modal_popup(){

@@ -3,7 +3,7 @@
 		<p>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem dengan klik button <b>"Kirim"</b>, maka sebelumnya Anda harus mengunduh(download) surat permohonan yang sudah diisi yang akan akan digunakan kembali jika status data Anda sudah terverifikasi dan disetujui oleh Sekretariat Layanan.</p>
 		<article style="margin: 50px">
 		
-	<form action="<?php echo base_url()?>submit_iin/insert_letter_submission" method="post" onSubmit="return saveComment();">
+	<form action="<?php echo base_url()?>submit_iin/step_0" method="post" onSubmit="return saveComment();">
 			<div class="clearfix">
 				<label class="input_dashed float_left" style="width: 65%">
 					Lokasi Pengajuan Surat
@@ -51,18 +51,19 @@
 			<div class="inputValidation2">
 				<!-- <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" data-sitekey="6LerwS0UAAAAAF27mC7K-XWf-IYBMyrZcTKbhEeB" > </div> -->
 
-	<div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?>  </div>
-
-
-				<input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
-				<div class="clearfix">
-					<button class="float_left" style="background: red" name="batal" value="batal" type="batal">Batal</button>
-					<button class="float_right" style="background: #01923f" name="kirim" value="kirim" type="kirim">Kirim</button>
-				</div>
+	<div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
+			<input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
+			<div class="clearfix">
+			<!-- 	<button class="float_left" style="background: red" name="batal" value="batal" type="batal">Batal</button> -->
+				<button class="float_right" style="background: #01923f" name="kirim" value="kirim" type="kirim">Kirim</button>
 			</div>
+		</div>
 		</article>
 	</form>
 
+	<script type="text/javascript">
+		$('[type=date]').datepicker();
+	</script>
 	<!-- <script type="text/javascript">
 		document.getElementById("app_address").value = localStorage.getItem("address");
 		document.getElementById("app_date").value = localStorage.getItem("date");
