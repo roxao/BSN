@@ -2086,4 +2086,65 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     border-radius: 3px;
 }
 
-
+#ui-datepicker-div {
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 0 1px rgba(0,0,0,.1);
+    border-radius: 2px;
+    .ui-datepicker-header{
+      padding:10px 0 20px 0;
+      &:after{
+        display: table;
+        content: '';
+        clear: both;
+      }
+      .ui-datepicker-prev {
+        float: left;
+        font-size: 0;
+        background: url(admin/back.png);
+        width: 16px;
+        height: 16px;
+      }
+      .ui-datepicker-next {
+          float: right;
+          font-size: 0;
+          background: url(admin/next.png);
+          width: 16px;
+          height: 16px;
+      }
+      .ui-datepicker-title{
+        text-align: center
+      }
+    }
+    .ui-datepicker-calendar{
+      th{
+        text-transform: uppercase;
+        font-weight: 100;
+        color: #888;
+      }
+      td{
+        height: 36px;
+        width: 36px;
+        text-align: center;
+        .ui-state-default{
+          width: 25px;
+          height: 25px;
+          line-height: 25px;
+          color: #888;
+          display: inline-block;
+          border-radius: 50px;
+          transition: background .5s ease, color .5s ease;
+          &:hover{
+            transition: background .5s ease, color .5s ease;
+            background:$c_1st;
+            color: #fff;
+          }
+          &.ui-state-active{
+            transition: background .5s ease, color .5s ease;
+            background:$c_1st;
+            color: #fff;
+          }
+        }
+      }
+    }
+}
