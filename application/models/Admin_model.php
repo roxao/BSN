@@ -345,6 +345,8 @@ class Admin_model extends CI_Model {
 
     public function insert_document_config($data){
         $this->db->insert('document_config', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
     }
 
     //untuk laporan cetak laporan smentara lihat ini dulu
@@ -601,6 +603,15 @@ class Admin_model extends CI_Model {
         $this->db->select('id_application_status, type, value');
         $this->db->from('application_status_form_mapping');
         $this->db->where('id_application_status', $id_app_status);
+        
+        return $this->db->get();
+    }
+
+    public function get_doc_conf_by_name($name)
+    {
+        $this->db->select('id_document_config, key, display_name');
+        $this->db->from('document_config');
+        $this->db->where('display_name', $name);
         
         return $this->db->get();
     }
