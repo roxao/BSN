@@ -916,11 +916,12 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   width: 100% !important;
   box-sizing: border-box;
   .title_iin {
-    line-height: 64px;
+    line-height: 42px;
     text-align: center;
     font-weight: 100;
     font-size: 24px;
     color: #4c5557;
+    margin: 10px auto 30px auto;
   }
   p {
     font-size: $fsize_normal;
@@ -964,15 +965,18 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   }
 }
 .list_iin_download{
-  background: #eee;
-  border-radius: 3px;
-  padding: 10px;
+  background: #f7f7f7;
   width: 100%;
   box-sizing: border-box;
   margin: 10px 0;
   .item-upload{
     line-height: 24px;
-    padding: 5px 0;
+    padding: 10px 20px;
+    border: 1px dashed #ddd;
+    margin: -1px 0;
+    [type=checkbox]{
+      margin-right: 5px;
+    }
     &:after{
       clear: both;
       display: table;
@@ -1004,7 +1008,9 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   }
   .item-download{
     line-height: 24px;
-    padding: 5px 0;
+    padding: 10px 20px;
+    border: 1px dashed #ddd;
+    margin: -1px 0;
     &:after{
       clear: both;
       display: table;
@@ -2070,6 +2076,14 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     max-width: 850px;
     margin: 10px auto;
   }
+}
+
+.p-alert {
+    background: #fdd;
+    border: 1px solid #faa;
+    padding: 10px;
+    color: #A10 !important;
+    border-radius: 3px;
 }
 
 
