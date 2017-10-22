@@ -45,7 +45,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' adding new applicant',
-                'log_type' => 'added new applicant '..$id_app->row()->applicant, 
+                'log_type' => 'added new applicant '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
@@ -1636,61 +1636,77 @@ public function REV_ASSESS_REQ_PROSESS()
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' hasil asesment',
+                'detail_log' => $this->session->userdata('admin_role').' revisi hasil asesment',
                 'log_type' => 'added  '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('username')
                 );
-            // $this->admin_model->insert_log($dataL);
+            $this->admin_model->insert_log($dataL);
 
-            // $this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
             $data4 = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '16',
              
-                'created_date' => date('Y-m-j'),
+                'created_date' => date('Y-m-d'),
                 'created_by' => $this->session->userdata('username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
            
-            // $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
+            $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
 
             $display_name_doc = $this->input->post('doc');
 
-            echo json_encode($display_name_doc);
-
-            for($x=0;$x < length($this->input->post("doc"));$x++)
+            
+            for($x=0;$x < count($this->input->post("doc"));$x++)
             {
+                
+
                 $cek_doc = $this->admin_model->get_doc_conf_by_name($display_name_doc[$x]);
 
+                
                 if($cek_doc->num_rows() == 0)
                 {   
+                    
                     $data_doc = array(
                         'type'=> 'TRANSACTIONAL',
                         'key'=> '-',
-                        'display_name'=> $display_name[$x]);
+                        'display_name'=> $display_name_doc[$x],
+                        'created_date'=> date('y-m-d'),
+                        'created_by'=> $this->session->userdata('username'));
                     $id_doc_new = $this->admin_model->insert_document_config($data_doc);
+
+                    $data_doc_l = array(
+                        'detail_log' => $this->session->userdata('admin_role').' input document config '.$display_name_doc[$x],
+                        'log_type' => 'added  doc '.$display_name_doc[$x], 
+                        'created_date' => date('Y-m-j H:i:s'),
+                        'created_by' => $this->session->userdata('username')
+                        );
+                    $this->admin_model->insert_log($data_doc_l);
 
                     $data5 = array(
                     'type' => 'REV_DOC_ASS '.$id_doc_new,
                     'value' => $id_doc_new,
                     'id_application_status'=> $id_app_sts
                     );
-                $this->admin_model->insert_app_sts_for_map($data5);
+                    
+                    $this->admin_model->insert_app_sts_for_map($data5);
 
                 }else
                 {
+                    
                     $data5 = array(
                     'type' => 'REV_DOC_ASS '.$cek_doc->row()->id_document_config,
                     'value' => $cek_doc->row()->id_document_config,
                     'id_application_status'=> $id_app_sts
                     );
-                $this->admin_model->insert_app_sts_for_map($data5);
+                
+                    $this->admin_model->insert_app_sts_for_map($data5);
                 }
 
             }
-
+             redirect(site_url('dashboard'));
 
     }
 
