@@ -28,14 +28,14 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
-        <button id="btn-export" class="btn-flat float_left">DOWNLOAD</button>
+        <button id="btn-export" onclick="get_excel('get_applications')" class="btn-flat float_left">DOWNLOAD</button>
 
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
           <div id="filtertable">
             <div class="clickfilter">Filter... </div>
             <div class="filtertable filters">
-              <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
+              <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'" title="'.$x[1].'">'.$x[1].'</label>';}?>
             </div>
           </div>
         </div> 
@@ -87,16 +87,6 @@
       $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
       $('.tableInbox tr th:first-child').click();
 
-
-
-      $('.row_select').on('click', function() {
-        <?php //foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
-
-        //   $('.z-modal-frame').fadeIn('fast', function() {
-        //   $('#z-modal-edit').slideDown()
-        //   $('.modal-form').attr('action', url_u);
-        // });
-      })
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#expor-btn').on('click', function() {

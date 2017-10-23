@@ -26,7 +26,6 @@ class Dashboard extends CI_Controller {
 
     public function iinlist(){
         $this->user('check-autho');
-        
         $data['applications'] = $this->admin_model->get_applications_finish()->result();
         echo json_encode($data);
         return false;
@@ -88,8 +87,8 @@ class Dashboard extends CI_Controller {
                     } else {
                         $this->session->set_userdata(array(
                             'id_admin'      => $cek->row()->id_admin,
-                            'username'      => $cek->row()->username,
-                            'email'         => $cek->row()->email,
+                            'admin_username'=> $cek->row()->username,
+                            'admin_email'   => $cek->row()->email,
                             'admin_status'  => $cek->row()->admin_status,
                             'admin_role'    => $cek->row()->admin_role));
                         redirect(base_url('dashboard'));
@@ -117,67 +116,39 @@ class Dashboard extends CI_Controller {
         $id_status = $this->input->post('id_status');
         $step = $this->input->post('step');
         if($id!=null){
+            $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
             switch ($step) {
                 case 'verif_new_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);
-                    break;
-                case 'verif_upldoc_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
-                    echo json_encode($data);
+                case 'upl_res_assess_req':
+                case 'field_assess_req':
+                case 'verif_rev_assess_res_req':
+                case 'upl_bill_req':
+                case 'upl_iin_doc_req':
+                case 'reupl_bill_req':
+                    break; 
+                case 'verif_pay_req':
+                case 'verif_rev_pay_req':
+                    $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     break;
                 case 'verif_revdoc_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['revdoc_user'] = $this->admin_model->application_status_form_mapping_rev_by_idapp($id,$id_status)->result();
-                    echo json_encode($data);
                     break;  
-                case 'upl_bill_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);
-                    break;  
-                case 'reupl_bill_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);
-                    break;  
-                case 'verif_pay_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
-                    $data['assessment_list'] = $this->admin_model->get_assessment()->result();
-                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
-                    echo json_encode($data);
-                    break;
-                case 'verif_rev_pay_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['doc_pay'] = $this->admin_model->get_pay($id)->result();
-                    $data['assessment_list'] = $this->admin_model->get_assessment()->result();
-                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
-                    echo json_encode($data);    
+                case 'verif_upldoc_req':
+                    $data['doc_user'] = $this->admin_model->get_doc_user($id)->result();
                     break;
                 case 'rev_assess_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    $data['assessment_list'] = $this->admin_model->get_assessment()->result();
-                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     $data['date_req'] = $this->admin_model->get_date_rev($id_status)->result();
-                    echo json_encode($data);
+                    $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     break;  
-                case 'field_assess_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);break;  
-                case 'upl_res_assess_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);
-                    break;
-                case 'verif_rev_assess_res_req':
-                    echo json_encode($data);break;  
                 case 'cra_approval_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
                     $data['revdoc_user'] = $this->admin_model->get_doc_cra()->result();
-                    echo json_encode($data);break;  
-                case 'upl_iin_doc_req':
-                    $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
-                    echo json_encode($data);break; 
+                    break;  
+                default:
+                    return false;
+                    break;
             }
+            echo json_encode($data);
         }
     }
 
@@ -188,9 +159,7 @@ class Dashboard extends CI_Controller {
                 foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $key):
                     $result[] = array(
                         'label'   => trim($key['name']),
-                        'id_team' => trim($key['id_assessment_team']),
-                        'name'    => trim($key['name']),
-                        'status'  => trim($key['status'])
+                        'id_team' => trim($key['id_assessment_team'])
                     );
                 endforeach;
                 break; 
@@ -318,7 +287,7 @@ class Dashboard extends CI_Controller {
                     'detail_log' => $this->session->userdata('admin_role').' Update Data CMS',
                     'log_type' => 'Update Data '.$this->input->post('title'), 
                     'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                    // 'created_by' => $this->session->userdata('username')
                 );
                 $this->admin_model->update_cms($condition,$data);
                 break;
@@ -459,9 +428,54 @@ class Dashboard extends CI_Controller {
         redirect(base_url('dashboard/settings/'.$param));
     }
 
-    public function export_excel($param = null){
-        
+    public function excel(){
+            $this->load->library("PHPExcel");
+            $objPHPExcel = new PHPExcel();
+            $c= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $f=explode("||", $this->input->get('f'));
+            $t=explode("||", $this->input->get('t'));
+            $m=$this->input->get('m');
+            $data = $this->admin_model->$m()->result_array();          
+            for ($i=0; $i < count($f); $i++) {
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($c[$i] . 1, $t[$i]);
+                for($j=0; $j < count($data); $j++) {
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($c[$i] . ($j+2), $data[$j][$f[$i]]);
+                }
+            } 
+            $objPHPExcel->getActiveSheet()->setTitle('Report'.date('-Y-m-j--H-i-s'));        
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="export'.date('-Y-m-j--H-i-s').'.xlsx"');
+            $objWriter->save("php://output");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

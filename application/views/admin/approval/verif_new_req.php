@@ -68,35 +68,17 @@
 
 
 <script>
-	value=respon.application;
-	$("[name=id_application_status]").val(value.id_application_status);
-	$("[name=id_application]").val(value.id_application);
-	$("[name=applicant]").val(value.applicant);
-	$("[name=applicant_phone_number]").val(value.applicant_phone_number);
-	$("[name=application_date]").val(value.application_date);
-	$("[name=instance_director]").val(value.instance_director);
-	$("[name=instance_email]").val(value.instance_email);
-	$("[name=instance_name]").val(value.instance_name);
-	$("[name=instance_phone]").val(value.instance_phone);
-	$("[name=mailing_location]").val(value.mailing_location);
-	$("[name=mailing_number]").val(value.mailing_number);
+	app=respon.application;
+	$("[name=applicant]").val(app.applicant);
+	$("[name=applicant_phone_number]").val(app.applicant_phone_number);
+	$("[name=application_date]").val(app.application_date);
+	$("[name=instance_director]").val(app.instance_director);
+	$("[name=instance_email]").val(app.instance_email);
+	$("[name=instance_name]").val(app.instance_name);
+	$("[name=instance_phone]").val(app.instance_phone);
+	$("[name=mailing_location]").val(app.mailing_location);
+	$("[name=mailing_number]").val(app.mailing_number);
 
-   	$('#btn-approval').on('click', function(event) {
-   		$('[name=submit_approval]').click()
-   		});
-   	$('#btn-revision-back-send').on('click', function(event) {
-   		$('[name=submit_revision]').click()
-   		});
-	$('#btn-revision').on('click', function(event) {
-		$('.content-approval').hide();
-		$('.content-revision').slideDown();
-		$('#section-approval').hide();
-		$('#section-revision').slideDown();
-		});
-	$('#btn-revision-back').on('click', function(event) {
-		$('.content-approval').slideDown();
-		$('.content-revision').hide();
-		$('#section-approval').slideDown();
-		$('#section-revision').hide();
-		});
+	$.set_value_data();
+	$.base_config_approval();
 </script>

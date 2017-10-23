@@ -34,12 +34,11 @@
 
 
 <script>
-	value=respon.application;
-	$("[name=id_application_status]").val(value.id_application_status);
-	$("[name=id_application]").val(value.id_application);
+	$.set_value_data();
+	$.base_config_approval();
+	$.config_file_type();
 
 	$('#btn-approval').html('Proses').css('margin',"5px auto");
-   	$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
 	$('#btn-revision').remove();
 	$('#section-revision').remove();
 	

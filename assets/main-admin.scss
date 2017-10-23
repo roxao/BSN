@@ -72,6 +72,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: $fsize_normal;
   font-weight: 300;
+  min-width: 450px;
   color: #666
 }
 .nav_logo {
@@ -318,7 +319,9 @@ body {
     top: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
     overflow-y: auto;
+    min-width: 450px;
     .box-modal {
         margin: 20vh auto;
         max-width: 500px;
@@ -443,6 +446,12 @@ div.close_modal {
   background: #FFF;
   box-sizing: border-box;
   margin-bottom:1px;
+  i{
+     max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  }
   input {
     display: none
   }
@@ -590,7 +599,6 @@ div.close_modal {
     .ui-menu-item  .ui-state-active {
         background: rgba(0,0,0,0.1);
     }
-    
 }
 
 .custom_autocomplete {
@@ -1141,6 +1149,7 @@ header {
   right: 0;
   left: 0;
   top: 0;
+  min-width: 500px;
 }
 
 .nav-logo{
@@ -1447,3 +1456,15 @@ header {
     }
 }
 
+.box-gone {
+    transform: scale(0);
+    opacity: 0;
+    transition: all .5s ease;
+}
+
+.box-show {
+    display: block !important;
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    transition: transform .5s ease !important;
+}

@@ -1,4 +1,4 @@
-<div class="box-modal">
+<div class="box-modal" style="display: none;">
 	<div class="modal-header">
 	  <div class="modal-title"></div>
 	  <div class="modal-close"><img fill="#fff" src="<?php echo base_url('assets/cancel.svg')?>" alt="Tutup" height="12px" width="12px"></div>
@@ -24,7 +24,7 @@
 
 <script>
 	$('.modal-close').on('click', function(event) {
-		$('.box-modal').slideUp();
+		$('.box-modal').addClass('box-gone');
 		$('#modal_approval').fadeOut('400', function() {
 			$(this).remove();
 		});
