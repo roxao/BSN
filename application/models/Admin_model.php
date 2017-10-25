@@ -644,13 +644,13 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-    public function get_notif()
-    {
-        $this->db->select('notification_owner, message');
+    public function get_notif($data = null){
+        $this->db->select('*');
         $this->db->from('notification');
         $this->db->where('notification_type', 'user');
-        $this->db->where('status', 'ACTIVE');
-
+        if($data != null){
+             $this->db->where('id_notification', $data);
+        }
         return $this->db->get();
     }
 
