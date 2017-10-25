@@ -37,6 +37,12 @@
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses"/>
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
+		<!-- DOKUMEN PENDUKUNG -->
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Dokumen
+			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses"/>
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
 		<input type="submit" name="submit_approval" hidden/>
 	</form>
 </section>

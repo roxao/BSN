@@ -1,74 +1,103 @@
-<!-- <form action="<?php echo base_url('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>" method="post" accept-chaset="utf-8"> -->
-<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
-
-<section class="clearfix content_application" style="margin: 20px" >
-
-
-	<label class="input_dashed_file float_left" style="width: 100%">
-		Berita Acara
-		<input id="app_bill_doc" name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI" required />
-		<span>Pilih</span><i class="float_right"></i>
-	</label>
-	<label class="input_dashed_file float_left" style="width: 100%">
-		Hasil Assessment Lapangan
-		<input id="app_agreement_process" name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required />
-		<span>Pilih</span><i class="float_right"></i>
-	</label>
-
+<section class="clearfix content-approval">
+	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+		<input type="hidden" name="id_application_status">
+		<input type="hidden" name="id_application">
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Berita Acara
+			<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI"/>
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Hasil Assessment Lapangan
+			<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
+		<input type="submit" name="submit_approval" hidden/>
+	</form>
 </section>
 
-<!-- COMMENT BOX -->
-<section class="slide_comment" style="display: none">
-	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
-	<button class="btn_cancel_comment float_left" style="background: red">BATAL</button>
-	<div class="clearfix">
-		
-		<form action="<?php echo base_url('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_REVISI') ?>" method="post" accept-chaset="utf-8">
-
-		<textarea name="coment" id="coment" cols="30" rows="10" class="text_comment"></textarea>
-		
-		<input type="hidden" name="id_application_status" value="">
-		<input type="hidden" name="id_application" value="">
-
-		<button class="btn_send float_right" style="background: #00a8cf">KIRIM</button>
-		</form>
+<section class="clearfix content-revision" style="display:none">
+	<div class="autocomplete-parent-approval">
+		<input type="text" name="autocomplete" data-key="assessment_team" placeholder="Ketik nama dokumen revisi ..." />
 	</div>
+	<br/>
+	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+		<input type="hidden" name="id_application_status">
+		<input type="hidden" name="id_application">
+		<div class="item-revision">
+		</div>
+		<input type="submit" name="submit_revision" hidden/>
+	</form>
 </section>
 
 
-<!-- VERIFICATION BOX -->
-<div class="verify_section">
-	<div class="clearfix">
-		<button class="btn_reject float_left" style="background: red">REVISI</button>
-			
 
-		<input type="hidden" name="id_application_status" value="">
-		<input type="hidden" name="id_application" value="">
 
-		<button class="btn_send float_right" style="background: #01923f">SETUJU</button>
 
-	
-	</div>
-</div>
-</form>
+
 
 
 <script>
 	value=respon.application;
-$("input[name=id_application_status]").val(value.id_application_status);
-$("input[name=id_application]").val(value.id_application);
-	
-	// $('.input_dashed_file input').click(function(event) {
-		$("input[type=file]").change(function() {
-		    var fileName = $(this).val().split('/').pop().split('\\').pop();
-		    $(this).next().next().html(fileName);
-		    console.log(fileName);
+	$("[name=id_application_status]").val(value.id_application_status);
+	$("[name=id_application]").val(value.id_application);
+	$("input[type=file]").change(function() {
+	    var fileName = $(this).val().split('/').pop().split('\\').pop();
+	    $(this).next().next().html(fileName);
+	});
+	var acresult = false;
+	$("[name=autocomplete]").autocomplete({
+      	source:function(request,response){$.ajax({
+				url: "<?php echo base_url('dashboard/get_autocomplete/')?>" + $('[name=autocomplete]').attr('data-key'),
+				dataType: "json",
+				data:{term: $("[name=autocomplete]").val()},
+				success: function( data ) {
+					if (data.length == 0) {
+	                    acresult = true;
+	                } else {
+	                	acresult = false;
+	                }
+					response(data);}
+      		});
+      	},
+      	minLength: 2,
+      	appendTo: ".autocomplete-parent-approval",
+      	autoFocus: true,
+      	select: function( event, ui ) {
+	        $('.item-revision').append('<div><input type="hidden" name="doc[]" value="'+ui.item.label+'"/>'+ui.item.label+'<span class="item-revision-del"></span></div>');
+	        $('.item-revision-del').on('click',function(event){$(this).parent().remove()});
+          	$(this).val('');
+      		event.preventDefault();
+      	},
+    });
+
+	$("[name=autocomplete]").keydown(function(event){
+	    if(event.keyCode == 13) {
+	      	if($(this).val().length>0 && acresult == true) {
+		        $('.item-revision').append('<div><input type="hidden" name="doc[]" value="'+$(this).val()+'"/>'+$(this).val()+'<span class="item-revision-del"></span></div>');
+		        $('.item-revision-del').on('click',function(event){$(this).parent().remove()});
+	          	$(this).val('');
+	      }
+	    }
+ 	});
+
+   	$('#btn-approval').on('click', function(event) {
+   		$('[name=submit_approval]').click()
+   		});
+   	$('#btn-revision-back-send').on('click', function(event) {
+   		$('[name=submit_revision]').click()
+   		});
+	$('#btn-revision').on('click', function(event) {
+		$('.content-approval').hide();
+		$('.content-revision').slideDown();
+		$('#section-approval').hide();
+		$('#section-revision').slideDown();
 		});
-	// });
+	$('#btn-revision-back').on('click', function(event) {
+		$('.content-approval').slideDown();
+		$('.content-revision').hide();
+		$('#section-approval').slideDown();
+		$('#section-revision').hide();
+		});
 </script>
-<!-- <script>
-$(document).ready(function(){
-	console.log(respJson);
-	value = respJson.doc_user;
-});
-</script> -->
+	

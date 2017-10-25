@@ -11,7 +11,7 @@
 		<input type="hidden" name="id_application">
 		<input type="submit" name="submit_approval" hidden/>
 	</form>
-</section>
+</section> 
 
 
 
@@ -56,5 +56,37 @@
 		$('.doc_rev').append('<div><label><input name="docRef[]" type="checkbox" id="id_admin" value="'+value[i].key+'" />'+value[i].display_name+'</label></div>');
 
 	}
+
+	$("[name=assessment_list]").autocomplete({
+      	source:function(request,response){$.ajax({
+				url: "<?php echo base_url('dashboard/get_autocomplete/')?>" + $('[name=assessment_list]').attr('data-key'),
+				dataType: "json",
+				data:{term: $("[name=assessment_list]").val()},
+				success: function( data ) {response(data);console.log(data)}
+      		});
+      	},
+      	minLength: 2,
+      	appendTo: ".autocomplete-parent-assessment",
+      	select: function( event, ui ) {
+      		$('#assessment-team-list').append($('<li>')
+      				.append($('<div>').addClass('x1')
+      					.append($('<input>')
+      						.prop('type', 'hidden')
+      						.prop('name', 'assessment_title[]')
+      						.prop('value', $(".a_roles option:selected").val()))
+      					.append($(".a_roles option:selected").text()))
+      				.append($('<div>')
+      					.addClass('x2')
+      					.append($('<input>')
+      						.prop('type', 'hidden')
+      						.prop('name', 'assessment_name[]')
+      						.prop('value', ui.item.id_team))
+      					.append(ui.item.label))
+      				.append($('<div>')
+      					.addClass('x3')
+      					.append('Hapus')));
+    	 	$('.x3').on('click',function(event){$(this).parent().slideUp('400',function(){$(this).remove()})});
+      	}
+    });
 </script>
 

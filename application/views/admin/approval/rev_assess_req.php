@@ -95,4 +95,7 @@
     	 	$('.x3').on('click',function(event){$(this).parent().slideUp('400',function(){$(this).remove()})});
       	}
     });
+
+	$('#btn-revision').remove();
+	$('#section-revision').remove();
 </script>

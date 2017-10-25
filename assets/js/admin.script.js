@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var base_url = $('#base_url').val();
 	$('.get_process').click(function(event) {
-  		if($(this).attr('data-step')!=null) get_approval($(this).attr('data-id'), $(this).attr('data-id-status'),  $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
+  		if($(this).attr('data-step')!=null) $.get_approval($(this).attr('data-id'), $(this).attr('data-id-status'),  $(this).attr('data-step').toLowerCase(), $(this).attr('data-status'));
 	  });
 
     $.get_approval = function (id, id_status, step, status) {
@@ -52,11 +52,11 @@ $(document).ready(function() {
 		$('#btn-revision-back-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
 			$('.content-approval').hide();$('.content-revision').slideDown();
-			$('#section-approval').hide();$('#section-revision').slideDown();
+			$('#section-approval').hide();$('#section-revision').slideDown(function(){$.set_modal_position()});
 			});
 		$('#btn-revision-back').on('click', function(event) {
 			$('.content-approval').slideDown();$('.content-revision').hide();
-			$('#section-approval').slideDown();$('#section-revision').hide();
+			$('#section-approval').slideDown(function(){$.set_modal_position()});$('#section-revision').hide();
 			});
 	}
 	$.config_file_type = function(e){
@@ -103,19 +103,5 @@ $(document).ready(function() {
 	$(window).on('resize', function(){$.set_modal_position()});
 
 
-	// $.get_approval('18','198', 'cra_approval_req','Proses Permohonan ke CRA');
-	$.get_approval('14','132', 'field_assess_req','Assessment Lapangan');
-	// get_approval('8','36', 'reupl_bill_req','Reupload Billing Code SIMPONI');
-	// get_approval('13','118', 'rev_assess_req','Revisi Jadwal Assessment Lapangan');
-	// get_approval('7','27', 'upl_bill_req','Upload Billing Code SIMPONI');
-	// get_approval('19','217', 'upl_iin_doc_req','Upload Dokumen IIN');
-	// get_approval('161','5295', 'verif_new_req','Verifikasi Pengajuan Permohonan');
-	// get_approval('42','528', 'verif_pay_req','Verifikasi Pembayaran');
-	// get_approval('11','67', 'verif_rev_pay_req','Verifikasi Revisi Bukti Pembayaran');
-	// get_approval('5','15', 'verif_revdoc_req','Verifikasi Revisi Kelengkapan Dokumen');
-	// get_approval('41','218', 'verif_upldoc_req','Verifikasi Kelengkapan Dokumen');
-
-	// BELUM ADA DATANYA DI DB
-	// getApproval('42','528', 'verif_res_assess_req','');
-	// getApproval('42','528', 'upl_res_assess_req','');
+	$('[data-id=52]').click();
 });

@@ -323,7 +323,7 @@ body {
     overflow-y: auto;
     min-width: 450px;
     .box-modal {
-        margin: 20vh auto;
+        margin: 20vh auto auto auto;
         max-width: 500px;
         background: #fff;
         min-height: 200px;
@@ -335,6 +335,8 @@ body {
         }
         .modal-content {
             padding: 20px;
+            max-height: calc(100vh - 140px);
+            overflow: auto;
         }
         .modal-header {
             background: rgba(0,0,0,0.1);

@@ -17,9 +17,45 @@ class Dashboard extends CI_Controller {
         $this->model = $this->admin_model;
     }
 
+    public function notif(){
+        if($this->input->get('id_notif')){
+            $id_notif = $this->input->get('id_notif');
+            $result = $this->admin_model->get_data_notif($id_notif);
+            if($result) 
+                redirect(base_url('dashboard?application=' . $result['id_notification']));
+            else 
+                echo '<script>alert("Rinaldy Sam Ganteng")</script>';
+                // redirect(base_url('dashboard'));
+        } else {
+            redirect(base_url('dashboard'));
+        }
+    }
+
+    public function ntest(){
+        if($this->input->get('id_notif')){
+            $id_notif = $this->input->get('id_notif');
+            $result = $this->admin_model->get_notif()->result_array();
+            echo json_encode($result);
+            return false;
+            if($result) 
+                echo json_encode($result);
+                // redirect(base_url('dashboard?application=' . $result->id_notification));
+            else 
+                echo '<script>alert("Rinaldy Sam Ganteng")</script>';
+                // redirect(base_url('dashboard'));
+        } else {
+            redirect(base_url('dashboard'));
+        }
+
+    }
+
     public function index(){
         $this->user('check-autho');
+        if($this->input->get('application')){
+            $data['notif_result'] = $this->input->get('application');
+        }
         $this->load->view('admin/header');
+        $data['notification'] = $this->admin_model->get_notif()->result_array();
         $data['applications'] = $this->admin_model->get_applications()->result();
         $this->load->view('admin/inbox', $data);
     }
@@ -110,11 +146,15 @@ class Dashboard extends CI_Controller {
         }
     }
 
+    public function test(){
+        echo json_encode($this->admin_model->get_application(5397)->result()[0]);
+    }
+
     public function get_app_data() {    
         $this->user('check-autho');
         $id = $this->input->post('id_app');
         $id_status = $this->input->post('id_status');
-        $step = $this->input->post('step');
+        $step = $this->input->post('step'); 
         if($id!=null){
             $data['application'] = $this->admin_model->get_application($id_status)->result()[0];
             switch ($step) {
@@ -449,7 +489,7 @@ class Dashboard extends CI_Controller {
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="export'.date('-Y-m-j--H-i-s').'.xlsx"');
+            header('Content-Disposition: attachment;filename="export'.date('-Y-m-j--H-i-s').'.xls"');
             $objWriter->save("php://output");
     }
 
