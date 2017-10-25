@@ -1,47 +1,36 @@
 <section class="clearfix content-approval">
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_IIN_DOC_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
-		<div class="content-upload clearfix">
-			<label class="input_dashed float_left" style="width: 100%">
-				Kode Billing SIMPONI
-				<input name="app_bill_code" type="text" placeholder="Masukan Kode SIMPONI"/>
-			</label>
-			<label class="input_dashed float_left" style="width: 100%">
-				Masa Berlaku
-				<input name="expired_date" type="text" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI"/>
-			</label>
-			<label class="input_dashed_file float_left" style="width: 100%">
-				Kode Billing SIMPONI
-				<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI"/>
-				<span>Pilih</span><i class="float_right"></i>
-			</label>
-			<label class="input_dashed_file float_left" style="width: 100%">
-				Surat Persetujuan Proses
-				<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
-				<span>Pilih</span><i class="float_right"></i>
-			</label>
-			<label class="input_dashed_file float_left" style="width: 100%">
-				Surat Permohonan PNBP
-				<input name="bill[]"  type="file" placeholder="Masukan Surat Permohonan PNBP"/>
-				<span>Pilih</span><i class="float_right"></i>
-			</label>
-		</div>
-		<!-- <div onclick="add_upload()" class="btn-add-doc">Tambah Dokumen</div> -->
+		<label class="input_dashed float_left" style="width: 100%">
+			Nomor IIN
+			<input id="iin_number" name="iin_number" type="text" placeholder="Masukan Nomor IIN" pattern="\d*" maxlength="6"/>
+		</label>
+		<label class="input_dashed float_left" style="width: 100%">
+			Tanggal Terbit
+			<input id="iin_established_date" name="iin_established_date" type="date" placeholder="Masukan Tanggal Terbit IIN"/>
+		</label>
+		</label>
+		<label class="input_dashed float_left" style="width: 100%">
+			Tanggal Kadaluarsa
+			<input id="iin_expiry_date" name="iin_expiry_date" type="date" placeholder="Masukan Tanggal Kadaluarsa"/>
+		</label>
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Dokumen IIN
+			<input id="iin_doc" name="doc[]"  type="file" placeholder="Masukan Dokumen Dokumen IIN"/>
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
 		<input type="submit" name="submit_approval" hidden/>
 	</form>
 </section>
 
 
 <script>
-	value=respon.application;
-	$("[name=id_application_status]").val(value.id_application_status);
-	$("[name=id_application]").val(value.id_application);
-
-	$('#btn-approval').html('Proses').css('margin',"5px auto");
+	$.set_value_data();
+	$.base_config_approval();
+	$.config_file_type();
+	$('#btn-approval').html('Unggah Dokumen').css('margin',"5px auto");
    	$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
 	$('#btn-revision').remove();
 	$('#section-revision').remove();
-	
 </script>
-
