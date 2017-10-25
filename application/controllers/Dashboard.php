@@ -161,7 +161,7 @@ class Dashboard extends CI_Controller {
                 case 'verif_new_req':
                 case 'upl_res_assess_req':
                 case 'field_assess_req':
-                case 'verif_rev_assess_res_req':
+                
                 case 'upl_bill_req':
                 case 'upl_iin_doc_req':
                 case 'reupl_bill_req':
@@ -181,6 +181,9 @@ class Dashboard extends CI_Controller {
                     $data['date_req'] = $this->admin_model->get_date_rev($id_status)->result();
                     $data['assessment_roles'] = $this->admin_model->get_assessment_team_title()->result();
                     break;  
+                case 'verif_rev_assess_res_req':
+                $data['doc_user'] = $this->admin_model->get_revised_resuld_assessment($id,$id_status)->result();
+                    break;    
                 case 'cra_approval_req':
                     $data['revdoc_user'] = $this->admin_model->get_doc_cra()->result();
                     break;  
@@ -203,10 +206,11 @@ class Dashboard extends CI_Controller {
                     );
                 endforeach;
                 break; 
-            case 'dynamic_doc':
-                foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $key):
+            case 'doc':
+                foreach($this->admin_model->get_document_by_display($this->input->get('term'))->result_array() as $key):
                     $result[] = array(
-                        'label'   => trim($key['name']),
+                        'label'   => trim($key['display_name']),
+                        'id_doc' => trim($key['id_document_config'])
                     );
                 endforeach;
                 break;  

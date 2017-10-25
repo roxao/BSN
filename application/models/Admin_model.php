@@ -284,6 +284,13 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_document_by_display($display){
+        $this->db->select('id_document_config, display_name, key');
+        $this->db->from('document_config');
+        $this->db->like('display_name',$display);
+        return $this->db->get();
+    }
+
     public function update_documenet_config($condition,$data){
         $this->db->where($condition);
         $this->db->update('document_config',$data);
