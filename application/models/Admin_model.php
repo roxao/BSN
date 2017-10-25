@@ -637,11 +637,28 @@ class Admin_model extends CI_Model {
         $this->db->where('application_file.id_application', $idapp);
 
         $this->db->where('application_file.status','ACTIVE');
-        $this->db->where_in('document_config.key',$sub, false);
+        $this->db->where_in('document_config.id_document_config',$sub, false);
 
 
 
         return $this->db->get(); 
+    }
+
+    public function get_notif()
+    {
+        $this->db->select('notification_owner, message');
+        $this->db->from('notification');
+        $this->db->where('notification_type', 'user');
+        $this->db->where('status', 'ACTIVE');
+
+        return $this->db->get();
+    }
+
+    public function update_notif($condition)
+    {
+        $data = array('Status' => 'INACTIVE' );
+        $this->db->where('id_notification', $condition);
+        $this->db->update('notification',$data);
     }
 
 }
