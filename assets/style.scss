@@ -14,7 +14,7 @@ $width_cont   : 1200px;
 $desktop      : 800px;
 
 /*RESET DEFAULT HTML*/ 
-
+ 
 * {margin: 0;padding: 0}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section {display: block}
 li {list-style: none}
@@ -1755,11 +1755,12 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
       display: block;
       border: 0;
       background: #f2f4f7;
-      box-shadow: inset 100px 100px 100px #f2f4f7;
+      box-shadow:inset 0px 0px 0px 1px rgba(0,0,0,.05), inset 100px 100px 100px #f2f4f7;
       font-size: 13px;
       box-sizing: border-box;
       padding: 10px 20px;
       margin: 10px 0;
+
     }
     button{
       background: $c_2nd;
@@ -1777,7 +1778,10 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
       border-radius:0 0 2px 2px ;
       border-top: 1px dashed #e1e1e1;
       margin-top: -11px;
-      color:#999
+      color:#999;
+      font-style: italic;
+      font-size: 12px;
+      box-shadow:inset 0px 0px 0px 1px rgba(0,0,0,.05)
     }
   }
   .o-url{
@@ -2146,5 +2150,30 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
           }
         }
       }
+    }
+}
+
+
+.ui-menu {
+  background: #fff;
+    z-index: 10000;
+    position: absolute;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 -20px;
+    max-height: 120px;
+    overflow: auto;
+    padding: 5px 0;
+    box-shadow: 0 3px 4px rgba(0,0,0,.2);
+    border-radius: 0 0 2px 2px;
+    .ui-menu-item div {
+      line-height: 32px;
+      padding: 0 10px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .ui-menu-item  .ui-state-active {
+        background: rgba(0,0,0,0.1);
     }
 }

@@ -32,21 +32,18 @@
 
 
 
-
-
-
-
 <script>
 	$.set_value_data();
 	$.base_config_approval();
 
-	value=respon.doc_user;
+	value=respon.revdoc_user;
 	app=respon.application;
 
 	$("input[name=id_application_status]").val(app.id_application_status);
 	$("input[name=id_application]").val(app.id_application);
 
 	for (var i = 0; i < value.length; i++) {
+		console.log(value[i].display_name);
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ value[i].display_name
 		 			+'</div><a href="<?php echo base_url();?>submit_iin/download?var1='+ value[i].path_id 
 		 			+'" class="btn_download float_right">Download</a></div>');

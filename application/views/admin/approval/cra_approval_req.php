@@ -17,4 +17,6 @@
 	$.base_config_approval();
 	$.config_file_type();
 	$.set_add_upload();
+	$('#btn-revision').remove();
+	$('#section-revision').remove();
 </script>

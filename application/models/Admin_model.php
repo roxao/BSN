@@ -668,5 +668,12 @@ class Admin_model extends CI_Model {
         $this->db->update('notification',$data);
     }
 
+
+    public function get_instance_list($data){
+        $this->db->select('instance_name');
+        $this->db->from('applications');
+        $this->db->like('instance_name',$data);
+        return $this->db->get();
+    }
 }
 ?>

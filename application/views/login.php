@@ -51,8 +51,10 @@
         <form class="o-form" action="<?php echo base_url();?>SipinHome/register" onSubmit="return saveInputRegis();" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="register">Tampilkan error message disini</div>
-            <input required required type="text" id= "fullname" name="fullname" placeholder="Nama Instansi">
-            <span><i style="color:red" >*</i> Tidak Boleh Disingkat</span>
+            <div class="autocomplete-parent">
+              <input required required type="text" id= "fullname" name="fullname" class="autocomplete" data-key="instance_name" placeholder="Nama Instansi">
+              <span><i style="color:red" >*</i> Tidak Boleh Disingkat</span>
+            </div>
             <input required type="username" id= "username" name="username" placeholder="Username">
             <input  type="number" id= "iin-number" name="iin-number" placeholder="Nomor IIN" >
             <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
@@ -114,9 +116,31 @@
 
 <link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">
 <script type="text/javascript" src="<?php echo base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
-  
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
+
 <script type="text/javascript">
-    
+    $(document).ready(function() {
+      $(".autocomplete").autocomplete({
+        source:function(request,response){$.ajax({
+        url: "<?php echo base_url('dashboard/get_autocomplete/')?>" + $('.autocomplete').attr('data-key'),
+        dataType: "json",
+        data:{term: $(".autocomplete").val()},
+        success: function( data ) {
+          response(data);}
+          });
+        },
+        minLength: 2,
+        appendTo: ".autocomplete-parent",
+        autoFocus: true,
+        select: function( event, ui ) {
+          // $('.item-revision').append('<div><input type="hidden" name="doc[]" value="'+ui.item.label+'"/>'+ui.item.label+'<span class="item-revision-del"></span></div>');
+          // $('.item-revision-del').on('click',function(event){$(this).parent().remove()});
+          //   $(this).val('');
+          event.preventDefault();
+        },
+    });
+
+    });
 </script>
 
 <script>
@@ -124,6 +148,7 @@
     event.preventDefault();
     show_box($(this).attr('o-data'));
   });
+
   // show_box("box-login");
   function show_box(x){  
     $('.box-layout').hide();
@@ -185,6 +210,7 @@
       // alert("Your comment has been saved!");
   }
 
+    
 </script>
 <style>
   .popup_box{position:fixed;margin:10vh auto;left:0;right:0;top:0;max-width:400px;min-width:300px;z-index:20000;background:#fff;max-height:80vh;overflow:auto;border-radius:2px}

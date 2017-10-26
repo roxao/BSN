@@ -13,6 +13,7 @@ $(document).ready(function() {
 					$.ajax({ url: base_url + "/get_app_data", type: "POST", data: {'id_app': id, 'id_status': id_status, 'step': step}, dataType: 'json',
 				        success: function (data) {
 			        		respon=data;
+			        		console.log(respon);
 							$(".modal-content").load(base_url + "/set_view/approval/"+step, function () {
 								$(".modal-title").html(status);
 								$("#section-approval").slideDown('fast', function(){
@@ -62,7 +63,6 @@ $(document).ready(function() {
 	$.config_file_type = function(e){
 		$("[type=file]").prop('accept','doc,docx, application/pdf, image/*');
 		$("[type=file]").change(function() {
-			// if(this.files[0].size > 10485760){
 			if(this.files[0].size > ((10*1024)*1024)){
 				alert('Maksimum file yang harus di upload adalah 10 MB');
 				$(this).val('');
@@ -102,6 +102,6 @@ $(document).ready(function() {
 	}
 	$(window).on('resize', function(){$.set_modal_position()});
 
-
-	$('[data-id=52]').click();
+	// Verifikasi Kelengkapan Dokumen
+	$('[data-id=5]').click();
 });

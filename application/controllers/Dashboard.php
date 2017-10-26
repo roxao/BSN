@@ -147,7 +147,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function test(){
-        echo json_encode($this->admin_model->get_application(5397)->result()[0]);
+        echo json_encode($this->admin_model->get_instance_list('PT')->result());
     }
 
     public function get_app_data() {    
@@ -161,7 +161,6 @@ class Dashboard extends CI_Controller {
                 case 'verif_new_req':
                 case 'upl_res_assess_req':
                 case 'field_assess_req':
-                
                 case 'upl_bill_req':
                 case 'upl_iin_doc_req':
                 case 'reupl_bill_req':
@@ -211,6 +210,14 @@ class Dashboard extends CI_Controller {
                     $result[] = array(
                         'label'   => trim($key['display_name']),
                         'id_doc' => trim($key['id_document_config'])
+                    );
+                endforeach;
+                break;  
+            case 'instance_name':
+                foreach($this->admin_model->get_instance_list($this->input->get('term'))->result_array() as $key):
+                    $result[] = array(
+                        'label'   => trim($key['instance_name'])
+                        // 'id_doc' => trim($key['id_document_config'])
                     );
                 endforeach;
                 break;  

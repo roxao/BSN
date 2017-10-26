@@ -337,6 +337,7 @@ body {
             padding: 20px;
             max-height: calc(100vh - 140px);
             overflow: auto;
+            min-height: 100px; 
         }
         .modal-header {
             background: rgba(0,0,0,0.1);
@@ -597,6 +598,9 @@ div.close_modal {
     .ui-menu-item div {
       line-height: 32px;
       padding: 0 10px;
+      &:hover{
+        cursor: pointer
+      }
     }
     .ui-menu-item  .ui-state-active {
         background: rgba(0,0,0,0.1);
