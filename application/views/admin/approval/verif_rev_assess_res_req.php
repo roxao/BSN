@@ -6,7 +6,7 @@
 		</div>
 		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REV_ASSESS_RES_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="submit" name="submit_approval" hidden/>
@@ -19,7 +19,7 @@
 
 <section class="clearfix content-revision" style="display:none">
 	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
-	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_REVITIONS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REV_ASSESS_RES_REQ_REVISI') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="doc_rev">
@@ -53,7 +53,7 @@
 	}
 
 	for (var i = 0; i < value.length; i++) {
-		$('.doc_rev').append('<div><label><input name="docRef[]" type="checkbox" id="id_admin" value="'+value[i].key+'" />'+value[i].display_name+'</label></div>');
+		$('.doc_rev').append('<div><label><input name="docRef[]" type="checkbox" id="id_admin" value="'+value[i].id_document_config+'" />'+value[i].display_name+'</label></div>');
 
 	}
 

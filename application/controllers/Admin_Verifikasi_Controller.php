@@ -1563,66 +1563,66 @@ public function REV_ASSESS_REQ_PROSESS()
     public function UPL_RES_ASSESS_REQ_SUCCESS()
     {          
             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
-           //  $data = array(
-           //      'process_status' => 'COMPLETED',
-           //      'created_date' => date('Y-m-j'),
-           //      'created_by' => $this->session->userdata('admin_username'),
-           //      'last_updated_date' => date('Y-m-j H:i:s'));
+            $data = array(
+                'process_status' => 'COMPLETED',
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->session->userdata('admin_username'),
+                'last_updated_date' => date('Y-m-j H:i:s'));
 
-           //  $condition = array('id_application_status' => $this->input->post('id_application_status'));
-           //  $dataL = array(
-           //      'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment',
-           //      'log_type' => 'added  '.$id_app->row()->applicant, 
-           //      'created_date' => date('Y-m-j H:i:s'),
-           //      'created_by' => $this->session->userdata('admin_username')
-           //      );
-           //  $this->admin_model->insert_log($dataL);
+            $condition = array('id_application_status' => $this->input->post('id_application_status'));
+            $dataL = array(
+                'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment',
+                'log_type' => 'added  '.$id_app->row()->applicant, 
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('admin_username')
+                );
+            $this->admin_model->insert_log($dataL);
 
-           //  $this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($data,$condition);
 
-           //  $data2 = array(
-           //       'id_application '=> $this->input->post('id_application'),
-           //      'process_status' => 'COMPLETED',
-           //      'id_application_status_name' => '16',
+            $data2 = array(
+                 'id_application '=> $this->input->post('id_application'),
+                'process_status' => 'COMPLETED',
+                'id_application_status_name' => '16',
              
-           //      'created_date' => date('Y-m-j'),
-           //      'created_by' => $this->session->userdata('admin_username'),
-           //      'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->session->userdata('admin_username'),
+                'last_updated_date' => date('Y-m-j H:i:s'));
            
-           //  $this->admin_model->insert_app_status($data2,$condition);
+            $this->admin_model->insert_app_status($data2,$condition);
 
-           //   $data3 = array(
-           //       'id_application '=> $this->input->post('id_application'),
-           //      'process_status' => 'COMPLETED',
-           //      'id_application_status_name' => '17',
+             $data3 = array(
+                 'id_application '=> $this->input->post('id_application'),
+                'process_status' => 'COMPLETED',
+                'id_application_status_name' => '17',
              
-           //      'created_date' => date('Y-m-j'),
-           //      'created_by' => $this->session->userdata('admin_username'),
-           //      'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->session->userdata('admin_username'),
+                'last_updated_date' => date('Y-m-j H:i:s'));
            
-           //  $this->admin_model->insert_app_status($data3,$condition);
+            $this->admin_model->insert_app_status($data3,$condition);
 
-           //  $data4 = array(
-           //       'id_application '=> $this->input->post('id_application'),
-           //      'process_status' => 'PENDING',
-           //      'id_application_status_name' => '18',
+            $data4 = array(
+                 'id_application '=> $this->input->post('id_application'),
+                'process_status' => 'PENDING',
+                'id_application_status_name' => '18',
              
-           //      'created_date' => date('Y-m-j'),
-           //      'created_by' => $this->session->userdata('admin_username'),
-           //      'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_date' => date('Y-m-j'),
+                'created_by' => $this->session->userdata('admin_username'),
+                'last_updated_date' => date('Y-m-j H:i:s'));
            
-           //  $this->admin_model->insert_app_status($data4,$condition);
+            $this->admin_model->insert_app_status($data4,$condition);
 
-           //  $data5 = array(
-           //          'type' => 'APPROVAL_STATUS',
-           //          'value' => 'APPROVED',
-           //          'id_application_status'=> $this->input->post('id_application_status')
-           //          );
-           // $this->admin_model->insert_app_sts_for_map($data5);
+            $data5 = array(
+                    'type' => 'APPROVAL_STATUS',
+                    'value' => 'APPROVED',
+                    'id_application_status'=> $this->input->post('id_application_status')
+                    );
+           $this->admin_model->insert_app_sts_for_map($data5);
 
             $this->load->library('upload');
 
-            $docIn = $this->input->post("bill");
+            
             $getDoc = $this->admin_model->get_news_for_user()->result();
             
            $this->upload->initialize(array(
@@ -1634,6 +1634,8 @@ public function REV_ASSESS_REQ_PROSESS()
                 {
                    
                     $uploaded = $this->upload->data();     
+
+                    
            
                     for($x=0;$x < count($getDoc);$x++)
                     {
@@ -1647,13 +1649,13 @@ public function REV_ASSESS_REQ_PROSESS()
                             'created_by' => $this->session->userdata('admin_username')
                         );
                        
-                        // $this->admin_model->insert_doc_for_user($doc);
+                        $this->admin_model->insert_doc_for_user($doc);
                   
                     }
 
            
                 }
-        // redirect(site_url('dashboard'));
+        redirect(site_url('dashboard'));
     }
 
 //revisi untuk hasil asessment lapangan

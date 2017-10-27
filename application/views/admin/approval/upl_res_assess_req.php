@@ -4,12 +4,12 @@
 		<input type="hidden" name="id_application">
 		<label class="input_dashed_file float_left" style="width: 100%">
 			Berita Acara
-			<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI"/>
+			<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
 		<label class="input_dashed_file float_left" style="width: 100%">
 			Hasil Assessment Lapangan
-			<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
+			<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
 		<input type="submit" name="submit_approval" hidden/>
@@ -18,10 +18,10 @@
 
 <section class="clearfix content-revision" style="display:none">
 	<div class="autocomplete-parent-approval">
-		<input type="text" name="autocomplete" data-key="assessment_team" placeholder="Ketik nama dokumen revisi ..." />
+		<input type="text" name="autocomplete" data-key="doc" placeholder="Ketik nama dokumen revisi ..." />
 	</div>
 	<br/>
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_REVISI') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="item-revision">
@@ -38,13 +38,13 @@
 
 
 <script>
-	value=respon.application;
-	$("[name=id_application_status]").val(value.id_application_status);
-	$("[name=id_application]").val(value.id_application);
-	$("input[type=file]").change(function() {
-	    var fileName = $(this).val().split('/').pop().split('\\').pop();
-	    $(this).next().next().html(fileName);
-	});
+
+	$.set_value_data();
+	$.base_config_approval();
+	$.config_file_type();
+	$.set_add_upload();
+
+
 	var acresult = false;
 	$("[name=autocomplete]").autocomplete({
       	source:function(request,response){$.ajax({
@@ -81,23 +81,5 @@
 	    }
  	});
 
-   	$('#btn-approval').on('click', function(event) {
-   		$('[name=submit_approval]').click()
-   		});
-   	$('#btn-revision-back-send').on('click', function(event) {
-   		$('[name=submit_revision]').click()
-   		});
-	$('#btn-revision').on('click', function(event) {
-		$('.content-approval').hide();
-		$('.content-revision').slideDown();
-		$('#section-approval').hide();
-		$('#section-revision').slideDown();
-		});
-	$('#btn-revision-back').on('click', function(event) {
-		$('.content-approval').slideDown();
-		$('.content-revision').hide();
-		$('#section-approval').slideDown();
-		$('#section-revision').hide();
-		});
 </script>
 	
