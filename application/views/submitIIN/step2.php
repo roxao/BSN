@@ -4,7 +4,7 @@
 	<?php echo form_open_multipart('submit_iin/do_upload');?>
 	<ul class="list_iin_download">
 		<?php $no=0; 
-			foreach($download_upload as $data) {
+			foreach($upload as $data) {
 				switch ($data->type) { 
  	 			// INI TINGGAL DI UBAH KEYNYA
 	 	 		case 'DYNAMIC': ?>
@@ -23,7 +23,7 @@
 		<br/>
 
 	<div class="clearfix">
-		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
+		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
 		<button style="background: #01923f" class="float_right"  value="uploadstep3" name="upload" >Proses</button>	
 		</form>
 	</div>

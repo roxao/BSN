@@ -41,6 +41,7 @@
 		$id_user 	= $this->session->userdata('id_user');	
 		$Status 	= $this->user_model->get_applications_Status($id_user);
 		$data['download_upload']    		= $this->user_model->get_doc_statis($id_user);
+		$data['upload']    		= $this->user_model->get_doc_user_upload($id_user);
 		$data['download_upload_kode_bill']  = $this->user_model->get_doc_kbs();
 		$datas['aplication_asesment']    	= $this->user_model->getAssesmentStatus($id_user);
 

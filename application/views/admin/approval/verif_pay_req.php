@@ -52,7 +52,7 @@
 
 <section class="clearfix content-revision" style="display:none">
 	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
-	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_NEW_REQ_ETC') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_PAY_REQ_REVISI') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<textarea name="coment" cols="30" rows="10" class="text_comment"></textarea>
