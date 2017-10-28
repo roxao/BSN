@@ -27,7 +27,7 @@
 				<li class="nav-link parent"><a>Layanan IIN</a>
 					<ul>
 						<?php if ($this->session->userdata('have_iin') == "N") {?>
-						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/submit_application">Penerbitan IIN Baru</a>
+						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Penerbitan IIN Baru</a>
 						<?php } else { ?>
 						<li class="nav-link"><a href="<?php echo base_url();?>extend-iin">Pengawasan IIN Lama</a>
 						<?php } ?>

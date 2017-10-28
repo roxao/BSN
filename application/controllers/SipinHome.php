@@ -87,51 +87,13 @@ class SipinHome extends CI_Controller {
                 'detail_log' => $username. $detil,
                 'log_type' => $Type .$username, 
                 'created_date' => date('Y-m-j H:i:s'),
-                'created_by' => $username,
-                'last_update_date' => date('Y-m-j H:i:s'),
-                'modified_by' => date('Y-m-j H:i:s'),
+                'created_by' => $username
+                // ,
+                // 'last_update_date' => date('Y-m-j H:i:s'),
+                // 'modified_by' => date('Y-m-j H:i:s'),
                 );
         $this->user_model->insert_log($dataLog);
 	}
-
-	/* User login function. */
-	//  public function login() {
-
-	 	
- //     $username = $this->input->post('username');
- //     $password = hash ( "sha256", $this->input->post('password'));
-
-	//  echo $password;
- //     // $password =  $this->input->post('password');
- //     $cek = $this->user_model->cek_login($username, $password);
- //     if($cek->num_rows() > 0){
- //     if ($cek->row()->status_user == 0) { $this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktifasi silahkan lakukan aktifasi');
- //  $this->user('login');}
- //      else {$this->session->set_flashdata('validasi-login', 'Selamat Datang');
- //      $this->log("login","Login", $username);
- //      $id_user = $this->session->userdata('id_user');
-
- //      $cek_menu= $this->user_model->get_aplication($id_user);
-
- //      $this->session->set_userdata(array(
-	//     'id_user'  		=> $cek->row()->id_user,
-	//     'username' 		=> $cek->row()->username,
-	//     'email' 		=> $cek->row()->email,
-	//     'status_user'   => $cek->row()->status_user,
-	//     'status' => "login",
-	// 	));
-
- //  //    	$this->load->view('header');
-	// 	// $this->load->view('home');
-	// 	// $this->load->view('footer');
- //      redirect(base_url("SipinHome"));
-	// }
- //      }else{
-	// $this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
-	// $this->user('login');
-	// 	}
- //      }
-
 
 
     public function logout() {	
@@ -467,7 +429,7 @@ class SipinHome extends CI_Controller {
 	*/
 	public function submit_application(){
 
-		$id_user = $this->session->userdata('id_user');;
+		$id_user = $this->session->userdata('id_user');
 
 		/*
 		Get Application Status
@@ -477,7 +439,6 @@ class SipinHome extends CI_Controller {
 
 		$id_application_status_name = $get_app_status->row()->id_application_status_name;
 		$process_status = $get_app_status->row()->process_status;
-
 
 		/*
 		Default Var
@@ -489,9 +450,11 @@ class SipinHome extends CI_Controller {
 		Instantiate arr $data
 		*/
 		$data = array(
+			'id_application_status_name' => $id_application_status_name,
 			'title' => '',
 			'text' => '',
-			'state0' => '0'			
+			'state0' => '0',
+			'state2' => ''
 		);
 
 		// $id_application_status_name = '19';
@@ -502,7 +465,6 @@ class SipinHome extends CI_Controller {
 		// $iin_status = 'CLOSED';
 
 		if ( $id_application_status_name >= '1' ) {
-
 			/*
 			Validate StepId (step0)
 			*/
@@ -516,13 +478,41 @@ class SipinHome extends CI_Controller {
 				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 			} else {
 				$data['state0'] = "0";
+				$page = '1';
+				$input_field = $this->user_model->step_0_get_application($id_user);
+				print_r($input_field->row());
+				$data['applicant'] = $input_field->row()->applicant;
+				$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
+				$data['application_date'] = $input_field->row()->application_date;
+				$data['application_purpose'] = $input_field->row()->application_purpose;
+				$data['instance_name'] = $input_field->row()->instance_name;
+				$data['instance_email'] = $input_field->row()->instance_email;
+				$data['instance_phone'] = $input_field->row()->instance_phone;
+				$data['instance_director'] = $input_field->row()->instance_director;
+				$data['mailing_location'] = $input_field->row()->mailing_location;
+				$data['mailing_number'] = $input_field->row()->mailing_number;
 			}
 		}
 
 
 
-		if ( $id_application_status_name >= '3' )
+		if ( $id_application_status_name >= '2' ) {
 			$page = '2';
+			$data['state2'] = "2";
+
+			if ( $id_application_status_name == '3' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
+				$data['state0'] = "rejected";
+				$data['title'] = "Revisi Submit Kelengkapan Dokumen";
+				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+			} elseif ( $id_application_status_name == '3' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
+				$data['state0'] = "process";
+				$data['title'] = "Submit Kelengkapan Dokumen";
+				$data['text'] = "Dokumen yang anda unggah sudah BERHASIL masuk ke dalam database SIPIN. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.";
+			} else {
+				$data['state0'] = "0";
+			}
+		}
+			
 
 		//STEP 3 should be validated by button from step 2
 		
@@ -547,8 +537,10 @@ class SipinHome extends CI_Controller {
 
 			if ($i == $page) {
 				$data[$string_status] = "PENDING";
+				echo "|string_status : {$string_status}";
 			} else if ($i < $page){
 				$data[$string_status] = "COMPLETED";
+			echo "|string_status : {$string_status}";
 			} else {
 				// array_push($box_status_array, "" );
 				$data[$string_status] = "";
@@ -566,6 +558,42 @@ class SipinHome extends CI_Controller {
 	}
 
 	
+
+	/*
+	Client Side Render
+	*/
+	public function submit_application2(){
+
+		$id_user = $this->session->userdata('id_user');;
+
+		/*
+		Get Application Status
+		*/
+		$get_app_status =  $this->user_model->get_applications_Status($id_user);
+		$iin_status = $get_app_status->row()->iin_status;
+
+		$id_application_status_name = $get_app_status->row()->id_application_status_name;
+		$process_status = $get_app_status->row()->process_status;
+
+		/*
+		Instantiate arr $data
+		*/
+		$data = array(
+			'id_application_status_name' => $id_application_status_name,
+			'process_status' => $process_status,
+			'iin_status' => $iin_status			
+		);
+
+		/*
+		Passing $data from Controller to View
+		*/
+		$this->load->view('header');
+		$this->load->view('submit-iin',$data);
+		$this->load->view('footer');
+
+	}
+
+
 	
 
 	public function modal_popup(){

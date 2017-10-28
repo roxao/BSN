@@ -7,12 +7,15 @@
  -->
 
 <div class="page" style="margin-top: 150px">
-<?php echo "state0 : {$state0}"?>
+
 	<div class="clearfix">
+		
+		<?php echo "state0 : {$state0}"?>
 		<ul id="section_progress" style="width: 100%">
 			<li stepId="<?php echo $state0?>" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $box_status_1?>"><button>Hasil Verifikasi Status Permohonan</button></li>	   
-			<li stepId="process" class="<?php echo $box_status_2?>"><button>Submit Kelengkapan Dokumen</button></li>
+			<li stepId="<?php echo $state2?>" class="<?php echo $box_status_2?>"><button>Submit Kelengkapan Dokumen</button></li>   
+			<!-- <li stepId="process" class="<?php echo $box_status_2?>"><button>Submit Kelengkapan Dokumen</button></li> -->
 			<li stepId="3" class="<?php echo $box_status_3?>"><button>Proses Verifikasi dan Validasi</button></li>
 			<li stepId="4" class="<?php echo $box_status_4?>"><button>Konfirmasi Surat Lulus Kelengkapan dan Kode Billing</button></li>
 			<li stepId="5" class="<?php echo $box_status_5?>"><button>Submit Bukti Transfer Pembayaran</button></li>
@@ -28,7 +31,7 @@
 			})
 
 		</script>
-
+		
 		<?php
 		
 		if($this->session->userdata('status') != "login"){
@@ -53,10 +56,16 @@
 		$this->load->view('submitIIN/step9',$data);
 
 		// ON PROCESS VIEW
+		
+		// $data['process_view'] = array(
+		// 		'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
+		// 		'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
+		// 	);
+
 		$data['process_view'] = array(
-				'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
-				'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
-			);
+			'title' => $title,
+			'text'  => $text
+		);
 		$this->load->view('submitIIN/process', $data);
 
 

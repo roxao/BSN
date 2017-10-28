@@ -62,4 +62,4 @@ $route['contact-us'] = 'SipinHome/contact_us';
 $route['post/(:any)'] = 'SipinHome/cms_post/$1';
 
 
-$route['Layanan'] = 'SipinHome/submit_application';
+$route['Layanan-IIN'] = 'SipinHome/submit_application';

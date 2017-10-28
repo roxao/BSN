@@ -71,9 +71,22 @@ class User_model extends CI_Model {
     Validate if there is more than 1 OPEN(iin_status) Application
     */
     public function step_0_validation_1($id_user){  
+        $this->db->select('COUNT(*) AS totals');
+        $this->db->from('applications'); 
+        $this->db->where('id_user', $id_user);
+        $this->db->where('iin_status', 'OPEN');
+        $query = $this->db->get(); 
+ 
+        return  $query;    
+    }
+
+    /*
+    Get all fields for box_status_0
+    */
+    public function step_0_get_application($id_user){  
         // SELECT * FROM applications WHERE applicant LIKE '%novalen%' AND iin_status ='OPEN' ORDER BY id_application DESC;
         // echo $id_user;
-        $this->db->select('COUNT(*) AS totals');
+        $this->db->select('*');
         $this->db->from('applications'); 
         $this->db->where('id_user', $id_user);
         $this->db->where('iin_status', 'OPEN');
@@ -246,12 +259,12 @@ class User_model extends CI_Model {
 
     /*Cek Status User*/
     public function cek_status_user($username){  
-    $this->db->where("email = '$username' or username = '$username'"); 
+        $this->db->where("email = '$username' or username = '$username'"); 
         return  $this->db->get('user');   
     }
 
     /*
-    Insert applications Table
+    Insert applications Table (step0)
     */
     public function insert_pengajuan ($data){
         $this->db->insert('applications', $data);
@@ -265,6 +278,37 @@ class User_model extends CI_Model {
     public function insert_app_status($data)
     {
        return $this->db->insert('application_status', $data);
+    }
+
+
+
+    /*
+    step1
+    
+    
+    */
+   
+
+    public function get_id_application($id_user)
+    {
+        $this->db->select('id_application, created_by');
+        $this->db->from('applications');
+        $this->db->where('id_user',$id_user);
+        $this->db->where('iin_status','OPEN');
+
+        return  $this->db->get();
+    }
+
+    public function get_id_application_status_name($id_application, $name)
+    {
+        $this->db->select('id_application_status_name');
+        $this->db->from('application_status');
+        $this->db->where('id_application',$id_application);
+        $this->db->where('id_application_status_name',$name);
+        $this->db->order_by('id_application_status', 'ASC');
+        $this->db->limit('1');
+
+        return  $this->db->get();
     }
 
     /*Proses send email*/

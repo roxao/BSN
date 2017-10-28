@@ -18,6 +18,7 @@
 	<p>Silakan unduh (download) beberapa dokumen berikut dan diunggah (upload) kembali setelah dilengkapi.</p>
 
 	<ul class="list_iin_download">
+
 		 <?php 
 		 	foreach($download_upload as $data) { 
 		 	 	switch ($data->key) {
@@ -38,11 +39,23 @@
 	</ul>
 
 	<p >Setelah mengunduh dan melengkapi isi dari masing-masing dokumen, silakan klik button link di bawah ini untuk melanjutkan proses permohonan dengan melengkapi dokumen-dokumen yang dibutuhkan untuk diproses oleh Sekretariat Layanan.</p>
-		<br/>
-		<br/>
-
+	<br/>
+	<br/>
 	<div class="clearfix">
 		<button style="background: red" class="btn_back float_left">Kembali</button>	
-		<button style="background: #01923f" class="float_right">Lanjutkan Proses</button>	
+		<a href="<?php echo base_url()?>submit_iin/step_1">
+			<button style="background: #01923f" class="float_right step1_next" name="step1_next" value="step1_next">  Lanjutkan Proses</button>
+		</a>	
 	</div>
 </section>
+
+<script type="text/javascript">
+		var id_application_status_name = ("<?php echo $id_application_status_name ?>" != "") ? "<?php echo $id_application_status_name ?>" : '';
+
+
+		if (id_application_status_name == '1') {
+			$(".step1_next").show();
+		} else {
+			$(".step1_next").hide();
+		}
+</script>

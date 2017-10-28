@@ -59,16 +59,17 @@ class submit_iin extends CI_Controller {
 	/*
 	INSERT LOG
 	*/
-	public function log($Type, $detil){
+	public function log($Type, $detail){
 		/*Insert Log*/
 		$username = $this->session->userdata('username');
 		$dataLog = array(
-                'detail_log' => $username. $detil,
+                'detail_log' => $username. $detail,
                 'log_type' => $Type .$username, 
                 'created_date' => date('Y-m-j H:i:s'),
-                'created_by' => $username,
-                'last_update_date' => date('Y-m-j H:i:s'),
-                'modified_by' => date('Y-m-j H:i:s'),
+                'created_by' => $username
+                // ,
+                // 'last_update_date' => date('Y-m-j H:i:s'),
+                // 'modified_by' => date('Y-m-j H:i:s'),
                 );
         $this->user_model->insert_log($dataLog);
 	}
@@ -82,7 +83,7 @@ class submit_iin extends CI_Controller {
 	public function step_0() {
 		
 		// $this->captcha();
-		$a = $this->session->userdata('status');
+		// $a = $this->session->userdata('status');
 
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url(""));
@@ -106,22 +107,15 @@ class submit_iin extends CI_Controller {
 					$username = $this->session->userdata('username');
 
 					if (($this->input->post('security_code') == $this->session->userdata('mycaptcha'))){
-						
-
-
+						echo "|MASUK Captcha|";
 						$data = array(
 						'id_user' => $id_user,
-
-
-						/*id_admin yg update nanti dari sisi admin makanya di isi Null*/ 
-						// 'id_admin' => "NULL",
-						// 'applicant' => $this->session->userdata('username'),
-						// 'applicant_phone_number' => "085725725725",
 
 
 						'applicant' => $this->input->post('app_applicant'),
 						'applicant_phone_number' => $this->input->post('app_no_applicant'),
 						'application_date' => $this->input->post('app_date'),
+						'application_purpose' => $this->input->post('app_purpose'),
 						'instance_name' => $this->input->post('app_instance'),
 						'instance_email' => $this->input->post('app_mail'),
 						'instance_phone' => $this->input->post('app_phone'),
@@ -129,34 +123,40 @@ class submit_iin extends CI_Controller {
 						'mailing_location' => $this->input->post('app_address'),
 						'mailing_number' => $this->input->post('app_num'),
 						'iin_status' => "OPEN",
-						'application_type' => "New",
+						'application_type' => "new",
 						'created_date' => date('Y-m-j H:i:s'),
 						'created_by' => $username);
 
-						/*
-						AUDIT TRAIL Step 1
-						*/
-						$this->log("added new application","Created new application");
-				        /*Insert Pengajuan*/
-						// $a = $this->user_model->insert_pengajuan($data);
-
-
+						
 
 						/*insert Status 1 Pending*/
-						if ($get_document->num_rows() > 0){
-							echo "|inserted_id : {$a}|num rows : {$get_document->num_rows()}";
-								$data1 = array(
+						// if ($get_document->num_rows() > 0){
+						if (is_null($get_document->row()->iin_status)) {
+
+
+							/*Insert Pengajuan*/
+							$inserted_id = $this->user_model->insert_pengajuan($data);
+							echo "|inserted_id : {$inserted_id}|num rows : {$get_document->num_rows()}";
+							
+							$data1 = array(
 				                // 'id_application '=> $get_document->row()->id_application,
-				                'id_application '=> $a,
+				                'id_application '=> $inserted_id,
 				                'id_application_status_name' => '1',
 				                'process_status' => 'PENDING',	
 				                'created_date' => date('Y-m-j'),
-				                'created_by' => $username,
-				                'modified_by' => $username,
-				                'last_updated_date' => date('Y-m-j'));
+				                'created_by' => $username
+			            	);
 				            $this->user_model->insert_app_status($data1);
-						
+							
+							/*
+							AUDIT TRAIL Step 0
+							*/
+							$this->log("added new application","Created new application");
+					        
+					        
 				            
+						} else {
+							echo "ERR: Controller submit_iin - function step_0";
 						}
 							/*
 				            	REMINDER : 
@@ -167,7 +167,8 @@ class submit_iin extends CI_Controller {
 
 							// redirect(base_url().'SipinHome',refresh);
 
-							// $this->load->view('submitIIN/step0-verification');
+							// $this->load->view('submitIIN/step0');
+							// redirect(base_url("Layanan-IIN"));
 					} else {
 						$this->session->set_flashdata('validasi-captcha', 'Captcha tidak sesuai');
 						echo "Tidak Sama";
@@ -186,9 +187,74 @@ class submit_iin extends CI_Controller {
 	}
 
 	/*
+	This function will validate id_application exist, and current id_application_status_name
+	*/
+	public function check_step_status($name) {
+
+		$id_user = $this->session->userdata('id_user');
+		echo "|id_user : {$id_user}";
+		echo "|name : {$name}";
+
+		/*
+		Validate id_application 
+		*/
+		$get_id_application = $this->user_model->get_id_application($id_user);
+		if ( !is_null($get_id_application->row()->id_application) ) {
+			$id_application = $get_id_application->row()->id_application;
+			$created_by = $get_id_application->row()->created_by;
+			echo "|id_application : {$id_application}";
+			echo "|created_by : {$created_by}";
+
+
+			/*
+			Validate id_application_status_name 2 exist
+			*/
+			$get_id_application_status_name = $this->user_model->get_id_application_status_name($id_application, $name);
+			if ( empty($get_id_application_status_name->row()->id_application_status_name) ) {
+				// $id_application_status_name = $get_id_application_status_name->row()->id_application_status_name;
+				// echo "|id_application_status_name : {$id_application_status_name}";
+
+				$app_status = array(
+		            'id_application '=> $id_application,
+		            'id_application_status_name' => $name,
+		            'process_status' => 'COMPLETED',	
+		            'created_date' => date('Y-m-j'),
+		            'created_by' => $created_by
+		    	);
+
+		    	// echo json_encode($app_status);
+
+		        // $this->user_model->insert_app_status($app_status);
+
+		    	return $app_status;
+
+			} else {
+				echo "ERROR :: Controller submit_iin | name : {$name} | id_application_status_name ALREADY EXIST!";
+				return "x";
+			}
+
+		} else {
+			echo "ERROR :: Controller submit_iin | name : {$name} | id_application NOT FOUND!";
+			return "x";
+		}
+	}
+
+
+	/*
 	
 	*/
 	public function step_1() {
+
+		$name = '2';
+		$app_status = $this->check_step_status($name);
+		// echo "app_status : {$app_status}";
+		echo json_encode($app_status);
+
+		if ($app_status != 'x') {
+			$this->user_model->insert_app_status($app_status);
+		} else {
+			echo "ERROR :: Controller submit_iin | name : {$name} | id_application_status_name ALREADY EXIST!";
+		}
 
 	}
 
@@ -408,10 +474,10 @@ class submit_iin extends CI_Controller {
 
 
 	function  step_tiga_upload (){
-	$id_user = $this->session->userdata('id_user');
-	$get_status = $this->user_model->get_applications_Status($id_user);
-	$username = $this->session->userdata('username');
-		 /*insert Status*/
+		$id_user = $this->session->userdata('id_user');
+		$get_status = $this->user_model->get_applications_Status($id_user);
+		$username = $this->session->userdata('username');
+		/*insert Status*/
 		// if ($get_document->num_rows() > 0){
 		
 		if ($get_status->row()->id_application_status_name =="4"){
@@ -443,8 +509,10 @@ class submit_iin extends CI_Controller {
             $this->user_model->insert_app_status($data1);
 
 		}
-	// }
+
 	}
+
+
 	function  step_enam_upload (){
 	$id_user = $this->session->userdata('id_user');
 	$get_status  = $this->user_model->get_applications_Status($id_user);
@@ -493,53 +561,54 @@ class submit_iin extends CI_Controller {
 		}
 	}
 	
-/*Melakukan Upload document*/
+	/*Melakukan Upload document*/
 	 function do_upload() {
+
 	 	if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
 		}
-	$id_user = $this->session->userdata('id_user');
-	$get_document = $this->user_model->get_aplication($id_user);
-	$username = $this->session->userdata('username');
-	$query = 0;
-	 	 $this->load->library('upload');
+
+		$id_user = $this->session->userdata('id_user');
+		$get_document = $this->user_model->get_aplication($id_user);
+		$username = $this->session->userdata('username');
+		$query = 0;
+	 	$this->load->library('upload');
  
-      //Configure upload.
+      	//Configure upload.
              $this->upload->initialize(array(
-   "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+  			 "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
                  "upload_path"   => "./upload/"
              ));
              //Perform upload.
-             if($this->upload->do_upload("images")) {
+			if($this->upload->do_upload("images")) {
+			// if($this->upload->do_upload()) {
                  $uploaded = $this->upload->data();
                 
-            if ($this->input->post('upload') == "uploadstep3"){
-		   $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
-			} else if ($this->input->post('upload') == "uploadstep6") {
-				 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
-			}
-
-		   /*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
-		   for ($j = 0; $j < count($query); $j++){
-		   	/*Array Image di parsing*/
-			for ($i = 0; $i < count($uploaded); $i++) {
-				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
-				 	if ($j == $i){
-				 		/*Qwery Insert FilePathnya ke DB*/
-				 		
-				 		
-				if ($this->input->post('upload') == "uploadstep6"){
-					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
-				} else if ($this->input->post('upload') == "uploadstep3"){
-					$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
+	            if ($this->input->post('upload') == "uploadstep3"){
+					$query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
+				} else if ($this->input->post('upload') == "uploadstep6") {
+					 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
 				}
 
-			 		}
-				}
-			}
-			  } else{
-   die('GAGAL UPLOAD');
-      } 
+					/*Qwery Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
+					for ($j = 0; $j < count($query); $j++){
+					   	/*Array Image di parsing*/
+						for ($i = 0; $i < count($uploaded); $i++) {
+							/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
+						 	if ($j == $i){
+					 			/*Qwery Insert FilePathnya ke DB*/
+								if ($this->input->post('upload') == "uploadstep6"){
+									$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
+								} else if ($this->input->post('upload') == "uploadstep3"){
+									$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
+								}
+
+					 		}
+						}
+					}
+			} else{
+   				die('GAGAL UPLOAD');
+      		} 
      
 			      if ($this->input->post('upload') == "uploadstep3"){
 					    $this->step_tiga_upload();
@@ -547,8 +616,8 @@ class submit_iin extends CI_Controller {
 			else if ($this->input->post('upload') == "uploadstep6") {
 				 $this->step_enam_upload();
 			}
-  } 
+	} 
  
 	
 	
- }
+}
