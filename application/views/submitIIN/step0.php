@@ -61,9 +61,7 @@
 		</article>
 	</form>
 
-	<script type="text/javascript">
-		$('[type=date]').datepicker();
-	</script>
+
 
 	<script type="text/javascript">
 		var mailing_location = ("<?php echo $mailing_location ?>" != "") ? "<?php echo $mailing_location ?>" : '';
