@@ -1,5 +1,5 @@
 <section class="clearfix content-approval">
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/REUPL_BILL_REQ_PROSESS') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="content-upload clearfix">

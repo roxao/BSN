@@ -1,6 +1,6 @@
 <section class="clearfix content-approval">
 	<p class="p-desc">Silakan unggah dokumen penugasan Tim Assessment:</p>
-	<?php echo form_open_multipart('admin_verifikasi_controller/CRA_APPROVAL_REQ_PROSES') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/FIELD_ASSESS_REQ_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="content-upload clearfix"></div>
