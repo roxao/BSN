@@ -476,6 +476,7 @@ class submit_iin extends CI_Controller {
 	function  step_tiga_upload (){
 		$id_user = $this->session->userdata('id_user');
 		$get_status = $this->user_model->get_applications_Status($id_user);
+		$id_app = $this->user_model->get_aplication($id_user);
 		$username = $this->session->userdata('username');
 		/*insert Status*/
 		// if ($get_document->num_rows() > 0){
@@ -499,7 +500,7 @@ class submit_iin extends CI_Controller {
 			// if  ($get_status->row()->id_application_status_name =="3"){ 
 
 			$data1 = array(
-                'id_application '=> $get_status->row()->id_application,
+                'id_application '=> $id_app->row()->id_application,
                 'id_application_status_name' => '3',
                 'process_status' => 'PENDING',	
                 'created_date' => date('Y-m-j'),
@@ -585,7 +586,9 @@ class submit_iin extends CI_Controller {
                  $uploaded = $this->upload->data();
                 
 	            if ($this->input->post('upload') == "uploadstep3"){
-					$query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
+					// $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
+					$query = $this->user_model->get_doc_user_upload();
+
 				} else if ($this->input->post('upload') == "uploadstep6") {
 					 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
 				}
@@ -600,7 +603,16 @@ class submit_iin extends CI_Controller {
 								if ($this->input->post('upload') == "uploadstep6"){
 									$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
 								} else if ($this->input->post('upload') == "uploadstep3"){
-									$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded[$i]['full_path'], $username);
+									$dataFile = array(
+										'id_document_config' => $query[$i]->id_document_config,
+										'id_application' => $get_document->row()->id_application,
+										'path_id' => $uploaded[$i]['full_path'],
+										'status' => 'ACTIVE',
+										'created_date' => date('y-m-d'),
+										'created_by' => $this->session->userdata('username'));
+
+									$this->user_model->insert_app_file($dataFile);
+
 								}
 
 					 		}
@@ -610,8 +622,8 @@ class submit_iin extends CI_Controller {
    				die('GAGAL UPLOAD');
       		} 
      
-			      if ($this->input->post('upload') == "uploadstep3"){
-					    $this->step_tiga_upload();
+			if ($this->input->post('upload') == "uploadstep3"){
+				$this->step_tiga_upload();
 			} 
 			else if ($this->input->post('upload') == "uploadstep6") {
 				 $this->step_enam_upload();

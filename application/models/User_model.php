@@ -163,12 +163,27 @@ class User_model extends CI_Model {
     //menampilkan data documen yang harus di download user typenya yang static
     public function get_doc_statis()
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
         $this->db->from('document_config dc');
-        $this->db->where('mandatory','1');
+        $this->db->where('dc.type','DYNAMIC');
+        $this->db->or_where('dc.type','STATIC');
         return $this->db->get()->result();
     }
 
+        //menampilkan data documen yang harus di diupload user
+    public function get_doc_user_upload()
+    {
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
+        $this->db->from('document_config dc');
+        $this->db->where('dc.type','DYNAMIC');
+        $this->db->order_by('dc.id_document_config', 'ASC');
+        return $this->db->get()->result();
+    }
+
+    public function insert_app_file($data)
+    {
+        $this->db->insert('application_file', $data);
+    }
 
     //menampilkan data documen yang harus di download user typenya yang static
     public function get_doc_dynamic()
