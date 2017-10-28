@@ -6,7 +6,7 @@
 		</div>
 		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REVDOC_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="submit" name="submit_approval" hidden/>
@@ -19,7 +19,7 @@
 
 <section class="clearfix content-revision" style="display:none">
 	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
-	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_REVITIONS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REVDOC_REQ_REVITION') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="doc_rev">

@@ -6,7 +6,7 @@
 		</div>
 		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="submit" name="submit_approval" hidden/>

@@ -13,7 +13,7 @@
 		</div>
 	</div>
 
-	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_PAY_REQ_SUCCEST') ?>
+	<?php echo form_open_multipart('admin_verifikasi_controller/REV_ASSESS_REQ_PROSESS') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<ul id="assessment-team-list" class="assessment-team-list">
