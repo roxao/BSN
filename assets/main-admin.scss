@@ -323,19 +323,19 @@ body {
     overflow-y: auto;
     min-width: 450px;
     .box-modal {
-        margin: 20vh auto auto auto;
-        max-width: 500px;
-        background: #fff;
-        min-height: 200px;
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
-        border-radius: 2px;
+      margin: 40px auto;
+      max-width: 500px;
+      background: #fff;
+      min-height: 200px;
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);
+      border-radius: 2px;
         .modal-title:empty {
           background: rgba(0,0,0,0.1);
           width: calc(100% - 100px);
         }
         .modal-content {
             padding: 20px;
-            max-height: calc(100vh - 140px);
+            max-height: calc(100vh - 240px);
             overflow: auto;
             min-height: 100px; 
         }
@@ -653,6 +653,30 @@ div.close_modal {
           }
       }
     }
+}
+
+.doc_rev {
+  margin: 10px 0;
+  > label {
+    display: table;
+    width: 100%;
+    color: #999;
+    &:hover{
+      background: #e9edf1;
+      border-radius: 2px;
+      cursor: pointer;
+      color: #000;
+    }
+    div{
+      width: 12px;
+      padding:8px 10px;
+    }
+    span, div {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 8px 5px;
+    }
+  }
 }
 
 .btn_submit_assess {

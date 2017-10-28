@@ -53,8 +53,15 @@
 	}
 
 	for (var i = 0; i < value.length; i++) {
-		$('.doc_rev').append('<div><label><input name="docRef[]" type="checkbox" id="id_admin" value="'+value[i].key+'" />'+value[i].display_name+'</label></div>');
-
+		$('.doc_rev').append($('<label>')
+						.addClass('clearfix')
+						.append($('<div>')
+							.append($('<input>')
+								.prop('name', 'docRef[]')
+								.prop('type','checkbox')
+								.val(value[i].key)))
+						.append($('<span>')
+							.append(value[i].display_name)));
 	}
 </script>
 

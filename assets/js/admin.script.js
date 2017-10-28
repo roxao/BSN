@@ -17,7 +17,7 @@ $(document).ready(function() {
 							$(".modal-content").load(base_url + "/set_view/approval/"+step, function () {
 								$(".modal-title").html(status);
 								$("#section-approval").slideDown('fast', function(){
-									$.set_modal_position();
+									// $.set_modal_position();
 								});
 								
 							});
@@ -53,11 +53,13 @@ $(document).ready(function() {
 		$('#btn-revision-back-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
 			$('.content-approval').hide();$('.content-revision').slideDown();
-			$('#section-approval').hide();$('#section-revision').slideDown(function(){$.set_modal_position()});
+			$('#section-approval').hide();$('#section-revision').slideDown(function(){});
+			// $('#section-approval').hide();$('#section-revision').slideDown(function(){$.set_modal_position()});
 			});
 		$('#btn-revision-back').on('click', function(event) {
 			$('.content-approval').slideDown();$('.content-revision').hide();
-			$('#section-approval').slideDown(function(){$.set_modal_position()});$('#section-revision').hide();
+			// $('#section-approval').slideDown(function(){$.set_modal_position()});$('#section-revision').hide();
+			$('#section-approval').slideDown(function(){});$('#section-revision').hide();
 			});
 	}
 	$.config_file_type = function(e){
@@ -100,8 +102,8 @@ $(document).ready(function() {
 		var y = $(window).height()/2 - $('.box-modal').height()/2;
 		$('.box-modal').animate({ 'marginLeft': (x<0?0:x)+'px', 'marginTop': (y<0?0:y)+'px' }, 100);
 	}
-	$(window).on('resize', function(){$.set_modal_position()});
+	// $(window).on('resize', function(){$.set_modal_position()});
 
 	// Verifikasi Kelengkapan Dokumen
-	$('[data-id=5]').click();
+	$('[data-id=52]').click();
 });
