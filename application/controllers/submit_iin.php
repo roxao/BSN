@@ -534,7 +534,6 @@ class submit_iin extends CI_Controller {
                 'last_updated_date' => date('Y-m-j'));
                 $this->user_model->insert_app_status($data3);
                      
-			
             // 7 Belum dirubah jadi update
 		}
 	}
