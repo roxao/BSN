@@ -90,7 +90,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
         echo $id_app->row()->applicant;
             $data = array(
-                'process_status' => 'COMPLETED',
+                'process_status' => 'REJECTED',
                 'created_date' => date('Y-m-j'),
                 'modified_by' => $this->session->userdata('admin_username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
@@ -106,19 +106,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->admin_model->insert_log($dataL);
 
             $this->admin_model->next_step($data,$condition);
-
-                $data2 = array(
-                'id_application '=> $this->input->post('id_application'),
-                'id_application_status_name' => '2',
-                'process_status ' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'),
-                // 'modified_by ' => $this->session->userdata('admin_username')
-                );
-            $this->admin_model->insert_app_status($data2);
-
-  
 
                 $data4 = array(
                     'type' => 'REJECTED',
