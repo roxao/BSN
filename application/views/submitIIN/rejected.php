@@ -3,6 +3,6 @@
 	<p class="step-process"><?php echo $rejected_view['text'] ?></p>
 	<br>
 	<center>
-		<a href="<?php echo base_url() ?>"><button id="btn_back" style="background:red" class="btn_back">Kembali ke Halaman Depan</button></a>
+		<a href="<?php echo base_url("submit_iin/step_rejected") ?>"><button id="btn_back" style="background:red" class="btn_back">Kembali ke Halaman Depan</button></a>
 	</center>
 </section>

@@ -40,21 +40,40 @@
 
 		$id_user 	= $this->session->userdata('id_user');	
 		$Status 	= $this->user_model->get_applications_Status($id_user);
-		$data['download_upload']    		= $this->user_model->get_doc_statis($id_user);
-		$data['upload']    		= $this->user_model->get_doc_user_upload($id_user);
+		// $data['download_upload']    		= $this->user_model->get_doc_statis($id_user);
+		// $data['upload']	= $this->user_model->get_doc_user_upload($id_user);
 		$data['download_upload_kode_bill']  = $this->user_model->get_doc_kbs();
 		$datas['aplication_asesment']    	= $this->user_model->getAssesmentStatus($id_user);
 
+
+
 		$this->load->view('submitIIN/step0');
-		$this->load->view('submitIIN/step1',$data); 
-		$this->load->view('submitIIN/step2',$data,$id_user);
-		$this->load->view('submitIIN/step3',$data);	
-		$this->load->view('submitIIN/step4',$data);
-		$this->load->view('submitIIN/step5',$data); 
-		$this->load->view('submitIIN/step6',$datas, $data);
-		$this->load->view('submitIIN/step7',$data);
-		$this->load->view('submitIIN/step8',$data);
-		$this->load->view('submitIIN/step9',$data);
+
+		if ($page >= '1') {
+			$this->load->view('submitIIN/step1',$data);
+			
+			if ($page >= '2') {
+				$this->load->view('submitIIN/step2',$data,$id_user);
+			
+				if ($page >= '3') {
+					$this->load->view('submitIIN/step3',$data,$id_user);
+						
+				}	
+			}
+		}
+
+
+		//ANDARU DEFAULT
+		// $this->load->view('submitIIN/step0');
+		// $this->load->view('submitIIN/step1',$data); 
+		// $this->load->view('submitIIN/step2',$data,$id_user);
+		// $this->load->view('submitIIN/step3',$data);	
+		// $this->load->view('submitIIN/step4',$data);
+		// $this->load->view('submitIIN/step5',$data); 
+		// $this->load->view('submitIIN/step6',$datas, $data);
+		// $this->load->view('submitIIN/step7',$data);
+		// $this->load->view('submitIIN/step8',$data);
+		// $this->load->view('submitIIN/step9',$data);
 
 		// ON PROCESS VIEW
 		
@@ -83,6 +102,7 @@
 		);
 		$this->load->view('submitIIN/rejected', $data);
 
+		$this->load->view('submitIIN/step0-rejected', $data);
 
 		// REVISION VIEW
 		// $this->load->view('submitIIN/step2-revision');

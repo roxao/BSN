@@ -118,5 +118,15 @@
 		$("#app_applicant").val(applicant);
 		$("#app_no_applicant").val(applicant_phone_number);
 	</script>
+	<!-- <script type="text/javascript">
+		document.getElementById("app_address").value = localStorage.getItem("address");
+
+		function saveComment() {
+			var app_address = document.getElementById("app_address").value;
+
+
+			localStorage.setItem("address", app_address);
+		}
+	</script> -->
 	<!-- form  -->
 </section>

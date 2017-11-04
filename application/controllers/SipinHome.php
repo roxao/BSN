@@ -427,18 +427,24 @@ class SipinHome extends CI_Controller {
 	@var id_application_status_name
 	@var process_status
 	*/
-	public function submit_application(){
+	public function submit_application() {
 
 		$id_user = $this->session->userdata('id_user');
 
 		/*
-		Get Application Status
+		Get Application Status 
 		*/
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 		$iin_status = $get_app_status->row()->iin_status;
 
 		$id_application_status_name = $get_app_status->row()->id_application_status_name;
 		$process_status = $get_app_status->row()->process_status;
+		// echo "|get_app_status : ";
+		// print_r($get_app_status);
+		echo "|iin_status : {$iin_status}";
+		echo "|id_application_status_name : {$id_application_status_name}";
+		echo "|process_status : {$process_status}";
+
 
 		/*
 		Default Var
@@ -457,7 +463,286 @@ class SipinHome extends CI_Controller {
 			'state2' => ''
 		);
 
-		// $id_application_status_name = '19';
+		// $id_application_status_name = '19'; //there is minor error when the value is id_application_status_name='19'
+		// $id_application_status_name = '1';
+		// $process_status = 'PENDING';
+		// $iin_status = 'OPEN';
+		// $process_status = 'COMPLETED';
+		// $iin_status = 'CLOSED';
+
+		/*
+		if = 'OPEN'
+		*/
+		if ( $iin_status == 'OPEN' ) {
+			echo "|TEST OPEN";
+
+
+			if ( $id_application_status_name >= '1' ) {
+				
+				/*
+				Validate StepId (step0)
+				*/
+				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
+					$data['state0'] = "process";
+					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
+					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
+				
+				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
+					$data['state0'] = "rejected";
+					$data['title'] = "Hasil Verifikasi Status Permohonan";
+					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+				
+				} else {
+					$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
+					$data['state0'] = "0";
+					$page = '1';
+					$input_field = $this->user_model->step_0_get_application($id_user);
+					// print_r($input_field->row());
+					$data['applicant'] = $input_field->row()->applicant;
+					$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
+					$data['application_date'] = $input_field->row()->application_date;
+					$data['application_purpose'] = $input_field->row()->application_purpose;
+					$data['instance_name'] = $input_field->row()->instance_name;
+					$data['instance_email'] = $input_field->row()->instance_email;
+					$data['instance_phone'] = $input_field->row()->instance_phone;
+					$data['instance_director'] = $input_field->row()->instance_director;
+					$data['mailing_location'] = $input_field->row()->mailing_location;
+					$data['mailing_number'] = $input_field->row()->mailing_number;
+				}
+
+				if ( $id_application_status_name >= '2' ) {
+					$page = '2';
+					$data['state2'] = "2";
+					$data['upload_status'] = '';
+
+					
+					switch (  $id_application_status_name ) {
+					    case '2':
+							// $data['state2'] = "2";
+							/*
+							Default List of Files
+							*/
+							$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
+
+					        break;
+
+					    case '3':
+
+					        switch ( $process_status ) {
+					        	case 'COMPLETED':
+
+									$page = '3';
+									// $data['state2'] = "2";
+									$data['upload_status'] = 'success';
+									/*
+									Only Files that already uploaded By User
+									*/
+									$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
+					        		break;
+					        	
+					        	case 'PENDING':
+					        		$data['state2'] = "process";
+					        		$data['title'] = "Proses Verifikasi dan Validasi";
+									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
+					        		break;
+					        }
+
+					        break;
+
+					    case '4':
+
+					         switch ( $process_status ) {
+					        	case 'COMPLETED':
+					        		# code...
+					        		break;
+					        	
+					        	case 'PENDING':
+					        		# code...
+					        		break;
+					        }
+
+					        break;
+
+					    case '5':
+
+					         switch ( $process_status ) {
+					        	case 'COMPLETED':
+					        		# code...
+					        		break;
+					        	
+					        	case 'PENDING':
+					        		# code...
+					        		break;
+					        }
+
+					        break;
+
+					    default:
+			        		# code...
+			        		break;
+			        }
+			    }
+
+
+			}
+
+
+			/**
+			Original
+			**/
+			// if ( $id_application_status_name >= '1' ) {
+			// 	/*
+			// 	Validate StepId (step0)
+			// 	*/
+			// 	if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
+			// 		$data['state0'] = "process";
+			// 		$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
+			// 		$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
+				
+			// 	} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
+			// 		$data['state0'] = "rejected";
+			// 		$data['title'] = "Hasil Verifikasi Status Permohonan";
+			// 		$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+				
+			// 	} else {
+
+
+			// 		$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
+			// 		$data['state0'] = "0";
+			// 		$page = '1';
+			// 		$input_field = $this->user_model->step_0_get_application($id_user);
+			// 		// print_r($input_field->row());
+			// 		$data['applicant'] = $input_field->row()->applicant;
+			// 		$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
+			// 		$data['application_date'] = $input_field->row()->application_date;
+			// 		$data['application_purpose'] = $input_field->row()->application_purpose;
+			// 		$data['instance_name'] = $input_field->row()->instance_name;
+			// 		$data['instance_email'] = $input_field->row()->instance_email;
+			// 		$data['instance_phone'] = $input_field->row()->instance_phone;
+			// 		$data['instance_director'] = $input_field->row()->instance_director;
+			// 		$data['mailing_location'] = $input_field->row()->mailing_location;
+			// 		$data['mailing_number'] = $input_field->row()->mailing_number;
+			// 	}
+
+
+			// }
+
+			// if ( $id_application_status_name >= '2' ) {
+			// 	$page = '2';
+			// 	$data['state2'] = "2";
+
+			// 	if ( $id_application_status_name == '3' and $process_status == 'COMPLETED') {
+			// 		$data['state0'] = "rejected";
+			// 		$data['title'] = "Revisi Submit Kelengkapan Dokumen";
+			// 		$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+			// 	} elseif ( $id_application_status_name == '4' and $process_status == 'PENDING' ) {
+			// 		$data['upload']	= $this->user_model->get_doc_user_upload($id_user);
+			// 		$data['state0'] = "process";
+			// 		$data['title'] = "Submit Kelengkapan Dokumen";
+			// 		$data['text'] = "Dokumen yang anda unggah sudah BERHASIL masuk ke dalam database SIPIN. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.";
+			// 	} else {
+			// 		$data['state0'] = "0";
+			// 		$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
+			// 	}
+			// }
+				
+
+			//STEP 3 should be validated by button from step 2
+			
+			if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
+				$page = '4';
+			if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
+				$page = '5';
+			if ( $id_application_status_name >= '12' )
+				$page = '6';
+			if ( $id_application_status_name >= '14' )
+				$page = '7';
+			if ( $id_application_status_name >= '16' )
+				$page = '8';
+			if ( $id_application_status_name == '19' )
+				$page = '9';
+
+		} 
+
+		/*
+		if iin_status = CLOSED
+		*/
+		// else if( $iin_status == 'CLOSED' ) {
+		// 	echo "|TEST CLOSED";
+		// 	if ( $id_application_status_name == '1' and $process_status == 'REJECTED') {
+		// 		// $data['state0'] = "step0-rejected";
+		// 		$data['state0'] = "rejected";
+		// 		$data['title'] = "Hasil Verifikasi Status Permohonan";
+		// 		$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+		// 	}
+		// }
+		
+		/*
+		Define BOX status Value
+		@ Completed or Pending
+		*/
+		for ($i = 0; $i <= 9; $i++) {
+			
+			$string_status = "box_status_";
+			$string_status .= $i;
+
+			if ($i == $page) {
+				$data[$string_status] = "PENDING";
+				echo "|string_status : {$string_status}";
+			} else if ($i < $page){
+				$data[$string_status] = "COMPLETED";
+			echo "|string_status : {$string_status}";
+			} else {
+				// array_push($box_status_array, "" );
+				$data[$string_status] = "";
+			}
+
+		}
+
+		/*
+		Define value of which view to load
+		*/
+		$data['page'] = $page;
+
+		/*
+		Passing $data from Controller to View
+		*/
+		$this->load->view('header');
+		$this->load->view('submit-iin',$data);
+		$this->load->view('footer');
+
+	}
+
+	
+	public function submit_application2(){
+
+		/*
+		Get Application Status where iin_status = OPEN
+		*/
+		$get_app_status =  $this->user_model->get_applications_Status($id_user);
+		$iin_status = $get_app_status->row()->iin_status;
+
+		$id_application_status_name = $get_app_status->row()->id_application_status_name;
+		$process_status = $get_app_status->row()->process_status;
+		echo "process_status : {$process_status}";
+		/*
+		Default Var
+		@page
+		*/
+		$page = '0';
+
+		/*
+		Instantiate arr $data
+		*/
+		$data = array(
+			'id_application_status_name' => $id_application_status_name,
+			'title' => '',
+			'text' => '',
+			'state0' => '0',
+			'state2' => ''
+		);
+
+		// $id_application_status_name = '19'; //there is minor error when the value is id_application_status_name='19'
 		// $id_application_status_name = '1';
 		// $process_status = 'PENDING';
 		// $iin_status = 'OPEN';
@@ -475,7 +760,7 @@ class SipinHome extends CI_Controller {
 			} elseif ( $id_application_status_name == '1' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
 				$data['state0'] = "process";
 				$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
-				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+				$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
 			} else {
 				$data['state0'] = "0";
 				$page = '1';
@@ -503,7 +788,7 @@ class SipinHome extends CI_Controller {
 			if ( $id_application_status_name == '3' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
 				$data['state0'] = "rejected";
 				$data['title'] = "Revisi Submit Kelengkapan Dokumen";
-				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
+				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik button di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 			} elseif ( $id_application_status_name == '3' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
 				$data['state0'] = "process";
 				$data['title'] = "Submit Kelengkapan Dokumen";
@@ -547,42 +832,6 @@ class SipinHome extends CI_Controller {
 			}
 
 		}
-
-		/*
-		Passing $data from Controller to View
-		*/
-		$this->load->view('header');
-		$this->load->view('submit-iin',$data);
-		$this->load->view('footer');
-
-	}
-
-	
-
-	/*
-	Client Side Render
-	*/
-	public function submit_application2(){
-
-		$id_user = $this->session->userdata('id_user');;
-
-		/*
-		Get Application Status
-		*/
-		$get_app_status =  $this->user_model->get_applications_Status($id_user);
-		$iin_status = $get_app_status->row()->iin_status;
-
-		$id_application_status_name = $get_app_status->row()->id_application_status_name;
-		$process_status = $get_app_status->row()->process_status;
-
-		/*
-		Instantiate arr $data
-		*/
-		$data = array(
-			'id_application_status_name' => $id_application_status_name,
-			'process_status' => $process_status,
-			'iin_status' => $iin_status			
-		);
 
 		/*
 		Passing $data from Controller to View

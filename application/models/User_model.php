@@ -170,10 +170,10 @@ class User_model extends CI_Model {
         return $this->db->get()->result();
     }
 
-        //menampilkan data documen yang harus di diupload user
+    //menampilkan data documen yang harus di diupload user
     public function get_doc_user_upload()
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
         $this->db->where('dc.type','DYNAMIC');
         $this->db->order_by('dc.id_document_config', 'ASC');
@@ -254,12 +254,22 @@ class User_model extends CI_Model {
     Get Application Status
     */
     public function get_applications_Status($id_user) {
-        $this->db->select('MAX(apsn.id_application_status_name) AS id_application_status_name, aps.process_status, ap.iin_status');
+
+        $this->db->select('ap.id_application, apsn.id_application_status_name, aps.process_status, ap.iin_status, ap.created_by');
         $this->db->from('application_status aps');
         $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
         $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
         $this->db->where('ap.id_user',$id_user);
-        $this->db->where('ap.iin_status','OPEN');
+        $this->db->order_by('ap.id_application', 'DESC');
+        $this->db->limit('1');
+
+
+        // $this->db->select('MAX(apsn.id_application_status_name) AS id_application_status_name, aps.process_status, ap.iin_status');
+        // $this->db->from('application_status aps');
+        // $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
+        // $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
+        // $this->db->where('ap.id_user',$id_user);
+        // $this->db->where('ap.iin_status','OPEN');
 
         return $this->db->get();
     }
@@ -380,13 +390,33 @@ class User_model extends CI_Model {
         return $this->email->send();
     }
 
+
     // UpdateStatus
+
+    /*
+    UPDATE field iin_status (OPEN, CLOSED)
+    @ Table applications
+    */
+    public function update_applications($iin_status, $id_application, $modified_by)
+    {
+        $data = array('iin_status' => $iin_status,
+                // 'created_date' => date('Y-m-j'),
+                'modified_by' => $modified_by,
+                'modified_date' => date('Y-m-j H:i:s'));
+        $this->db->where('id_application', $id_application);
+        return $this->db->update('applications', $data);
+    }
+
+    /*
+    UPDATE field process_status (PENDING, COMPLETED, REJECTED)
+    @ Table application_status
+    */
     public function update_aplication_status($process_status, $id_application, $id_application_status_name, $modified_by)
     {
         $data = array('process_status' => $process_status,
                 // 'created_date' => date('Y-m-j'),
                 'modified_by' => $modified_by,
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
         $this->db->where('id_application', $id_application);
         $this->db->where('id_application_status_name', $id_application_status_name);
         return $this->db->update('application_status', $data);

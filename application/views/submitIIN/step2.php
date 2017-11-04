@@ -4,17 +4,22 @@
 	<?php echo form_open_multipart('submit_iin/do_upload');?>
 	<ul class="list_iin_download">
 		<?php $no=0; 
-			foreach($upload as $data) {
-				switch ($data->type) { 
- 	 			// INI TINGGAL DI UBAH KEYNYA
-	 	 		case 'DYNAMIC': ?>
-					<li class="item-upload"> 
-						<input type="checkbox" /> 
-						<?php  $no++; echo "$no.  "; echo $data->display_name; ?>  
-						<label><span>Cari...</span><input type="file" name="images[]"/><i></i></label> 
-					</li> 	
-			<?php break; 
- 				}
+			
+			foreach($step2_upload as $data) { ?>
+				<li class="item-upload"> 
+					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked disabled": "" );?> /> 
+					<?php  $no++; echo "$no.  "; echo $data->display_name;  
+						echo (($data->mandatory == '1') ? ' * ': '' );
+					?>
+					
+					<label class="upload_button">
+						<span>Cari...</span>
+						<input type="file" name="images[]" 
+						<?php echo (($data->mandatory == "1") ? "required": "" );?>	/>
+					</label>
+					
+				</li> 	
+			<?php
 			} ?> 
 	</ul>
 
@@ -25,8 +30,13 @@
 	<div class="clearfix">
 		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
 		<button style="background: #01923f" class="float_right"  value="uploadstep3" name="upload" >Proses</button>	
-		</form>
+		
 	</div>
+	</form>
+<!-- 	<div class="clearfix">
+		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
+		
+	</div> -->
 </section>
 
 
@@ -37,6 +47,16 @@
 	    $(this).next().html(fileName);
 		$(this).parent().prev().prop('checked',(fileName.length>1?true:false));
 	});
+</script>
+<script type="text/javascript">
+	var upload_status = "<?php echo $upload_status ?>";
+
+
+	if (upload_status == 'success') {
+		$(".upload_button").hide();
+	} else {
+		$(".upload_button").show();
+	}
 </script>
 
 
