@@ -70,10 +70,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'value' => 'APPROVED'
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
-            //insert document ke app file di hapus karena user yang insert
-            // $this->get_doc($this->input->post('id_application'));
 
-                $this->send_mail($this->input->post('id_application'));
+            $this->send_mail($this->input->post('id_application'));
              redirect(site_url('dashboard'));
             
         
@@ -159,11 +157,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'id_application '=> $this->input->post('id_application'),
-                'process_status' => 'COMPLETED',
-                // 'id_application_status_name' => '3',
-              
+                'process_status' => 'COMPLETED',                            
                 'created_date' => date('Y-m-j'),
-                // 'modified_by' => $this->session->userdata('admin_username'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -171,8 +167,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approved new document',
                 'log_type' => 'added '.$id_app->row()->applicant, 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('admin_username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -184,7 +180,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '4',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                'created_by' => $this->session->userdata('admin_username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
@@ -196,7 +192,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '5',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                'created_by' => $this->session->userdata('admin_username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
@@ -208,7 +204,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '6',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                'created_by' => $this->session->userdata('admin_username'),
                 'last_updated_date' => date('Y-m-j H:i:s'));
 
            
@@ -313,7 +309,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //revisi dokumen disetujui
    public function VERIF_REVDOC_REQ_PROSES()
    {
-            
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -324,7 +320,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' approve revisi dokumen',
-                'log_type' => 'added '.$this->input->post('username'), 
+                'log_type' => 'added '.$id_app->ROW()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );

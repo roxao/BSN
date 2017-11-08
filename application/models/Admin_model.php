@@ -623,7 +623,7 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
-//ini dicoba dulu dengan menggunakan function application_status_form_mapping_rev_by_idapp()
+//ini dicoba dulu dengan menggunakan function 
     public function get_revised_resuld_assessment($idapp,$id_app_status)
     {
         $sub = $this->db->select('application_status_form_mapping.value as key');
