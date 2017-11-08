@@ -11,9 +11,9 @@ class Admin_model extends CI_Model {
 
     //query untuk login berdasarkan username atau email dan pasword sha256
     public function cek_login($username,$password) {  
-        $this->db->where('username', $username);
-        $this->db->or_where('email', $username);
         $this->db->where('password', $password);
+        $this->db->where('username', $username)
+                ->or_where('email', $username);        
         return  $this->db->get('admin');   
     }
 

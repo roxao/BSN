@@ -39,7 +39,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -59,7 +59,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status ' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'),
+                'modified_date' => date('Y-m-j H:i:s'),
                 'modified_by ' => $this->session->userdata('admin_username')
                 );
             
@@ -67,6 +67,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $data4 = array(
                     'type' => 'APPROVED',
+                    'id_application_status' => $this->input->post('id_application_status'),
                     'value' => 'APPROVED'
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
@@ -91,7 +92,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'REJECTED',
                 'created_date' => date('Y-m-j'),
                 'modified_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -160,7 +161,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',                            
                 'created_date' => date('Y-m-j'),
                 'modified_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             echo $this->input->post('id_application_status')." = id_application_status";
@@ -181,7 +182,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data4,$condition);
@@ -193,7 +194,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data5,$condition);
@@ -205,7 +206,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data6,$condition);
@@ -231,7 +232,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '3',
               
                 'created_date' => date('Y-m-j'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -252,7 +253,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $id_app_st = $this->admin_model->insert_app_status($data4);
@@ -314,7 +315,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'modified_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -335,7 +336,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -358,7 +359,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -379,7 +380,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
@@ -460,7 +461,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '6',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -481,7 +482,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -565,16 +566,16 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'),
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
              $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Reupload Billing Code SIMPONI',
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('admin_username')
+                'created_date' => date('Y-m-j H:i:s'),
+                'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
 
@@ -584,8 +585,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '7',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'),
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -593,8 +594,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '8',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'),
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $this->admin_model->insert_app_status($data3,$condition);
 
@@ -602,8 +603,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '9',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'),
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $this->admin_model->insert_app_status($data4,$condition);
 
@@ -611,8 +612,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '10',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'),
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $this->admin_model->insert_app_status($data5,$condition);
 
@@ -698,7 +699,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
         
 
@@ -722,7 +723,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
    
         $this->admin_model->insert_app_status($data2);
 
@@ -733,7 +734,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
         $this->admin_model->insert_app_status($data3);
@@ -745,7 +746,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
         $this->admin_model->insert_app_status($data4);
@@ -788,8 +789,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-            $team = $this->input->post('a_names');
-            $title = $this->input->post('a_roles');
+            $team = $this->input->post('assessment_name');
+            $title = $this->input->post('assessment_title');
             
             
 
@@ -810,21 +811,25 @@ class Admin_Verifikasi_Controller extends CI_Controller
                  "upload_path"   => "./upload/"
                 ));
 
-            $getLetterAssigment = $this->admin_model->get_letter_of_assignment();
+            $getLetterAssigment = $this->admin_model->get_letter_of_assignment()->result();
              //Perform upload.
             if($this->upload->do_upload("images")) {
                 $uploaded = $this->upload->data();
                 
-                $data6 = array(
-                'id_document_config' => $getLetterAssigment->row()->id_document_config,
-                'id_application' => $this->input->post('id_application'),
-                'path_id' =>  $uploaded['full_path'],
-                'status' => 'ACTIVE',
-                'created_date' => date('y-m-d')
-                // 'created_by' => ''
-                );
+                for($y=0;$y < 2;$y++)
+                {
+                    $data6 = array(
+                    'id_document_config' => $getLetterAssigment[$y]->id_document_config,
+                    'id_application' => $this->input->post('id_application'),
+                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'status' => 'ACTIVE',
+                    'created_date' => date('y-m-d'),
+                    'created_by' => $this->session->userdata('admin_username')
+                    );
 
-                $this->admin_model->insert_application_file($data6);
+                    $this->admin_model->insert_application_file($data6);    
+                }
+                
 
               } 
             redirect(site_url('dashboard'));
@@ -847,7 +852,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -868,7 +873,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -966,7 +971,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -986,7 +991,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1082,7 +1087,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1102,7 +1107,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1285,7 +1290,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1305,7 +1310,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1329,7 +1334,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $getLetterAssigment = $this->admin_model->get_letter_of_assignment_SPTAL()->result();
            
              //Perform upload.
-            if($this->upload->do_upload("images")) {
+            if($this->upload->do_upload("doc")) {
                 $uploaded = $this->upload->data();
                 
                 for($y=0; $y< count($getLetterAssigment);$y++)
@@ -1347,7 +1352,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
                 
 
-              }
+              }else{echo "gagal upload";}
               redirect(site_url('dashboard')); 
    
 	}
@@ -1376,7 +1381,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1396,7 +1401,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
            
            $id_app_sts_lst = $this->admin_model->insert_app_status($data2);
@@ -1550,7 +1555,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1570,7 +1575,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1581,7 +1586,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data3,$condition);
 
@@ -1592,7 +1597,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data4,$condition);
 
@@ -1649,7 +1654,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1669,7 +1674,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-d'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
 
@@ -1818,7 +1823,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1838,7 +1843,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1860,7 +1865,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1880,7 +1885,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1951,7 +1956,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1971,7 +1976,7 @@ public function REV_ASSESS_REQ_PROSESS()
              
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -2033,7 +2038,7 @@ public function REV_ASSESS_REQ_PROSESS()
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 // 'created_by' => $this->session->userdata('admin_username'),
-                'last_updated_date' => date('Y-m-j H:i:s'));
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
