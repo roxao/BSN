@@ -346,6 +346,18 @@ class Admin_model extends CI_Model {
         $this->db->update('cms',$data);
     }
 
+    public function insert_cms_file($data)
+    {
+        $this->db->insert('cms_file', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
+    }
+
+    public function update_cms_file($condition,$data){
+        $this->db->where($condition);
+        $this->db->update('cms_file',$data);
+    }
+
     public function get_conplain(){
         return $this->db->get('complaint');
     }
@@ -666,6 +678,11 @@ class Admin_model extends CI_Model {
         $data = array('Status' => 'INACTIVE' );
         $this->db->where('id_notification', $condition);
         $this->db->update('notification',$data);
+    }
+
+    public function insert_notif($data)
+    {
+        $this->db->insert('notification', $data);
     }
 
 

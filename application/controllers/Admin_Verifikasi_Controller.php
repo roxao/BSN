@@ -1376,14 +1376,12 @@ public function REV_ASSESS_REQ($id_application_status)
 //input revisi tim asesmen
 public function REV_ASSESS_REQ_PROSESS()
     {
-           
-                $data = array(
+        $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
-
-            $condition = array('id_application_status' => $this->input->post('id_application_status'));
+        $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' tim asesment',
                 'log_type' => 'added  '.$this->input->post('username'), 
@@ -1394,7 +1392,7 @@ public function REV_ASSESS_REQ_PROSESS()
 
             $this->admin_model->next_step($data,$condition);
 
-                $data2 = array(
+        $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '12',
@@ -1404,26 +1402,26 @@ public function REV_ASSESS_REQ_PROSESS()
                 'modified_date' => date('Y-m-j H:i:s'));
 
            
-           $id_app_sts_lst = $this->admin_model->insert_app_status($data2);
+        $id_app_sts_lst = $this->admin_model->insert_app_status($data2);
 
-             $data3 = array(
+        $data3 = array(
                     'type' => 'ASESSMENT_DATE',
                     'value' => 'ASESSMENT TEAM DATE '.$this->input->post('expired_date'),
                     'id_application_status'=> $id_app_sts_lst
                     );
-           $this->admin_model->insert_app_sts_for_map($data3);
+        $this->admin_model->insert_app_sts_for_map($data3);
 
-           $dataL2 = array(
+        $dataL2 = array(
                 'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
                 'log_type' => 'added new team_assessment '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
-            $this->admin_model->insert_log($dataL2);
+        $this->admin_model->insert_log($dataL2);
 
-           //input asessment applications
+        //input asessment applications
 
-            $data_ass_app = array(
+        $data_ass_app = array(
                 'id_application' => $this->input->post('id_application'),
                 'assessment_date' => $this->input->post('expired_date'),
                 'assessment_status' => 'OPEN',
@@ -1431,24 +1429,22 @@ public function REV_ASSESS_REQ_PROSESS()
                 'created_by' => $this->session->userdata('admin_username')
                 );
 
-            $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
+        $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
 
-
-
-            $team = $this->input->post('a_names');
-            $title = $this->input->post('a_roles');
-            
-            
-
-            for($x=0;$x < count($team);$x++){
-                    $dat = array(
+        $team = $this->input->post('a_names');
+        $title = $this->input->post('a_roles');
+        
+            for($x=0;$x < count($team);$x++)
+            {
+                $dat = array(
                     'id_assessment_application' => $id_ass_app,
                     'id_assessment_team' => $team[$x],
                     'id_assessment_team_title' => $title[$x]
                                 );
 
-                    $this->admin_model->insert_assessment_registered($dat);
-                }
+                $this->admin_model->insert_assessment_registered($dat);
+            }
+
         $this->load->library('upload');
  
         //Configure upload.
@@ -1457,84 +1453,36 @@ public function REV_ASSESS_REQ_PROSESS()
                  "upload_path"   => "./upload/"
                 ));
 
-            //mencari documen usulan tim asessmen lapangan dan surat informasi tim asessmen
-            $getLetterAssigment = $this->admin_model->get_letter_of_assignment()->result();
-           
-             //Perform upload.
-            if($this->upload->do_upload("images")) {
+        //mencari documen usulan tim asessmen lapangan dan surat informasi tim asessmen
+        $getLetterAssigment = $this->admin_model->get_letter_of_assignment()->result();
+
+         //Perform upload.
+        if($this->upload->do_upload("images")) 
+        {
                 $uploaded = $this->upload->data();
-                
-                for($y=0; $y< count($getLetterAssigment);$y++)
-                {
+                for ($i=0; $i < count($getLetterAssigment); $i++) 
+                { 
+                    # code...
                     $data6 = array(
-                    'id_document_config' => $getLetterAssigment[$y]->id_document_config,
+                    'id_document_config' => $getLetterAssigment[$i]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'path_id' =>  $uploaded[$i]['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => date('y-m-d'),
                     'created_by' =>  $this->session->userdata('admin_username')
                     );
                     
-                    $this->admin_model->insert_application_file($data6);    
+                    $this->admin_model->insert_application_file($data6);
                 }
-                
+        }
+        redirect(site_url('dashboard'));
 
-              } 
-            redirect(site_url('dashboard'));   
-      
     }
 
+           
+           
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
 
 
 
@@ -2101,6 +2049,18 @@ public function REV_ASSESS_REQ_PROSESS()
 
     }   
 
+        //belum fix
+    public function send_notif($id_application)
+    {
+        $data = array(
+            'notification_type' => 'user',
+            'notification_owner' => $id_application,
+            'message' => 'Silahkan melanjutkan ke step selanjutnya',
+            'Status' => 'ACTIVE',
+            'notification_url' => 'masih belum ingat'
+        );
+        $this->admin_model->insert_notif($data);
+    }
    
 
 
@@ -2180,5 +2140,7 @@ public function REV_ASSESS_REQ_PROSESS()
                  "upload_path"   => "./upload/"
                 ));
     }
+
+
 
 }

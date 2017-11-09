@@ -1062,6 +1062,56 @@ $this->load->view('admin/options/cms_insert');
         echo json_encode($data);
     }
 
+    //cms file insert
+    public function cms_file_insert()
+    {
+        $data = array(
+            'file_name' => '(nama gambar)',
+            'path_file' => '(nama folder untuk penyimpanannya)',
+            'created_date' => date('y-m-d'),
+            'created_by' => $this->session->userdata('admin_username'));
+        $id_cms_file = $this->admin_model->insert_cms_file($data);
+
+        $dataL = array(
+        'detail_log' => $this->session->userdata('admin_username').' Insert Data CMS file',
+        'log_type' => 'Update Data', 
+        'created_date' => date('Y-m-j H:i:s')
+        // 'created_by' => $this->session->userdata('username')
+        );
+
+        $this->admin_model->insert_log($dataL);
+
+        if($id_cms_file != null)
+        {
+            echo "data cms_file tersimpan";
+        }else
+        {
+            echo "data cms_file gagal tersimpan";
+        }
+    }
+
+    //cms file update
+    public function cms_file_update()
+    {
+        $condition = array('id_cms_file' => $this->input->post('id_cms'));
+        $data = array(
+        'file_name' => $this->input->post('file_name'),
+        'path_file' => $this->input->post('path_file'),
+        'modified_by' => $this->session->userdata('admin_username'),
+        'modified_date' => date('Y-m-j H:i:s'),
+        // 'modified_by' => $this->session->userdata('username')                
+        );
+        $dataL = array(
+        'detail_log' => $this->session->userdata('admin_username').' Update Data CMS',
+        'log_type' => 'Update Data', 
+        'created_date' => date('Y-m-j H:i:s')
+        // 'created_by' => $this->session->userdata('username')
+        );
+
+        $this->admin_model->insert_log($dataL);
+        $this->admin_model->update_cms_file($condition,$data);
+    }
+
     
 
 }
