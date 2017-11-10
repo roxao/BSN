@@ -39,7 +39,7 @@
 <script>
 	$.set_value_data();
 	$.base_config_approval();
-	value=respon.doc_user;
+	value=respon.revdoc_user;
 	app=respon.application;
 
 	$("input[name=id_application_status]").val(app.id_application_status);
