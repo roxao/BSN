@@ -37,8 +37,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
       
                 $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -53,17 +52,17 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $this->admin_model->next_step($data,$condition);
 
-                $data2 = array(
-                'id_application'=> $this->input->post('id_application'),
-                'id_application_status_name' => '2',
-                'process_status ' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'),
-                'modified_by ' => $this->session->userdata('admin_username')
-                );
+            //     $data2 = array(
+            //     'id_application'=> $this->input->post('id_application'),
+            //     'id_application_status_name' => '2',
+            //     'process_status ' => 'COMPLETED',
+            //     'created_date' => date('Y-m-j'),
+            //     'created_by' => $this->session->userdata('admin_username'),
+            //     'modified_date' => date('Y-m-j H:i:s'),
+            //     'modified_by ' => $this->session->userdata('admin_username')
+            //     );
             
-            $this->admin_model->insert_app_status($data2);
+            // $this->admin_model->insert_app_status($data2);
 
             $data4 = array(
                     'type' => 'APPROVED',
@@ -113,10 +112,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
                     
-                    $data5 = array(
-                        'iin_status'=> 'CLOSED');
-            $id_application = array('id_application'=> $this->input->post('id_application'));
-            $this->admin_model->update_applications($data5,$id_application);
+            //         $data5 = array(
+            //             'iin_status'=> 'CLOSED');
+            // $id_application = array('id_application'=> $this->input->post('id_application'));
+            // $this->admin_model->update_applications($data5,$id_application);
            redirect(base_url('dashboard'));
         
     }
@@ -890,7 +889,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->admin_model->application_file_update($id_app_file,$data3);
 
             $data4 = array(
-                'type' => 'REJECTED Bukti Transfer',
+                'type' => 'REVISED_PAY',
                 'value' => $this->input->post('coment'),
                 'id_application_status'=> $this->input->post('id_application_status')
                 );
@@ -1367,14 +1366,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-public function REV_ASSESS_REQ($id_application_status)
-    {
-         $data['aplication_setujui'] = $this->admin_model->get_application($id_application_status)->result();
-        
-        $this->load->view('input_revisi_tim_asesmen', $data);
-    }
-//input revisi tim asesmen
-public function REV_ASSESS_REQ_PROSESS()
+
+    //input revisi tim asesmen
+    public function REV_ASSESS_REQ_PROSESS()
     {
         $data = array(
                 'process_status' => 'COMPLETED',
