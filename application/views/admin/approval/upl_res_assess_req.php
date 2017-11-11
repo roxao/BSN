@@ -12,7 +12,7 @@
 			<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
-		<input type="submit" name="submit_approval" hidden/>
+		<input type="submit" name="submit_approval" />
 	</form>
 </section>
 
@@ -26,7 +26,7 @@
 		<input type="hidden" name="id_application">
 		<div class="item-revision">
 		</div>
-		<input type="submit" name="submit_revision" hidden/>
+		<input type="submit" name="submit_revision" />
 	</form>
 </section>
 

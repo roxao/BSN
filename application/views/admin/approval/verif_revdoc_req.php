@@ -9,7 +9,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REVDOC_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
-		<input type="submit" name="submit_approval" hidden/>
+		<input type="submit" name="submit_approval" />
 	</form>
 </section>
 
@@ -25,7 +25,7 @@
 		<div class="doc_rev">
 			
 		</div>
-		<input type="submit" name="submit_revision" hidden/>
+		<input type="submit" name="submit_revision" />
 	</form>
 </section>
 

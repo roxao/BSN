@@ -230,7 +230,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '3',
               
-                'created_date' => date('Y-m-j'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -251,8 +251,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '4',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $id_app_st = $this->admin_model->insert_app_status($data4);
@@ -334,8 +333,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '6',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -356,8 +354,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -378,8 +375,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '4',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
@@ -458,8 +454,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -480,8 +476,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '7',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -584,8 +579,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '7',
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -593,8 +587,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '8',
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data3,$condition);
 
@@ -602,8 +595,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '9',
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data4,$condition);
 
@@ -611,8 +603,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '10',
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data5,$condition);
 
@@ -696,8 +687,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
         
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
         
@@ -721,8 +712,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
    
         $this->admin_model->insert_app_status($data2);
 
@@ -732,8 +722,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '11',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
         $this->admin_model->insert_app_status($data3);
@@ -744,8 +733,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '12',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
         $this->admin_model->insert_app_status($data4);
@@ -849,8 +837,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -871,8 +859,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -968,8 +955,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {   
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -989,8 +976,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '14',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1085,7 +1071,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1105,8 +1091,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '10',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
             $this->admin_model->insert_app_status($data2,$condition);
@@ -1287,8 +1272,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
      	$id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
         	$data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1308,8 +1293,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '15',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1372,8 +1356,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
         $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
         $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1392,8 +1376,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '12',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
 
            
         $id_app_sts_lst = $this->admin_model->insert_app_status($data2);
@@ -1495,8 +1478,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1516,8 +1499,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '16',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1527,8 +1509,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '17',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $this->admin_model->insert_app_status($data3,$condition);
 
@@ -1538,8 +1519,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '18',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $this->admin_model->insert_app_status($data4,$condition);
 
@@ -1594,8 +1574,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1615,8 +1595,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '16',
              
                 'created_date' => date('Y-m-d'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data4,$condition);
 
@@ -1764,7 +1743,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1784,8 +1763,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '18',
              
                 'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1805,8 +1783,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             
            $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1826,8 +1804,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '16',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1896,8 +1873,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                    
                $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
@@ -1917,8 +1894,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application_status_name' => '19',
              
                 'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_by' => $this->session->userdata('admin_username'));
            
             $this->admin_model->insert_app_status($data2,$condition);
 
@@ -1978,8 +1954,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
          $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                // 'created_by' => $this->session->userdata('admin_username'),
+                
+                'modified_by' => $this->session->userdata('admin_username'),
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));

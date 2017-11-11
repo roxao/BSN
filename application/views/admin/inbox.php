@@ -14,11 +14,12 @@
           <th style="min-width:190px" class="sort" data-sort="id_pt">Nama Instansi</th>
           <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
           <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
+          <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
           <th width="" class="sort sort-center" data-sort="id_status">Status Pengajuan</th>
         </tr>
         <tbody class="list">
           <?php  foreach($applications as $data) { ?>
-            <tr class="<?php echo $data->owner == "ADMIN" ? "get_process" : ""?>" 
+            <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
                 data-id="<?php  echo $data->id_application ?>"  
                 data-id-status="<?php  echo $data->id_application_status ?>"  
                 data-status="<?php  echo $data->display_name ?>" 
@@ -28,6 +29,7 @@
               <td class="id_pt"><?php  echo $data->instance_name ?></td>
               <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
               <td class="id_date"><?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
+              <td class="id_process"><?php  echo $data->process_status ?></td>
               <td class="id_status"><span class="<?php  echo $data->owner ?>"><?php  echo $data->display_name ?></span></td>
             </tr>
           <?php  } ?>
@@ -48,7 +50,7 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/list.min.js"></script>
   <script type="text/javascript">
     $('document').ready(function(){
-      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date','id_status' ],page: 10,pagination: true};
+      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date', 'id_process','id_status' ],page: 10,pagination: true};
       var inboxList = new List('tableInbox', options);
     });
     $('.listjsnext').on('click', function(){
