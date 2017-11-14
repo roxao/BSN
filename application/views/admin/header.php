@@ -42,12 +42,12 @@
 		<li><a class="ic-adm ic-history " href="<?php echo base_url('dashboard/report') ?>">Historical Data Entry</a></li>
 		<li><a class="ic-adm ic-setting parent">Pengaturan</a>
 			<ul>
-				<li><a class="ic-adm ic-user " href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
-				<li><a class="ic-adm ic-cms " href="<?php echo base_url('dashboard/settings/cms') ?>">Content Management</a></li>
-				<li><a class="ic-adm ic-survey " href="<?php echo base_url('dashboard/settings/survey') ?>">Survey</a></li>
-				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_static') ?>">Dokumen Statis</a></li>
-				<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/settings/document_dynamic') ?>">Kelengkapan Dokumen</a></li>
-				<li><a class="ic-adm ic-team " href="<?php echo base_url('dashboard/settings/assessment') ?>">Tim Assessment</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/cms') ?>">Content Management</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/survey') ?>">Survey</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/document_static') ?>">Dokumen Statis</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/document_dynamic') ?>">Kelengkapan Dokumen</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/assessment') ?>">Tim Assessment</a></li>
 			</ul>
 		</li>
 	</ul>

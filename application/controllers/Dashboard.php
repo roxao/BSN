@@ -504,6 +504,45 @@ class Dashboard extends CI_Controller {
             $objWriter->save("php://output");
     }
 
+    public function upload_acceptor(){
+          $imageFolder = "upload/cms-assets/";
+          reset ($_FILES);
+          $temp = current($_FILES);
+          if (is_uploaded_file($temp['tmp_name'])){
+            if (preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $temp['name'])) {
+                header("HTTP/1.0 500 Invalid file name.");
+                return;
+            }
+
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "png"))) {
+                header("HTTP/1.0 500 Invalid extension.");
+                return;
+            }
+            $filename = date('ymjHis'). '-' .$temp['name'];
+            $filetowrite = $imageFolder . $filename;
+            move_uploaded_file($temp['tmp_name'], $filetowrite);
+
+            $data = array(
+                'file_name' => $filename,
+                'path_file' => base_url().$imageFolder,
+                'created_date' => date('y-m-d'),
+                'created_by' => $this->session->userdata('admin_username'));
+            $this->admin_model->insert_cms_file($data);
+
+            $dataL = array(
+                'detail_log' => $this->session->userdata('admin_username').' Insert Data CMS file',
+                'log_type' => 'Update Data', 
+                'created_date' => date('Y-m-j H:i:s')
+            );
+
+            $this->admin_model->insert_log($dataL);
+
+            echo json_encode(array('location' => base_url() . '/' .$filetowrite));
+          } else {
+            header("HTTP/1.0 500 Server Error");
+          }
+    }
+
 
 
 
@@ -1065,29 +1104,7 @@ $this->load->view('admin/options/cms_insert');
     //cms file insert
     public function cms_file_insert()
     {
-        $data = array(
-            'file_name' => '(nama gambar)',
-            'path_file' => '(nama folder untuk penyimpanannya)',
-            'created_date' => date('y-m-d'),
-            'created_by' => $this->session->userdata('admin_username'));
-        $id_cms_file = $this->admin_model->insert_cms_file($data);
-
-        $dataL = array(
-        'detail_log' => $this->session->userdata('admin_username').' Insert Data CMS file',
-        'log_type' => 'Update Data', 
-        'created_date' => date('Y-m-j H:i:s')
-        // 'created_by' => $this->session->userdata('username')
-        );
-
-        $this->admin_model->insert_log($dataL);
-
-        if($id_cms_file != null)
-        {
-            echo "data cms_file tersimpan";
-        }else
-        {
-            echo "data cms_file gagal tersimpan";
-        }
+        
     }
 
     //cms file update

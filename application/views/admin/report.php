@@ -16,8 +16,6 @@
   ];
 ?>
 
-
-
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
     <div class="site-map">
@@ -29,7 +27,6 @@
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
         <button id="btn-export" onclick="get_excel('get_applications')" class="btn-flat float_left">DOWNLOAD</button>
-
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
           <div id="filtertable">
@@ -88,14 +85,9 @@
       $('.tableInbox tr th:first-child').click();
 
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
-
-      $('#expor-btn').on('click', function() {
-        
-      })
    });
   </script>
   <style>
-    tr th:first-child{text-align: center !important}
     .mailing_location {text-transform:capitalize}
   </style>
 </section>

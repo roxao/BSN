@@ -6,44 +6,48 @@
     </div>
     <h2 class="title_content">Inbox Status </h2>
 
-    <div id="tableInbox" style=" margin: 0 -20px 0 -20px;overflow: auto; ">
-      <table class="table_def tableInbox" style="width: 100%;">
-        <tr>
-          <th style="min-width:55px"  class="sort sort-center click_auto"  data-sort="id_no">#</th>
-          <th style="min-width:140px" class="sort" data-sort="id_name">Nama Pemohon</th>
-          <th style="min-width:190px" class="sort" data-sort="id_pt">Nama Instansi</th>
-          <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
-          <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
-          <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
-          <th width="" class="sort sort-center" data-sort="id_status">Status Pengajuan</th>
-        </tr>
-        <tbody class="list">
-          <?php $i=1; foreach($applications as $data) { ?>
-            <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
-                data-id="<?php  echo $data->id_application ?>"  
-                data-id-status="<?php  echo $data->id_application_status ?>"  
-                data-status="<?php  echo $data->display_name ?>" 
-                data-step="<?php  echo $data->application_status_name ?>">
-              <td class="id_no"><?php  echo $i ?></td>
-              <td class="id_name"><?php  echo $data->applicant ?></td>
-              <td class="id_pt"><?php  echo $data->instance_name ?></td>
-              <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
-              <td class="id_date"><?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
-              <td class="id_process"><?php  echo $data->process_status ?></td>
-              <td class="id_status"><span class="<?php  echo $data->owner ?>"><?php  echo $data->display_name ?></span></td>
-            </tr>
-          <?php  $i++;} ?>
-        </tbody>
-      </table>
+    <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
+      <div class="opt-table clearfix">
+        <div class="opt-table-filter float_right">
+          <input class="search filter_search" placeholder="Search ..." />
+        </div> 
+      </div>
+      <div class="table_content">
+        <table class="table_def tableInbox" style="width: 100%;">
+          <tr>
+            <th style="min-width:55px"  class="sort click_auto"  data-sort="id_no">#</th>
+            <th style="min-width:140px" class="sort" data-sort="id_name">Nama Pemohon</th>
+            <th style="min-width:190px" class="sort" data-sort="id_pt">Nama Instansi</th>
+            <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
+            <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
+            <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
+            <th style="min-width:250px" class="sort sort-center" data-sort="id_status">Status Pengajuan</th>
+          </tr>
+          <tbody class="list">
+            <?php  foreach($applications as $data) { ?>
+              <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
+                  data-id="<?php  echo $data->id_application ?>"  
+                  data-id-status="<?php  echo $data->id_application_status ?>"  
+                  data-status="<?php  echo $data->display_name ?>" 
+                  data-step="<?php  echo $data->application_status_name ?>">
+                <td class="id_no"><?php  echo $data->id_application ?></td>
+                <td class="id_name"><?php  echo $data->applicant ?></td>
+                <td class="id_pt"><?php  echo $data->instance_name ?></td>
+                <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
+                <td class="id_date"><?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
+                <td class="id_process"><?php  echo $data->process_status ?></td>
+                <td class="id_status"><span class="<?php echo $data->owner ?> <?php echo $data->process_status ?>"><?php  echo $data->display_name ?></span></td>
+              </tr>
+            <?php  } ?>
+          </tbody>
+        </table>
+      </div>
 
       <ul class="main_pagination">
         <li class="listjsprev"><</li>
         <ul class="pagination"></ul>
         <li class="listjsnext">></li>
       </ul>
-<!-- 
-      <div id="popup_box" style="display: none">
-      </div> -->
     </div>
   </section>
 

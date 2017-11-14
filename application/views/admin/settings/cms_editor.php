@@ -21,22 +21,65 @@
     </div>
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="cms_editor">
-      <!-- JIKA type_editor = INSERT, VALUE $DATA[X]['X']  TIDAK PERLU DI ECHO TAPI DI KOSONGKAN-->
-      <!-- DAN ISI FORM ACTION DI BAWAH JIKA INSERT MENJADI base_url('dashboard/action_insert/cms') dan sebaliknya jika update -->
       <form action="cms_editor_submit" method="get" accept-charset="utf-8">
-        <input type="hidden" name="id_cms" value="<?php echo ($data == undefined) ? '' : $data[0]['id_cms'] ?>">
-        <input class="cms_title" type="text" name="title" value="<?php echo $data[0]['title']?>" placeholder="Judul Content">
-        <textarea class='test' name="content" > </textarea>
+        <input type="hidden" name="id_cms" value="<?php echo ($data) ? '' : $data[0]['id_cms'] ?>">
+        <div class="cms_editor_title">
+          <label>Judul Konten
+            <input  type="text" name="title" value="<?php echo $data[0]['title']?>" placeholder="Judul Content">
+          </label>
+          <button type="submit">Posting</button>
+        </div>
+        <textarea class='editor' name="content"> </textarea>
       </form>
     </div>
   </section>
 
 
-  <script src="https://cloud.tinymce.com/dev/tinymce.min.js?apiKey=qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"></script>
+  <script src="<?php echo base_url('assets/js/wysiwyg/tinymce.min.js')?>"></script>
   <script>tinymce.init({
-    selector: '.test',
+    selector: '.editor',
     min_height: 500,
     menubar: false,
+    plugins: [
+      'advlist autolink lists link image charmap print preview anchor textcolor',
+      'searchreplace visualblocks code fullscreen',
+      'insertdatetime media table contextmenu paste code help'
+      ],
+    images_upload_url: '<?php echo base_url('dashboard/upload_acceptor') ?>',
+    images_upload_handler: function (blobInfo, success, failure) {
+        var xhr, formData;
+
+        xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '<?php echo base_url('dashboard/upload_acceptor') ?>');
+
+        xhr.onload = function() {
+          var json;
+
+          if (xhr.status != 200) {
+            failure('HTTP Error: ' + xhr.status);
+            return;
+          }
+
+          json = JSON.parse(xhr.responseText);
+
+          if (!json || typeof json.location != 'string') {
+            failure('Invalid JSON: ' + xhr.responseText);
+            return;
+          }
+
+          success(json.location);
+        };
+
+        formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        xhr.send(formData);
+      },
+    init_instance_callback: function (ed) {
+      ed.execCommand('mceImage');
+    },
+    toolbar: 'undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image media | removeformat',
   });
 </script>
 

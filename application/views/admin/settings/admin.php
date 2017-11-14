@@ -2,11 +2,11 @@
   $page_title = 'Dashboard :: Pengaturan Administrator';
   $page_section = 'ADMINISTRATOR';
   $data_table = [
-    ['id_admin', 'ID Admin', '100px'],
-    ['username', 'Username', '100px'],  
-    ['email', 'Alamat Email', '200px'],
-    ['admin_role', 'Jabatan Admin', '100px'],
-    ['admin_status', 'Status Admin', '100px']
+    ['id_admin', 'ID', '20px'],
+    ['username', 'Username', '150px'],  
+    ['email', 'Alamat Email', '250px'],
+    ['admin_role', 'Jabatan Admin', '150px'],
+    ['admin_status', 'Status Admin', '150px']
   ];
 ?>
 
@@ -102,13 +102,6 @@
       })
    });
   </script>
-  <style>
-    tr th:first-child{text-align: center !important}
-    .admin_status{text-transform:uppercase;font-weight: bold !important;font-size: 11px !important;}
-    .admin_status.active:before,.admin_status.inactive:before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:5px}
-    .admin_status.active:before{background:#01923f;}
-    .admin_status.inactive:before{background:#999;}
-  </style>
 </section>
 
 

@@ -78,9 +78,7 @@
       $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
       $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
       $('.tableInbox tr th:first-child').click();
-
-
-
+      
       $('.row_select').on('click', function() {
         $('[name=id_cms').val($(this).attr('data-id'));
         $('[name=type_editor').val('update');
@@ -93,13 +91,6 @@
       })
    });
   </script>
-  <style>
-    tr th:first-child{text-align: center !important}
-    .status{text-transform:uppercase;font-weight: bold !important;font-size: 11px !important;}
-    .status.active:before,.admin.inactive:before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:5px}
-    .status.active:before{background:#01923f;}
-    .status.inactive:before{background:#999;}
-  </style>
 </section>
 
 

@@ -347,8 +347,7 @@ class Admin_model extends CI_Model {
         $this->db->update('cms',$data);
     }
 
-    public function insert_cms_file($data)
-    {
+    public function insert_cms_file($data){
         $this->db->insert('cms_file', $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;
