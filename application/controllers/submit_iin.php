@@ -21,6 +21,14 @@ class submit_iin extends CI_Controller {
 		$this->captcha();
 	}
 
+	public function date_time_now() {
+		/*
+		SET TIMEZONE ASIA/JAKARTA
+		*/
+	    $datetime = new DateTime('Asia/Jakarta');
+	    return $datetime->format('Y\-m\-d\ h:i:s');
+	}
+
 	public function captcha()
 	{
 
@@ -59,13 +67,16 @@ class submit_iin extends CI_Controller {
 	/*
 	INSERT LOG
 	*/
-	public function log($Type, $detail){
+	public function log($type, $detail){
 		/*Insert Log*/
 		$username = $this->session->userdata('username');
 		$dataLog = array(
-                'detail_log' => $username. $detail,
-                'log_type' => $Type .$username, 
-                'created_date' => date('Y-m-j H:i:s'),
+                // 'detail_log' => $username. $detail,
+                'detail_log' => "{$detail} : {$username}",
+                // 'log_type' => $Type .$username, 
+                'log_type' => $type,
+                // 'created_date' => date('Y-m-j H:i:s'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $username
                 // ,
                 // 'last_update_date' => date('Y-m-j H:i:s'),
@@ -139,7 +150,8 @@ class submit_iin extends CI_Controller {
 				                'id_application '=> $inserted_id,
 				                'id_application_status_name' => '1',
 				                'process_status' => 'PENDING',	
-				                'created_date' => date('Y-m-j'),
+				                // 'created_date' => date('Y-m-j'),
+				                'created_date' => $this->date_time_now(),
 				                'created_by' => $username
 			            	);
 				            $this->user_model->insert_app_status($data1);
@@ -147,7 +159,7 @@ class submit_iin extends CI_Controller {
 							/*
 							AUDIT TRAIL Step 0
 							*/
-							$this->log("added new application","Created new application");
+							$this->log("Added New Application","Created new application by");
 					        
 					        /*
 				            	REMINDER : 
@@ -180,54 +192,54 @@ class submit_iin extends CI_Controller {
 	/*
 	This function will validate id_application exist, and current id_application_status_name
 	*/
-	public function check_step_status($name) {
+	// public function check_step_status($name) {
 
-		$id_user = $this->session->userdata('id_user');
-		echo "|id_user : {$id_user}";
-		echo "|name : {$name}";
+	// 	$id_user = $this->session->userdata('id_user');
+	// 	echo "|id_user : {$id_user}";
+	// 	echo "|name : {$name}";
 
-		/*
-		Validate id_application 
-		*/
-		$get_id_application = $this->user_model->get_id_application($id_user);
-		if ( !is_null($get_id_application->row()->id_application) ) {
-			$id_application = $get_id_application->row()->id_application;
-			$created_by = $get_id_application->row()->created_by;
-
-
-			// $this->session->set_userdata('id_application', $id_application);
-			echo "|id_application : {$id_application}";
-			echo "|created_by : {$created_by}";
+	// 	/*
+	// 	Validate id_application 
+	// 	*/
+	// 	$get_id_application = $this->user_model->get_id_application($id_user);
+	// 	if ( !is_null($get_id_application->row()->id_application) ) {
+	// 		$id_application = $get_id_application->row()->id_application;
+	// 		$created_by = $get_id_application->row()->created_by;
 
 
-			/*
-			Validate id_application_status_name 2 exist
-			*/
-			$get_id_application_status_name = $this->user_model->get_id_application_status_name($id_application, $name);
-			if ( empty($get_id_application_status_name->row()->id_application_status_name) ) {
-				// $id_application_status_name = $get_id_application_status_name->row()->id_application_status_name;
-				// echo "|id_application_status_name : {$id_application_status_name}";
+	// 		// $this->session->set_userdata('id_application', $id_application);
+	// 		echo "|id_application : {$id_application}";
+	// 		echo "|created_by : {$created_by}";
 
-				$app_status = array(
-		            'id_application '=> $id_application,
-		            'id_application_status_name' => $name,
-		            'process_status' => 'COMPLETED',	
-		            'created_date' => date('Y-m-j'),
-		            'created_by' => $created_by
-		    	);
 
-		    	return $app_status;
+	// 		/*
+	// 		Validate id_application_status_name 2 exist
+	// 		*/
+	// 		$get_id_application_status_name = $this->user_model->get_id_application_status_name($id_application, $name);
+	// 		if ( empty($get_id_application_status_name->row()->id_application_status_name) ) {
+	// 			// $id_application_status_name = $get_id_application_status_name->row()->id_application_status_name;
+	// 			// echo "|id_application_status_name : {$id_application_status_name}";
 
-			} else {
-				echo "ERROR :: Controller submit_iin | name : {$name} | id_application_status_name ALREADY EXIST!";
-				return "x";
-			}
+	// 			$app_status = array(
+	// 	            'id_application '=> $id_application,
+	// 	            'id_application_status_name' => $name,
+	// 	            'process_status' => 'COMPLETED',	
+	// 	            'created_date' => date('Y-m-j'),
+	// 	            'created_by' => $created_by
+	// 	    	);
 
-		} else {
-			echo "ERROR :: Controller submit_iin | name : {$name} | id_application NOT FOUND!";
-			return "x";
-		}
-	}
+	// 	    	return $app_status;
+
+	// 		} else {
+	// 			echo "ERROR :: Controller submit_iin | name : {$name} | id_application_status_name ALREADY EXIST!";
+	// 			return "x";
+	// 		}
+
+	// 	} else {
+	// 		echo "ERROR :: Controller submit_iin | name : {$name} | id_application NOT FOUND!";
+	// 		return "x";
+	// 	}
+	// }
 
 	public function check_app_status() {
 		/*
@@ -305,13 +317,15 @@ class submit_iin extends CI_Controller {
 		*/
 		if ($app_status != 'x') {
 
+
 			$step_status_name = '2';
-			echo "|TEST";
+			// echo "|TEST";
 
 			$id_application_status_name = $app_status['id_application_status_name'];
 			echo "|id_application_status_name : {$id_application_status_name}";
 
 			if ( $id_application_status_name != $step_status_name ) {
+			// if ( $id_application_status_name = $step_status_name ) {
 				
 				echo json_encode($app_status);
 
@@ -330,19 +344,27 @@ class submit_iin extends CI_Controller {
 				@ Update The Value of process_status
 				*
 				*/
-				$arr_status = array(
-		            'id_application '=> $app_status['id_application'],
-		            'id_application_status_name' => $step_status_name,
-		            'process_status' => 'COMPLETED',	
-		            'created_date' => date('Y-m-j'),
-		            'created_by' => $app_status['created_by']
-		    	);
+				// $arr_status = array(
+		  //           'id_application '=> $app_status['id_application'],
+		  //           'id_application_status_name' => $step_status_name,
+		  //           'process_status' => 'COMPLETED',	
+		  //           // 'created_date' => date('Y-m-j'),	
+		  //           'created_date' => $this->date_time_now(),
+		  //           'created_by' => $app_status['created_by']
+		  //   	);
 
 				/*
 				Update The Value of application_status Table
 				*/
-				$this->user_model->insert_app_status($arr_status);
+				// $this->user_model->insert_app_status($arr_status);
 
+				$this->user_model->update_aplication_status('COMPLETED', $id_application, $step_status_name, $this->session->userdata('username'));
+
+				/*
+				AUDIT TRAIL Step 1
+				*/
+				$this->log("New Application Verified","Application Verified | Applicant");
+		        
 			}
 
 			redirect(base_url("Layanan-IIN"));
@@ -358,6 +380,8 @@ class submit_iin extends CI_Controller {
 	*/
 	public function step_2($uploaded) {
 
+		$logMsg = "";
+
 		$limit = count($uploaded);
 		echo "|limit : {$limit}";
 
@@ -369,20 +393,23 @@ class submit_iin extends CI_Controller {
 		$id_application_status_name = $this->session->userdata('id_application_status_name');
 		echo "|id_application_status_name : {$id_application_status_name}";
 
-		
-		// $query = $this->session->userdata('step2_upload');
-		// echo "|query : {$query}";
 
-		/*
-		GET list of document
-		@Table : document_config
-		*/
-		$query = $this->user_model->get_doc_user_upload($limit,'');
+		echo "| uploaded : ".json_encode($uploaded);
+
+
+		
+		
 
 		if ( $id_application_status_name == '2' ) {
 			/*
 			NORMAL FILE UPLOAD
 			*/
+
+			/*
+			GET list of document
+			@Table : document_config
+			*/
+			$query = $this->user_model->get_doc_user_upload($limit,'');
 
 			for ( $i = 0; $i < $limit; $i++ ) {
 				$dataFile = array(
@@ -402,59 +429,57 @@ class submit_iin extends CI_Controller {
 				$this->user_model->insert_app_file($dataFile);
 			}
 
-
-			$id_application_status_name = '3';
+			
 
 		} elseif ( $id_application_status_name == '4' ) {
 			/*
 			..REVISION FILE UPLOAD..
 			*/
-			echo "| $ REVSTART $ ";
+			// echo "| $ REVSTART $ ";
+
+			$process_status = 'COMPLETED';
 
 			/*
 			Get List of Revision File
 			*/
-
 			$data = $this->session->userdata('step2_upload');
+			$list_id_form_mapping = $this->session->userdata('list_id_form_mapping');
 
 			// echo "|".json_encode($data);
 
+			// $app_file = array();
 			foreach ($data as $index => $valIndex) {
 				# code...
-				echo "| index : {$index}";
+				// echo "| index : {$index}";
+				// echo "| list_id_form_mapping : {$list_id_form_mapping[$index]}";
 
 				/*
 				Insert application_file Table
 				@Insert New Files Uploaded by User
 				*/
 				$app_file =  array(
-					'id_document_config' => $query[$index]->id_document_config,
-					// 'id_application' => $get_document->row()->id_application,
+					// 'id_document_config' => $query[$index]->id_document_config,
 					'id_application' =>	 $id_application,
 					'path_id' => $uploaded[$index]['full_path'],
 					'status' => 'ACTIVE',
-		            'created_date' => date('Y-m-j'),
+		            'created_date' => $this->date_time_now(),
 					'created_by' => $this->session->userdata('username')
 				);
 
-				echo "|".json_encode($app_file);
-
-				$this->user_model->insert_app_file($app_file);
-
-				
 				foreach ($valIndex as $key => $val) {
 					# code...
 
+					/*
+					Validate $key== id_document_config
+					*/
+					if ($key == 'id_document_config') {
+						$app_file['id_document_config'] = $val;
+					}
 
 					/*
-					Validate $key
-					@if value == key
-
+					Validate $key== key
 					*/
 					if ($key == 'key') {
-						// echo "| key : {$key}";
-						// echo " val : {$val}";
-
 						/*
 						Insert application_status_form_mapping Table
 						@Insert KEY of revision Files Uploaded by User
@@ -462,20 +487,40 @@ class submit_iin extends CI_Controller {
 						$form_map = array(
 							'id_application_status' => $id_application_status,
 							'type' => 'REVISION_FILE '.$val,
-							'value' => $val,
+				            'modified_date' => $this->date_time_now(),
+							'modified_by' => $this->session->userdata('username')
 						);
 
-						echo "|".json_encode($form_map);
+						// echo "|".json_encode($form_map);
 
-						// $this->user_model->set_app_form($form_map);
-						$this->user_model->update_app_form($form_map);
+						$this->user_model->update_app_form($form_map, $list_id_form_mapping[$index]);
 
+						/*
+						..INSERT log Table..
+						*/
+						$this->log("Revisi Form Mapping","Revision Form Mapping Submitted by");
 					}
 				}
+
+
+				$this->user_model->insert_app_file($app_file);
+				echo "|".json_encode($app_file);
 			}
 
+			/*
+			..UPDATE application_status Table..
+			@ update id_application_status_name 4 = 'COMPLETED'
+			*/
+	        $this->user_model->update_aplication_status('COMPLETED', $id_application, $id_application_status_name, $this->session->userdata('username'));
+
+
 			$id_application_status_name = '5';
+			$logMsg = "Revisi ";
+		
+
 		}
+
+		// echo "|".json_encode($app_status);
 
 		/*
 		..INSERT application_status Table..
@@ -484,13 +529,17 @@ class submit_iin extends CI_Controller {
             'id_application '=> $id_application,
             'id_application_status_name' => $id_application_status_name,
             'process_status' => 'PENDING',	
-            'created_date' => date('Y-m-j'),
+            'created_date' => $this->date_time_now(),
+            // 'created_date' => date('Y-m-j'),
             'created_by' => $this->session->userdata('username')
     	);
-
-        $this->user_model->insert_app_status($app_status);
 		
+        $this->user_model->insert_app_status($app_status);
 
+		/*
+		..INSERT log Table..
+		*/
+		$this->log("{$logMsg}Submit Dokumen","Application Files Submitted by");
 	}	
 
 	/*

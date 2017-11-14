@@ -481,7 +481,8 @@ class SipinHome extends CI_Controller {
 		// $iin_status = 'CLOSED';
 
 		/*
-		if = 'OPEN'
+		if iin_status = 'OPEN'
+		@THIS IS AN ACTIVE APPLICATION
 		*/
 		if ( $iin_status == 'OPEN' ) {
 			echo "|TEST OPEN";
@@ -588,34 +589,27 @@ class SipinHome extends CI_Controller {
 					        		/*
 									Instantiate Array $key
 					        		*/
-					        		$key = array();
-
-					        		foreach ($val as $v1) {
-									    foreach ($v1 as $v2) {
-									        // echo "$v2\n";
-									        array_push($key, $v2);
-									        echo "|key : {$v2}";
-									    }
-									}
-
+					        		$keys = array();
+					        		$list_id_form_mapping = array();
 									foreach ($val as $index => $valIndex) {
-
-										echo "| index : {$index}";
 
 										foreach ($valIndex as $key => $val) {
 
-											if ($key == 'value ') {
-												
-												echo "| key : {$key}";
-												echo " val : {$val}";
+											if ($key == 'value') {
+									       		array_push($keys, $val);
+											}
+											if ($key == 'id_application_status_form_mapping') {
+									       		array_push($list_id_form_mapping, $val);
 											}
 										}
 									}
 
-					        		// echo "|key : ".json_encode($key);
+					        		// echo "|keys : ".json_encode($keys);
+					        		// echo "|list_id_form_mapping : ".json_encode($list_id_form_mapping);
 
-					        		$data['step2_upload']	= $this->user_model->get_rev_doc_user_upload($key);
+					        		$data['step2_upload']	= $this->user_model->get_rev_doc_user_upload($keys);
 					        		$this->session->set_userdata('step2_upload', $data['step2_upload'] );
+					        		$this->session->set_userdata('list_id_form_mapping', $list_id_form_mapping );
 					        		
 					        		break;
 					        }
@@ -632,7 +626,7 @@ class SipinHome extends CI_Controller {
 					        	case 'PENDING':
 					        		# code...
 					        		$data['state2'] = "process";
-					        		$data['title'] = "[REVISI] Proses Verifikasi dan Validasi";
+					        		$data['title'] = "[Revisi] Proses Verifikasi dan Validasi";
 									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
 					        		break;
 					        }
@@ -648,66 +642,6 @@ class SipinHome extends CI_Controller {
 
 			}
 
-
-			/**
-			Original
-			**/
-			// if ( $id_application_status_name >= '1' ) {
-			// 	/*
-			// 	Validate StepId (step0)
-			// 	*/
-			// 	if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
-			// 		$data['state0'] = "process";
-			// 		$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
-			// 		$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
-				
-			// 	} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
-			// 		$data['state0'] = "rejected";
-			// 		$data['title'] = "Hasil Verifikasi Status Permohonan";
-			// 		$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
-				
-			// 	} else {
-
-
-			// 		$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
-			// 		$data['state0'] = "0";
-			// 		$page = '1';
-			// 		$input_field = $this->user_model->step_0_get_application($id_user);
-			// 		// print_r($input_field->row());
-			// 		$data['applicant'] = $input_field->row()->applicant;
-			// 		$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
-			// 		$data['application_date'] = $input_field->row()->application_date;
-			// 		$data['application_purpose'] = $input_field->row()->application_purpose;
-			// 		$data['instance_name'] = $input_field->row()->instance_name;
-			// 		$data['instance_email'] = $input_field->row()->instance_email;
-			// 		$data['instance_phone'] = $input_field->row()->instance_phone;
-			// 		$data['instance_director'] = $input_field->row()->instance_director;
-			// 		$data['mailing_location'] = $input_field->row()->mailing_location;
-			// 		$data['mailing_number'] = $input_field->row()->mailing_number;
-			// 	}
-
-
-			// }
-
-			// if ( $id_application_status_name >= '2' ) {
-			// 	$page = '2';
-			// 	$data['state2'] = "2";
-
-			// 	if ( $id_application_status_name == '3' and $process_status == 'COMPLETED') {
-			// 		$data['state0'] = "rejected";
-			// 		$data['title'] = "Revisi Submit Kelengkapan Dokumen";
-			// 		$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
-			// 	} elseif ( $id_application_status_name == '4' and $process_status == 'PENDING' ) {
-			// 		$data['upload']	= $this->user_model->get_doc_user_upload($id_user);
-			// 		$data['state0'] = "process";
-			// 		$data['title'] = "Submit Kelengkapan Dokumen";
-			// 		$data['text'] = "Dokumen yang anda unggah sudah BERHASIL masuk ke dalam database SIPIN. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.";
-			// 	} else {
-			// 		$data['state0'] = "0";
-			// 		$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
-			// 	}
-			// }
-				
 
 			//STEP 3 should be validated by button from step 2
 			
@@ -728,6 +662,7 @@ class SipinHome extends CI_Controller {
 
 		/*
 		if iin_status = CLOSED
+		@THIS IS INACTIVE APPLICATION
 		*/
 		// else if( $iin_status == 'CLOSED' ) {
 		// 	echo "|TEST CLOSED";
@@ -769,9 +704,9 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
-		// $this->load->view('header');
-		// $this->load->view('submit-iin',$data);
-		// $this->load->view('footer');
+		$this->load->view('header');
+		$this->load->view('submit-iin',$data);
+		$this->load->view('footer');
 
 	}
 
