@@ -1,13 +1,6 @@
 <?php
   $page_title = 'Dashboard :: Pengaturan Konten :: Editor';
   $page_section = 'Content Management System Editor';
-  $data_table = [
-    ['id_cms'], 
-    ['title'], 
-    ['content'],
-    ['created_date'],
-    ['created_by']
-  ];
 ?>
 
 
@@ -21,7 +14,7 @@
     </div>
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="cms_editor">
-      <form action="cms_editor_submit" method="get" accept-charset="utf-8">
+      <form action="cms_editor_submit" method="post" accept-charset="utf-8">
         <input type="hidden" name="id_cms" value="<?php echo ($data) ? '' : $data[0]['id_cms'] ?>">
         <div class="cms_editor_title">
           <label>Judul Konten

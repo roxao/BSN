@@ -579,7 +579,7 @@ class Admin_model extends CI_Model {
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
         ->where('application_status_form_mapping.id_application_status', $id_app_status)
-        ->like('application_status_form_mapping.type','REVISED_DOC');
+        ->like('application_status_form_mapping.type','REVISION_FILE');
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();

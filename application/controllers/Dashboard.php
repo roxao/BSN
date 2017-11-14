@@ -505,7 +505,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function upload_acceptor(){
-          $imageFolder = "upload/cms-assets/";
+          $imageFolder = "upload/content-file/";
           reset ($_FILES);
           $temp = current($_FILES);
           if (is_uploaded_file($temp['tmp_name'])){
@@ -530,7 +530,7 @@ class Dashboard extends CI_Controller {
             $this->admin_model->insert_cms_file($data);
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_username').' Insert Data CMS file',
+                'detail_log' => $this->session->userdata('admin_username').' Upload File for CMS',
                 'log_type' => 'Update Data', 
                 'created_date' => date('Y-m-j H:i:s')
             );
