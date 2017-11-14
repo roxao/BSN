@@ -193,6 +193,9 @@ class submit_iin extends CI_Controller {
 		if ( !is_null($get_id_application->row()->id_application) ) {
 			$id_application = $get_id_application->row()->id_application;
 			$created_by = $get_id_application->row()->created_by;
+
+
+			// $this->session->set_userdata('id_application', $id_application);
 			echo "|id_application : {$id_application}";
 			echo "|created_by : {$created_by}";
 
@@ -212,10 +215,6 @@ class submit_iin extends CI_Controller {
 		            'created_date' => date('Y-m-j'),
 		            'created_by' => $created_by
 		    	);
-
-		    	// echo json_encode($app_status);
-
-		        // $this->user_model->insert_app_status($app_status);
 
 		    	return $app_status;
 
@@ -289,23 +288,6 @@ class submit_iin extends CI_Controller {
 	*/
 	public function step_1() {
 
-
-		/*
-		THIS METHOD USING check_step_status function
-		*
-		*/
-		// $name = '2';
-		// $app_status = $this->check_step_status($name);
-		// // echo "app_status : {$app_status}";
-		// echo json_encode($app_status);
-
-		// if ($app_status != 'x') {
-		// 	$this->user_model->insert_app_status($app_status);
-		// } else {
-		// 	echo "ERROR :: Controller submit_iin | name : {$name} | id_application_status_name ALREADY EXIST!";
-		// }
-
-
 		/*
 		THIS METHOD USING check_app_status function 
 		(to Simplify and FIX check_step_status flaws)
@@ -374,9 +356,142 @@ class submit_iin extends CI_Controller {
 	/*
 	
 	*/
-	public function step_2() {
+	public function step_2($uploaded) {
 
-	}
+		$limit = count($uploaded);
+		echo "|limit : {$limit}";
+
+		// $id_application = $this->input->post('id_application');
+		$id_application = $this->session->userdata('id_application');
+		echo "|id_application : {$id_application}";
+		$id_application_status = $this->session->userdata('id_application_status');
+		echo "|id_application_status : {$id_application_status}";
+		$id_application_status_name = $this->session->userdata('id_application_status_name');
+		echo "|id_application_status_name : {$id_application_status_name}";
+
+		
+		// $query = $this->session->userdata('step2_upload');
+		// echo "|query : {$query}";
+
+		/*
+		GET list of document
+		@Table : document_config
+		*/
+		$query = $this->user_model->get_doc_user_upload($limit,'');
+
+		if ( $id_application_status_name == '2' ) {
+			/*
+			NORMAL FILE UPLOAD
+			*/
+
+			for ( $i = 0; $i < $limit; $i++ ) {
+				$dataFile = array(
+					'id_document_config' => $query[$i]->id_document_config,
+					// 'id_application' => $get_document->row()->id_application,
+					'id_application' =>	 $id_application,
+					'path_id' => $uploaded[$i]['full_path'],
+					'status' => 'ACTIVE',
+		            'created_date' => date('Y-m-j'),
+					'created_by' => $this->session->userdata('username')
+				);
+
+				/*
+				Insert application_file Table
+				@Insert New Files Uploaded by User
+				*/
+				$this->user_model->insert_app_file($dataFile);
+			}
+
+
+			$id_application_status_name = '3';
+
+		} elseif ( $id_application_status_name == '4' ) {
+			/*
+			..REVISION FILE UPLOAD..
+			*/
+			echo "| $ REVSTART $ ";
+
+			/*
+			Get List of Revision File
+			*/
+
+			$data = $this->session->userdata('step2_upload');
+
+			// echo "|".json_encode($data);
+
+			foreach ($data as $index => $valIndex) {
+				# code...
+				echo "| index : {$index}";
+
+				/*
+				Insert application_file Table
+				@Insert New Files Uploaded by User
+				*/
+				$app_file =  array(
+					'id_document_config' => $query[$index]->id_document_config,
+					// 'id_application' => $get_document->row()->id_application,
+					'id_application' =>	 $id_application,
+					'path_id' => $uploaded[$index]['full_path'],
+					'status' => 'ACTIVE',
+		            'created_date' => date('Y-m-j'),
+					'created_by' => $this->session->userdata('username')
+				);
+
+				echo "|".json_encode($app_file);
+
+				$this->user_model->insert_app_file($app_file);
+
+				
+				foreach ($valIndex as $key => $val) {
+					# code...
+
+
+					/*
+					Validate $key
+					@if value == key
+
+					*/
+					if ($key == 'key') {
+						// echo "| key : {$key}";
+						// echo " val : {$val}";
+
+						/*
+						Insert application_status_form_mapping Table
+						@Insert KEY of revision Files Uploaded by User
+						*/
+						$form_map = array(
+							'id_application_status' => $id_application_status,
+							'type' => 'REVISION_FILE '.$val,
+							'value' => $val,
+						);
+
+						echo "|".json_encode($form_map);
+
+						// $this->user_model->set_app_form($form_map);
+						$this->user_model->update_app_form($form_map);
+
+					}
+				}
+			}
+
+			$id_application_status_name = '5';
+		}
+
+		/*
+		..INSERT application_status Table..
+		*/
+		$app_status = array(
+            'id_application '=> $id_application,
+            'id_application_status_name' => $id_application_status_name,
+            'process_status' => 'PENDING',	
+            'created_date' => date('Y-m-j'),
+            'created_by' => $this->session->userdata('username')
+    	);
+
+        $this->user_model->insert_app_status($app_status);
+		
+
+	}	
 
 	/*
 	
@@ -665,18 +780,108 @@ class submit_iin extends CI_Controller {
 		}
 	}
 
+
+
 	/*Melakukan Upload document*/
-	// function do_upload() {
+	function upload_files() {
+
+		if($this->session->userdata('status') != "login"){
+			redirect(base_url("SipinHome"));
+		}
+
+		$id_user = $this->session->userdata('id_user');
+		$get_document = $this->user_model->get_aplication($id_user);
+		$username = $this->session->userdata('username');
+		$query = 0;
+
+      	// Configure upload.
+	 	$this->load->library('upload');
+		$this->upload->initialize(array(
+			 "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
+             "upload_path"   => "./upload/"
+		));
+
+		/*
+		To Count List of files to be uploaded (if it isn't an array)
+		*
+		*/
+
+		$no_count = $this->input->post('no_count');
+
+		/*
+		Instantiate uploaded files array.
+		*/
+		$uploaded = array();
+
+		for ($i = 0; $i < $no_count; $i++) {
 
 			/*
-			If new upload, show all 12 files
+			Define index of list file from View
 			*/
+			$usr_file = "file{$i}";
+			// echo "|{$usr_file}";
 
 			/*
-			If revision upload, show only revision files
+			File name
 			*/
+			$name_file =  $_FILES[$usr_file]['name'];
+			// echo " {$name_file}";
 
-	// }
+			/*
+			Validate if the file name empty
+			@ In this case only upload file that already selected by user.
+			@ If user didn't choose a file, error from My_upload will be 'You did not selected the file'
+			*
+			*/
+			if ( $name_file != "") {
+				$this->upload->do_upload($usr_file);
+				echo "|IN : {$usr_file}";
+				echo " {$name_file}";
+
+
+				// $uploaded = $this->upload->data();
+				array_push($uploaded, $this->upload->data());
+
+				// echo "|uploaded : ".json_encode($uploaded);
+
+				/*
+				ACTION to upload step2
+				*/
+				// $btn = $this->input->post('upload');
+				// echo "btn : {$btn}";
+				// if ($this->input->post('upload') == "uploadstep3") {
+				// 	echo "step3";
+				// }
+
+				/*
+				ACTION to upload step5
+				*/
+				// $btn = $this->input->post('upload');
+				// echo "btn : {$btn}";
+				// if ($this->input->post('upload') == "uploadstep3") {
+				// 	echo "step3";
+				// }
+
+
+
+			} else {
+				echo "|ERR : {$usr_file}";
+			}
+
+		}
+
+		// echo "|uploaded : ".json_encode($uploaded);s
+
+		if ($this->input->post('upload') == "uploadstep3"){
+			$this->step_2($uploaded);
+		} 
+		// else if ($this->input->post('upload') == "uploadstep6") {
+		// 	 $this->step_enam_upload();
+		// }
+
+		// redirect(base_url("Layanan-IIN"),'refresh');
+
+	}
 	
 	/*Melakukan Upload document*/
 	function do_upload() {
@@ -690,7 +895,7 @@ class submit_iin extends CI_Controller {
 		$username = $this->session->userdata('username');
 		$query = 0;
 	 	$this->load->library('upload');
- 
+ 		
       	//Configure upload.
          $this->upload->initialize(array(
 			 "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
@@ -708,36 +913,34 @@ class submit_iin extends CI_Controller {
 				$query = $this->user_model->get_doc_user_upload();
 
 			} else if ($this->input->post('upload') == "uploadstep6") {
-				 $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
+				$query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
 			}
 
-				/*Query Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
-				for ($j = 0; $j < count($query); $j++){
-				   	/*Array Image di parsing*/
-					for ($i = 0; $i < count($uploaded); $i++) {
-						/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
-					 	if ($j == $i){
-				 			/*Query Insert FilePathnya ke DB*/
-							if ($this->input->post('upload') == "uploadstep6"){
-								$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
-							} else if ($this->input->post('upload') == "uploadstep3"){
-								$dataFile = array(
-									'id_document_config' => $query[$i]->id_document_config,
-									'id_application' => $get_document->row()->id_application,
-									'path_id' => $uploaded[$i]['full_path'],
-									'status' => 'ACTIVE',
-									'created_date' => date('y-m-d'),
-									'created_by' => $this->session->userdata('username'));
+			/*Query Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
+			for ($j = 0; $j < count($query); $j++) {
+			   	/*Array Image di parsing*/
+				for ($i = 0; $i < count($uploaded); $i++) {
+					/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
+				 	if ($j == $i) {
+			 			/*Query Insert FilePathnya ke DB*/
+						if ($this->input->post('upload') == "uploadstep6") {
+							$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
+						} else if ($this->input->post('upload') == "uploadstep3") {
+							$dataFile = array(
+								'id_document_config' => $query[$i]->id_document_config,
+								'id_application' => $get_document->row()->id_application,
+								'path_id' => $uploaded[$i]['full_path'],
+								'status' => 'ACTIVE',
+								'created_date' => date('y-m-d'),
+								'created_by' => $this->session->userdata('username'));
 
-								$this->user_model->insert_app_file($dataFile);
-
-							}
-
-				 		}
-					}
+							$this->user_model->insert_app_file($dataFile);
+						}
+			 		}
 				}
-		} else{
-				die('GAGAL UPLOAD');
+			}
+		} else {
+			die('GAGAL UPLOAD');
   		} 
  
 		if ($this->input->post('upload') == "uploadstep3"){

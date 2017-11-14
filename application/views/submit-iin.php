@@ -68,7 +68,7 @@
 		// $this->load->view('submitIIN/step1',$data); 
 		// $this->load->view('submitIIN/step2',$data,$id_user);
 		// $this->load->view('submitIIN/step3',$data);	
-		// $this->load->view('submitIIN/step4',$data);
+		$this->load->view('submitIIN/step4',$data);
 		// $this->load->view('submitIIN/step5',$data); 
 		// $this->load->view('submitIIN/step6',$datas, $data);
 		// $this->load->view('submitIIN/step7',$data);

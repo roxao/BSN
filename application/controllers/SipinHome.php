@@ -437,11 +437,21 @@ class SipinHome extends CI_Controller {
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 		$iin_status = $get_app_status->row()->iin_status;
 
+
+		$id_application = $get_app_status->row()->id_application;
+		$id_application_status = $get_app_status->row()->id_application_status;
 		$id_application_status_name = $get_app_status->row()->id_application_status_name;
 		$process_status = $get_app_status->row()->process_status;
 		// echo "|get_app_status : ";
 		// print_r($get_app_status);
+
+		$this->session->set_userdata('id_application',$id_application);
+		$this->session->set_userdata('id_application_status',$id_application_status);
+		$this->session->set_userdata('id_application_status_name',$id_application_status_name);
+
 		echo "|iin_status : {$iin_status}";
+		echo "|id_application : {$id_application}";
+		echo "|id_application_status : {$id_application_status}";
 		echo "|id_application_status_name : {$id_application_status_name}";
 		echo "|process_status : {$process_status}";
 
@@ -485,13 +495,11 @@ class SipinHome extends CI_Controller {
 				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
 					$data['state0'] = "process";
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
-					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
-				
+					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
 					$data['state0'] = "rejected";
 					$data['title'] = "Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
-				
 				} else {
 					$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
 					$data['state0'] = "0";
@@ -514,16 +522,22 @@ class SipinHome extends CI_Controller {
 					$page = '2';
 					$data['state2'] = "2";
 					$data['upload_status'] = '';
+	        		$data['title_iin'] = "Submit Kelengkapan Dokumen Permohonan IIN";
+	        		$data['text_iin'] = "Silakan mengunggah dokumen-dokumen yang sudah dilengkapi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.";
 
 					
 					switch (  $id_application_status_name ) {
+						
 					    case '2':
 							// $data['state2'] = "2";
 							/*
 							Default List of Files
 							*/
-							$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
+							$data['step2_upload']	= $this->user_model->get_doc_user_upload('','');
+							// $data['id_application']	= $this->user_model->get_doc_user_upload('');
+							
 
+							
 					        break;
 
 					    case '3':
@@ -534,10 +548,15 @@ class SipinHome extends CI_Controller {
 									$page = '3';
 									// $data['state2'] = "2";
 									$data['upload_status'] = 'success';
+					        		$data['title_iin'] = "Kelengkapan Dokumen Permohonan IIN Anda";
+					        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi";
 									/*
 									Only Files that already uploaded By User
 									*/
-									$data['step2_upload']	= $this->user_model->get_doc_user_upload($id_user);
+
+									$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application);
+									$this->session->set_userdata('step2_upload', $data['step2_upload'] );
+					        		
 					        		break;
 					        	
 					        	case 'PENDING':
@@ -552,12 +571,52 @@ class SipinHome extends CI_Controller {
 					    case '4':
 
 					         switch ( $process_status ) {
-					        	case 'COMPLETED':
-					        		# code...
-					        		break;
 					        	
 					        	case 'PENDING':
 					        		# code...
+
+
+					        		$data['title_iin'] = "Revisi Kelengkapan Dokumen Permohonan IIN";
+					        		$data['text_iin'] = "Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.";
+
+					        		/*
+									Get List of Key 
+									@From application_status_form_mapping Table
+					        		*/
+					        		$val = $this->user_model->get_index_rev_doc($id_application_status);
+					        		
+					        		/*
+									Instantiate Array $key
+					        		*/
+					        		$key = array();
+
+					        		foreach ($val as $v1) {
+									    foreach ($v1 as $v2) {
+									        // echo "$v2\n";
+									        array_push($key, $v2);
+									        echo "|key : {$v2}";
+									    }
+									}
+
+									foreach ($val as $index => $valIndex) {
+
+										echo "| index : {$index}";
+
+										foreach ($valIndex as $key => $val) {
+
+											if ($key == 'value ') {
+												
+												echo "| key : {$key}";
+												echo " val : {$val}";
+											}
+										}
+									}
+
+					        		// echo "|key : ".json_encode($key);
+
+					        		$data['step2_upload']	= $this->user_model->get_rev_doc_user_upload($key);
+					        		$this->session->set_userdata('step2_upload', $data['step2_upload'] );
+					        		
 					        		break;
 					        }
 
@@ -572,6 +631,9 @@ class SipinHome extends CI_Controller {
 					        	
 					        	case 'PENDING':
 					        		# code...
+					        		$data['state2'] = "process";
+					        		$data['title'] = "[REVISI] Proses Verifikasi dan Validasi";
+									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
 					        		break;
 					        }
 
@@ -707,9 +769,9 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
-		$this->load->view('header');
-		$this->load->view('submit-iin',$data);
-		$this->load->view('footer');
+		// $this->load->view('header');
+		// $this->load->view('submit-iin',$data);
+		// $this->load->view('footer');
 
 	}
 
@@ -783,7 +845,14 @@ class SipinHome extends CI_Controller {
 
 		if ( $id_application_status_name >= '2' ) {
 			$page = '2';
-			$data['state2'] = "2";
+			
+			$data['state2'] = "2"; //this must be commented
+
+
+
+			// if ( $id_application_status_name == '2' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
+			// 	$data['state2'] = "2";
+			// } elseif
 
 			if ( $id_application_status_name == '3' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
 				$data['state0'] = "rejected";
