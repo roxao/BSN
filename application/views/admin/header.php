@@ -18,7 +18,7 @@
 			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
 			<ul class="nav-list float_right" style="padding-right: 20px">
-				<li class="nav-sess"><span class="nav-welcome">Hai, <b><?php echo $this->session->userdata('username') ?></b></span></li>
+				<li class="nav-sess"><span class="nav-welcome">Hai, <b><?php echo $this->session->userdata('admin_username') ?></b></span></li>
 				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
 					<ul class="box_notif">
 						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
