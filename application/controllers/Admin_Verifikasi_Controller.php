@@ -43,7 +43,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' adding new applicant',
+                'detail_log' => $this->session->userdata('admin_role').' adding new applicant by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -96,7 +96,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Rejected new applicant',
+                'detail_log' => $this->session->userdata('admin_role').' Rejected new applicant by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'reject new applicant '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -163,9 +163,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
-            echo $this->input->post('id_application_status')." = id_application_status";
+            
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' approved new document',
+                'detail_log' => $this->session->userdata('admin_role').' approved new document by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -236,7 +236,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Revisi Kelengkapan Dokumen',
+                'detail_log' => $this->session->userdata('admin_role').' Revisi Kelengkapan Dokumen by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'revisi '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -272,7 +272,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'type' => 'REVISION_DOC '.$doc[$i],
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_st
                         );
@@ -318,7 +318,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' approve revisi dokumen',
+                'detail_log' => $this->session->userdata('admin_role').' approve revisi dokumen by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$id_app->ROW()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -360,7 +360,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' revisi dokumen',
+                'detail_log' => $this->session->userdata('admin_role').' revisi dokumen by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -395,7 +395,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'type' => 'REVISION_DOC '.$doc[$i],
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_sts
                         );
@@ -461,7 +461,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Upload Billing Code SIMPONI',
+                'detail_log' => $this->session->userdata('admin_role').' Upload Billing Code SIMPONI by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$this->input->post('username'), 
                 'log_type' => 'added by : ', 
                 'created_date' => date('Y-m-j H:i:s'),
@@ -566,7 +566,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
              $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Reupload Billing Code SIMPONI',
+                'detail_log' => $this->session->userdata('admin_role').' Reupload Billing Code SIMPONI by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -696,7 +696,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $condition = array('id_application_status' => $this->input->post('id_application_status'));
            
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran',
+                'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$usrnme->row()->username, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -747,7 +747,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $this->admin_model->insert_app_sts_for_map($data5);
 
             $dataL2 = array(
-                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new team_assessment '.$usrnme->row()->username, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -764,7 +764,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
 
             $dataLass = array(
-                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application',
+                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$usrnme->row()->username, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -844,7 +844,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' revisi bukti pembayaran',
+                'detail_log' => $this->session->userdata('admin_role').' revisi bukti pembayaran by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$usrnme->row()->username, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -961,7 +961,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Verifikasi Revisi Bukti Pembayaran',
+                'detail_log' => $this->session->userdata('admin_role').' Verifikasi Revisi Bukti Pembayaran by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
@@ -989,7 +989,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->admin_model->insert_app_sts_for_map($data6);
 
             $dataL2 = array(
-                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new team_assessment '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
@@ -1006,7 +1006,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             );
 
             $dataLass = array(
-                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application',
+                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1076,7 +1076,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Verifikasi Revisi Bukti Pembayaran',
+                'detail_log' => $this->session->userdata('admin_role').' Verifikasi Revisi Bukti Pembayaran by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
@@ -1278,7 +1278,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' dokumen penugasan tim asesment',
+                'detail_log' => $this->session->userdata('admin_role').' dokumen penugasan tim asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1361,7 +1361,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'modified_date' => date('Y-m-j H:i:s'));
         $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' tim asesment',
+                'detail_log' => $this->session->userdata('admin_role').' tim asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1389,7 +1389,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $this->admin_model->insert_app_sts_for_map($data3);
 
         $dataL2 = array(
-                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment',
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new team_assessment '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1484,7 +1484,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment',
+                'detail_log' => $this->session->userdata('admin_role').' Approve Hasil Asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1580,7 +1580,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' revisi hasil asesment',
+                'detail_log' => $this->session->userdata('admin_role').' revisi hasil asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$id_app->row()->applicant, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1621,7 +1621,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $id_doc_new = $this->admin_model->insert_document_config($data_doc);
 
                     $data_doc_l = array(
-                        'detail_log' => $this->session->userdata('admin_role').' input document config '.$display_name_doc[$x],
+                        'detail_log' => $this->session->userdata('admin_role').' input document config '.$display_name_doc[$x].' by : '.$this->session->userdata('admin_username'),
                         'log_type' => 'added  doc '.$display_name_doc[$x], 
                         'created_date' => date('Y-m-j H:i:s'),
                         'created_by' => $this->session->userdata('admin_username')
@@ -1748,7 +1748,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' hasil asesment',
+                'detail_log' => $this->session->userdata('admin_role').' hasil asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
@@ -1789,7 +1789,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' revisi hasil asesment',
+                'detail_log' => $this->session->userdata('admin_role').' revisi hasil asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1879,7 +1879,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' CRA ',
+                'detail_log' => $this->session->userdata('admin_role').' CRA by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
@@ -1960,7 +1960,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' upload IIN ',
+                'detail_log' => $this->session->userdata('admin_role').' upload IIN by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added  '.$this->input->post('username'), 
                 'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
