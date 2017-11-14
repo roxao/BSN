@@ -108,6 +108,7 @@ class Admin_model extends CI_Model {
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->where($where);
+        $this->db->order_by('application_status.id_application_status','DESC');
         // $this->db->where('application_type','new')
         return $this->db->get();
     }

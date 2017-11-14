@@ -18,13 +18,13 @@
           <th width="" class="sort sort-center" data-sort="id_status">Status Pengajuan</th>
         </tr>
         <tbody class="list">
-          <?php  foreach($applications as $data) { ?>
+          <?php $i=1; foreach($applications as $data) { ?>
             <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
                 data-id="<?php  echo $data->id_application ?>"  
                 data-id-status="<?php  echo $data->id_application_status ?>"  
                 data-status="<?php  echo $data->display_name ?>" 
                 data-step="<?php  echo $data->application_status_name ?>">
-              <td class="id_no"><?php  echo $data->id_application ?></td>
+              <td class="id_no"><?php  echo $i ?></td>
               <td class="id_name"><?php  echo $data->applicant ?></td>
               <td class="id_pt"><?php  echo $data->instance_name ?></td>
               <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
@@ -32,7 +32,7 @@
               <td class="id_process"><?php  echo $data->process_status ?></td>
               <td class="id_status"><span class="<?php  echo $data->owner ?>"><?php  echo $data->display_name ?></span></td>
             </tr>
-          <?php  } ?>
+          <?php  $i++;} ?>
         </tbody>
       </table>
 
