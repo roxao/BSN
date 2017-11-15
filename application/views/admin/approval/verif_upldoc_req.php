@@ -9,6 +9,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<input type="submit" name="submit_approval" />
 	</form>
 </section>
@@ -22,6 +23,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_UPLDOC_REQ_PROSES_REVITIONS') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<div class="doc_rev">
 			
 		</div>
@@ -45,6 +47,7 @@
 
 	$("input[name=id_application_status]").val(app.id_application_status);
 	$("input[name=id_application]").val(app.id_application);
+	$("input[name=created_by]").val(app.created_by);
 
 	for (var i = 0; i < value.length; i++) {
 		$('.attach_user_file').append('<div class="clearfix"><div>'+ (i+1) +'. '+ value[i].display_name

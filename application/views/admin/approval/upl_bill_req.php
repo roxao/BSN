@@ -2,6 +2,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_BILL_REQ_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<div class="content-upload clearfix">
 			<label class="input_dashed float_left" style="width: 100%">
 				Kode Billing SIMPONI

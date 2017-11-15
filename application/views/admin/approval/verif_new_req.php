@@ -2,6 +2,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_NEW_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<section class="clearfix content_application" >
 			<div class="clearfix">
 				<label class="input_dashed float_left" style="width: 65%">
@@ -55,6 +56,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_NEW_REQ_ETC') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<textarea name="coment" cols="30" rows="10" class="text_comment" required></textarea>
 		<input type="submit" name="submit_revision" />
 	</form>
@@ -78,6 +80,7 @@
 	$("[name=instance_phone]").val(app.instance_phone);
 	$("[name=mailing_location]").val(app.mailing_location);
 	$("[name=mailing_number]").val(app.mailing_number);
+	$("[name=created_by]").val(app.created_by);
 
 	$.set_value_data();
 	$.base_config_approval();
