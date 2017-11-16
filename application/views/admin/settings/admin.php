@@ -87,7 +87,7 @@
         $('.z-modal-title').html('Ubah Administrator');
         $('.z-modal-frame').fadeIn('fast', function() {
           $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_u);
+          $('.z-modal-form').attr('action', url_u);
         });
       })
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
@@ -97,7 +97,7 @@
         $('.z-modal-frame').fadeIn('fast', function() {
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_i);
+          $('.z-modal-form').attr('action', url_i);
         });
       })
    });
@@ -115,8 +115,8 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <form action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
-        <div class="z-modal-form">
+      <form class="z-modal-form" action="<?php echo base_url('dashboard/action_update/admin/update/') ?>" method="post">
+        <div>
             <input name="id_admin" type="hidden"/>
             <label>
                 <span>Username</span>

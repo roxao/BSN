@@ -62,6 +62,7 @@
 
   <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
   <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
+  <script type="text/javascript" src="<?php echo base_url('/assets/js/viewhelper.js')?>"></script>
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
@@ -86,9 +87,9 @@
         $('.z-modal-title').html('Ubah Administrator');
         $('.z-modal-frame').fadeIn('fast', function() {
           $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_u);
+          $('.z-modal-form').attr('action', url_u);
         });
-      })
+      });
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#btn-add').on('click', function() {
@@ -96,10 +97,36 @@
         $('.z-modal-frame').fadeIn('fast', function() {
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_i);
+          $('.z-modal-form').attr('action', url_i);
         });
       })
+
+      //runCompleteCallBack(rowSelect);
+
    });
+  </script>
+  <script type="text/javascript">
+    function rowSelect(){
+      /*
+      $(".row_select").each(function()){
+
+
+      }
+
+      $('.row_select').on('click', function() {
+
+        $("[name=x]").val()
+
+        '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));'
+        $('.z-modal-title').html('Ubah Administrator');
+        $('.z-modal-frame').fadeIn('fast', function() {
+          $('#z-modal-edit').slideDown()
+          $('.z-modal-form').attr('action', url_u);
+        });
+      });
+      */
+    }
+
   </script>
   <style>
     tr th:first-child{text-align: center !important}
@@ -121,8 +148,8 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <form action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
-        <div class="z-modal-form">
+      <form class="z-modal-form" action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
+        <div >
             <input name="id_assessment_team" type="hidden"/>
             <label><span>Nama Lengkap</span>
                 <input name="name" type="text" placeholder="Username"/>
