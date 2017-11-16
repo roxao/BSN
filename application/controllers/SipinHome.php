@@ -429,7 +429,13 @@ class SipinHome extends CI_Controller {
 	*/
 	public function submit_application() {
 
-		$id_user = $this->session->userdata('id_user');
+		$userIdReq = $this->input->get('userIdSelected', TRUE);
+
+		if(null == $userIdReq || "" == $userIdReq){
+			$id_user = $this->session->userdata('id_user');
+		} else {
+			$id_user=$userIdReq;
+		}
 
 		/*
 		Get Application Status 
@@ -470,7 +476,9 @@ class SipinHome extends CI_Controller {
 			'title' => '',
 			'text' => '',
 			'state0' => '0',
-			'state2' => ''
+			'state2' => '',
+			'state3' => '',
+			'state4' => ''
 		);
 
 		// $id_application_status_name = '19'; //there is minor error when the value is id_application_status_name='19'
@@ -530,13 +538,26 @@ class SipinHome extends CI_Controller {
 					switch (  $id_application_status_name ) {
 						
 					    case '2':
-							// $data['state2'] = "2";
 							/*
 							Default List of Files
 							*/
-							$data['step2_upload']	= $this->user_model->get_doc_user_upload('','');
-							// $data['id_application']	= $this->user_model->get_doc_user_upload('');
-							
+							switch ($process_status) {
+								case 'COMPLETED':
+									# code...
+									$data['step2_upload']	= $this->user_model->get_doc_user_upload('','');
+									break;
+
+								case 'PENDING':
+									$page = '1';
+									$data['state2'] = "";
+									break;
+
+								
+								default:
+									# code...
+									break;
+							}
+
 
 							
 					        break;
@@ -544,26 +565,12 @@ class SipinHome extends CI_Controller {
 					    case '3':
 
 					        switch ( $process_status ) {
-					        	case 'COMPLETED':
-
-									$page = '3';
-									// $data['state2'] = "2";
-									$data['upload_status'] = 'success';
-					        		$data['title_iin'] = "Kelengkapan Dokumen Permohonan IIN Anda";
-					        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi";
-									/*
-									Only Files that already uploaded By User
-									*/
-
-									$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application);
-									$this->session->set_userdata('step2_upload', $data['step2_upload'] );
-					        		
-					        		break;
 					        	
 					        	case 'PENDING':
+									// $page = '2';
 					        		$data['state2'] = "process";
 					        		$data['title'] = "Proses Verifikasi dan Validasi";
-									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
+									$data['text'] = "Kelengkapan Dokumen anda telah masuk ke database sistem SIPIN, mohon menunggu verifikasi admin";
 					        		break;
 					        }
 
@@ -575,8 +582,6 @@ class SipinHome extends CI_Controller {
 					        	
 					        	case 'PENDING':
 					        		# code...
-
-
 					        		$data['title_iin'] = "Revisi Kelengkapan Dokumen Permohonan IIN";
 					        		$data['text_iin'] = "Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.";
 
@@ -604,13 +609,10 @@ class SipinHome extends CI_Controller {
 										}
 									}
 
-					        		// echo "|keys : ".json_encode($keys);
-					        		// echo "|list_id_form_mapping : ".json_encode($list_id_form_mapping);
-
 					        		$data['step2_upload']	= $this->user_model->get_rev_doc_user_upload($keys);
 					        		$this->session->set_userdata('step2_upload', $data['step2_upload'] );
 					        		$this->session->set_userdata('list_id_form_mapping', $list_id_form_mapping );
-					        		
+
 					        		break;
 					        }
 
@@ -619,36 +621,108 @@ class SipinHome extends CI_Controller {
 					    case '5':
 
 					         switch ( $process_status ) {
-					        	case 'COMPLETED':
-					        		# code...
-					        		break;
-					        	
 					        	case 'PENDING':
 					        		# code...
+									// $page = '2';
 					        		$data['state2'] = "process";
-					        		$data['title'] = "[Revisi] Proses Verifikasi dan Validasi";
-									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
+					        		$data['title'] = "Proses Verifikasi dan Validasi";
+									$data['text'] = "Kelengkapan Dokumen anda telah masuk ke database sistem SIPIN, mohon menunggu verifikasi admin";
 					        		break;
 					        }
 
 					        break;
 
+					   
 					    default:
 			        		# code...
 			        		break;
 			        }
-			    }
 
+			        if ( $id_application_status_name >= '6' ) {
+
+			        	$page = '3';
+						// $data['state2'] = "2";
+						$data['upload_status'] = 'success';
+		        		$data['title_iin'] = "Kelengkapan Dokumen Permohonan IIN Anda";
+		        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi";
+						/*
+						Only Files that already uploaded By User
+						*/
+
+						$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application);
+						$this->session->set_userdata('step2_upload', $data['step2_upload'] );
+
+			        	switch (  $id_application_status_name ) { 
+
+			        		case '6':
+
+						        switch ( $process_status ) {
+						        	case 'PENDING':
+
+										$data['state3'] = "process";
+						        		$data['title'] = "Proses Verifikasi dan Validasi";
+										$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
+						        		break;
+
+								}
+
+					       		break;
+
+					       	case '7':
+					       		$page = '4';
+				        		$data['state3'] = "3";
+								$data['upload_status2'] = 'success';
+								// $data['upload_status3'] = 'success';
+				        		$data['state4'] = "4";
+
+								switch ( $process_status ) {
+						        	case 'PENDING':
+						        		break;
+						        	case 'COMPLETED':
+				       					$page = '5';
+						        		break;
+								}
+
+
+				        		break;
+
+				        	case '8':
+					       		$page = '5';
+				        		// $data['state3'] = "3";
+								$data['upload_status3'] = '';
+								
+								switch ( $process_status ) {
+						        	case 'PENDING':
+						        		$data['state4'] = "4";
+
+
+										// $data['download_upload_kode_bill']  = $this->user_model->get_doc_kbs();
+
+						        		break;
+								}
+
+
+				        		break;
+
+			        	}
+
+
+			        	// if ( $id_application_status_name >= '6' ) {
+
+			        	// }
+			        }
+
+			    }
 
 			}
 
 
 			//STEP 3 should be validated by button from step 2
 			
-			if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
-				$page = '4';
-			if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
-				$page = '5';
+			// if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
+				// $page = '4';
+			// if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
+			// 	$page = '5';
 			if ( $id_application_status_name >= '12' )
 				$page = '6';
 			if ( $id_application_status_name >= '14' )

@@ -170,8 +170,9 @@ class User_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+
     //menampilkan data documen yang harus di diupload user
-    public function get_doc_user_upload($limit,$id_application)
+    public function get_doc_user_upload($key,$id_application)
     {
         $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
@@ -179,9 +180,15 @@ class User_model extends CI_Model {
         if ( $id_application != '' ) {
             $this->db->join('application_file af', 'dc.id_document_config = af.id_document_config');
             $this->db->where('af.id_application', $id_application);
-        } else {
-            $this->db->where('dc.type','DYNAMIC');
+            // $this->db->where('dc.type','DYNAMIC');
+            $this->db->where('af.status','ACTIVE');
+        } 
+        else {
+            // $this->db->where('dc.type','DYNAMIC');
         }
+
+        $this->db->where('dc.type','DYNAMIC');
+        // $this->db->where('af.status','ACTIVE');
 
         $this->db->order_by('dc.id_document_config', 'ASC');
 
@@ -190,8 +197,9 @@ class User_model extends CI_Model {
         get only list of file that provided by users
         @ using limit
         */
-        if ( $limit != '' ) {
-            $this->db->limit($limit);
+        if ( $key != '' ) {
+            // $this->db->limit($limit);
+            $this->db->where_in('dc.key', $key);
         }
             
         return $this->db->get()->result();
@@ -237,19 +245,15 @@ class User_model extends CI_Model {
         $this->db->insert('application_status_form_mapping', $data);
     }
 
-    public function update_app_form($data, $id_application_status_form_mapping)
+    /*
+    UPDATE application_form_mapping
+    Call this function when :
+    @ Revision File (step2)
+    */
+    public function update_app_form($data,  $id_application_status_form_mapping)
     {
-        // $data = array('iin_status' => $iin_status,
-        //         // 'created_date' => date('Y-m-j'),
-        //         'modified_by' => $modified_by,
-        //         'modified_date' => date('Y-m-j H:i:s'));
-        // $this->db->where('id_application', $id_application);
-        // return $this->db->update('applications', $data);
-
-
-
         $this->db->where('id_application_status_form_mapping', $id_application_status_form_mapping);
-        $this->db->update('application_status_form_mapping', $data);
+        return $this->db->update('application_status_form_mapping', $data);
     }
 
     /*
@@ -384,7 +388,9 @@ class User_model extends CI_Model {
     */
     public function insert_app_status($data)
     {
-       return $this->db->insert('application_status', $data);
+       $this->db->insert('application_status', $data);
+       $inserted_id = $this->db->insert_id();
+       return $inserted_id;
     }
 
 

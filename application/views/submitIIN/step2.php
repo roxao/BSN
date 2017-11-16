@@ -6,23 +6,50 @@
 	<p><?php echo $text_iin;?></p>
 	<?php echo form_open_multipart('submit_iin/upload_files');?>
 	<ul class="list_iin_download">
-		<?php $no=0; 
-			
+		<?php 
+
+			// $no=0; 
+			// $key_string = "";
+			// $arr_no = array();
 			foreach($step2_upload as $data) { 
-			$files= "file".$no;
+				// $files= "file".$no;
+				// array_push($arr_no, $no);
 
 				?>
+
 				<li class="item-upload"> 
-					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked disabled": "" );?> /> 
-					<?php  $no++; echo "$no.  "; echo $data->display_name;  
-						echo (($data->mandatory == '1') ? ' * ': '' );
+					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> 
+					<!-- <input type="checkbox" id="checkbox[]" name="checkbox" value="<?php echo $data->key?>" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> -->
+					<?php  
+					// $no++; echo "{$no}.  "; echo $data->display_name;
+						$files = "file".$data->key;
+						$mandatory = ($data->mandatory == '1') ? '*': '' ;
+						$name = "{$data->key}. {$data->display_name} {$mandatory}";
+
+						echo $name;
+
+						// echo "{$data->key}.  "; echo $data->display_name;  
+						// echo (($data->mandatory == '1') ? ' * ': '' );
+						// if ($key_string == "") {
+						// 	$key_string = $data->key;
+						// } else {
+						// 	$key_string = $key_string."|".$data->key;
+						// }
+
+						
+
+						
 					?>
 					
 					<label class="upload_button">
 						<span>Cari...</span>
-						<input type="file" name="<?php echo $files?>" 
+						<input type="file"  id="<?php echo $data->key?>" class="fileChoser" name="<?php echo $files?>" 
 						<?php echo (($data->mandatory == "1") ? "required": "" );?>	/>
-						<i></i>
+						<i id="<?php echo $files?>" ></i>
+
+						<?php 
+							// echo (($data->mandatory == "1") ? "required": "" );
+						?>
 					</label>
 					
 				</li> 	
@@ -33,10 +60,11 @@
 	</ul>
 
 
-	<input type="hidden" name="no_count" value="<?php echo $no; ?>">
-	<!-- <input type="hidden" name="id_application" value="<?php echo $id_application; ?>"> -->
+	<!-- <input type="hidden" id="no_count" name="no_count" value="<?php echo $no; ?>"> -->
 
- 	
+	<input type="hidden" id="no_count" name="no_count" >
+
+
 	<p >*Dokumen yang wajib disertakan</p>
 		<br/>
 		<br/>
@@ -45,7 +73,7 @@
 		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
 
 		<!-- <input type="submit" value="Upload" /> -->
-		<button style="background: #01923f" class="float_right"  value="uploadstep3" name="upload" >Proses</button>	
+		<button style="background: #01923f" class="float_right uploadstep3" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>	
 		
 	</div>
 	</form>
@@ -57,6 +85,8 @@
 
 
 
+
+<!-- DEFAULT ALDY -->
 <script>
 	$("input[type=file]").change(function() {
 	    var fileName = $(this).val().split('/').pop().split('\\').pop();
@@ -65,16 +95,35 @@
 	});
 </script>
 <script type="text/javascript">
-	var upload_status = "<?php echo $upload_status ?>";
 
+	var upload_status = "<?php echo $upload_status ?>";
 
 	if (upload_status == 'success') {
 		$(".upload_button").hide();
 	} else {
 		$(".upload_button").show();
 	}
-</script>
 
+	function checkUploadedFile(){
+		var temp = "";
+		$(".fileChoser").each(function(){
+			var value = $(this).val();
+			// alert(value);
+			if(value != null && value != ""){
+				
+				if(temp == "" || temp == null){
+					temp = $(this).attr("id");
+				} else {
+					temp = temp +","+$(this).attr("id");
+				}
+			}
+		});
+
+		$("#no_count").val(temp);
+
+		// alert($("#no_count").val());
+	}
+</script>	
 
 
 

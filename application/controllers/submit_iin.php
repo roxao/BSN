@@ -26,7 +26,8 @@ class submit_iin extends CI_Controller {
 		SET TIMEZONE ASIA/JAKARTA
 		*/
 	    $datetime = new DateTime('Asia/Jakarta');
-	    return $datetime->format('Y\-m\-d\ h:i:s');
+	    // $datetime = new DateTime('Europe/Moscow');
+	    return $datetime->format('Y\-m\-d\ H:i:s');
 	}
 
 	public function captcha()
@@ -302,7 +303,6 @@ class submit_iin extends CI_Controller {
 
 		/*
 		THIS METHOD USING check_app_status function 
-		(to Simplify and FIX check_step_status flaws)
 		*
 		*/
 
@@ -324,18 +324,18 @@ class submit_iin extends CI_Controller {
 			$id_application_status_name = $app_status['id_application_status_name'];
 			echo "|id_application_status_name : {$id_application_status_name}";
 
-			if ( $id_application_status_name != $step_status_name ) {
+			if ( $id_application_status_name == $step_status_name ) {
 			// if ( $id_application_status_name = $step_status_name ) {
 				
 				echo json_encode($app_status);
 
-				echo "|TEST2";
-				$process_status = $app_status['process_status'];
-				echo "|process_status : {$process_status}";
+				// echo "|TEST2";
+				// $process_status = $app_status['process_status'];
+				// echo "|process_status : {$process_status}";
 
 
-				$id_application = $app_status['id_application'];
-				echo "|id_application : {$id_application}";
+				// $id_application = $app_status['id_application'];
+				// echo "|id_application : {$id_application}";
 				
 				/*
 				Instantiate arr_status
@@ -358,7 +358,7 @@ class submit_iin extends CI_Controller {
 				*/
 				// $this->user_model->insert_app_status($arr_status);
 
-				$this->user_model->update_aplication_status('COMPLETED', $id_application, $step_status_name, $this->session->userdata('username'));
+				$this->user_model->update_aplication_status('COMPLETED', $app_status['id_application'], $step_status_name, $this->session->userdata('username'));
 
 				/*
 				AUDIT TRAIL Step 1
@@ -378,7 +378,7 @@ class submit_iin extends CI_Controller {
 	/*
 	
 	*/
-	public function step_2($uploaded) {
+	public function step_2($uploaded, $key) {
 
 		$logMsg = "";
 
@@ -397,6 +397,10 @@ class submit_iin extends CI_Controller {
 		echo "| uploaded : ".json_encode($uploaded);
 
 
+		// echo "| no_count : {$no_count}";
+
+		// $explode_str = explode(",", $no_count);
+		// echo "|count  : ".count($explode_str);
 		
 		
 
@@ -409,12 +413,12 @@ class submit_iin extends CI_Controller {
 			GET list of document
 			@Table : document_config
 			*/
-			$query = $this->user_model->get_doc_user_upload($limit,'');
+			$query = $this->user_model->get_doc_user_upload($key,'');
 
 			for ( $i = 0; $i < $limit; $i++ ) {
 				$dataFile = array(
 					'id_document_config' => $query[$i]->id_document_config,
-					// 'id_application' => $get_document->row()->id_application,
+					// 'id_document_config' => $explode_str[$i],
 					'id_application' =>	 $id_application,
 					'path_id' => $uploaded[$i]['full_path'],
 					'status' => 'ACTIVE',
@@ -429,7 +433,21 @@ class submit_iin extends CI_Controller {
 				$this->user_model->insert_app_file($dataFile);
 			}
 
+			$id_application_status_name = '3';
+
+			/*
+			..INSERT application_status Table..
+			*/
+			$app_status = array(
+	            'id_application '=> $id_application,
+	            'id_application_status_name' => $id_application_status_name,
+	            'process_status' => 'PENDING',	
+	            'created_date' => $this->date_time_now(),
+	            // 'created_date' => date('Y-m-j'),
+	            'created_by' => $this->session->userdata('username')
+	    	);
 			
+	        $this->user_model->insert_app_status($app_status);
 
 		} elseif ( $id_application_status_name == '4' ) {
 			/*
@@ -446,6 +464,29 @@ class submit_iin extends CI_Controller {
 			$list_id_form_mapping = $this->session->userdata('list_id_form_mapping');
 
 			// echo "|".json_encode($data);
+
+
+			/*
+			..UPDATE application_status Table..
+			@ update id_application_status_name 4 = 'COMPLETED'
+			*/
+	        $this->user_model->update_aplication_status('COMPLETED', $id_application, $id_application_status_name, $this->session->userdata('username'));
+
+			$id_application_status_name = '5';
+
+			/*
+			..INSERT application_status Table..
+			*/
+			$app_status = array(
+	            'id_application '=> $id_application,
+	            'id_application_status_name' => $id_application_status_name,
+	            'process_status' => 'PENDING',	
+	            'created_date' => $this->date_time_now(),
+	            // 'created_date' => date('Y-m-j'),
+	            'created_by' => $this->session->userdata('username')
+	    	);
+			
+	        $inserted_id = $this->user_model->insert_app_status($app_status);
 
 			// $app_file = array();
 			foreach ($data as $index => $valIndex) {
@@ -485,20 +526,24 @@ class submit_iin extends CI_Controller {
 						@Insert KEY of revision Files Uploaded by User
 						*/
 						$form_map = array(
-							'id_application_status' => $id_application_status,
+							'id_application_status' => $inserted_id,
 							'type' => 'REVISION_FILE '.$val,
-				            'modified_date' => $this->date_time_now(),
-							'modified_by' => $this->session->userdata('username')
+							'value' => $val,
+				            'created_date' => $this->date_time_now(),
+							'created_by' => $this->session->userdata('username')
 						);
 
 						// echo "|".json_encode($form_map);
 
-						$this->user_model->update_app_form($form_map, $list_id_form_mapping[$index]);
+
+						$this->user_model->set_app_form($form_map, $list_id_form_mapping[$index]);
+
+						// $this->user_model->update_app_form($form_map, $list_id_form_mapping[$index]);
 
 						/*
 						..INSERT log Table..
 						*/
-						$this->log("Revisi Form Mapping","Revision Form Mapping Submitted by");
+						// $this->log("Revisi Form Mapping","Revision Form Mapping Submitted by");
 					}
 				}
 
@@ -507,39 +552,22 @@ class submit_iin extends CI_Controller {
 				echo "|".json_encode($app_file);
 			}
 
-			/*
-			..UPDATE application_status Table..
-			@ update id_application_status_name 4 = 'COMPLETED'
-			*/
-	        $this->user_model->update_aplication_status('COMPLETED', $id_application, $id_application_status_name, $this->session->userdata('username'));
+			
 
 
-			$id_application_status_name = '5';
-			$logMsg = "Revisi ";
+			$logMsg = "Revision ";
 		
 
 		}
 
 		// echo "|".json_encode($app_status);
 
-		/*
-		..INSERT application_status Table..
-		*/
-		$app_status = array(
-            'id_application '=> $id_application,
-            'id_application_status_name' => $id_application_status_name,
-            'process_status' => 'PENDING',	
-            'created_date' => $this->date_time_now(),
-            // 'created_date' => date('Y-m-j'),
-            'created_by' => $this->session->userdata('username')
-    	);
 		
-        $this->user_model->insert_app_status($app_status);
 
 		/*
 		..INSERT log Table..
 		*/
-		$this->log("{$logMsg}Submit Dokumen","Application Files Submitted by");
+		$this->log("{$logMsg}Submit Document","Application Files Submitted by");
 	}	
 
 	/*
@@ -553,15 +581,237 @@ class submit_iin extends CI_Controller {
 	
 	*/
 	public function step_4() {
+		/*
+		THIS METHOD USING check_app_status function 
+		*
+		*/
 
+		/*
+		Instantiate app_status
+		*/
+		$app_status = $this->check_app_status();
+
+		/*
+		Validate app_status
+		@ app_status value should be an array including
+		*/
+		if ($app_status != 'x') {
+			$step_status_name = '7';
+			// echo "|TEST";
+
+			$id_application_status_name = $app_status['id_application_status_name'];
+			echo "|id_application_status_name : {$id_application_status_name}";
+
+			if ( $id_application_status_name == $step_status_name ) {
+
+				$this->user_model->update_aplication_status('COMPLETED', $app_status['id_application'], $step_status_name, $this->session->userdata('username'));
+
+				/*
+				AUDIT TRAIL Step 1
+				*/
+				$this->log("User Download Billing Code","Billing Code Downloaded | Applicant");
+		        
+			}
+
+			redirect(base_url("Layanan-IIN"));
+		}
 	}
 	
 
 	/*
 	
 	*/
-	public function step_5(){
+	public function step_5($uploaded, $key){
+		
 
+		$logMsg = "";
+
+		$limit = count($uploaded);
+		echo "|limit : {$limit}";
+
+		// $id_application = $this->input->post('id_application');
+		$id_application = $this->session->userdata('id_application');
+		echo "|id_application : {$id_application}";
+		$id_application_status = $this->session->userdata('id_application_status');
+		echo "|id_application_status : {$id_application_status}";
+		$id_application_status_name = $this->session->userdata('id_application_status_name');
+		echo "|id_application_status_name : {$id_application_status_name}";
+
+
+		echo "| uploaded : ".json_encode($uploaded);
+
+
+		// echo "| no_count : {$no_count}";
+
+		// $explode_str = explode(",", $no_count);
+		// echo "|count  : ".count($explode_str);
+		
+		
+
+		if ( $id_application_status_name == '2' ) {
+			/*
+			NORMAL FILE UPLOAD
+			*/
+
+			/*
+			GET list of document
+			@Table : document_config
+			*/
+			$query = $this->user_model->get_doc_user_upload($key,'');
+
+			for ( $i = 0; $i < $limit; $i++ ) {
+				$dataFile = array(
+					'id_document_config' => $query[$i]->id_document_config,
+					// 'id_document_config' => $explode_str[$i],
+					'id_application' =>	 $id_application,
+					'path_id' => $uploaded[$i]['full_path'],
+					'status' => 'ACTIVE',
+		            'created_date' => date('Y-m-j'),
+					'created_by' => $this->session->userdata('username')
+				);
+
+				/*
+				Insert application_file Table
+				@Insert New Files Uploaded by User
+				*/
+				$this->user_model->insert_app_file($dataFile);
+			}
+
+			$id_application_status_name = '3';
+
+			/*
+			..INSERT application_status Table..
+			*/
+			$app_status = array(
+	            'id_application '=> $id_application,
+	            'id_application_status_name' => $id_application_status_name,
+	            'process_status' => 'PENDING',	
+	            'created_date' => $this->date_time_now(),
+	            // 'created_date' => date('Y-m-j'),
+	            'created_by' => $this->session->userdata('username')
+	    	);
+			
+	        $this->user_model->insert_app_status($app_status);
+
+		} elseif ( $id_application_status_name == '4' ) {
+			/*
+			..REVISION FILE UPLOAD..
+			*/
+			// echo "| $ REVSTART $ ";
+
+			$process_status = 'COMPLETED';
+
+			/*
+			Get List of Revision File
+			*/
+			$data = $this->session->userdata('step2_upload');
+			$list_id_form_mapping = $this->session->userdata('list_id_form_mapping');
+
+			// echo "|".json_encode($data);
+
+
+			/*
+			..UPDATE application_status Table..
+			@ update id_application_status_name 4 = 'COMPLETED'
+			*/
+	        $this->user_model->update_aplication_status('COMPLETED', $id_application, $id_application_status_name, $this->session->userdata('username'));
+
+			$id_application_status_name = '5';
+
+			/*
+			..INSERT application_status Table..
+			*/
+			$app_status = array(
+	            'id_application '=> $id_application,
+	            'id_application_status_name' => $id_application_status_name,
+	            'process_status' => 'PENDING',	
+	            'created_date' => $this->date_time_now(),
+	            // 'created_date' => date('Y-m-j'),
+	            'created_by' => $this->session->userdata('username')
+	    	);
+			
+	        $inserted_id = $this->user_model->insert_app_status($app_status);
+
+			// $app_file = array();
+			foreach ($data as $index => $valIndex) {
+				# code...
+				// echo "| index : {$index}";
+				// echo "| list_id_form_mapping : {$list_id_form_mapping[$index]}";
+
+				/*
+				Insert application_file Table
+				@Insert New Files Uploaded by User
+				*/
+				$app_file =  array(
+					// 'id_document_config' => $query[$index]->id_document_config,
+					'id_application' =>	 $id_application,
+					'path_id' => $uploaded[$index]['full_path'],
+					'status' => 'ACTIVE',
+		            'created_date' => $this->date_time_now(),
+					'created_by' => $this->session->userdata('username')
+				);
+
+				foreach ($valIndex as $key => $val) {
+					# code...
+
+					/*
+					Validate $key== id_document_config
+					*/
+					if ($key == 'id_document_config') {
+						$app_file['id_document_config'] = $val;
+					}
+
+					/*
+					Validate $key== key
+					*/
+					if ($key == 'key') {
+						/*
+						Insert application_status_form_mapping Table
+						@Insert KEY of revision Files Uploaded by User
+						*/
+						$form_map = array(
+							'id_application_status' => $inserted_id,
+							'type' => 'REVISION_FILE '.$val,
+							'value' => $val,
+				            'created_date' => $this->date_time_now(),
+							'created_by' => $this->session->userdata('username')
+						);
+
+						// echo "|".json_encode($form_map);
+
+
+						$this->user_model->set_app_form($form_map, $list_id_form_mapping[$index]);
+
+						// $this->user_model->update_app_form($form_map, $list_id_form_mapping[$index]);
+
+						/*
+						..INSERT log Table..
+						*/
+						// $this->log("Revisi Form Mapping","Revision Form Mapping Submitted by");
+					}
+				}
+
+
+				$this->user_model->insert_app_file($app_file);
+				echo "|".json_encode($app_file);
+			}
+
+			
+
+
+			$logMsg = "Revision ";
+		
+
+		}
+
+		// echo "|".json_encode($app_status);
+
+		
+
+		/*
+		..INSERT log Table..
+		*/
+		$this->log("{$logMsg}Submit Document","Application Files Submitted by");
 	}
 
 	/*
@@ -613,7 +863,7 @@ class submit_iin extends CI_Controller {
 			/*
 			AUDIT TRAIL application rejected
 			*/
-			$this->log("Mengakhiri Pengajuan","Application Rejected");
+			$this->log("New Application Closed","Application Closed by");
 
 			echo "|process_status_updated : COMPLETED";
 		}
@@ -738,7 +988,7 @@ class submit_iin extends CI_Controller {
 		}
 
 	$iamge_id = $this->input->get('var1');
-   	force_download($iamge_id, NULL);	
+   		force_download($iamge_id, NULL);	
 	}
 
 
@@ -856,24 +1106,35 @@ class submit_iin extends CI_Controller {
 		*/
 
 		$no_count = $this->input->post('no_count');
+		echo "|no_count : {$no_count}";
+
+		$explode_str = explode(",", $no_count);
+		echo "|count  : ".count($explode_str);
+
 
 		/*
-		Instantiate uploaded files array.
+		Instantiate uploaded and key files array.
 		*/
-		$uploaded = array();
 
-		for ($i = 0; $i < $no_count; $i++) {
+		$uploaded = array();
+		$key = array();
+
+		for ($i = 0; $i < count($explode_str); $i++) {
+			echo "|TEST {$i}";
 
 			/*
 			Define index of list file from View
 			*/
-			$usr_file = "file{$i}";
+
+
+			// $usr_file = "file{$i}";
+			$usr_file = "file{$explode_str[$i]}";
 			// echo "|{$usr_file}";
 
 			/*
 			File name
 			*/
-			$name_file =  $_FILES[$usr_file]['name'];
+			$name_file = $_FILES[$usr_file]['name'];
 			// echo " {$name_file}";
 
 			/*
@@ -890,43 +1151,22 @@ class submit_iin extends CI_Controller {
 
 				// $uploaded = $this->upload->data();
 				array_push($uploaded, $this->upload->data());
-
-				// echo "|uploaded : ".json_encode($uploaded);
-
-				/*
-				ACTION to upload step2
-				*/
-				// $btn = $this->input->post('upload');
-				// echo "btn : {$btn}";
-				// if ($this->input->post('upload') == "uploadstep3") {
-				// 	echo "step3";
-				// }
-
-				/*
-				ACTION to upload step5
-				*/
-				// $btn = $this->input->post('upload');
-				// echo "btn : {$btn}";
-				// if ($this->input->post('upload') == "uploadstep3") {
-				// 	echo "step3";
-				// }
-
-
-
+				array_push($key, $explode_str[$i]);
 			} else {
 				echo "|ERR : {$usr_file}";
 			}
 
 		}
 
-		// echo "|uploaded : ".json_encode($uploaded);s
+		
+		// echo "|uploaded : ".json_encode($uploaded);
 
 		if ($this->input->post('upload') == "uploadstep3"){
-			$this->step_2($uploaded);
+			$this->step_2($uploaded, $key);
 		} 
-		// else if ($this->input->post('upload') == "uploadstep6") {
-		// 	 $this->step_enam_upload();
-		// }
+		else if ($this->input->post('upload') == "uploadstep5") {
+			 $this->step_5($uploaded, $key);
+		}
 
 		// redirect(base_url("Layanan-IIN"),'refresh');
 

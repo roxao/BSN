@@ -65,7 +65,7 @@
 		var id_application_status_name = ("<?php echo $id_application_status_name ?>" != "") ? "<?php echo $id_application_status_name ?>" : '';
 
 
-		if (id_application_status_name == '1') {
+		if (id_application_status_name == '2') {
 			$(".step1_next").show();
 		} else {
 			$(".step1_next").hide();

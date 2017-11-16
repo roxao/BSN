@@ -51,6 +51,21 @@
 
 	<div class="clearfix">
 		<button style="background: red" class="float_left">Kembali</button>	
-		<button style="background: #01923f" class="float_right">Lanjutkan Proses</button>	
+		<!-- <button style="background: #01923f" class="float_right" id="upload_button2">Lanjutkan Proses</button>	 -->
+		<a href="<?php echo base_url()?>submit_iin/step_4">
+			<button style="background: #01923f" class="float_right step4_next" value="step1_next">  Lanjutkan Proses</button>
+		</a>	
 	</div>
 </section>
+
+<script type="text/javascript">
+	var upload_status = "<?php echo $upload_status2?>";
+	console.log(upload_status);
+
+
+	if (upload_status == 'success') {
+		$(".step4_next").hide();
+	} else {
+		$(".step4_next").show();
+	}
+</script>
