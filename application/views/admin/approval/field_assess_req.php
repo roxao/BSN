@@ -4,7 +4,7 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<div class="content-upload clearfix"></div>
-		<input type="submit" name="submit_approval" hidden/>
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section>
 

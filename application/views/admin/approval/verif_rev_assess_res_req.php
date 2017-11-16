@@ -9,7 +9,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REV_ASSESS_RES_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
-		<input type="submit" name="submit_approval" />
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section> 
 
@@ -25,7 +25,7 @@
 		<div class="doc_rev">
 			
 		</div>
-		<input type="submit" name="submit_revision" />
+		<input type="submit" name="submit_revision" style="display:none"/>
 	</form>
 </section>
 

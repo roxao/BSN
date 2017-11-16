@@ -10,7 +10,7 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
-		<input type="submit" name="submit_approval" />
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section>
 
@@ -27,7 +27,7 @@
 		<div class="doc_rev">
 			
 		</div>
-		<input type="submit" name="submit_revision" />
+		<input type="submit" name="submit_revision" style="display:none"/>
 	</form>
 </section>
 

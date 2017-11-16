@@ -20,7 +20,7 @@
 			<input id="iin_doc" name="doc[]"  type="file" placeholder="Masukan Dokumen Dokumen IIN" required/>
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
-		<input type="submit" name="submit_approval" hidden/>
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section>
 

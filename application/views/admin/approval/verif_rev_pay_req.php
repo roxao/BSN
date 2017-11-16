@@ -34,7 +34,7 @@
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
 			Dokumen
-			<input name="images[]"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
+			<input name="images[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
 		<input type="submit" name="submit_approval" />
@@ -50,7 +50,7 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<textarea name="coment" cols="30" rows="10" class="text_comment"></textarea>
-		<input type="submit" name="submit_revision" />
+		<input type="submit" name="submit_revision" style="display:none"/>
 	</form>
 </section>
 

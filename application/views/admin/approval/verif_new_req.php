@@ -43,7 +43,7 @@
 				<input name="instance_director" type="text" placeholder="Nama Direktur Utama/Manager/Kepala Divisi Pemohon" disabled required/>
 			</label>
 		</section>
-		<input type="submit" name="submit_approval" />
+		<input type="submit" name="submit_approval" style="display:none;"/>
 	</form>
 </section>
 
@@ -58,7 +58,7 @@
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
 		<textarea name="coment" cols="30" rows="10" class="text_comment" required></textarea>
-		<input type="submit" name="submit_revision" />
+		<input type="submit" name="submit_revision" type="hidden" />
 	</form>
 </section>
 

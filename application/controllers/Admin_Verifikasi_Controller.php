@@ -462,7 +462,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //mengupload biling
     public function UPL_BILL_REQ_SUCCEST()
     {  
-            $user = $this->input->post();
+            $user = $this->input->post('created_by');
             
                 $data = array(
                 'process_status' => 'COMPLETED',
@@ -698,7 +698,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
         $usr_id = $this->admin_model->get_user_application_data($this->input->post('id_application'));
         $usrnme = $this->admin_model->get_user_by_prm($usr_id->row()->id_user);
-        
+        $user = $this->input->post('created_by');
             $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -710,9 +710,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $condition = array('id_application_status' => $this->input->post('id_application_status'));
            
             $dataL = array(
-                'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran by : '.$this->session->userdata('admin_username'),
-                'log_type' => 'added new applicant '.$usrnme->row()->username, 
-                'created_date' => date('Y-m-j H:i:s'),
+                'detail_log' => $this->session->userdata('admin_role').' verif bukti pembayaran by : '.$user,
+                'log_type' => 'BUkti bayar ', 
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
             
@@ -725,7 +725,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '10',
              
-                'created_date' => date('Y-m-j'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
    
         $this->admin_model->insert_app_status($data2);
@@ -735,7 +735,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '11',
              
-                'created_date' => date('Y-m-j'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
 
            
@@ -746,7 +746,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '12',
              
-                'created_date' => date('Y-m-j'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
 
            
@@ -761,8 +761,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $this->admin_model->insert_app_sts_for_map($data5);
 
             $dataL2 = array(
-                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$this->session->userdata('admin_username'),
-                'log_type' => 'added new team_assessment '.$usrnme->row()->username, 
+                'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$user,
+                'log_type' => 'added team_assessment ', 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
@@ -773,14 +773,14 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application' => $this->input->post('id_application'),
                 'assessment_date' => $this->input->post('expired_date'),
                 'assessment_status' => 'OPEN',
-                'created_date' => date('y-m-d'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
 
             $dataLass = array(
-                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application by : '.$this->session->userdata('admin_username'),
+                'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application by : '.$user,
                 'log_type' => 'added '.$usrnme->row()->username, 
-                'created_date' => date('Y-m-j H:i:s'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
 
@@ -824,7 +824,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_application' => $this->input->post('id_application'),
                     'path_id' =>  $uploaded[$y]['full_path'],
                     'status' => 'ACTIVE',
-                    'created_date' => date('y-m-d'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
 

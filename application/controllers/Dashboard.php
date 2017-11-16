@@ -126,6 +126,7 @@ class Dashboard extends CI_Controller {
                             'admin_username'=> $cek->row()->username,
                             'admin_email'   => $cek->row()->email,
                             'admin_status'  => $cek->row()->admin_status,
+                            'status' => 'login',
                             'admin_role'    => $cek->row()->admin_role));
                         redirect(base_url('dashboard'));
                     }
@@ -378,26 +379,26 @@ class Dashboard extends CI_Controller {
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
                     'created_date' => date('Y-m-j H:i:s'),
-                    'created_by' => $this->session->userdata('username')             
+                    'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new admin',
                     'log_type' => 'added '.$this->input->post('username'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->insert_admin($data);
                 break;
             case 'assessment':
                 $data = array(
                     'name' => $this->input->post('name'),
-                    'status' => $this->input->post('status'),
+                    'status' => $this->input->post('STATUS'),
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new tim_asesment',
                     'log_type' => 'added '.$this->input->post('name'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_assesment($data);
                 break;
@@ -408,8 +409,8 @@ class Dashboard extends CI_Controller {
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new asesment title',
                     'log_type' => 'added '.$this->input->post('name'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_assesment_title($data);    
                 break;
@@ -429,13 +430,13 @@ class Dashboard extends CI_Controller {
                     'file_url' => $this->input->post('file_url'),
                     'mandatory' => $this->input->post('mandatory'),
                     'created_date' => date('Y-m-j H:i:s'),
-                    // 'created_by' => $this->session->userdata('username')             
+                    'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new doc',
                     'log_type' => 'added '.$this->input->post('display_name'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->insert_document_config($data);
                 break;
@@ -445,13 +446,13 @@ class Dashboard extends CI_Controller {
                     'title' => $this->input->post('title'),
                     'url' => $this->input->post('url'),
                     'created_date' => date('Y-m-j H:i:s'),
-                    // 'created_by' => $this->session->userdata('username')             
+                    'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new cms',
                     'log_type' => 'added '.$this->input->post('title'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_cms($data); 
                 break;
@@ -461,14 +462,14 @@ class Dashboard extends CI_Controller {
                     'iin_number' => $this->input->post('iin_number'),
                     'iin_established_date' => date('Y-m-j H:i:s'),
                     'iin_expiry_date' => date('Y-m-j H:i:s'),
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')             
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('username')             
                     );  
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new IIN',
                     'log_type' => 'added IIN '.$this->input->post('iin_number'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_iin($data);
                 break;

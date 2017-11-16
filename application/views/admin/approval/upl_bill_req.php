@@ -10,7 +10,7 @@
 			</label>
 			<label class="input_dashed float_left" style="width: 100%">
 				Masa Berlaku
-				<input name="expired_date" type="text" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI" required/>
+				<input name="expired_date" type="date" min="new Date();" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI" required/>
 			</label>
 			<label class="input_dashed_file float_left" style="width: 100%">
 				Kode Billing SIMPONI
@@ -29,7 +29,7 @@
 			</label>
 		</div>
 		<!-- <div onclick="add_upload()" class="btn-add-doc">Tambah Dokumen</div> -->
-		<input type="submit" name="submit_approval" />
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section>
 
@@ -42,6 +42,6 @@
 	$('#btn-approval').html('Proses').css('margin',"5px auto");
 	$('#btn-revision').remove();
 	$('#section-revision').remove();
-	
+
 </script>
 
