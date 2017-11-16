@@ -5,7 +5,6 @@
 		<input type="hidden" name="id_application">
 		<div class="content-upload clearfix">
 		</div>
-		<div onclick="add_upload()" class="btn-add-doc">Tambah Dokumen</div>
 		<input type="submit" name="submit_approval" hidden/>
 	</form>
 </section>
@@ -13,12 +12,10 @@
 
 
 <script>
-
-	console.log(respon.revdoc_user)
 	$.set_value_data();
 	$.base_config_approval();
 	$.config_file_type();
-	$.set_add_upload();
+	$.set_upload_cra(".content-upload");
 	$('#btn-revision').remove();
 	$('#section-revision').remove();
 </script>

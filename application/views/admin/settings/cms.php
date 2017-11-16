@@ -65,8 +65,6 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      var url_u = "<?php echo base_url('dashboard/setting/assessment') ?>";
-      var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();

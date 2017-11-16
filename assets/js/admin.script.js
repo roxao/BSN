@@ -52,7 +52,6 @@ $(document).ready(function() {
 		$('[type=date]').prop('type','text').datepicker().datepicker("setDate", new Date());
 		$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
 		$('#btn-revision-back-send').on('click', function(event) {$('[name=submit_revision]').click()});
-		$('#btn-revision-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
 			$('.content-approval').hide();$('.content-revision').slideDown();
 			$('#section-approval').hide();$('#section-revision').slideDown(function(){});
@@ -98,14 +97,29 @@ $(document).ready(function() {
 			$(this).parent().remove();
 		});	
 	}
+	$.set_upload_cra = function(target){
+		console.log(doc.length);
+		for (var j = 0; j < doc.length; j++) {
+			// var select_roles = (j == 0 ? 'selected' : null );
+			html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" style="padding-right:10px">';
+			html +=	'Pilih Dokumen';
+			html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg" required/>';
+			html +=	'<span>Pilih</span><i class="float_right"></i>';
+			html +=	'</label></div>';
+			$(target).append(html);
+				$("[type=file]").change(function() {
+			    var fileName = $(this).val().split('/').pop().split('\\').pop();
+			    $(this).next().next().html(fileName);
+			});
+			$('.img-del').on('click', function(event) {
+				$(this).parent().remove();
+			});	
+		}	
+	}
 
 	$.set_modal_position = function(){
 		var x = $(window).width()/2 - $('.box-modal').width()/2;
 		var y = $(window).height()/2 - $('.box-modal').height()/2;
 		$('.box-modal').animate({ 'marginLeft': (x<0?0:x)+'px', 'marginTop': (y<0?0:y)+'px' }, 100);
 	}
-	// $(window).on('resize', function(){$.set_modal_position()});
-
-	// Verifikasi Kelengkapan Dokumen
-	$('[data-id=52]').click();
 });

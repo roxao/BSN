@@ -6,16 +6,8 @@
 
 <script>
 	$(document).ready(function() {
-		$('body').bind('cut copy paste', function (e) {e.preventDefault();});
-	    $("body").on("contextmenu",function(e){return false;});
-
-	    // UNTUK  MENGULANG PDF READER SILAHKAN DIULANG FUNCTION implement_pdf() DAN DI LOOPING
-	    // MENGGUNAKAN PHP, SERTA ISI FUNCTION implement_pdf('pdf file') dengan url file pdf
-		
-		<?php foreach($file_iso as $data) { 
-		 	echo 'implement_pdf("'.base_url().$data->file_url.'");';
-		 	 
-	  	} ?> 
+		$('body').bind('cut copy paste',function(e){e.preventDefault()}).on("contextmenu",function(e){e.preventDefault()}).keydown(function(objEvent){objEvent.preventDefault()});
+		<?php foreach($file_iso as $data){echo 'implement_pdf("'.base_url().$data->file_url.'");';}?> 
 
 
 		function implement_pdf(url){
@@ -25,3 +17,6 @@
 		};
 	});
 </script>
+<style type="text/css" media="print">
+    body {visibility:hidden;display:none}
+</style>

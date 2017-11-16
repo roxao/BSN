@@ -22,14 +22,20 @@
           </label>
           <button type="submit">Posting</button>
         </div>
-        <textarea class='editor' name="content"> </textarea>
+        <textarea class='editor' name="content"> <?php echo $data[0]['content']?></textarea>
       </form>
     </div>
   </section>
 
 
   <script src="<?php echo base_url('assets/js/wysiwyg/tinymce.min.js')?>"></script>
-  <script>tinymce.init({
+  <script>
+</script>
+
+  <script type="text/javascript">
+    $('document').ready(function(){
+      document.title = '<?php echo $page_title ?>';     
+      tinymce.init({
     selector: '.editor',
     min_height: 500,
     menubar: false,
@@ -41,44 +47,28 @@
     images_upload_url: '<?php echo base_url('dashboard/upload_acceptor') ?>',
     images_upload_handler: function (blobInfo, success, failure) {
         var xhr, formData;
-
         xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
         xhr.open('POST', '<?php echo base_url('dashboard/upload_acceptor') ?>');
-
         xhr.onload = function() {
           var json;
-
           if (xhr.status != 200) {
             failure('HTTP Error: ' + xhr.status);
             return;
           }
-
           json = JSON.parse(xhr.responseText);
-
           if (!json || typeof json.location != 'string') {
             failure('Invalid JSON: ' + xhr.responseText);
             return;
           }
-
           success(json.location);
         };
-
         formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
-
         xhr.send(formData);
       },
-    init_instance_callback: function (ed) {
-      ed.execCommand('mceImage');
-    },
     toolbar: 'undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image media | removeformat',
-  });
-</script>
-
-  <script type="text/javascript">
-    $('document').ready(function(){
-      document.title = '<?php echo $page_title ?>';      
+  }); 
    });
   </script>
 </section>

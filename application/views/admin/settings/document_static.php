@@ -65,10 +65,12 @@
   <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
   <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
   <script type="text/javascript">
+    var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
+    var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
+      
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
-      var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
+      
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
@@ -83,14 +85,7 @@
 
 
 
-      $('.row_select').on('click', function() {
-        <?php foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
-        $('.z-modal-title').html('Ubah Dokumen Statis');
-        $('.z-modal-frame').fadeIn('fast', function() {
-          $('#z-modal-edit').slideDown()
-          $('.modal-form').attr('action', url_u);
-        });
-      })
+      
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#btn-add').on('click', function() {
@@ -102,6 +97,15 @@
         });
       })
    });
+
+    $('.row_select').on('click', function() {
+        <?php foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
+        $('.z-modal-title').html('Ubah Dokumen Statis');
+        $('.z-modal-frame').fadeIn('fast', function() {
+          $('#z-modal-edit').slideDown()
+          $('.modal-form').attr('action', url_u);
+        });
+      })
   </script>
   <style>
     tr th:first-child{text-align: center !important}
@@ -124,7 +128,7 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <?php echo form_open_multipart('dashboard/action_update/document') ?>
+      <?php echo form_open_multipart('dashboard/action_update/document', 'class="modal-form"') ?>
         <div class="z-modal-form">
             <input name="id_document_config" type="hidden"/>
             <input name="type_doc" type="hidden" value="STATIC"/>

@@ -64,10 +64,12 @@
   <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
   <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
   <script type="text/javascript">
+    var url_u = "<?php echo base_url('dashboard/action_update/admin') ?>";
+    var url_i = "<?php echo base_url('dashboard/action_insert/admin') ?>";
+
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      var url_u = "<?php echo base_url('dashboard/action_update/admin') ?>";
-      var url_i = "<?php echo base_url('dashboard/action_insert/admin') ?>";
+      
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
@@ -80,16 +82,6 @@
       $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
       $('.tableInbox tr th:first-child').click();
 
-
-
-      $('.row_select').on('click', function() {
-        <?php foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
-        $('.z-modal-title').html('Ubah Administrator');
-        $('.z-modal-frame').fadeIn('fast', function() {
-          $('#z-modal-edit').slideDown()
-          $('.z-modal-form').attr('action', url_u);
-        });
-      })
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#btn-add').on('click', function() {
@@ -97,10 +89,19 @@
         $('.z-modal-frame').fadeIn('fast', function() {
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
-          $('.z-modal-form').attr('action', url_i);
+          $('.modal-form').attr('action', url_i);
         });
       })
    });
+
+    $('.row_select').on('click', function() {
+        <?php foreach($data_table as $x){echo '$("[name='.$x[0].']").val($(this).attr("o-'.$x[0].'"));';} ?>
+        $('.z-modal-title').html('Ubah Administrator');
+        $('.z-modal-frame').fadeIn('fast', function() {
+          $('#z-modal-edit').slideDown()
+          $('.modal-form').attr('action', url_u);
+        });
+      })
   </script>
 </section>
 
@@ -115,17 +116,17 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <form class="z-modal-form" action="<?php echo base_url('dashboard/action_update/admin/update/') ?>" method="post">
-        <div>
+      <form  class="modal-form" action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
+        <div class="z-modal-form">
             <input name="id_admin" type="hidden"/>
             <label>
                 <span>Username</span>
-                <input name="username" type="text" placeholder="Username"/>
+                <input name="username" type="text" placeholder="Username" autocomplete="off"/>
             </label>
 
             <label>
                 <span>Password</span>
-                <input name="password" type="password" placeholder="Pa$$w0rd"/>
+                <input name="password" type="password" placeholder="Pa$$w0rd"  autocomplete="off"/>
             </label>
 
             <label>
