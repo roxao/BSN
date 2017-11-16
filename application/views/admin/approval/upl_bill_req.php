@@ -29,7 +29,7 @@
 			</label>
 		</div>
 		<!-- <div onclick="add_upload()" class="btn-add-doc">Tambah Dokumen</div> -->
-		<input type="submit" name="submit_approval" hidden/>
+		<input type="submit" name="submit_approval" />
 	</form>
 </section>
 
