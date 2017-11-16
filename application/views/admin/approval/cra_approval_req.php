@@ -13,6 +13,8 @@
 
 
 <script>
+
+	console.log(respon.revdoc_user)
 	$.set_value_data();
 	$.base_config_approval();
 	$.config_file_type();

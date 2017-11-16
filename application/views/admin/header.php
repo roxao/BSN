@@ -18,14 +18,13 @@
 			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>
 			<ul class="nav-list float_right" style="padding-right: 20px">
+				
 				<li class="nav-sess"><span class="nav-welcome">Hai, <b><?php echo $this->session->userdata('admin_username') ?></b></span></li>
 				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
 					<ul class="box_notif">
-						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
-						<li class="false"><a href="#">Ipsum vitae quos at esse cumque obcaecati ullam temporibus ex eveniet totam</a></li>
-						<li class="true"><a href="#">Similique quae nisi, quibusdam recusandae accusantium non consectetur dignissimos </a></li>
-						<li class="true"><a href="#">Eius saepe expedita, eum dolor nostrum aspernatur voluptas quo eaque aperiam error </a></li>
-						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
+						<?php foreach($notification as $notif) { ?>
+							<li class="notif <?php echo $notif->Status ?>"><a href="<?php echo base_url('dashboard') . $notif->notification_url ?>"><?php echo $notif->message ?></a></li>
+						 <?php } ?>
 					</ul>
 				</li>
 				<li class="nav-sess"><a href="<?php echo base_url('dashboard/user/logout');?>">Keluar</a></li>

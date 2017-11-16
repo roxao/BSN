@@ -10,7 +10,6 @@
 
 	<div class="clearfix">
 		
-		<?php echo "state0 : {$state0}"?>
 		<ul id="section_progress" style="width: 100%">
 			<li stepId="<?php echo $state0?>" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $box_status_1?>"><button>Hasil Verifikasi Status Permohonan</button></li>	   
@@ -102,7 +101,7 @@
 		);
 		$this->load->view('submitIIN/rejected', $data);
 
-		$this->load->view('submitIIN/step0-rejected', $data);
+		// $this->load->view('submitIIN/step0-rejected', $data);
 
 		// REVISION VIEW
 		// $this->load->view('submitIIN/step2-revision');
