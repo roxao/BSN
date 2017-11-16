@@ -58,7 +58,7 @@
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
 		<textarea name="coment" cols="30" rows="10" class="text_comment" required></textarea>
-		<input type="submit" name="submit_revision" type="hidden" />
+		<input type="submit" name="submit_revision" style="display:none;" />
 	</form>
 </section>
 

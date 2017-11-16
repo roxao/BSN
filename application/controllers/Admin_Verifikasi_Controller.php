@@ -572,10 +572,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
             
             $data = array(
                 'process_status' => 'COMPLETED',
-                'id_application_status_name' => '6',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'id_application_status_name' => '8',
+                'modified_by' => $this->session->userdata('admin_username'),
+                'modified_date' => $this->date_time_now());
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
@@ -590,41 +589,23 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->admin_model->next_step($data,$condition);
 
             $data2 = array(
-                'process_status' => 'COMPLETED',
+                 'id_application '=> $this->input->post('id_application'),
+                'process_status' => 'PENDING',
                 'id_application_status_name' => '7',
-                'created_date' => date('Y-m-j'),
+             
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
 
             $this->admin_model->insert_app_status($data2,$condition);
 
-            $data3 = array(
-                'process_status' => 'COMPLETED',
-                'id_application_status_name' => '8',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'));
 
-            $this->admin_model->insert_app_status($data3,$condition);
-
-             $data4 = array(
-                'process_status' => 'COMPLETED',
-                'id_application_status_name' => '9',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'));
-
-            $this->admin_model->insert_app_status($data4,$condition);
-
-             $data5 = array(
-                'process_status' => 'PENDING',
-                'id_application_status_name' => '10',
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->session->userdata('admin_username'));
-
-            $this->admin_model->insert_app_status($data5,$condition);
 
            $data4 = array(
                     'type' => $this->input->post('app_bill_code'),
                     'value' => $this->input->post('expired_date'),
-                    'id_application_status'=> $this->input->post('id_application_status')
+                    'id_application_status'=> $this->input->post('id_application_status'),
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                     );
            $this->admin_model->insert_app_sts_for_map($data4);
 
