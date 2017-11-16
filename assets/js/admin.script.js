@@ -52,6 +52,7 @@ $(document).ready(function() {
 		$('[type=date]').prop('type','text').datepicker().datepicker("setDate", new Date());
 		$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
 		$('#btn-revision-back-send').on('click', function(event) {$('[name=submit_revision]').click()});
+		$('#btn-revision-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
 			$('.content-approval').hide();$('.content-revision').slideDown();
 			$('#section-approval').hide();$('#section-revision').slideDown(function(){});
@@ -85,7 +86,7 @@ $(document).ready(function() {
 	$.set_add_upload = function(){
 		html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" >';
 		html +=	'Pilih Dokumen';
-		html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg"/>';
+		html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg" required/>';
 		html +=	'<span>Pilih</span><i class="float_right"></i>';
 		html +=	'</label><img fill="#fff" src="'+(base_url.replace("dashboard",""))+'/assets/delete.svg" class="img-del" alt="Hapus" height="16px" width="16px"></div>';
 		$('.content-upload').append(html);

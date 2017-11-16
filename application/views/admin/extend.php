@@ -17,7 +17,11 @@
         </tr>
         <tbody class="list">
           <?php foreach($applications as $data) { ?>
-            <tr class="get_process" data-id="<?php echo $data->id_application ?>" data-status="<?php echo $data->display_name ?>" data-step="<?php echo $data->application_status_name ?>">
+            <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
+            data-id="<?php echo $data->id_application ?>" 
+            data-status="<?php echo $data->display_name ?>" 
+            data-id-status="<?php  echo $data->id_application_status ?>"
+            data-step="<?php echo $data->application_status_name ?>">
               <td class="id_no"><?php echo $data->id_application ?></td>
               <td class="id_name"><?php echo $data->applicant ?></td>
               <td class="id_pt"><?php echo $data->instance_name ?></td>
