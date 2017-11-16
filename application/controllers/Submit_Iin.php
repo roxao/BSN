@@ -640,6 +640,9 @@ class submit_iin extends CI_Controller {
 
 		echo "| uploaded : ".json_encode($uploaded);
 
+		echo "| key : ".json_encode($key)."|";
+
+
 
 		// echo "| no_count : {$no_count}";
 
@@ -648,7 +651,7 @@ class submit_iin extends CI_Controller {
 		
 		
 
-		if ( $id_application_status_name == '2' ) {
+		if ( $id_application_status_name == '7' ) {
 			/*
 			NORMAL FILE UPLOAD
 			*/
@@ -658,6 +661,7 @@ class submit_iin extends CI_Controller {
 			@Table : document_config
 			*/
 			$query = $this->user_model->get_doc_user_upload($key,'');
+			echo json_encode($query);
 
 			for ( $i = 0; $i < $limit; $i++ ) {
 				$dataFile = array(
@@ -677,7 +681,7 @@ class submit_iin extends CI_Controller {
 				$this->user_model->insert_app_file($dataFile);
 			}
 
-			$id_application_status_name = '3';
+			$id_application_status_name = '9';
 
 			/*
 			..INSERT application_status Table..
@@ -693,7 +697,7 @@ class submit_iin extends CI_Controller {
 			
 	        $this->user_model->insert_app_status($app_status);
 
-		} elseif ( $id_application_status_name == '4' ) {
+		} elseif ( $id_application_status_name == '10' ) {
 			/*
 			..REVISION FILE UPLOAD..
 			*/
@@ -712,11 +716,11 @@ class submit_iin extends CI_Controller {
 
 			/*
 			..UPDATE application_status Table..
-			@ update id_application_status_name 4 = 'COMPLETED'
+			@ update id_application_status_name 10 = 'COMPLETED'
 			*/
 	        $this->user_model->update_aplication_status('COMPLETED', $id_application, $id_application_status_name, $this->session->userdata('username'));
 
-			$id_application_status_name = '5';
+			$id_application_status_name = '11';
 
 			/*
 			..INSERT application_status Table..
@@ -1111,6 +1115,13 @@ class submit_iin extends CI_Controller {
 		$explode_str = explode(",", $no_count);
 		echo "|count  : ".count($explode_str);
 
+		$key2 = $this->input->post('key_step5');
+		echo "|key2 : {$key2}";
+
+		$key2_arr = array($key2);
+
+		echo "|key2_arr : ".$key2_arr[0];
+
 
 		/*
 		Instantiate uploaded and key files array.
@@ -1118,6 +1129,7 @@ class submit_iin extends CI_Controller {
 
 		$uploaded = array();
 		$key = array();
+
 
 		for ($i = 0; $i < count($explode_str); $i++) {
 			echo "|TEST {$i}";
@@ -1160,12 +1172,13 @@ class submit_iin extends CI_Controller {
 
 		
 		// echo "|uploaded : ".json_encode($uploaded);
+		// echo "|key : ".json_encode($key);
 
 		if ($this->input->post('upload') == "uploadstep3"){
 			$this->step_2($uploaded, $key);
 		} 
 		else if ($this->input->post('upload') == "uploadstep5") {
-			 $this->step_5($uploaded, $key);
+			 $this->step_5($uploaded, $key2_arr);
 		}
 
 		// redirect(base_url("Layanan-IIN"),'refresh');

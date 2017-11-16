@@ -671,7 +671,7 @@ class SipinHome extends CI_Controller {
 					       	case '7':
 					       		$page = '4';
 				        		$data['state3'] = "3";
-								$data['upload_status2'] = 'success';
+								$data['upload_status2'] = '';
 								// $data['upload_status3'] = 'success';
 				        		$data['state4'] = "4";
 

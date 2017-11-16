@@ -20,8 +20,13 @@
 		<button style="background: red" class="float_left" >Kembali</button>	
 		<button style="background: #01923f" class="float_right uploadstep5" id="uploadstep5" value="uploadstep5" name="upload">Lanjutkan Proses</button>	
 	</div>
+
+
+	<input type="hidden" id="key_step5" name="key_step5" value="BT PT">
+
 	</form>
 </section>
+
 
 
 

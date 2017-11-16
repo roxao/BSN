@@ -176,6 +176,20 @@ class User_model extends CI_Model {
     {
         $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
+        
+
+        /*
+        get only list of file that provided by users
+        @ using limit
+        */
+        if ( $key != '' ) {
+            if ($key[0] != 'BT PT') {
+
+            $this->db->where('dc.type','DYNAMIC');
+            }
+            // $this->db->limit($limit);
+            $this->db->where_in('dc.key', $key);
+        }
 
         if ( $id_application != '' ) {
             $this->db->join('application_file af', 'dc.id_document_config = af.id_document_config');
@@ -184,23 +198,17 @@ class User_model extends CI_Model {
             $this->db->where('af.status','ACTIVE');
         } 
         else {
-            // $this->db->where('dc.type','DYNAMIC');
+            if($key == ''){
+            $this->db->where('dc.type','DYNAMIC');
+            }
         }
 
-        $this->db->where('dc.type','DYNAMIC');
+        
         // $this->db->where('af.status','ACTIVE');
 
+
+
         $this->db->order_by('dc.id_document_config', 'ASC');
-
-
-        /*
-        get only list of file that provided by users
-        @ using limit
-        */
-        if ( $key != '' ) {
-            // $this->db->limit($limit);
-            $this->db->where_in('dc.key', $key);
-        }
             
         return $this->db->get()->result();
     }
