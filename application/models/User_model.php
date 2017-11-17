@@ -208,7 +208,8 @@ class User_model extends CI_Model {
 
 
 
-        $this->db->order_by('dc.id_document_config', 'ASC');
+        // $this->db->order_by('dc.id_document_config', 'ASC');
+        $this->db->order_by('dc.key', 'ASC');
             
         return $this->db->get()->result();
     }

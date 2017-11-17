@@ -8,37 +8,22 @@
 	<ul class="list_iin_download">
 		<?php 
 
-			// $no=0; 
-			// $key_string = "";
-			// $arr_no = array();
+			$no=0; 
 			foreach($step2_upload as $data) { 
-				// $files= "file".$no;
-				// array_push($arr_no, $no);
 
 				?>
 
 				<li class="item-upload"> 
 					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> 
-					<!-- <input type="checkbox" id="checkbox[]" name="checkbox" value="<?php echo $data->key?>" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> -->
 					<?php  
-					// $no++; echo "{$no}.  "; echo $data->display_name;
+						$no++;
+						// $files = "file".$no;
 						$files = "file".$data->key;
 						$mandatory = ($data->mandatory == '1') ? '*': '' ;
-						$name = "{$data->key}. {$data->display_name} {$mandatory}";
+						$name = "{$no}. {$data->display_name} {$mandatory}";
 
 						echo $name;
 
-						// echo "{$data->key}.  "; echo $data->display_name;  
-						// echo (($data->mandatory == '1') ? ' * ': '' );
-						// if ($key_string == "") {
-						// 	$key_string = $data->key;
-						// } else {
-						// 	$key_string = $key_string."|".$data->key;
-						// }
-
-						
-
-						
 					?>
 					
 					<label class="upload_button">
@@ -47,9 +32,6 @@
 						<?php echo (($data->mandatory == "1") ? "required": "" );?>	/>
 						<i id="<?php echo $files?>" ></i>
 
-						<?php 
-							// echo (($data->mandatory == "1") ? "required": "" );
-						?>
 					</label>
 					
 				</li> 	
@@ -60,8 +42,6 @@
 	</ul>
 
 
-	<!-- <input type="hidden" id="no_count" name="no_count" value="<?php echo $no; ?>"> -->
-
 	<input type="hidden" id="no_count" name="no_count" >
 
 
@@ -70,17 +50,9 @@
 		<br/>
 
 	<div class="clearfix">
-		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
-
-		<!-- <input type="submit" value="Upload" /> -->
 		<button style="background: #01923f" class="float_right uploadstep3" name="upload" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>	
-		
 	</div>
 	</form>
-<!-- 	<div class="clearfix">
-		<button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	
-		
-	</div> -->
 </section>
 
 
@@ -127,7 +99,4 @@
 
 
 
-
-
-<!-- KALAU GAGAL UPLOAD -->
 
