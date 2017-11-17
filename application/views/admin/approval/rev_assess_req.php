@@ -16,6 +16,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/REV_ASSESS_REQ_PROSESS') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<ul id="assessment-team-list" class="assessment-team-list">
 			<li class="team-header">
 				<div class="x1">POSISI</div><div class="x2">NAMA ANGGOTA</div><div class="x3"></div>
@@ -46,6 +47,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_NEW_REQ_ETC') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<textarea name="coment" cols="30" rows="10" class="text_comment"></textarea>
 		<input type="submit" name="submit_revision" style="display:none"/>
 	</form>

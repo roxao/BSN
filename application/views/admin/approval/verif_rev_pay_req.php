@@ -19,6 +19,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REV_PAY_REQ_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<ul id="assessment-team-list" class="assessment-team-list">
 			<li class="team-header">
 				<div class="x1">POSISI</div><div class="x2">NAMA ANGGOTA</div><div class="x3"></div>
@@ -33,17 +34,17 @@
 
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Dokumen
+			Masukan Usulan Tim Verivikasi Lapangan
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses"/>
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Dokumen
+			Masukkan Surat Informasi Tim Verifikasi Lapangan IIN
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses"/>
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
-		<input type="submit" name="submit_approval" />
+		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section>
 
@@ -55,8 +56,9 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_REV_PAY_REQ_REVISI') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<textarea name="coment" cols="30" rows="10" class="text_comment"></textarea>
-		<input type="submit" name="submit_revision" />
+		<input type="submit" name="submit_revision" style="display:none"/>
 	</form>
 </section>
 
@@ -99,5 +101,7 @@
     	 	$('.x3').on('click',function(event){$(this).parent().slideUp('400',function(){$(this).remove()})});
       	}
     });
+    $('.attach_user_file').append('<div class="clearfix"><div>Bukti Pembayaran</div><a href="<?php echo base_url();?>submit_iin/download?var1='+ value[0].path_id 
+		 			+'" class="btn_download float_right">Download</a></div>');
 </script>
 

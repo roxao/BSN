@@ -666,7 +666,7 @@ class Admin_model extends CI_Model {
     public function get_notif($data = null){
         $this->db->select('*');
         $this->db->from('notification');
-        $this->db->where('notification_type', 'user');
+        $this->db->where('notification_type', 'admin');
         if($data != null){
              $this->db->where('id_notification', $data);
         }

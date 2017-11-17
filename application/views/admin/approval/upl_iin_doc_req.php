@@ -2,6 +2,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_IIN_DOC_REQ_PROSES') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<label class="input_dashed float_left" style="width: 100%">
 			Nomor IIN
 			<input id="iin_number" name="iin_number" type="text" placeholder="Masukan Nomor IIN" pattern="\d*" maxlength="6" required/>

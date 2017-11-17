@@ -2,7 +2,6 @@
 	<div class="section_list_file">
 		<p>Berikut kelengkapan dokumen yang telah di unggah (upload) oleh Pemohon.</p>
 		<div class="section_iin_file_list attach_user_file">
-
 		</div>
 		<p>Pastikan bahwa dokumen yang di unggah (upload) oleh Pemohon sudah lengkap dan benar.</p>
 	</div>
@@ -34,13 +33,13 @@
 
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Dokumen
+			Masukan Usulan Tim Verivikasi Lapangan
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Dokumen
+			Masukkan Surat Informasi Tim Verifikasi Lapangan IIN
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
@@ -69,6 +68,9 @@
 	$.base_config_approval();
 	$.config_file_type();
 	$.set_assessment_roles_on_select();
+
+	value=respon.doc_pay;
+
 	// SET AUTOCOMPLETE ASSESSMENT LIST NAME
 	$("[name=assessment_list]").autocomplete({
       	source:function(request,response){$.ajax({
@@ -101,4 +103,8 @@
     	 	$('.x3').on('click',function(event){$(this).parent().slideUp('400',function(){$(this).remove()})});
       	}
     });
+
+    $('.attach_user_file').append('<div class="clearfix"><div>Bukti Pembayaran</div><a href="<?php echo base_url();?>submit_iin/download?var1='+ value[0].path_id 
+		 			+'" class="btn_download float_right">Download</a></div>');
+
 </script>

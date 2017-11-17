@@ -3,6 +3,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/FIELD_ASSESS_REQ_SUCCEST') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<div class="content-upload clearfix"></div>
 		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>

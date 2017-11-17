@@ -2,6 +2,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_SUCCESS') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<label class="input_dashed_file float_left" style="width: 100%">
 			Berita Acara
 			<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI" required />
@@ -24,6 +25,7 @@
 	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_REVISI') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
+		<input type="hidden" name="created_by">
 		<div class="item-revision">
 		</div>
 		<input type="submit" name="submit_revision" style="display:none"/>
