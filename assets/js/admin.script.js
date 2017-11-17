@@ -51,7 +51,7 @@ $(document).ready(function() {
 	$.base_config_approval = function(){
 		$('[type=date]').prop('type','text').datepicker().datepicker("setDate", new Date());
 		$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
-		$('#btn-revision-back-send').on('click', function(event) {$('[name=submit_revision]').click()});
+		$('#btn-revision-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
 			$('.content-approval').hide();$('.content-revision').slideDown();
 			$('#section-approval').hide();$('#section-revision').slideDown(function(){});
