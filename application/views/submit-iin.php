@@ -127,7 +127,8 @@
 
 		// $this->load->view('submitIIN/step0-rejected', $data);
 
-		// REVISION VIEW
+		// REVISION VIEW'
+		
 		// $this->load->view('submitIIN/step2-revision');
 
 ?>
