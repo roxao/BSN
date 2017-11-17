@@ -57,6 +57,10 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
+		<select class="option-comment" name="option_comment">
+			<option value="have-iin">Sudah mempunyai IIN</option>
+			<option value="others">Lain-lain</option>
+		</select>
 		<textarea name="coment" cols="30" rows="10" class="text_comment" required></textarea>
 		<input type="submit" name="submit_revision" style="display:none;" />
 	</form>
