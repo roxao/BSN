@@ -49,13 +49,9 @@
 				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
 
 				<?php } else { ?>
-				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
+				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span id='unreadCount'></span></a>
 					<ul class="box_notif">
-						<li class="false"><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, facilis.</a></li>
-						<li class="false"><a href="#">Ipsum vitae quos at esse cumque obcaecati ullam temporibus ex eveniet totam</a></li>
-						<li class="true"><a href="#">Similique quae nisi, quibusdam recusandae accusantium non consectetur dignissimos </a></li>
-						<li class="true"><a href="#">Eius saepe expedita, eum dolor nostrum aspernatur voluptas quo eaque aperiam error </a></li>
-						<li class="true"><a href="#">Magnam consectetur fugit recusandae tenetur ipsum cupiditate ipsam inventore dolor,</a></li>
+						
 					</ul>
 				</li>
 				<li class="nav-sess"><a href="<?php echo base_url();?>SipinHome/logout">Keluar</a></li>
@@ -63,7 +59,58 @@
 			</ul>
 		</nav>
 	</header>
+<script>
+		function getNotification(){
+			var baseUrl = <?php echo "'".base_url('Notification')."'"?>;
+			var unreadCount=0;
+			$.ajax({ 
+				url: baseUrl + "/getNotification", 
+				type: "GET", 
+				dataType: 'json',
+				success: function (data) {
+							$("#unreadCount").val(0);							
 
+					        for(var notif in data){(function(row){
+
+					        	if(row.Status != 'INACTIVE'){
+					        		unreadCount = unreadCount + 1;
+					        	}
+
+					        	var linkId="linkNotif"+row.id_notification;
+
+					        	var notifBuilder=[];
+					        	
+					        	var urlNotif = baseUrl + row.notification_url; 
+
+					        	notifBuilder.push('<li class="notif '+ row.Status + '">',
+					        					   '<a id="'+  linkId +'" href="#">'+ row.message+'</a>',
+					        					   '</li>');	
+
+					        	$(".box_notif").append(notifBuilder.join(''));
+
+					        	$("#"+linkId).click(function(){
+					        		//update status to INACTIVE
+					        		$.ajax({
+					        			url: baseUrl + "/updateNotificationStatus?notifId="+row.id_notification,
+					        			type: "GET",
+					        			dataType: 'json',
+					        			success: function(data){
+					        				getNotification();
+					        			}
+					        		});
+					        		swal('Pesan', row.message, 'success');					   
+					        	});
+
+
+					        })(data[notif]);
+					    }
+
+					    $("#unreadCount").html(unreadCount);	
+
+					}
+				});
+		}
+	</script>
 <script>
 	$(document).ready(function() {
 		
@@ -108,6 +155,9 @@
 			});
 		  }
 	});
-	  
+	
+	getNotification();
+
 </script>
+
 	<?php //$this->load->view('component/modal') ?>

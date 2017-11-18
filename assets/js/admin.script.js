@@ -102,9 +102,11 @@ $(document).ready(function() {
 		});	
 	}
 	$.set_upload_cra = function(target){
+		
 		for (var j = 0; j < doc.length; j++) {
+			// var select_roles = (j == 0 ? 'selected' : null );
 			html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" style="padding-right:10px">';
-			html +=	'Pilih Dokumen';
+			html +=	'Pilih Dokumen '+doc[j].display_name;
 			html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg" required/>';
 			html +=	'<span>Pilih</span><i class="float_right"></i>';
 			html +=	'</label></div>';
@@ -113,7 +115,7 @@ $(document).ready(function() {
 			    var fileName = $(this).val().split('/').pop().split('\\').pop();
 			    $(this).next().next().html(fileName);
 			});
-		}	
+		}		
 	}
 
 	$.set_modal_position = function(){

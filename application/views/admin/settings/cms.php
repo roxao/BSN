@@ -5,7 +5,7 @@
     ['id_cms'                 ,'#', '50'], 
     ['title'                  ,'Judul Content', '0'], 
     ['url'                    ,'URL', '200'],
-    ['created_date'           ,'Status', '200'],
+    ['status'           ,'Status', '200'],
     ['created_by'             ,'Dibuat Oleh', '100']
   ];
 ?>
@@ -22,7 +22,7 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
-        <button id="btn-add" class="btn-flat float_left">TAMBAH ANGGOTA</button>
+        <button id="btn-add" class="btn-flat float_left">TAMBAH CMS</button>
 
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
@@ -79,12 +79,11 @@
       
       $('.row_select').on('click', function() {
         $('[name=id_cms').val($(this).attr('data-id'));
-        $('[name=type_editor').val('update');
         $('.modal-form button').click();
       })
 
       $('#btn-add').on('click', function() {
-        $('[name=type_editor').val('insert');
+        $('[name=id_cms').val('insert');
         $('.modal-form button').click();
       })
    });
@@ -97,8 +96,7 @@
 
 <div class="z-modal-frame" style="display: none;">
   <form class="modal-form" action="<?php echo base_url('dashboard/settings/cms_editor') ?>" method="post">
-    <input name="id_cms" type="text">
-    <input name="type_editor" type="text">
+    <input name="id_cms" type="text">    
     <button type="submit"></button>
   </form>
 </div>

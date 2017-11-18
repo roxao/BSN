@@ -7,9 +7,11 @@
 	<title><?php site_url(); ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
 	<link rel="stylesheet" href="<?php echo base_url('assets/main-admin.css'); ?>">
+	<link rel="stylesheet" href="<?php echo base_url('assets/swal.css'); ?>">
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/admin.script.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/swal.js'); ?>"></script>
 </head>
 <body>
 	<input type="hidden" id="base_url" value="<?php echo base_url('dashboard'); ?>">
@@ -20,11 +22,9 @@
 			<ul class="nav-list float_right" style="padding-right: 20px">
 				
 				<li class="nav-sess"><span class="nav-welcome">Hai, <b><?php echo $this->session->userdata('admin_username') ?></b></span></li>
-				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span>2</span></a>
+				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span id='unreadCount'></span></a>
 					<ul class="box_notif">
-						<?php foreach($notification as $notif) { ?>
-							<li class="notif <?php echo $notif->Status ?>"><a href="<?php echo base_url('dashboard') . $notif->notification_url ?>"><?php echo $notif->message ?></a></li>
-						 <?php } ?>
+						
 					</ul>
 				</li>
 				<li class="nav-sess"><a href="<?php echo base_url('dashboard/user/logout');?>">Keluar</a></li>
@@ -50,7 +50,58 @@
 			</ul>
 		</li>
 	</ul>
+	<script>
+		function getNotification(){
+			var baseUrl = <?php echo "'".base_url('Notification')."'"?>;
+			var unreadCount=0;
+			$.ajax({ 
+				url: baseUrl + "/getNotification", 
+				type: "GET", 
+				dataType: 'json',
+				success: function (data) {
+							$("#unreadCount").val(0);							
 
+					        for(var notif in data){(function(row){
+
+					        	if(row.Status != 'INACTIVE'){
+					        		unreadCount = unreadCount + 1;
+					        	}
+
+					        	var linkId="linkNotif"+row.id_notification;
+
+					        	var notifBuilder=[];
+					        	
+					        	var urlNotif = baseUrl + row.notification_url; 
+
+					        	notifBuilder.push('<li class="notif '+ row.Status + '">',
+					        					   '<a id="'+  linkId +'" href="#">'+ row.message+'</a>',
+					        					   '</li>');	
+
+					        	$(".box_notif").append(notifBuilder.join(''));
+
+					        	$("#"+linkId).click(function(){
+					        		//update status to INACTIVE
+					        		$.ajax({
+					        			url: baseUrl + "/updateNotificationStatus?notifId="+row.id_notification,
+					        			type: "GET",
+					        			dataType: 'json',
+					        			success: function(data){
+					        				getNotification();
+					        			}
+					        		});
+					        		swal('Pesan', row.message, 'success');					   
+					        	});
+
+
+					        })(data[notif]);
+					    }
+
+					    $("#unreadCount").html(unreadCount);	
+
+					}
+				});
+		}
+	</script>
 	<script>
 		$('.nav-menu').on('click', function(event) {
 			if($('#dashboard_menu').hasClass('active')){
@@ -61,5 +112,7 @@
 				$('#dashboard_menu').addClass('active')
 			}
 		});
+
+		getNotification();
 	</script>
 	

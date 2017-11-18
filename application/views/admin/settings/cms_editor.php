@@ -14,15 +14,19 @@
     </div>
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="cms_editor">
-      <form action="cms_editor_submit" method="post" accept-charset="utf-8">
-        <input type="hidden" name="id_cms" value="<?php echo ($data) ? '' : $data[0]['id_cms'] ?>">
+      <form action="<?php echo base_url('dashboard/'.(($data) ? 'action_update': 'action_insert') . '/contents') ?>" method="post" accept-charset="utf-8">
+        <input name="id_cms" value="<?php echo ($data) ? $data[0]['id_cms']: ''?>">
         <div class="cms_editor_title">
           <label>Judul Konten
-            <input  type="text" name="title" value="<?php echo $data[0]['title']?>" placeholder="Judul Content">
+            <input  type="text" name="title" value="<?php echo ($data) ? $data[0]['title']: ''?>" placeholder="Judul Content">
           </label>
+          <select name="status" id="status">
+            <option value="Y" selected="<?php echo ($data) ? ($data[0]['status'] == 'Y'?true:false):false ?>" >Aktif</option>
+            <option value="N" selected="<?php echo ($data) ? ($data[0]['status'] == 'N'?true:false):false ?>">Tidak Aktif</option>
+          </select>
           <button type="submit">Posting</button>
         </div>
-        <textarea class='editor' name="content"> <?php echo $data[0]['content']?></textarea>
+        <textarea class='editor' name="content"> <?php echo ($data) ? $data[0]['content']: ''?></textarea>
       </form>
     </div>
   </section>

@@ -78,6 +78,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
 
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             $this->send_mail($this->input->post('id_application'));
              redirect(site_url('dashboard'));
             
@@ -93,6 +95,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
         //untuk menapilkan nama applicant yang akan disimpan di tabel log
         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+
+        
         
             $data = array(
                 'process_status' => 'REJECTED',
@@ -119,6 +123,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
+
+                //kirim notifikasi
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             }else{
                 
                 $data4 = array(
@@ -128,6 +136,13 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
+                $iin = array(
+                    'iin_number' => $this->input->post('iinExisting'),
+                    'modified_by' => $this->session->userdata('admin_username'),
+                    'modified_date' => $this->date_time_now()
+                    );
+                $id_user = array('id_user' => $this->input->post('id_user'));
+                $this->admin_model->update_iin($id_user, $iin);
             }
             $this->admin_model->insert_app_sts_for_map($data4);
                     
@@ -234,6 +249,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_date' => $this->date_time_now()
                     );
            $this->admin_model->insert_app_sts_for_map($data2);
+
+           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
            redirect(base_url('dashboard'));
 
     }
@@ -313,6 +330,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     }
              }
 
+             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard'));
     }
 
@@ -368,6 +387,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_date' => $this->date_time_now()
                     );
            $this->admin_model->insert_app_sts_for_map($data3);    
+
+           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard'));
 
    }
@@ -376,6 +398,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
    public function VERIF_REVDOC_REQ_REVITION()
    {
             $user = $this->input->post('created_by');
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+
             $data = array(
                 'process_status' => 'COMPLETED',
                 'modified_by' => $this->session->userdata('admin_username'),
@@ -441,6 +465,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     }
              }
 
+             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard')); 
             
  
@@ -476,7 +502,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function UPL_BILL_REQ_SUCCEST()
     {  
             $user = $this->input->post('created_by');
-            
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+
                 $data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '6',
@@ -583,6 +610,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
            
                 }
              
+             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard'));       
   
     }
@@ -599,7 +628,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function REUPL_BILL_REQ_PROSESS()
     {
         
-            
+            $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'id_application_status_name' => '8',
@@ -695,7 +724,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
            
                 }
-             
+            
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard'));
         
     }
@@ -728,6 +759,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         $usr_id = $this->admin_model->get_user_application_data($this->input->post('id_application'));
         $usrnme = $this->admin_model->get_user_by_prm($usr_id->row()->id_user);
         $user = $this->input->post('created_by');
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
 
             $data = array(
                 'process_status' => 'COMPLETED',
@@ -884,6 +916,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 
 
               } 
+
+              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(site_url('dashboard'));
     }
         
@@ -950,6 +985,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
                 
             $this->admin_model->insert_app_sts_for_map($data4);
+
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
             redirect(site_url('dashboard'));
 
@@ -1021,7 +1058,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
 //bukti revisi pembayaran di terima
     public function VERIF_REV_PAY_REQ_SUCCEST()
     {   
-             $user = $this->input->post('created_by');
+             $usr_id = $this->admin_model->get_user_application_data($this->input->post('id_application'));
+        $usrnme = $this->admin_model->get_user_by_prm($usr_id->row()->id_user);
+        $user = $this->input->post('created_by');
+        $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
 
             $data = array(
                 'process_status' => 'COMPLETED',
@@ -1043,7 +1083,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
                 'process_status' => 'PENDING',
-                'id_application_status_name' => '14',
+                'id_application_status_name' => '12',
              
                 'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
@@ -1063,59 +1103,58 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $dataDate = array(
                     'type' => 'ASSESSMENT_DATE',
                     'value' => $this->input->post('expired_date'),
-                    'id_application_status'=> $id_apps_last,
+                    'id_application_status'=> $id_sts,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
             $this->admin_model->insert_app_sts_for_map($dataDate);
 
-
             $dataL2 = array(
                 'detail_log' => $this->session->userdata('admin_role').' memillih team assessment by : '.$user,
-                'log_type' => 'added new team_assessment '.$this->input->post('username'), 
+                'log_type' => 'added team_assessment ', 
                 'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
-            // $this->admin_model->insert_log($dataL2);
+
+        $this->admin_model->insert_log($dataL2);
 
             $data_ass_app = array(
-            'id_application' => $this->input->post('id_application'),
-            'assessment_date' => $this->input->post('expired_date'),
-            'assessment_status' => 'OPEN',
-            'created_date' => $this->date_time_now(),
-            'created_by' => $this->session->userdata('admin_username')
-            );
+                'id_application' => $this->input->post('id_application'),
+                'assessment_date' => date_format(date_create($this->input->post('expired_date')), 'Y-m-d'),
+                'assessment_status' => 'OPEN',
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username')
+                );
+
+            echo json_encode($data_ass_app);
 
             $dataLass = array(
                 'detail_log' => $this->session->userdata('admin_role').' adding new assesment_application by : '.$user,
-                'log_type' => 'added asessment'.$this->input->post('username'), 
+                'log_type' => 'added '.$usrnme->row()->username, 
                 'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
-            $this->admin_model->insert_log($dataLass);
 
-           $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
+        $this->admin_model->insert_log($dataLass);
 
-            $team = $this->input->post('id_assessment_team');
-            $title = $this->input->post('id_assessment_team_title');
+            $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
+
+
+
+            $team = $this->input->post('assessment_name');
+            $title = $this->input->post('assessment_title');
             
             
-            
 
-            for($x=0;$x < count($team);$x++)
-                {
+            for($x=0;$x < count($team);$x++){
                     $dat = array(
-                    'id_assessment_application' => $id_ass_app.row()->id_assessment_application,
+                    'id_assessment_application' => $id_ass_app,
                     'id_assessment_team' => $team[$x],
                     'id_assessment_team_title' => $title[$x]
                                 );
 
-                    if($this->admin_model->insert_assessment_registered($dat))
-                    {
-                        echo "save  Sucses";
-                    }
+                    $this->admin_model->insert_assessment_registered($dat);
                 }
-
         $this->load->library('upload');
  
         //Configure upload.
@@ -1124,41 +1163,47 @@ class Admin_Verifikasi_Controller extends CI_Controller
                  "upload_path"   => "./upload/"
                 ));
 
-            $getLetterAssigment = $this->admin_model->get_letter_of_assignment();
+            $getLetterAssigment = $this->admin_model->get_letter_of_assignment()->result();
              //Perform upload.
             if($this->upload->do_upload("images")) {
                 $uploaded = $this->upload->data();
                 
-                $data6 = array(
-                'id_document_config' => $getLetterAssigment->row()->id_document_config,
-                'id_application' => $this->input->post('id_application'),
-                'path_id' =>  $uploaded['full_path'],
-                'status' => 'ACTIVE',
-                'created_date' => $this->date_time_now(),
-                'created_by' => $this->session->userdata('admin_username')
-                );
+                for($y=0;$y < 2;$y++)
+                {
+                    $data6 = array(
+                    'id_document_config' => $getLetterAssigment[$y]->id_document_config,
+                    'id_application' => $this->input->post('id_application'),
+                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'status' => 'ACTIVE',
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
+                    );
 
-                $this->admin_model->insert_application_file($data6);
+                    $this->admin_model->insert_application_file($data6);
 
                 $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
                     'value' => $getLetterAssigment[$y]->key,
-                    'id_application_status'=> $id_apps_last,
+                    'id_application_status'=> $id_sts,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
-                $this->admin_model->insert_app_sts_for_map($dataDocAss);
+                $this->admin_model->insert_app_sts_for_map($dataDocAss);    
+                }
+                
 
               } 
 
-              redirect(site_url('dashboard'));
+              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+            redirect(site_url('dashboard'));
     }
 
     //revisi bukti revisi pembayaran yg direvisi
     public function VERIF_REV_PAY_REQ_REVISI()
     {   
              $user = $this->input->post('created_by');
-
+             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
                 'created_date' => date('Y-m-j'),
@@ -1195,6 +1240,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_by' => $this->session->userdata('admin_username')
                     );
            $this->admin_model->insert_app_sts_for_map($data6);
+
+           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
            redirect(site_url('dashboard'));
 
@@ -1440,6 +1487,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 
 
               }else{echo "gagal upload";}
+
+              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
               redirect(site_url('dashboard')); 
    
 	}
@@ -1459,6 +1509,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function REV_ASSESS_REQ_PROSESS()
     {
          $user = $this->input->post('created_by');
+         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
 
         $data = array(
                 'process_status' => 'COMPLETED',
@@ -1489,7 +1540,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
         $data3 = array(
                     'type' => 'ASESSMENT_DATE',
-                    'value' => 'ASESSMENT TEAM DATE '.$this->input->post('expired_date'),
+                    'value' => $this->input->post('expired_date'),
                     'id_application_status'=> $id_app_sts_lst,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1561,7 +1612,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
-                    'value' => $getLetterAssigment[$y]->key,
+                    'value' => $getLetterAssigment[$i]->key,
                     'id_application_status'=> $id_app_sts_lst,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1569,6 +1620,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $this->admin_model->insert_app_sts_for_map($dataDocAss);
                 }
         }
+
+        $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
         redirect(site_url('dashboard'));
 
     }
@@ -1695,6 +1749,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
            
                 }
+
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
         redirect(site_url('dashboard'));
     }
 
@@ -1745,7 +1802,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     
                     $data_doc = array(
                         'type'=> 'TRANSACTIONAL',
-                        'key'=> '-',
+                        'key'=> NULL,
                         'display_name'=> $display_name_doc[$x],
                         'created_date'=> $this->date_time_now(),
                         'created_by'=> $this->session->userdata('admin_username'));
@@ -1792,6 +1849,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
 
             }
+
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
              redirect(site_url('dashboard'));
 
     }
@@ -1871,7 +1931,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
         
              $user = $this->input->post('created_by');
-
+             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
            $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -1908,6 +1968,10 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
 
+           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+           redirect (site_url('dashboard'));
+
         
     }
 
@@ -1915,7 +1979,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
        
              $user = $this->input->post('created_by');
-
+             $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
            $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -1978,6 +2042,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     }
              }
+
+             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
              redirect(site_url('dashboard'));
 
         
@@ -2008,7 +2075,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function CRA_APPROVAL_REQ_PROSES()
     {
                 $user = $this->input->post('created_by');
-
+                $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
                $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -2073,7 +2140,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         $this->admin_model->insert_application_file($data6);  
 
                         $dataDocAss = array(
-                        'type' => 'CRA_DOC',
+                        'type' => 'CRA_DOC_'.$id_doc_conf->row($x)->display_name,
                         'value' => $id_doc_conf->row($x)->key,
                         'id_application_status'=> $id_app_sts_lst,
                         'created_by' => $this->session->userdata('admin_username'),
@@ -2084,6 +2151,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
                         
              }
+
+             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
             redirect(base_url('dashboard'));
 
@@ -2102,6 +2171,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function UPL_IIN_DOC_REQ_PROSES()
     {
          $user = $this->input->post('created_by');
+         $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
          $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -2176,19 +2246,22 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $this->admin_model->insert_app_sts_for_map($dataDocAss);            
 
             }
+
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
             redirect(base_url('dashboard'));
 
     }   
 
         //belum fix
-    public function send_notif($id_application)
+    public function send_notif($id_application,$id_user)
     {
         $data = array(
-            'notification_type' => 'user',
-            'notification_owner' => $id_application,
-            'message' => 'Silahkan melanjutkan ke step selanjutnya',
+            'notification_type' => $id_user,
+            'notification_owner' => 'admin',
+            'message' => 'Silahkan mengecek proses',
             'Status' => 'ACTIVE',
-            'notification_url' => 'masih belum ingat'
+            'notification_url' => 'dashboard?applications='.$id_application
         );
         $this->admin_model->insert_notif($data);
     }

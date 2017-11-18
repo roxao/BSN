@@ -17,6 +17,14 @@ class Dashboard extends CI_Controller {
         $this->model = $this->admin_model;
     }
 
+    public function date_time_now() {
+        /*
+        SET TIMEZONE ASIA/JAKARTA
+        */
+        $datetime = new DateTime('Asia/Jakarta');
+        return $datetime->format('Y\-m\-d\ h:i:s');
+    }
+
     public function notif(){
         if($this->input->get('id_notif')){
             $id_notif = $this->input->get('id_notif');
@@ -54,9 +62,10 @@ class Dashboard extends CI_Controller {
         if($this->input->get('application')){
             $data['notif_result'] = $this->input->get('application');
         }
-        $this->load->view('admin/header');
-        $data['notification'] = $this->admin_model->get_notif()->result_array();
+        
+        $data['notification'] = $this->admin_model->get_notif('admin')->result_array();
         $data['applications'] = $this->admin_model->get_applications()->result();
+        $this->load->view('admin/header', $data);
         $this->load->view('admin/inbox', $data);
     }
 
@@ -105,7 +114,7 @@ class Dashboard extends CI_Controller {
 
 
     public function user($subparams = null) {
-        $this->user('check-autho');
+        
         switch ($subparams) {
             case 'login':
                 $this->load->view('admin/login');
@@ -252,14 +261,14 @@ class Dashboard extends CI_Controller {
             case 'cms': 
                 $data['data'] = $this->admin_model->get_cms()->result_array(); break;
             case 'cms_editor':
-                $data['data'] = $this->admin_model->get_cms_by_prm('1')->result_array();
+                $data['data'] = $this->admin_model->get_cms_by_prm($this->input->post('id_cms'))->result_array();
                 break;
             case 'iin': 
                 $data['data'] = $this->admin_model->get_iin()->result_array(); break;
             case 'survey':
                 $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
             default: 
-                redirect(base_url()); break;
+                redirect(base_url('dashboard')); break;
         }
         // echo json_encode($data);
         // return false;
@@ -271,7 +280,7 @@ class Dashboard extends CI_Controller {
         $this->user('check-autho');
         switch ($param) {
             case 'admin':
-                $condition = array('id_admin' => $this->input->post('id_admin'));
+            $condition = array('id_admin' => $this->input->post('id_admin'));
                 $data = array(
                     'email' => $this->input->post('email'),
                     'username' => $this->input->post('username'),
@@ -279,14 +288,14 @@ class Dashboard extends CI_Controller {
                     'password' => hash ( "sha256", $this->input->post('password')),
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
-                    'modified_date' => date('Y-m-j'),
-                    // 'modified_by' => $this->session->userdata('username')                
+                    'modified_date' => $this->date_time_now(),
+                    'modified_by' => $this->session->userdata('admin_username')                
                 );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data Admin',
                     'log_type' => 'Update Data '.$this->input->post('username'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_admin($condition,$data);
                 break;
@@ -299,8 +308,8 @@ class Dashboard extends CI_Controller {
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
                     'log_type' => 'Update Data '.$this->input->post('name'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_assessment($condition,$data);
                 break;
@@ -321,49 +330,54 @@ class Dashboard extends CI_Controller {
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $uploaded['full_path'],
                     'mandatory' => $this->input->post('mandatory'),
-                    'modified_date' => date('Y-m-j H:i:s'),
-                    // 'modified_by' => $this->session->userdata('username')                
+                    'modified_date' => $this->date_time_now(),
+                    'modified_by' => $this->session->userdata('admin_username')                
                 );
                 $log = array(
                 'detail_log' => $this->session->userdata('admin_role').' Update Data Dokumen',
                 'log_type' => 'Update Data '.$this->input->post('display_name'), 
-                'created_date' => date('Y-m-j H:i:s')
-                // 'created_by' => $this->session->userdata('username')
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_documenet_config($condition,$data);
                 break;
             case 'contents':
+                $url = strtolower($this->input->post('title'));
+                $url = str_replace(' ', '_', $url);
+
                 $condition = array('id_cms' => $this->input->post('id_cms'));
                 $data = array(
                     'content' => $this->input->post('content'),
                     'title' => $this->input->post('title'),
-                    'url' => $this->input->post('url'),
-                    'modified_date' => date('Y-m-j H:i:s'),
-                    // 'modified_by' => $this->session->userdata('username')                
-                );
+                    'url' => substr($url, 0, 50),
+                    'status' => $this->input->post('status'),
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')             
+                    );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data CMS',
                     'log_type' => 'Update Data '.$this->input->post('title'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_cms($condition,$data);
+                redirect('dashboard/settings/cms');
                 break;
             case 'iin':
                 $condition = array('id_iin' => $this->input->post('id_iin'));
                 $data = array(
                     'id_user' => $this->input->post('id_user'),
                     'iin_number' => $this->input->post('iin_number'),
-                    'iin_established_date' => date('Y-m-j H:i:s'),
-                    'iin_expiry_date' => date('Y-m-j H:i:s'),
-                    'modified_date' => date('Y-m-j H:i:s')
-                    // 'modified_by' => $this->session->userdata('username')     
+                    'iin_established_date' => $this->input->post('iin_established_date'),
+                    'iin_expiry_date' => $this->input->post('iin_expiry_date'),
+                    'modified_date' => $this->date_time_now(),
+                    'modified_by' => $this->session->userdata('admin_username')     
                 );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data IIN',
                     'log_type' => 'Update Data '.$this->input->post('iin_number'), 
-                    'created_date' => date('Y-m-j H:i:s')
-                    // 'created_by' => $this->session->userdata('username')
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_iin($condition,$data);
                 break;
@@ -385,13 +399,13 @@ class Dashboard extends CI_Controller {
                     'password' => hash ( "sha256", $this->input->post('password')),
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new admin',
                     'log_type' => 'added '.$this->input->post('username'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->insert_admin($data);
@@ -404,7 +418,7 @@ class Dashboard extends CI_Controller {
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new tim_asesment',
                     'log_type' => 'added '.$this->input->post('name'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_assesment($data);
@@ -416,7 +430,7 @@ class Dashboard extends CI_Controller {
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new asesment title',
                     'log_type' => 'added '.$this->input->post('name'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_assesment_title($data);    
@@ -436,46 +450,52 @@ class Dashboard extends CI_Controller {
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $this->input->post('file_url'),
                     'mandatory' => $this->input->post('mandatory'),
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new doc',
                     'log_type' => 'added '.$this->input->post('display_name'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->insert_document_config($data);
                 break;
             case 'contents':
+                $url = strtolower($this->input->post('title'));
+                $url = str_replace(' ', '_', $url);
+
                 $data = array(
                     'content' => $this->input->post('content'),
                     'title' => $this->input->post('title'),
-                    'url' => $this->input->post('url'),
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'url' => substr($url, 0, 50),
+                    'status' => 'Y',
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new cms',
                     'log_type' => 'added '.$this->input->post('title'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
+                
                 $this->admin_model->insert_cms($data); 
+                redirect('dashboard/settings/cms');
                 break;
             case 'iin':
                 $data = array(
                     'id_user' => $this->input->post('id_user'),
                     'iin_number' => $this->input->post('iin_number'),
-                    'iin_established_date' => date('Y-m-j H:i:s'),
-                    'iin_expiry_date' => date('Y-m-j H:i:s'),
-                    'created_date' => date('Y-m-j H:i:s'),
-                    'created_by' => $this->session->userdata('username')             
+                    'iin_established_date' => $this->input->post('iin_established_date'),
+                    'iin_expiry_date' => $this->input->post('iin_expiry_date'),
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')             
                     );  
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' adding new IIN',
                     'log_type' => 'added IIN '.$this->input->post('iin_number'), 
-                    'created_date' => date('Y-m-j H:i:s'),
+                    'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
                 $this->admin_model->insert_iin($data);

@@ -52,16 +52,23 @@
 
 
 <section class="clearfix content-revision" style="display:none">
-	<p>Masukan keterangan perbaikan dokumen yang harus di unggah oleh Pemohon</p>
+	<p>Pilih alasan penolakan permohonan IIN</p>
 	<?php echo form_open_multipart('admin_verifikasi_controller/VERIF_NEW_REQ_ETC') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
-		<select class="option-comment" name="option_comment">
-			<option value="have-iin">Sudah mempunyai IIN</option>
-			<option value="others">Lain-lain</option>
+		<input type="hidden" name="id_user">
+		<select class="option-comment"  name="reason" id="reason" onchange="checkRejectionReason();">
+			<option value="EXISTING">Sudah mempunyai IIN</option>
+			<option value="OTHER">Lain-lain</option>
 		</select>
-		<textarea name="coment" cols="30" rows="10" class="text_comment" required></textarea>
+
+		<p id="reasonOther" style="display:none;">Masukan alasan penolakan permohonan IIN</p>
+		<p id="reasonExisted">Masukan nomor IIN yang telah diterbitkan sebelumnya</p>
+
+		<input type="hidden" name="rejectionType" id="rejectionType" value="EXISTING">
+		<textarea name="coment" cols="30" rows="10" class="text_comment" id="coment" style="display:none;"></textarea>
+		<input type="text" id="iinExisting" name="iinExisting">
 		<input type="submit" name="submit_revision" style="display:none;" />
 	</form>
 </section>
@@ -85,7 +92,25 @@
 	$("[name=mailing_location]").val(app.mailing_location);
 	$("[name=mailing_number]").val(app.mailing_number);
 	$("[name=created_by]").val(app.created_by);
+	$("[name=id_user]").val(app.id_user);
 
 	$.set_value_data();
 	$.base_config_approval();
+</script>
+<script>
+	function checkRejectionReason(){
+		var reason = $("#reason").val();
+		if(reason == 'OTHER'){
+			$("#reasonOther").show();
+			$("#coment").show();
+			$("#reasonExisted").hide();
+			$("#iinExisting").hide();
+		} else {
+			$("#reasonExisted").show();
+			$("#iinExisting").show();
+			$("#reasonOther").hide();
+			$("#coment").hide();
+		}
+		$("#rejectionType").val(reason);
+	}
 </script>

@@ -405,13 +405,14 @@ class Admin_model extends CI_Model {
 
     public function get_pay($prm)
     {
-         $this->db->select('*');
+        $this->db->select('*');
         $this->db->from('application_file');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
             // $con = 'application_file.id_application = "'.$prm.'" AND application_file.id_document_config = "24" ';
         // $this->db->where($con);    
         $this->db->where('application_file.id_application', $prm);
         $this->db->where('application_file.id_document_config', '24');
+        $this->db->order_by('application_file.id_application_file', 'desc');
         return $this->db->get();
     }
 
@@ -663,13 +664,12 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-    public function get_notif($data = null){
+    public function get_notif($notifikation_type){
         $this->db->select('*');
         $this->db->from('notification');
-        $this->db->where('notification_type', 'admin');
-        if($data != null){
-             $this->db->where('id_notification', $data);
-        }
+        $this->db->where('notification_type', $notifikation_type);
+        
+        
         return $this->db->get();
     }
 

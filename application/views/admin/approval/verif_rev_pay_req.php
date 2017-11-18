@@ -69,6 +69,9 @@
 	$.base_config_approval();
 	$.config_file_type();
 	$.set_assessment_roles_on_select();
+
+	value=respon.doc_pay;
+
 	// SET AUTOCOMPLETE ASSESSMENT LIST NAME
 	$("[name=assessment_list]").autocomplete({
       	source:function(request,response){$.ajax({
@@ -101,7 +104,9 @@
     	 	$('.x3').on('click',function(event){$(this).parent().slideUp('400',function(){$(this).remove()})});
       	}
     });
+
     $('.attach_user_file').append('<div class="clearfix"><div>Bukti Pembayaran</div><a href="<?php echo base_url();?>submit_iin/download?var1='+ value[0].path_id 
 		 			+'" class="btn_download float_right">Download</a></div>');
+    
 </script>
 
