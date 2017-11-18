@@ -105,9 +105,9 @@ class Dashboard extends CI_Controller {
 
 
     public function user($subparams = null) {
+        $this->user('check-autho');
         switch ($subparams) {
             case 'login':
-                print_r($this->session->userdata('admin_status'));
                 $this->load->view('admin/login');
                 break;
             case 'register':
@@ -152,10 +152,6 @@ class Dashboard extends CI_Controller {
                 redirect(base_url('dashboard/user/login'));
                 break;       
         }
-    }
-
-    public function test(){
-        echo json_encode($this->admin_model->get_instance_list('PT')->result());
     }
 
     public function get_app_data() {    
@@ -235,10 +231,12 @@ class Dashboard extends CI_Controller {
 
 
     public function set_view($param = null, $subparams = null) {
+        $this->user('check-autho');
         $this->load->view('admin/'.$param.'/'.$subparams);
     }
 
     public function settings($param = null){
+        $this->user('check-autho');
         switch ($param) {
             case 'user': 
                 $data['data'] = $this->admin_model->get_user()->result_array(); break;
@@ -270,6 +268,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function action_update($param){
+        $this->user('check-autho');
         switch ($param) {
             case 'admin':
                 $condition = array('id_admin' => $this->input->post('id_admin'));
@@ -376,6 +375,7 @@ class Dashboard extends CI_Controller {
     }
 
     public function action_insert($param){
+        $this->user('check-autho');
         switch ($param) {
             case 'admin':
                 $data = array(
