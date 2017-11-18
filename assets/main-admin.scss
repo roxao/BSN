@@ -230,6 +230,8 @@ $_sort_color : rgba(80, 114, 153, .2);
     {background-image: url('admin/doc.png')}
   &.ic-team
     {background-image: url('admin/team.png')}
+  &.ic-plus
+    {background-image: url('admin/team.png')}
 }
 
 .table_def {
@@ -1682,6 +1684,9 @@ header {
   display: none
 }
 
+.hidden {
+  display: none;
+}
 
 .option-comment{
   background: #fff url(admin/sort-down.png) no-repeat right;
@@ -1697,5 +1702,53 @@ header {
   background-size: 10px 10px;
   &:focus,&:active{
       outline: none !important
+  }
+}
+
+
+
+.sheets_paper2 {
+    box-shadow: 2px 4px white, 3px 5px #e0e1e2, 5px 9px white, 6px 10px #e0e1e2;
+}
+
+.title-form-section {
+    font-size: 1.2em;
+    line-height: 3rem;
+    padding-left: 17px;
+    padding-top: 10px;
+    color: #01923f;
+}
+.data-entry-form{
+  .display-flex{
+    display: flex;
+    margin-bottom: -1px;
+    .input-data:not(:last-child){
+      border-right-width: 0;
+      border-bottom-width: 1px;
+    }
+  }
+  .input-data {
+    box-sizing: border-box;
+    display: block;
+    border: 1px solid #e0e1e2;
+    padding: 10px 15px;
+    flex: 1;
+    color: #999;
+    &:focus-within{
+    }
+    &:hover{
+      cursor: text;
+    }
+    &:not(:last-child){
+      border-bottom-width: 0
+    }
+    input{
+      margin-top: 10px;
+      box-sizing: border-box;
+      width: 100%;
+      font-size: 1.1em;
+      padding: 0;
+      border: 0;
+    }
   }
 }

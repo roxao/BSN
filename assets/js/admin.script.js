@@ -39,6 +39,10 @@ $(document).ready(function() {
     	window.location.href = (base_url + "/excel?f="+f+"&t="+t+"&m="+m);
     }
 
+    get_iin_form = function(m){
+    	window.location.href = (base_url + "/excel?f="+f+"&t="+t+"&m="+m);
+    }
+
 	$.set_value_data = function(){
 		app=respon.application;
 		doc_pay=respon.doc_pay;
@@ -98,9 +102,7 @@ $(document).ready(function() {
 		});	
 	}
 	$.set_upload_cra = function(target){
-		console.log(doc.length);
 		for (var j = 0; j < doc.length; j++) {
-			// var select_roles = (j == 0 ? 'selected' : null );
 			html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" style="padding-right:10px">';
 			html +=	'Pilih Dokumen';
 			html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg" required/>';
@@ -111,9 +113,6 @@ $(document).ready(function() {
 			    var fileName = $(this).val().split('/').pop().split('\\').pop();
 			    $(this).next().next().html(fileName);
 			});
-			$('.img-del').on('click', function(event) {
-				$(this).parent().remove();
-			});	
 		}	
 	}
 
@@ -122,4 +121,14 @@ $(document).ready(function() {
 		var y = $(window).height()/2 - $('.box-modal').height()/2;
 		$('.box-modal').animate({ 'marginLeft': (x<0?0:x)+'px', 'marginTop': (y<0?0:y)+'px' }, 100);
 	}
+
+	$(function() {    
+   		var formatted = $.datepicker.formatDate("dd MM yy", new Date());
+   		if($('[type=date]').length !== 0)
+			$('[type=date]').prop({type: 'text'}).val(formatted).datepicker({dateFormat: "dd MM yy", setDate: new Date()});
+		else
+			$('[type=date]').prop({type: 'text'}).datepicker({dateFormat: "dd MM yy", setDate: new Date()});
+	});
+
 });
+   
