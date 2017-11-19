@@ -22,7 +22,7 @@
       <div class="table_content">
         <table class="table_def tableInbox" style="width: 100%;">
           <tr>
-            <th style="width:55px" class="sort" data-sort="id_version">Versi</th>
+            <th style="width:55px" class="sort" data-sort="id_version">No</th>
             <th style="min-width:400px" class="sort" data-sort="id_question">Pertanyaan</th>
             <th style="min-width:100px" class="sort" data-sort="id_date">Tanggal</th>
             <th style="min-width:100px" class="sort" data-sort="id_by">Dibuat Oleh</th>
@@ -31,12 +31,13 @@
           </tr>
           <tbody class="list table-survey">
             <?php foreach($data as $key=>$survey) { ?>
-              <tr>
-                <td class="id_version"><?php echo $survey['version'] ?></td>
+              <tr >
+                <td class="id_version"><?php echo $survey['id_survey_question'] ?></td>
                 <td class="id_question">
                 <?php 
-                  $decode = json_decode($survey['question'], true);
-                  $question = $decode['qs']['q'];
+
+                  $question = json_decode($survey['question'], true);
+                  
                   for ($i=0; $i < count($question); $i++) {
                     echo '<div class="row-survey"><span>'.$question[$i]['no'].'.</span>'.$question[$i]['msg'].'</div>';
                   }
@@ -70,7 +71,8 @@
     $('document').ready(function(){
       var options = {valueNames: [ 'id_question', 'id_version', 'id_date', 'id_by', 'id_status' ],page: 10,pagination: true};
       var inboxList = new List('tableInbox', options);
-    });
+    
+
     $('.listjsnext').on('click', function(){
     var list = $('.pagination').find('li');
     $.each(list, function(position, element){
@@ -79,6 +81,7 @@
         }
     })
     })
+
     $('.listjsprev').on('click', function(){
         var list = $('.pagination').find('li');
         $.each(list, function(position, element){
@@ -87,10 +90,27 @@
             }
         })
     })
+
+    $('#btn-add').on('click', function() 
+    {
+      $('[name=id_surv').val('insert');
+      $('.modal-form button').click();
+    })
+
+    $('.btn-survey-edit').on('click', function() {
+        $('[name=id_surv').val($(this).attr('data-id'));
+        $('.modal-form button').click();
+      })
     
+    });
   </script>
 </section>
 
 
-
+<div class="z-modal-frame" style="display: none;">
+  <form class="modal-form" action="<?php echo base_url('dashboard/settings/survey_form') ?>" method="post">
+    <input name="id_surv" type="text">    
+    <button type="submit"></button>
+  </form>
+</div>
 

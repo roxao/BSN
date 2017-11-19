@@ -1444,7 +1444,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
              $data3 = array(
                     'type' => 'APPROVAL_STATUS',
                     'value' => 'APPROVED',
-                    'id_application_status'=> $id_app_sts
+                    'id_application_status'=> $id_app_sts,
+                    'created_by' => $this->session->userdata('admin_username'),
+                     'created_date' => $this->date_time_now()
                     );
             $this->admin_model->insert_app_sts_for_map($data3);
 
@@ -1569,7 +1571,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
         $id_ass_app =  $this->admin_model->insert_assessment_application($data_ass_app);
 
-        $team = $this->input->post('assessment_title');
+        $team = $this->input->post('assessment_name');
         $title = $this->input->post('assessment_title');
         
             for($x=0;$x < count($team);$x++)
@@ -1740,8 +1742,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                         $dataDocAss = array(
                         'type' => 'ASSESSMENT_DOC',
-                        'value' => $getLetterAssigment[$y]->key,
-                        'id_application_status'=> $id_app_sts_lst,
+                        'value' => $getDoc[$x]->key,
+                        'id_application_status'=> $id_apps_sts_lst,
                         'created_by' => $this->session->userdata('admin_username'),
                         'created_date' => $this->date_time_now()
                         );
@@ -1819,9 +1821,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $this->admin_model->insert_log($data_doc_l);
 
                     $data5 = array(
-                    'type' => 'REV_DOC_ASS ',
+                    'type' => 'REV_DOC_ASM ',
                     'value' => $id_doc_new,
-                    'id_application_status'=> $id_app_sts
+                    'id_application_status'=> $id_app_sts,
+                    'created_by' => $this->session->userdata('admin_username'),
+                    'created_date' => $this->date_time_now()
                     );
                     
                     $this->admin_model->insert_app_sts_for_map($data5);
@@ -1832,7 +1836,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $data5 = array(
                     'type' => 'REV_DOC_ASM',
                     'value' => $cek_doc->row()->id_document_config,
-                    'id_application_status'=> $id_app_sts
+                    'id_application_status'=> $id_app_sts,
+                    'created_by' => $this->session->userdata('admin_username'),
+                    'created_date' => $this->date_time_now()
                     );
                 
                     $this->admin_model->insert_app_sts_for_map($data5);
@@ -1982,7 +1988,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
            
-            $this->admin_model->insert_app_status($data2,$condition);
+          $id_app_sts_lst = $this->admin_model->insert_app_status($data2,$condition);
 
             $data3 = array(
                     'type' => 'APPROVAL_STATUS',
@@ -1992,6 +1998,52 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_date' => $this->date_time_now()
                     );
            $this->admin_model->insert_app_sts_for_map($data3);
+
+           
+
+            $this->load->library('upload');
+           $getDoc = $this->admin_model->get_news_for_user()->result();
+            
+           $this->upload->initialize(array(
+                "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",
+                 "upload_path"   => "./upload/"
+             ));
+           
+            if($this->upload->do_upload('bill'))
+                {
+                   
+                    $uploaded = $this->upload->data();     
+
+                    
+           
+                    for($x=0;$x < count($getDoc);$x++)
+                    {
+                        
+                        $doc = array(
+                            'id_application' => $this->input->post('id_application'),
+                            'id_document_config' => $getDoc[$x]->id_document_config,
+                            'status' => 'ACTIVE',
+                            'created_date'=> $this->date_time_now(),
+                            'path_id' => $uploaded[$x]['full_path'],
+                            'created_by' => $this->session->userdata('admin_username')
+                        );
+                       
+                        $this->admin_model->insert_doc_for_user($doc);
+
+                        $dataDocAss = array(
+                        'type' => 'ASSESSMENT_DOC',
+                        'value' => $getDoc[$x]->id_document_config,
+                        'id_application_status'=> $id_app_sts_lst,
+                        'created_by' => $this->session->userdata('admin_username'),
+                        'created_date' => $this->date_time_now()
+                        );
+                        $this->admin_model->insert_app_sts_for_map($dataDocAss);
+                  
+                    }
+
+           
+                }
+
 
            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
@@ -2046,7 +2098,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'type' => 'REVISED_DOC ',
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_sts,
                         'created_by' =>  $this->session->userdata('admin_username'),

@@ -15,15 +15,15 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
 
     <div id="survey-form">
-      <form action="" method="post">
-        <input class="hidden" name="id_survey" value="">
+      <form action="<?php echo base_url('dashboard/survey_question/'.(($data) ? 'insert': 'insert')); ?>" method="post">
+        <input class="hidden" name="id_survey" value="<?php echo ($data) ? $data[0]['id_survey_question']: ''?>">
         
         <div class="survey-option">
           <label>
             <span>Status Survei:</span>
             <select name="question_status">
-              <option value="0">Aktif</option>
-              <option value="1">Tidak Aktif</option>
+              <option value="1" <?php echo ($data ? ($data[0]['question_status']== 1 ? 'selected' : ''): '') ?> >Aktif</option>
+              <option value="0" <?php echo ($data ? ($data[0]['question_status']== 0 ? 'selected' : ''): '') ?>>Tidak Aktif</option>
             </select>
           </label>
           <label>
@@ -43,6 +43,13 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
+      <?php 
+
+          $question = json_decode($data[0]['question'], true);        
+          for ($i=0; $i < count($question); $i++) {
+            echo "$.set_add_row_survey_form('.survey-form', '".$question[$i]['type']."', '".$question[$i]['msg']."');";
+          }
+       ?>
       // $.set_add_row_survey_form('.survey-form', 'RATING', '');
 
       $('#btn-add-row-survey').on('click', function(event) {

@@ -300,6 +300,14 @@ class Dashboard extends CI_Controller {
                     $data['data']=null;
                  } 
                 break;
+            case 'survey_form':
+                if($this->input->post('id_surv')!='insert'){
+                   $data['data'] = $this->admin_model->get_survey_by_prm($this->input->post('id_surv'))->result_array();
+
+                 } else {
+                    $data['data']=null;
+                 }
+                break;
             default: 
                 redirect(base_url('dashboard')); break;
         }
@@ -754,6 +762,67 @@ class Dashboard extends CI_Controller {
         redirect(site_url('dashboard/data_entry'));
 
     }    
+
+    public function survey_question($param)
+    {
+        switch ($param) 
+        {
+            case 'insert':
+
+            $arrayFirst = array();
+
+            for($x=0; sizeof($this->input->post('question_message[]')) > $x;$x++)
+            {
+                $pertanyaan = array(
+                'no' => $x+1,
+                'msg' => $this->input->post('question_message[]')[$x],
+                'type' => $this->input->post('question_type[]')[$x]
+                );
+
+              
+                array_push($arrayFirst, $pertanyaan);
+                // $arrayFirst['SEMPAK'] = 
+            }
+
+                $dataSurvey = array(
+                    'question' => json_encode($arrayFirst),
+                    'question_status' => $this->input->post('question_status'),
+                    'created_by' => $this->session->userdata('admin_username'),
+                    'created_date' => $this->date_time_now()
+                    );
+
+                $idQuestionLast = $this->admin_model->insert_survey($dataSurvey);
+
+                break;
+            case 'update':
+                $idQuestionLast = array('id_survey_question' => $this->input->post('id_survey_question'));
+
+                $dataSurvey = array(
+                    'question' => $this->input->post(),
+                    'version' => $this->input->post(),
+                    'question_status' => $this->input->post('question_status'),
+                    'created_by' => $this->session->userdata('admin_username'),
+                    'created_date' => $this->date_time_now()
+                    );
+
+                $this->admin_model->update_survey($idQuestionLast, $dataSurvey);
+
+                break;
+
+        }
+ 
+                $this->admin_model->after_insert_or_update($idQuestionLast);
+
+
+        redirect(site_url('dashboard/settings/survey'));
+    }
+
+    public function get_survey_by_prm()
+    {
+        $id_ques = $this->input->post('');
+
+        $this->admin_model->get_survey_by_prm($id_ques);
+    }
 
 
 

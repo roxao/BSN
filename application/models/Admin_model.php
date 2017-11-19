@@ -21,6 +21,16 @@ class Admin_model extends CI_Model {
          $this->db->insert('log', $data);
     }
 
+    public function insert_log2($detail, $type){
+        $data = array(
+            'detail_log' => $detail,
+            'log_type' => $type,
+            'created_date' => (new DateTime('Asia/Jakarta'))->format('Y\-m\-d\ h:i:s'),
+            'created_by' => $this->session->userdata('admin_username')
+            );
+         $this->db->insert('log', $data);
+    }
+
     public function get_admin(){
        return $this->db->get('admin');
     }
@@ -321,7 +331,11 @@ class Admin_model extends CI_Model {
     }
 
     public function question_survey_question(){
-       return $this->db->get('survey_question');
+       $this->db->select('*');
+       $this->db->from('survey_question');
+       $this->db->order_by('id_survey_question', 'desc');
+       return $this->db->get();
+
     }
 
     public function get_iin(){
@@ -494,46 +508,7 @@ class Admin_model extends CI_Model {
         return $this->db->get(); 
     }
 
-    public function all_dat()
-    {
-        $this->db->select('*');
-        $this->db->from('complaint');
-
-        
-        $this->db->from('document_config');
-
-        
-        $this->db->from('applications');
-
-        
-        $this->db->from('user');
-
-        
-        $this->db->from('admin');
-
-        
-        $this->db->from('survey_question');
-
-        
-        $this->db->from('cms');
-
-        
-        $this->db->from('assessment_team_title');
-
-        
-        $this->db->from('assessment_team');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        // return $this->db->get('');
-        return $this->db->get(); 
-
-    }
+  
 
     public function get_applications_by_prm($prm)
     {
@@ -664,7 +639,7 @@ class Admin_model extends CI_Model {
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
         ->where('application_status_form_mapping.id_application_status', $id_app_status)
-        ->like('application_status_form_mapping.type','REVISED_DOC');
+        ->like('application_status_form_mapping.type','REVISION_ASSESSMENT_FILE');
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
@@ -718,5 +693,78 @@ class Admin_model extends CI_Model {
         $inserted_id = $this->db->insert_id();
         return $inserted_id;        
     }
+
+    public function insert_survey($dataSurvey)
+    {
+        $this->db->insert('survey_question',$dataSurvey);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;
+    }
+
+    public function update_survey($condition,$data) 
+    {   
+        $this->db->where($condition);
+        $this->db->update('survey_question',$data);
+    }
+
+    public function after_insert_or_update($idsurvey)
+    {
+        $tatus = array('question_status' => '0');
+        $this->db->where('id_survey_question !=',$idsurvey);
+        $this->db->update('survey_question', $tatus);
+    }
+
+    public function get_survey_by_prm($id_survey)
+    {
+        $idSurvey = array('id_survey_question' => $id_survey);
+
+        $this->db->select('*');
+        $this->db->from('survey_question');
+        $this->db->where($idSurvey);
+
+        return $this->db->get();
+    }
+
+    public function date_time_now() {
+        /*
+        SET TIMEZONE ASIA/JAKARTA
+        */
+        $datetime = new DateTime('Asia/Jakarta');
+        return $datetime->format('Y\-m\-d\ h:i:s');
+    }
+
+    public function insert_banner($data)
+    {
+        $this->db->insert('banner',$data);
+        $inserted_id = $this->db->insert_id();
+
+        $this->insert_log2(
+                $this->session->userdata('admin_username') . 'Input Banner',
+                'Insert Banner');
+
+        return $inserted_id;
+
+    }
+
+    public function update_banner($id_banner,$data)
+    {
+        $this->db->where('id_banner',$id_banner);
+        $this->db->update('banner', $data);
+
+    }
+
+    public function get_banner($data)
+    {
+        $this->db->select('*');
+        $this->db->from('banner');
+        if($data==null)
+        {
+            $this->db->where('id_banner',$data);
+        }
+        return $this->db->get();
+    }
+
+    
+
 }
 ?>
