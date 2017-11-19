@@ -1,13 +1,20 @@
+<?php
+  $page_title = 'Dashboard :: Pengaturan Survei';
+  $page_section = 'Pengaturan Survei';
+?>
+
 <section class="dashboard_content sheets_paper">
   <section class="main_dashboard_slidetab">
     <div class="site-map">
-      <a href="<?php echo base_url('dashboard') ?>">Dashboard</a>
-      <span></span>Inbox
+      <a href="<?php echo base_url('dashboard') ?>">Dashboard</a><span></span>
+      <a href="<?php echo base_url('dashboard') ?>">Pengaturan</a><span></span>
+      <?php echo $page_section ?>
     </div>
-    <h2 class="title_content">Inbox Status </h2>
+    <h2 class="title_content">Pengaturan Survei </h2>
 
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
+        <button id="btn-add" class="btn-flat float_left">TAMBAH SURVEI</button>
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
         </div> 
@@ -41,7 +48,9 @@
                   </td>
                 <td class="id_by"><?php echo $survey['created_by'] ?></td>
                 <td class="id_status"><?php echo ($survey['question_status']==1?'AKTIF':'TIDAK AKTIF')?></td>
-                <td><img src="<?php echo $survey['version'] ?>" alt="Ubah Survey Versi <?php echo $survey['version'] ?>"></td>
+                <td>
+                  <button class="btn-survey-edit" data-id="<?php echo $survey['id_survey_question'] ?>"  ></button>
+                </td>
               </tr>
             <?php } ?>
           </tbody>
@@ -78,6 +87,7 @@
             }
         })
     })
+    
   </script>
 </section>
 
