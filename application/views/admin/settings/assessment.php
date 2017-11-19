@@ -121,7 +121,7 @@
       <div class="z-modal-close"></div>
     </div>
     <div class="z-modal-content">
-      <form class=".modal-form" action="<?php echo base_url('dashboard/set_action/user/update') ?>" method="post">
+      <form class="modal-form" action="<?php echo base_url('dashboard/action_update/assessment') ?>" method="post">
         <div class="z-modal-form">
             <input name="id_assessment_team" type="hidden"/>
             <label><span>Nama Lengkap</span>

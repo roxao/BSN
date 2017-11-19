@@ -151,6 +151,25 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_data_history()
+    {
+        $this->db->select('*');
+        $this->db->from('iin');
+        $this->db->join('user', 'user.id_user=iin.id_user');
+        $this->db->join('applications','user.id_user=applications.id_user');
+        return $this->db->get();
+    }
+
+    public function get_data_history_byprm($id_user)
+    {
+        $this->db->select('*');
+        $this->db->from('iin');
+        $this->db->join('user', 'user.id_user=iin.id_user');
+        $this->db->join('applications','user.id_user=applications.id_user');
+        $this->db->where('iin.id_user',$id_user);
+        return $this->db->get();
+    }
+
 
     public function get_application($id_application_status){
         $this->db->select("*");
@@ -691,6 +710,13 @@ class Admin_model extends CI_Model {
         $this->db->from('applications');
         $this->db->like('instance_name',$data);
         return $this->db->get();
+    }
+
+    public function insert_user($dataUser)
+    {
+        $this->db->insert('user', $dataUser);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;        
     }
 }
 ?>

@@ -7,7 +7,7 @@
 	<title><?php site_url(); ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
 	<link rel="stylesheet" href="<?php echo base_url('assets/main-admin.css'); ?>">
-	<link rel="stylesheet" href="<?php echo base_url('assets/swal.css'); ?>">
+	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/admin.script.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
@@ -22,7 +22,7 @@
 			<ul class="nav-list float_right" style="padding-right: 20px">
 				
 				<li class="nav-sess"><span class="nav-welcome">Hai, <b><?php echo $this->session->userdata('admin_username') ?></b></span></li>
-				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span id='unreadCount'></span></a>
+				<li class="nav-notif"><a href="#">Notifikasi <span id='unreadCount'></span></a>
 					<ul class="box_notif">
 						
 					</ul>
@@ -63,7 +63,9 @@
 
 					        for(var notif in data){(function(row){
 
-					        	if(row.Status != 'INACTIVE'){
+					        	var state = row.Status;	
+
+					        	if(state != 'INACTIVE'){
 					        		unreadCount = unreadCount + 1;
 					        	}
 
@@ -86,7 +88,9 @@
 					        			type: "GET",
 					        			dataType: 'json',
 					        			success: function(data){
-					        				getNotification();
+					        				if(state != INACTIVE){
+					        					$("#unreadCount").html(("#unreadCount").val()-1);
+					        				}
 					        			}
 					        		});
 					        		swal('Pesan', row.message, 'success');					   

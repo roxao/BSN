@@ -11,7 +11,8 @@
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.slides.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/script.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
-
+	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">	
+	<script type="text/javascript" src="<?php echo base_url('assets/js/swal.js'); ?>"></script>
 
 </head>
 <body>
@@ -62,6 +63,7 @@
 <script>
 		function getNotification(){
 			var baseUrl = <?php echo "'".base_url('Notification')."'"?>;
+			var baseUrlUser = <?php echo "'".base_url()."'"?>;
 			var unreadCount=0;
 			$.ajax({ 
 				url: baseUrl + "/getNotification", 
@@ -72,7 +74,10 @@
 
 					        for(var notif in data){(function(row){
 
-					        	if(row.Status != 'INACTIVE'){
+
+					        	var state = row.Status;
+
+					        	if(state != 'INACTIVE'){
 					        		unreadCount = unreadCount + 1;
 					        	}
 
@@ -83,7 +88,7 @@
 					        	var urlNotif = baseUrl + row.notification_url; 
 
 					        	notifBuilder.push('<li class="notif '+ row.Status + '">',
-					        					   '<a id="'+  linkId +'" href="#">'+ row.message+'</a>',
+					        					   '<a id="'+  linkId +'" href="'+ baseUrlUser+row.notification_url +'">'+ row.message+'</a>',
 					        					   '</li>');	
 
 					        	$(".box_notif").append(notifBuilder.join(''));
@@ -95,7 +100,9 @@
 					        			type: "GET",
 					        			dataType: 'json',
 					        			success: function(data){
-					        				getNotification();
+					        				if(state != INACTIVE){
+					        					$("#unreadCount").html(("#unreadCount").val()-1);
+					        				}
 					        			}
 					        		});
 					        		swal('Pesan', row.message, 'success');					   

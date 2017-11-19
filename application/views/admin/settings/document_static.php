@@ -65,8 +65,8 @@
   <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
   <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
   <script type="text/javascript">
-    var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
-    var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
+    var url_u = "<?php echo base_url('dashboard/action_update/document') ?>";
+    var url_i = "<?php echo base_url('dashboard/action_insert/document') ?>";
       
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
@@ -138,6 +138,13 @@
             <label><span>Dokumen</span>
                 <input name="images[]" type="file" placeholder="Username"/>
             </label>
+            <label>
+                <span>Mandatory</span>       
+                <select name="mandatory">
+                  <option value="0">Ya</option>
+                  <option value="1">Tidak</option>
+                </select>
+              </label>
             <button class="btn-flat">LANJUTKAN</button>
           </div>
       </form>

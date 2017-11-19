@@ -24,7 +24,7 @@
           </tr>
           <tbody class="list">
             <?php $i=1; foreach($applications as $data) { ?>
-              <tr>
+              <tr  class="row_select" data-id="<?php echo $data->id_user; ?>">
                 <td class="id_no"><?php  echo $i ?></td>
                 <td>
                   <div class="id_name"><?php  echo $data->applicant ?></div>
@@ -75,9 +75,17 @@
             }
         })
     })
+     $('.row_select').on('click', function() {
+        $('[name=id_entry').val($(this).attr('data-id'));
+        $('.modal-form button').click();
+      })
   </script>
 </section>
 
 
-
-
+<div class="z-modal-frame" style="display: none;">
+  <form class="modal-form" action="<?php echo base_url('dashboard/data_entry_form') ?>" method="post">
+    <input name="id_entry" type="text">    
+    <button type="submit"></button>
+  </form>
+</div>

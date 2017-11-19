@@ -65,8 +65,8 @@
   <script type="text/javascript" src="<?php echo base_url('/assets/js/list.min.js')?>"></script>
   <script type="text/javascript" src="<?php echo base_url('/assets/js/export.js')?>"></script>
   <script type="text/javascript">
-    var url_u = "<?php echo base_url('dashboard/action_update/assessment') ?>";
-    var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
+    var url_u = "<?php echo base_url('dashboard/action_update/document') ?>";
+    var url_i = "<?php echo base_url('dashboard/action_insert/document') ?>";
 
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
@@ -91,6 +91,7 @@
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
           $('.modal-form').attr('action', url_i);
+          $('[name=docType]').val('DYNAMIC');
         });
       })
    });
@@ -100,6 +101,7 @@
         $('.z-modal-frame').fadeIn('fast', function() {
           $('#z-modal-edit').slideDown()
           $('.modal-form').attr('action', url_u);
+          $('[name=docType]').val('DYNAMIC');
         });
       })
   </script>
@@ -126,16 +128,14 @@
   <?php echo form_open_multipart('dashboard/action_update/document', 'class="modal-form"') ?>
         <div class="z-modal-form">
             <input name="id_document_config" type="hidden"/>
-            <input name="type_doc" type="hidden" value="DYNAMIC"/>
+            <input name="docType" class="hidden" type="text"/>
             <label><span>Key</span>
                 <input name="key" type="text" placeholder="Username"/>
             </label>
             <label><span>Nama </span>
                 <input name="display_name" type="text" placeholder="Username"/>
             </label>
-            <label><span>Dokumen</span>
-                <input name="images[]" type="file" placeholder="Username"/>
-            </label>
+              
             <label>
                 <span>Mandatory</span>       
                 <select name="mandatory">

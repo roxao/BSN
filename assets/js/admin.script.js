@@ -40,7 +40,7 @@ $(document).ready(function() {
     }
 
     get_iin_form = function(m){
-    	window.location.href = (base_url + "/excel?f="+f+"&t="+t+"&m="+m);
+    	$('.modal-form button').click();
     }
 
 	$.set_value_data = function(){

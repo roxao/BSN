@@ -14,7 +14,8 @@ class Dashboard extends CI_Controller {
         $this->load->library('email');
         $this->load->helper('form'); 
         $this->load->database();
-        $this->model = $this->admin_model;
+        $this->load->model('admin_model','adm_model');
+        $this->load->model('user_model','usr_model');
     }
 
     public function date_time_now() {
@@ -71,22 +72,42 @@ class Dashboard extends CI_Controller {
 
     public function iinlist(){
         $this->user('check-autho');
-        $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        $data['applications'] = $this->admin_model->get_data_history()->result();
         $this->load->view('admin/header');
         $this->load->view('admin/iin-list', $data);
     }
     public function data_entry(){
         $this->user('check-autho');
-        $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        // $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        $data['applications'] = $this->admin_model->get_data_history()->result();
         $this->load->view('admin/header');
         $this->load->view('admin/data-entry', $data);
     }
 
-    public function data_entry_form(){
+    public function data_entry_by_prm($id_user){
         $this->user('check-autho');
-        $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        // $data['applications'] = $this->admin_model->get_applications_finish()->result();
+        $data['applications'] = $this->admin_model->get_data_history_byprm($id_user)->result();
+        $this->load->view('admin/header');
+        $this->load->view('admin/data-entry', $data);
+    }
+
+    public function data_entry_form($id_user=null){
+        $this->user('check-autho');
+        
+        if($this->input->post('id_entry')!='new'){
+            $data['data'] = $this->admin_model->get_data_history_byprm($this->input->post('id_entry'))->result_array();
+        } else {
+            //$data['data']=null;
+            $data['data'] = $this->admin_model->get_applications_finish()->result();
+        }
+
         $this->load->view('admin/header');
         $this->load->view('admin/data-entry-form', $data);
+
+         
+
+
     }
 
     public function extend(){
@@ -261,12 +282,24 @@ class Dashboard extends CI_Controller {
             case 'cms': 
                 $data['data'] = $this->admin_model->get_cms()->result_array(); break;
             case 'cms_editor':
-                $data['data'] = $this->admin_model->get_cms_by_prm($this->input->post('id_cms'))->result_array();
+                if($this->input->post('id_cms')!='insert'){
+                   $data['data'] = $this->admin_model->get_cms_by_prm($this->input->post('id_cms'))->result_array();
+                 } else {
+                    $data['data']=null;
+                 }  
                 break;
             case 'iin': 
                 $data['data'] = $this->admin_model->get_iin()->result_array(); break;
             case 'survey':
                 $data['data'] = $this->admin_model->question_survey_question()->result_array(); break;
+            case 'data_entry_form':
+                if($this->input->post('id_entry')!='new'){
+                   $data['data'] = $this->admin_model->get_data_history_byprm($this->input->post('id_entry'))->result_array();
+
+                 } else {
+                    $data['data']=null;
+                 } 
+                break;
             default: 
                 redirect(base_url('dashboard')); break;
         }
@@ -325,12 +358,12 @@ class Dashboard extends CI_Controller {
             
                 $condition = array('id_document_config' => $this->input->post('id_document_config'));
                 $data = array(
-                    'type' => $this->input->post('type'),
+                    'type' => $this->input->post('type_doc'),
                     'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $uploaded['full_path'],
                     'mandatory' => $this->input->post('mandatory'),
-                    'modified_date' => $this->date_time_now(),
+                    'last_updated_date' => $this->date_time_now(),
                     'modified_by' => $this->session->userdata('admin_username')                
                 );
                 $log = array(
@@ -441,11 +474,13 @@ class Dashboard extends CI_Controller {
                     "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
                     "upload_path"   => "./upload/"
                     ));   
+
+
                 $this->upload->do_upload("file_url");
                 $uploaded = $this->upload->data();
 
                 $data = array(
-                    'type' => $this->input->post('type'),
+                    'type' => $this->input->post('docType'),
                     'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $this->input->post('file_url'),
@@ -553,7 +588,7 @@ class Dashboard extends CI_Controller {
             $data = array(
                 'file_name' => $filename,
                 'path_file' => base_url().$imageFolder,
-                'created_date' => date('y-m-d'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username'));
             $this->admin_model->insert_cms_file($data);
 
@@ -570,6 +605,155 @@ class Dashboard extends CI_Controller {
             header("HTTP/1.0 500 Server Error");
           }
     }
+
+    public function insert_historical_data_entry()
+    {
+        $dataUser = array(
+            'status_user' => '0',
+            'survey_status' => '0',
+            'created_date' => $this->date_time_now(),
+            'created_by' => 'system'
+            );
+
+        $id_user = $this->admin_model->insert_user($dataUser);
+
+        $dataIin = array(
+            'iin_number' => '',
+            'iin_established_date' => '',
+            'iin_expiry_date' => '',
+            'created_date' => $this->date_time_now(),
+            'created_by' => $this->session->userdata('admin_username'));
+
+        $dataApp = array(
+            'applicant' => $this->input->post('applicant'),
+            'applicant_phone_number' => '',
+            'application_date' => '',
+            'application_purpose' => '',
+            'instance_name' => '',
+            'instance_email' => '',
+            'instance_phone' => '',
+            'instance_director' => '',
+            'mailing_location' => '',
+            'mailing_number' => '',
+            'iin_status' => 'CLOSE',
+            'application_type' => 'extend',
+            'created_date' => $this->date_time_now(),
+            'created_by' => $this->session->userdata('admin_username')
+            );
+
+        $this->admin_model->insert_iin($dataIin);
+
+        $this->user_model->insert_pengajuan($dataApp);
+
+        redirect(site_url('dashboard/data_entry'));
+
+    }
+
+    public function historycal_data_entry($param)
+    {
+        switch ($param) 
+        {
+            case 'insert':
+                $dataUser = array(
+                'status_user' => '0',
+                'survey_status' => '0',
+                'created_date' => $this->date_time_now(),
+                'created_by' => 'system'
+                );
+
+                $id_user = $this->admin_model->insert_user($dataUser);
+
+                $dataIin = array(
+                 'id_user' => $id_user,   
+                'iin_number' => $this->input->post('iin_number'),
+                'iin_established_date' => date_format(date_create($this->input->post('iin_established_date')), 'Y-m-d'),
+                'iin_expiry_date' => date_format(date_create($this->input->post('iin_expiry_date')), 'Y-m-d'),
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username'));
+
+                $dataApp = array(
+                'id_user' => $id_user,   
+                'applicant' => $this->input->post('applicant'),
+                'applicant_phone_number' => $this->input->post('applicant_phone_number'),
+                'application_date' => date_format(date_create($this->input->post('application_date')), 'Y-m-d'),
+                'application_purpose' => 'pengawasan',
+                'instance_name' => $this->input->post('instance_name'),
+                'instance_email' => $this->input->post('instance_email'),
+                'instance_phone' => $this->input->post('instance_phone'),
+                'instance_director' => $this->input->post('instance_director'),
+                'mailing_location' => $this->input->post('mailing_location'),
+                'mailing_number' => $this->input->post('mailing_number'),
+                'iin_status' => 'CLOSED',
+                'application_type' => 'extend',
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username')
+                );
+
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Melakukan penmbahan pada historical data entry',
+                    'log_type' => 'data entry ', 
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
+                    );  
+
+                    $this->admin_model->insert_iin($dataIin);
+
+                    $this->usr_model->insert_pengajuan($dataApp);
+
+                    $this->admin_model->insert_log($log);      
+
+                break;
+
+            case 'update':
+                $id_iin = array('id_iin' => $this->input->post('id_iin'));
+                $id_application = array('id_application' => $this->input->post('id_application'));
+
+                $dataIin = array(
+                'iin_number' => $this->input->post('iin_number'),
+                'iin_established_date' => date_format(date_create($this->input->post('iin_established_date')), 'Y-m-d'),
+                'iin_expiry_date' => date_format(date_create($this->input->post('iin_expiry_date')), 'Y-m-d'),
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username'));
+
+                $dataApp = array(
+                'applicant' => $this->input->post('applicant'),
+                'applicant_phone_number' => $this->input->post('applicant_phone_number'),
+                'application_date' => date_format(date_create($this->input->post('application_date')), 'Y-m-d'),
+                'application_purpose' => 'pengawasan',
+                'instance_name' => $this->input->post('instance_name'),
+                'instance_email' => $this->input->post('instance_email'),
+                'instance_phone' => $this->input->post('instance_phone'),
+                'instance_director' => $this->input->post('instance_director'),
+                'mailing_location' => $this->input->post('mailing_location'),
+                'mailing_number' => $this->input->post('mailing_number'),
+                'iin_status' => 'CLOSED',
+                'application_type' => 'extend',
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username')
+                );
+
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Melakukan penmbahan pada historical data entry',
+                    'log_type' => 'data entry ', 
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
+                    );  
+
+            
+                 $this->admin_model->update_iin($id_iin,$dataIin);
+                 $this->admin_model->update_applications($dataApp,$id_application);
+                break;
+        }
+        
+
+        
+
+
+
+
+        redirect(site_url('dashboard/data_entry'));
+
+    }    
 
 
 
