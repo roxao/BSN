@@ -1769,6 +1769,15 @@ header {
       min-width: 20px
     }
   }
+  .btn-survey-edit{
+    width: 20px;
+    height: 20px;
+    min-width: auto;
+    padding: 0;
+    margin: 0 auto;
+    box-shadow: none;
+    background: url('edit.png') no-repeat center;
+  }
 }
 
 #survey-form{
