@@ -101,10 +101,54 @@ $(document).ready(function() {
 			$(this).parent().remove();
 		});	
 	}
+
+
+
+
+
+
+
+
+	$.set_add_row_survey_form = function(x,y,z){
+		// $(x).append($('div').addClass('the-question')
+		// 						.append($('label')
+		// 							.append($('select').prop('name', 'question_type[]')
+		// 								.append($('option').val('RATING').html('Rating'))
+		// 								.append($('option').val('COMMENT').html('Komentar')))
+		// 						.append($('label')
+		// 							.append($('input')
+		// 										.prop({name:'question_message[]',type:'text',placeholder: 'Pertanyaan'})))
+		// 						.append($('label')
+		// 							.addClass('del-row-survey')
+		// 							.append('img').prop({
+		// 								src: (base_url.replace("dashboard",""))+'/assets/delete.svg',
+		// 								alt: 'Hapus Pertanyaan'
+		// 							})));
+		// $('.del-row-survey').on('click', function(event) {
+		// 	$(this).parent().remove();
+		// });	
+		html = 	'<div class="the-question">'
+				+ '<label>'
+					+ '<select name="question_type[]">'
+						+ '<option value="RATING"' +(y=='RATING'?'selected':'')+ '>Rating</option>'
+						+ '<option value="COMMENT"'  +(y=='COMMENT'?'selected':'')+ '>Komentar</option>'
+					+ '</select>'
+				+ '</label>'
+				+ '<label>'
+					+ '<input name="question_message[]" type="text" placeholder="Pertanyaan" value="'+z+'">'
+				+ '</label>'
+				+ '<label class="del-row-survey">'
+					+ '<img src="'+ (base_url.replace("dashboard",""))+'/assets/delete.svg' + '" alt="">'
+				+ '</label>'
+				+ '</div>';
+		$(x).append(html);
+		$('.del-row-survey').on('click', function(event) {
+			$(this).parent().remove();
+		});	
+	}
+
 	$.set_upload_cra = function(target){
-		
 		for (var j = 0; j < doc.length; j++) {
-			// var select_roles = (j == 0 ? 'selected' : null );
 			html  = '<div class="item-upload-v2 clearfix"><label class="input_dashed_file float_left" style="padding-right:10px">';
 			html +=	'Pilih Dokumen '+doc[j].display_name;
 			html +=	'<input name="doc[]" type="file" accept=".doc,.docx,.pdf,.png,.jpg" required/>';
