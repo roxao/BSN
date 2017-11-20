@@ -120,7 +120,7 @@ $db['default'] = array(
 //     //'dsn'   => 'sqlsrv:server=127.0.0.1:1433;Database=sipindb',
 //     'hostname' => 'DESKTOP-E2D7SL1\SQLEXPRESS',    
 //     'username' => 'sipin',
-//     'password' => '010101',
+//     'password' => '101010',
 //     'database' => 'sipindb',
 //     'dbdriver' => 'sqlsrv',
 //     'dbprefix' => '',

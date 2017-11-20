@@ -51,6 +51,8 @@ $(document).ready(function() {
 		$("[name=id_application_status]").val(app.id_application_status);
 		$("[name=id_application]").val(app.id_application);
 		$("[name=created_by]").val(app.created_by);
+		$("[name=id_user_iin]").val(app.id_user);
+		$("[name=application_type]").val(app.application_type);
 	}
 	$.base_config_approval = function(){
 		$('[type=date]').prop('type','text').datepicker().datepicker("setDate", new Date());

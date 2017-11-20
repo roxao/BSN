@@ -360,6 +360,13 @@ class Admin_model extends CI_Model {
         return $inserted_id;
     }
 
+    public function get_cms_active(){
+        $this->db->select('*');
+        $this->db->from('cms');
+        $this->db->where('status','Y');
+        return $this->db->get();
+    }
+
     public function get_cms(){
        return $this ->db-> get('cms');
     }
@@ -643,7 +650,7 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config');
+        $this->db->select('applications.applicant ,applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config, application_file.path_id');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
@@ -652,8 +659,6 @@ class Admin_model extends CI_Model {
 
         $this->db->where('application_file.status','ACTIVE');
         $this->db->where_in('document_config.id_document_config',$sub, false);
-
-
 
         return $this->db->get(); 
     }
@@ -764,6 +769,13 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_survey_question_active()
+    {
+        $this->db->select('*');
+        $this->db->from('survey_question sq');
+        $this->db->where('sq.question_status','1');
+        return $this->db->get();
+    }
     
 
 }

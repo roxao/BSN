@@ -8,45 +8,61 @@
 		<br/>
 		<article>
 			<div id="questionnaire">
-				<form action="survey_submit" method="get" accept-charset="utf-8">
+				<form action="<?php echo base_url('SurveyController/insert_question_survey') ?>" method="post" accept-charset="utf-8">
 					<!-- nilai 5 diganti dengan jumlah pertanyaan dari json -->
 					<!-- Masukan validasi if untuk type questionnaire nya -->
 					<!-- Ganti lorem ipsum dengan question dari json -->
-					<?php for ($i=0; $i < 3; $i++) { ?>
+					<input name="number_of_question" value="<?php echo sizeof($data).'|'. $survey ?>">
+					<?php for ($i=0; $i < sizeof($data); $i++) { ?>
 						<!-- RATING TYPE -->
+						<?php 
+							if($data[$i]['type'] == 'RATING')
+							{
+
+							
+						?>
+						
 						<div class="questionnaire rating">
 							<div class="quiz-question">
-								<div class="quiz-no"><?php echo ($i+1) ?>.</div>
-								<div class="quiz-question-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Utilitatis causa amicitia est quaesita. Etiam beatissimum? Primum quid tu dicis breve? Iam enim adesse poterit.</div>
+								<div class="quiz-no"><?php echo $data[$i]['no'] ?>.</div>
+								<div class="quiz-question-content"><?php echo $data[$i]['msg']; ?></div>
 							</div>
 							<div class="answer-choice">
 								<div class="answer-hint">Nilai:</div>
 								<div class="answer-rate display-flex">
 									<!-- INI GAK USAH DI EDIT -->
 									<?php for ($rate=1;$rate<6;$rate++) { ?>
-										<label for="rate<?php echo $i.$rate ?>"><?php echo $rate ?></label>
+										<label for="rate<?php echo $data[$i]['type'].$rate ?>"><?php echo $rate ?></label>
 										<input
 											type="radio" 
-											id="rate<?php echo $i.$rate ?>" 
-											name="answer<?php echo $i ?>[]" 
+											id="rate<?php echo $data[$i]['type'].$rate ?>" 
+											name="answer<?php echo $data[$i]['no'] ?>" 
 											value="<?php echo $rate ?>" 
 											<?php echo ($rate==5?'checked':'') ?>>
 									<?php } ?>
 								</div>
 							</div>
 						</div>
-					<?php } ?>
+						<?php
+							}else
+							{
 
-					<!-- COMMENT TYPE-->
+							
+						?>			
+											<!-- COMMENT TYPE-->
 						<div class="questionnaire comment">
 							<div class="quiz-question">
 								<div class="quiz-no"><?php echo ($i+1); ?>.</div>
-								<div class="quiz-question-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Utilitatis causa amicitia est quaesita. Etiam beatissimum? Primum quid tu dicis breve? Iam enim adesse poterit.</div>
+								<div class="quiz-question-content"><?php echo $data[$i]['msg']; ?></div>
 							</div>
 							<div class="quiz-answer-content">
-								<textarea class="answer-comment" name="comment"></textarea>
+								<textarea class="answer-comment" name="comment<?php echo $data[$i]['no'] ?>"></textarea>
 							</div>
 						</div>
+
+					<?php }} ?>
+
+
 
 					<button class="btn-submit-survey" type="submit">KIRIM</button>
 				</form>

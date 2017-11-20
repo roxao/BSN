@@ -310,7 +310,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'type' => 'REVISED_DOC'.$doc[$i],
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_st,
                         'created_by' => $this->session->userdata('admin_username'),
@@ -445,7 +445,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC '.$doc[$i],
+                        'type' => 'REVISED_DOC'.$doc[$i],
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_sts,
                         'created_date' => $this->date_time_now(),
@@ -1208,9 +1208,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
             $data = array(
                 'process_status' => 'COMPLETED',
-                'created_date' => date('Y-m-j'),
-                'modified_by' => $this->session->userdata('admin_username'),
-                'modified_date' => date('Y-m-j H:i:s'));
+                'created_date' => $this->date_time_now(),
+                'created_by' => $this->session->userdata('admin_username'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
@@ -1821,7 +1820,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $this->admin_model->insert_log($data_doc_l);
 
                     $data5 = array(
-                    'type' => 'REV_DOC_ASM ',
+                    'type' => 'REV_DOC_ASM',
                     'value' => $id_doc_new,
                     'id_application_status'=> $id_app_sts,
                     'created_by' => $this->session->userdata('admin_username'),
@@ -2098,7 +2097,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     if(!$doc[$i] == null)
                     {
                         $data2 = array(
-                        'type' => 'REVISED_DOC ',
+                        'type' => 'REV_DOC_ASM',
                         'value' => $doc[$i],
                         'id_application_status'=> $id_app_sts,
                         'created_by' =>  $this->session->userdata('admin_username'),
@@ -2249,6 +2248,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {
          $user = $this->input->post('created_by');
          $id_app = $this->admin_model->get_applications_by_prm($this->input->post('id_application'));
+         $application_type = $this->input->post('application_type');
+
          $data = array(
                 'process_status' => 'COMPLETED',
                 
@@ -2262,9 +2263,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'created_date' => $this->date_time_now(),
                 'created_by' => $this->session->userdata('admin_username')
                 );
-            $this->admin_model->insert_log($dataL);
+            
 
-            $this->admin_model->next_step($data,$condition);
+            
 
             $data5 = array(
                     'type' => 'APPROVAL_STATUS',
@@ -2273,23 +2274,42 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
-           $this->admin_model->insert_app_sts_for_map($data5);
+           
 
-            $data6 = array(
-                    'id_user' => $this->input->post('id_user'),
+            if($application_type == 'new')
+            {
+                    $data6 = array(
+                    'id_user' => $this->input->post('id_user_iin'),
                     'iin_number' => $this->input->post('iin_number'),
-                    'iin_established_date'=> $this->input->post('iin_established_date'),
-                    'iin_expiry_date' => $this->input->post('iin_expiry_date'),
+                    'iin_established_date' => date_format(date_create($this->input->post('iin_established_date')), 'Y-m-d'),
+                    'iin_expiry_date' => date_format(date_create($this->input->post('iin_expiry_date')), 'Y-m-d'),
                     'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
                     );
 
-            $id_iin = $this->admin_model->insert_iin($data6);
+                    
+                $id_iin = $this->admin_model->insert_iin($data6);
+
+            }else
+            {
+                    $idUser = array('id_user' => $this->input->post('id_user_iin'));
+
+                    $data6 = array(
+                    'id_user' => $this->input->post('id_user_iin'),
+                    'iin_number' => $this->input->post('iin_number'),
+                    'iin_established_date' => date_format(date_create($this->input->post('iin_established_date')), 'Y-m-d'),
+                    'iin_expiry_date' => date_format(date_create($this->input->post('iin_expiry_date')), 'Y-m-d'),
+                    'modified_date' => $this->date_time_now(),
+                    'modified_by' => $this->session->userdata('admin_username')
+                    );
+
+                    
+                $this->admin_model->update_iin($idUser,$data6);                    
+
+            }
+
             
-
             $doc_iin = $this->admin_model->get_doc_iin();
-
-
             
             $this->load->library('upload');
             $this->upload->initialize(array(
@@ -2316,13 +2336,21 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 $dataDocAss = array(
                     'type' => 'DOC_IIN',
                     'value' => $doc_iin->row()->key,
-                    'id_application_status'=> $id_app_sts_lst,
+                    'id_application_status'=> $this->input->post('id_application'),
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );
                     $this->admin_model->insert_app_sts_for_map($dataDocAss);            
 
             }
+
+            $this->admin_model->insert_log($dataL);
+
+            $this->admin_model->next_step($data,$condition);
+
+            $this->admin_model->insert_app_sts_for_map($data5);
+
+
 
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 

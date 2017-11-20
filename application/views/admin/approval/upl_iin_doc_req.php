@@ -3,6 +3,9 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
+		<input type="hidden" name="id_user_iin">
+		<input type="hidden" name="application_type">
+		
 		<label class="input_dashed float_left" style="width: 100%">
 			Nomor IIN
 			<input id="iin_number" name="iin_number" type="text" placeholder="Masukan Nomor IIN" pattern="\d*" maxlength="6" required/>

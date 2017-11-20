@@ -10,6 +10,17 @@
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
+		<br/><br/>
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Berita Acara
+			<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI" required />
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
+		<label class="input_dashed_file float_left" style="width: 100%">
+			Hasil Assessment Lapangan
+			<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required />
+			<span>Pilih</span><i class="float_right"></i>
+		</label>
 		<input type="submit" name="submit_approval" style="display:none"/>
 	</form>
 </section> 
@@ -41,6 +52,7 @@
 <script>
 	$.set_value_data();
 	$.base_config_approval();
+	$.config_file_type();
 
 	value=respon.doc_user;
 	app=respon.application;
