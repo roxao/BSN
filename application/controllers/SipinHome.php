@@ -53,13 +53,46 @@ class SipinHome extends CI_Controller {
 		return $data;
 	}
 
+	public function tanggal_indo($tanggal, $cetak_hari = false)
+	{
+		$hari = array ( 1 =>    'Senin',
+					'Selasa',
+					'Rabu',
+					'Kamis',
+					'Jumat',
+					'Sabtu',
+					'Minggu'
+				);
+				
+		$bulan = array (1 =>   'Januari',
+					'Februari',
+					'Maret',
+					'April',
+					'Mei',
+					'Juni',
+					'Juli',
+					'Agustus',
+					'September',
+					'Oktober',
+					'November',
+					'Desember'
+				);
+		$split 	  = explode('-', $tanggal);
+		$tgl_indo = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
+		
+		if ($cetak_hari) {
+			$num = date('N', strtotime($tanggal));
+			return $hari[$num] . ', ' . $tgl_indo;
+		}
+		return $tgl_indo;
+	}
+
 	// ALDY: FILE ISO
 	// public function iso_document(){ 
 	public function file_iso_7812() {		
 		// $data['file_iso'] = 'http://localhost:8090/BSN/assets/sample.pdf';
 		$data['file_iso'] = $this->user_model->get_file_iso()->result();
 
-		// echo json_encode($dat);
 		$this->load->view('header');
 		$this->load->view('iso-document-view', $data);
 		// $this->load->view('footer');
@@ -88,10 +121,7 @@ class SipinHome extends CI_Controller {
                 'log_type' => $Type .$username, 
                 'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $username
-                // ,
-                // 'last_update_date' => date('Y-m-j H:i:s'),
-                // 'modified_by' => date('Y-m-j H:i:s'),
-                );
+            );
         $this->user_model->insert_log($dataLog);
 	}
 
@@ -150,7 +180,6 @@ class SipinHome extends CI_Controller {
 								$this->user('register');
 
 						    } else {
-						    	// echo  "Gagal";
 								$this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
 								$this->user('register'); 
 							}
@@ -232,101 +261,6 @@ class SipinHome extends CI_Controller {
 		}
 	}
 
-	// public function submitiin () {
-	// 	// $this->captcha();
-	// 	$id_user = $this->session->userdata('id_user');
-	// 	$Status =  $this->user_model->get_applications_Status($id_user);
-	// 	// echo $Status->row()->id_application_status_name ;
-	// 	// $this->session->set_flashdata('satu', "PENDING");
-	// 	$this->session->set_flashdata('satu', "PENDING");
-	// 	if ($Status->num_rows() > 0){
-		
-	// 		switch ($Status->row()->id_application_status_name) {
-	//             case '1':
-	//             if ($Status->row()->process_status == "COMPLETED"){
-	// 				$this->session->set_flashdata('satu', "COMPLETED");
-	// 				$this->session->set_flashdata('dua', "PENDING");
-	//             } else if ($Status->row()->process_status == "PENDING"){
-	// 				$this->session->set_flashdata('satu', "PENDING");
-	//             } 
-	            
-	//                break;
-	//             case '2':
-	//             if ($Status->row()->process_status == "COMPLETED"){
-	// 				$this->session->set_flashdata('dua', "COMPLETED");
-	// 				$this->session->set_flashdata('tiga', "PENDING");
-	//             } else if ($Status->row()->process_status == "PENDING"){
-	// 				$this->session->set_flashdata('dua', "PENDING");
-	//             } else{
-	//             	$this->session->set_flashdata('dua', "");
-	//             }
-	//                 break;
-	//             case '3':
-	// 			if ($Status->row()->process_status == "COMPLETED"){
-	// 				$this->session->set_flashdata('tiga', "COMPLETED");
-	//             } else if ($Status->row()->process_status == "PENDING"){
-	// 				$this->session->set_flashdata('tiga', "PENDING");
-	//             } else{
-	//             	$this->session->set_flashdata('tiga', "");
-	//             }
-
-	//             case '4':
-	//             $this->session->set_flashdata('empat', $Status->row()->process_status);
-	//             	break;
-	//             case '5':
-	//             $this->session->set_flashdata('lima', $Status->row()->process_status);
-	//             	 break;
-	//             case '6':
-	//                  $this->session->set_flashdata('enam', $Status->row()->process_status);
-	//                 break;
-	//             case '7':
-	//                  $this->session->set_flashdata('tujuh', $Status->row()->process_status);
-	//                 break;
-	//             case '8':
-	//                  $this->session->set_flashdata('delapan', $Status->row()->process_status);
-	//                 break;
-	//             case '9':
-	//                  $this->session->set_flashdata('sembilan', $Status->row()->process_status);
-	//                 break;
-	//             case '10':
-	//             $this->session->set_flashdata('sepuluh', $Status->row()->process_status);
-	//                break;
-	//             case '11':
-	//             $this->session->set_flashdata('sebelas', $Status->row()->process_status);
-	//                 break;
-	//             case '12':
-	//             $this->session->set_flashdata('duabelas', $Status->row()->process_status);
-	//                 break;
-	//             case '13':
-	//             $this->session->set_flashdata('tigabelas', $Status->row()->process_status);
-	//             	break;
-	//             case '14':
-	//             $this->session->set_flashdata('empatbelas', $Status->row()->process_status);
-	//             	 break;
-	//             case '15':
-	//                  $this->session->set_flashdata('limabelas', $Status->row()->process_status);
-	//                 break;
-	//             case '16':
-	//                  $this->session->set_flashdata('enambelas', $Status->row()->process_status);
-	//                 break;
-	//             case '17':
-	//                  $this->session->set_flashdata('tujuhbelas', $Status->row()->process_status);
-	//                 break;
-	//             case '18':
-	//                  $this->session->set_flashdata('delapanbelas', $Status->row()->process_status);
-	//                 break;
-	//             case '19':
-	//                  $this->session->set_flashdata('sembilanbelas', $Status->row()->process_status);
-	//                 break;
-	//         }
- //        }
-
-	// 	$this->load->view('header');
-	// 	$this->load->view('submit-iin');
-	// 	$this->load->view('footer');	
-	// }
-
-
 
 	/*
 	Login Function
@@ -343,9 +277,6 @@ class SipinHome extends CI_Controller {
 	    */
 	    $cek = $this->user_model->cek_login($username, $password);
 
-    	echo json_encode($cek->result_array());
-
-	    // if($cek->num_rows() > 0){
     	if (!is_null($cek->row()->status_user)) {
 
 	    	// echo '|'.$cek->row()->status_user.'|'.$cek->row()->username;
@@ -358,10 +289,10 @@ class SipinHome extends CI_Controller {
 				Already have IIN
 				*/
 				if (empty($cek->row()->iin_number)) {
-					echo "|Do not have IIN|";
+					// echo "|Do not have IIN|";
 					$have_iin = "N";
 				} else {
-					echo "|Already have IIN|";
+					// echo "|Already have IIN|";
 					$have_iin = "Y";
 				}
 
@@ -385,28 +316,28 @@ class SipinHome extends CI_Controller {
 				Any Open Application?
 				*/
 				if ($cek->row()->iin_status == 'OPEN') {
-					echo "|Active application|";
+					// echo "|Active application|";
 
 					/*
 					Application Type?
 					*/
 					$this->session->set_userdata('application_type',$cek->row()->application_type);
-					echo "|TEST : {$this->session->userdata('application_type')}|";
+					// echo "|TEST : {$this->session->userdata('application_type')}|";
 
 					if ($cek->row()->application_type == 'New') {
-						echo "|{$cek->row()->application_type}|";
+						// echo "|{$cek->row()->application_type}|";
 
 						$url = "";
 						redirect(base_url("SipinHome/submit_application/{$url}"));
 
 					} else {
-						echo "|{$cek->row()->application_type}|";
+						// echo "|{$cek->row()->application_type}|";
 						// redirect(base_url('extend'));
 						redirect(base_url("SipinHome/submit_application/", $base_url));
 					}
 
 				} else {
-					echo "|NO active application|";
+					// echo "|NO active application|";
 					redirect(base_url());
 				}
 
@@ -438,7 +369,7 @@ class SipinHome extends CI_Controller {
 		}
 
 		/*
-		Get Application Status 
+		Get Application Status last step 15
 		*/
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 		$iin_status = $get_app_status->row()->iin_status;
@@ -455,12 +386,6 @@ class SipinHome extends CI_Controller {
 		$this->session->set_userdata('id_application_status',$id_application_status);
 		$this->session->set_userdata('id_application_status_name',$id_application_status_name);
 
-		echo "|iin_status : {$iin_status}";
-		echo "|id_application : {$id_application}";
-		echo "|id_application_status : {$id_application_status}";
-		echo "|id_application_status_name : {$id_application_status_name}";
-		echo "|process_status : {$process_status}";
-
 
 		/*
 		Default Var
@@ -475,25 +400,23 @@ class SipinHome extends CI_Controller {
 			'id_application_status_name' => $id_application_status_name,
 			'title' => '',
 			'text' => '',
+			'reject_msg' => '',
+			'adm_pay_msg' => '',
 			'state0' => '0',
 			'state2' => '',
 			'state3' => '',
-			'state4' => ''
+			'state4' => '',
+			'state5' => '',
+			'state6' => '',
+			'state8' => '',
+			'state7' => ''
 		);
-
-		// $id_application_status_name = '19'; //there is minor error when the value is id_application_status_name='19'
-		// $id_application_status_name = '1';
-		// $process_status = 'PENDING';
-		// $iin_status = 'OPEN';
-		// $process_status = 'COMPLETED';
-		// $iin_status = 'CLOSED';
-
+				        		
 		/*
 		if iin_status = 'OPEN'
 		@THIS IS AN ACTIVE APPLICATION
 		*/
 		if ( $iin_status == 'OPEN' ) {
-			echo "|TEST OPEN";
 
 
 			if ( $id_application_status_name >= '1' ) {
@@ -506,6 +429,20 @@ class SipinHome extends CI_Controller {
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
+					$reject_msg = "";
+
+	        		$type = "REJECTED";
+	        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
+	        		foreach ($val as $index => $valIndex) {
+						foreach ($valIndex as $key => $val) {
+							if ($key == 'value') {
+					       		$reject_msg = "Keterangan : {$val}";
+							}
+						}
+					}
+
+					$data['reject_msg'] = $reject_msg;
+
 					$data['state0'] = "rejected";
 					$data['title'] = "Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
@@ -544,7 +481,7 @@ class SipinHome extends CI_Controller {
 							switch ($process_status) {
 								case 'COMPLETED':
 									# code...
-									$data['step2_upload']	= $this->user_model->get_doc_user_upload('','');
+									$data['step2_upload']	= $this->user_model->get_doc_user_upload('','','');
 									break;
 
 								case 'PENDING':
@@ -569,7 +506,7 @@ class SipinHome extends CI_Controller {
 					        	case 'PENDING':
 									// $page = '2';
 					        		$data['state2'] = "process";
-					        		$data['title'] = "Proses Verifikasi dan Validasi";
+					        		$data['title'] = "Submit Kelengkapan Dokumen Permohonan IIN";
 									$data['text'] = "Kelengkapan Dokumen anda telah masuk ke database sistem SIPIN, mohon menunggu verifikasi admin";
 					        		break;
 					        }
@@ -589,7 +526,9 @@ class SipinHome extends CI_Controller {
 									Get List of Key 
 									@From application_status_form_mapping Table
 					        		*/
-					        		$val = $this->user_model->get_index_rev_doc($id_application_status);
+					        		$type = "REVISED_DOC";
+					        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
+					        		// $val = $this->user_model->get_index_rev_doc($id_application_status);
 					        		
 					        		/*
 									Instantiate Array $key
@@ -632,54 +571,119 @@ class SipinHome extends CI_Controller {
 
 					        break;
 
+					    case '6':
+
+					        switch ( $process_status ) {
+					        	case 'PENDING':
+
+			        				$page = '3';
+
+			        				$data['upload_status'] = 'success';
+					        		$data['title_iin'] = "Kelengkapan Dokumen Permohonan IIN Anda";
+					        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi. Berikut ini daftar dokumen terkait penerbitan IIN Anda :";
+									/*
+									Only Files that already uploaded By User
+									*/
+
+									$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application,'');
+									$this->session->set_userdata('step2_upload', $data['step2_upload'] );
+
+									$data['state3'] = "process";
+					        		$data['title'] = "Proses Verifikasi dan Validasi";
+									$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
+
+
+					        		break;
+
+							}
+
+				       		break;
+
 					   
 					    default:
 			        		# code...
 			        		break;
 			        }
 
-			        if ( $id_application_status_name >= '6' ) {
+			        if ( $id_application_status_name >= '7' ) {
 
-			        	$page = '3';
+			        	$page = '4';
 						// $data['state2'] = "2";
+	        			$data['state3'] = "3";
 						$data['upload_status'] = 'success';
+						$data['upload_status2'] = 'success';
+						$data['upload_status3'] = '';
 		        		$data['title_iin'] = "Kelengkapan Dokumen Permohonan IIN Anda";
-		        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi";
+		        		$data['text_iin'] = "Dokumen-dokumen di bawah ini telah diverifikasi. Berikut ini daftar dokumen terkait penerbitan IIN Anda :";
+
+
+						$prev_id_app_status_name = "6";
+		        		$query = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
+						        		
+		        		$id_application_status_step4 = "";
+		        		foreach ($query as $key => $value) {
+		        			# code...
+		        			$id_application_status_step4 = $value->id_application_status;
+		        		}
+
+						$type = "";
+		        		$val = $this->user_model->get_form_mapping_by_type($id_application_status_step4, $type);
+
+
+		        		$bill_code = "";
+		        		$bill_date = "";
+		        		$id_keys = array();
+						foreach ($val as $index => $valIndex) {
+
+							switch($valIndex->type){
+								case "BILLING_CODE":
+									 $bill_code = $valIndex->value;
+									 break;
+								case "BILLING_DATE":
+									 $bill_date = $valIndex->value;
+									 break;	 
+
+								case "BILLING_DOC":
+									 array_push($id_keys, $valIndex->value);
+									 break;	 
+
+							}
+
+						}
+
+
+
+						// echo json_encode($id_keys);
+
+		        		$data['bill_code'] = $bill_code;
+		        		$data['bill_date'] = $bill_date;
+		        		// $data['bill_doc'] = $bill_doc;
+
+
+		        		// $data['bill_doc'] = $this->user_model->get_document_general($keys);
+
+						$data['bill_doc']	= $this->user_model->get_doc_user_upload('',$id_application,$id_keys);
 						/*
 						Only Files that already uploaded By User
 						*/
 
-						$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application);
+						$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application,'');
 						$this->session->set_userdata('step2_upload', $data['step2_upload'] );
 
 			        	switch (  $id_application_status_name ) { 
 
-			        		case '6':
-
-						        switch ( $process_status ) {
-						        	case 'PENDING':
-
-										$data['state3'] = "process";
-						        		$data['title'] = "Proses Verifikasi dan Validasi";
-										$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan Verifikasi dan Validasi. Pada tahapan ini membutuhkan waktu kurang lebih selama 3 hari.";
-						        		break;
-
-								}
-
-					       		break;
-
 					       	case '7':
 					       		$page = '4';
-				        		$data['state3'] = "3";
 								$data['upload_status2'] = '';
 								// $data['upload_status3'] = 'success';
 				        		$data['state4'] = "4";
 
 								switch ( $process_status ) {
-						        	case 'PENDING':
-						        		break;
 						        	case 'COMPLETED':
 				       					$page = '5';
+				        				$data['state5'] = "5";
+						        		$data['title_iin2'] = "Submit Bukti Transfer Pembayaran";
+										$data['text_iin2'] = "Silakan mengunggah bukti transfer yang telah anda lakukan melalui SIMPONI :";
 						        		break;
 								}
 
@@ -688,16 +692,69 @@ class SipinHome extends CI_Controller {
 
 				        	case '8':
 					       		$page = '5';
-				        		// $data['state3'] = "3";
-								$data['upload_status3'] = '';
+
+
+				        		break;
+
+				        	case '9':
+					       		$page = '5';
+
+				        		$data['state5'] = "process";
+				        		$data['title'] = "Submit Bukti Transfer Pembayaran";
+								$data['text'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Silakan menunggu maksimal 6 hari kerja setelah pembayaran untuk melakukan persetujuan verifikasi lapangan oleh Sekretariat Layanan.";
+								
+
+
+				        		break;
+
+				        	case '10':
+					       		$page = '5';
+
+				        		$data['state5'] = "5";
+				        		$data['title_iin2'] = "[Revisi] Submit Bukti Transfer Pembayaran";
+								$data['text_iin2'] = "Silakan mengunggah bukti transfer yang telah anda lakukan melalui SIMPONI :";
 								
 								switch ( $process_status ) {
 						        	case 'PENDING':
-						        		$data['state4'] = "4";
+
+						        		$adm_pay_msg = "";
+
+						        		$type = "REVISED_PAY";
+						        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
+						        		foreach ($val as $index => $valIndex) {
+											foreach ($valIndex as $key => $val) {
+												if ($key == 'value') {
+										       		$adm_pay_msg = "Keterangan : {$val}";
+												}
+											}
+										}
+
+										echo "|adm_pay_msg : {$adm_pay_msg}";
+										$data['adm_pay_msg'] = $adm_pay_msg;
+
+						        		break;
+								}
+
+
+				        		break;
+
+				        	case '11':
+					       		$page = '5';
+								// $data['upload_status3'] = '';
+
+				        		$data['state5'] = "process";
+				        		$data['title'] = "[Revisi] Submit Bukti Transfer Pembayaran";
+											$data['text'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Silakan menunggu maksimal 6 hari kerja setelah pembayaran untuk melakukan persetujuan verifikasi lapangan oleh Sekretariat Layanan.";
+								
+								switch ( $process_status ) {
+						        	case 'PENDING':
+						        		// $data['state4'] = "4";
 
 
 										// $data['download_upload_kode_bill']  = $this->user_model->get_doc_kbs();
-
+						    //     		$data['state5'] = "process";
+						    //     		$data['title'] = "Submit Bukti Transfer Pembayaran";
+										// $data['text'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Silakan menunggu maksimal 6 hari kerja setelah pembayaran untuk melakukan persetujuan verifikasi lapangan oleh Sekretariat Layanan.";
 						        		break;
 								}
 
@@ -707,9 +764,461 @@ class SipinHome extends CI_Controller {
 			        	}
 
 
-			        	// if ( $id_application_status_name >= '6' ) {
+			        	if ( $id_application_status_name >= '12' ) {
 
-			        	// }
+			        		$page = '6';
+			        		$data['state6'] = "6";
+							$data['upload_status3'] = 'success';
+			        		
+			        		$data['state5'] = "5";
+			        		$data['title_iin2'] = "Bukti Transfer Pembayaran";
+							$data['text_iin2'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Bukti pembayaran anda telah sukses diverifikasi dan divalidasi.";
+
+			        		switch (  $id_application_status_name ) { 
+
+					       		case '12':
+					       			switch ( $process_status ) {
+					       				case 'PENDING':
+
+											// $data['step6_download'] = $this->user_model->get_doc_statis($id_user);
+
+					       					/*
+											RENDER PAGE 6 TEAM
+					       					*/
+											$id_arr = $this->user_model->get_id_assessment_application($this->session->userdata('id_user'));
+
+											$id_assessment_application = "";
+											foreach ($id_arr as $val) {
+												# code...
+												$id_assessment_application = $val->id_assessment_application;
+											}
+
+											$data['step6_listTeam']  = $this->user_model->get_assesment_team($id_assessment_application);
+											
+											/*
+											RENDER PAGE 6 DATE AND DOCUMENTS
+					       					*/
+							        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
+
+							        		echo "|TEST : {$id_application_status}";
+
+		    								// echo json_encode($val);
+
+							        		// $bill_code = "";
+							        		$team_date = "";
+							        		$verif_date = "";
+							        		$id_keys = array();
+											foreach ($val as $index => $valIndex) {
+
+												switch($valIndex->type){
+													case "ASSESSMENT_DATE":
+														// $team_date = $valIndex->value;
+														$team_date = new DateTime($valIndex->value);
+														$team_date = date_format($team_date, 'Y-m-d');
+														$team_date = $this->tanggal_indo($team_date, true);
+
+
+														$verif_date = new DateTime($valIndex->value);
+														$verif_date = date_format($verif_date, 'Y-m-d');
+														$verif_date = $this->tanggal_indo($verif_date);
+														 break;
+
+													case "ASSESSMENT_DOC":
+														array_push($id_keys, $valIndex->value);
+														break;	 
+
+												}
+
+											}
+
+		    								echo json_encode($id_keys);
+
+
+							        		$data['team_date'] = $team_date;
+
+							        		$data['verif_date'] = $verif_date;
+
+											$data['team_doc']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
+											
+
+								}	
+				       				break;
+
+				       			case '13':
+					       			switch ( $process_status ) {
+					       				case 'PENDING':
+
+			        						$data['state6'] = "process";
+							        		$data['title'] = "Tim Verifikasi Lapangan";
+											$data['text'] = "Permohonan pemindahan jadwal Assessment Lapangan yang telah Anda ajukan sedang dalam proses. Mohon menunggu proses verifikasi dari Sekretariat Layanan IIN.";
+							        		break;
+
+						       			case 'COMPLETED':
+							        		break;
+					       			}
+								
+				       				break;
+
+				       			case '14':
+						       			switch ( $process_status ) {
+						       				case 'PENDING':
+						       					// $page = '8';
+						       					// Admin UPLOAD 1 FILE ASSESSMENT
+
+			        						$data['state6'] = "process";
+							        		$data['title'] = "Konfirmasi Tim Verifikasi Lapangan";
+											$data['text'] = "Persetujuan  jadwal Assessment Lapangan yang telah Anda ajukan sedang dalam proses. Mohon menunggu konfirmasi dari Sekretariat Layanan IIN.";
+								        		break;
+
+						       			case 'COMPLETED':
+								        		break;
+						       			}
+									
+					       				break;
+								
+								
+
+				       			
+					       	}
+
+
+					       	if ( $id_application_status_name >= '15' ) {
+
+								
+
+								/*
+								RENDER STEP 6
+								*/
+								$id_assessment_application = "";
+								$id_arr = $this->user_model->get_id_assessment_application($this->session->userdata('id_user'));
+
+								foreach ($id_arr as $val) {
+									# code...
+									$id_assessment_application = $val->id_assessment_application;
+								}
+
+								/*
+								RENDER STEP 6 Team
+								*/
+
+								$data['step6_listTeam']  = $this->user_model->get_assesment_team($id_assessment_application);
+
+								echo "| ID APP STATUS :".$id_application_status;
+
+								// echo "| step6_listTeam :".json_encode($data['step6_listTeam']);
+
+								/*
+								RENDER PAGE 6 DATE AND DOCUMENTS
+		       					*/
+
+								$prev_id_app_status_name = "12";
+								$prev_id_app_status = "";
+				        		$prev_id_app_status_arr = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
+				        		echo "|PREV_ID_APP_STATUS_NAME : {$prev_id_app_status_name}";
+
+				        		foreach ($prev_id_app_status_arr as $value) {
+				        			# code...
+				        			$prev_id_app_status = $value->id_application_status;
+				        		}
+
+				        		echo "|PREV_ID_APP_STATUS : {$prev_id_app_status}";
+
+				        		$val = $this->user_model->get_form_mapping_by_type($prev_id_app_status, '');
+
+				        		$team_date = "";
+				        		$verif_date = "";
+				        		$id_keys = array();
+								foreach ($val as $index => $valIndex) {
+
+									switch($valIndex->type){
+										case "ASSESSMENT_DATE":
+											// $team_date = $valIndex->value;
+											$team_date = new DateTime($valIndex->value);
+											$team_date = date_format($team_date, 'Y-m-d');
+											$team_date = $this->tanggal_indo($team_date, true);
+
+
+											$verif_date = new DateTime($valIndex->value);
+											$verif_date = date_format($verif_date, 'Y-m-d');
+											$verif_date = $this->tanggal_indo($verif_date);
+											 break;
+
+										case "ASSESSMENT_DOC":
+											array_push($id_keys, $valIndex->value);
+											break;	 
+
+									}
+
+								}
+
+								echo json_encode($id_keys);
+
+
+				        		$data['team_date'] = $team_date;
+
+				        		$data['verif_date'] = $verif_date;
+
+								$data['team_doc']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
+								echo "TEAM DOC 6".json_encode($data['team_doc']);
+
+
+
+
+
+		       					/*
+								RENDER STEP 7
+		       					*/
+								$app_st7 = $id_application_status;
+					        		echo "|APP STATUS STEP 7: {$app_st7}";
+
+								if ( $id_application_status_name != '15' ) {
+									$prev_id_app_status_name = "15";
+
+									$app_st7 = "";
+					        		$prev_id_app_status_arr = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
+					        		echo "|PREV_ID_APP_STATUS_NAME STEP 7: {$prev_id_app_status_name}";
+
+
+					        		foreach ($prev_id_app_status_arr as $value) {
+					        			# code...
+					        			$app_st7 = $value->id_application_status;
+					        		}
+
+					        		echo "|PREV_ID_APP_STATUS STEP 7: {$prev_id_app_status}";
+
+			       					
+
+									echo "ID APPPPPSSSSS :::: ".$app_st7;
+									echo "ID KEEYYSSSSS :::: ".json_encode($id_keys);
+
+
+								} 
+
+
+								$val = $this->user_model->get_form_mapping_by_type($app_st7, '');
+									echo "VALL :::: ".json_encode($val);
+		       					$id_keys = array();
+								foreach ($val as $index => $valIndex) {
+
+									switch($valIndex->type){
+										case "ASSESSMENT_DOC":
+											array_push($id_keys, $valIndex->value);
+											break;	 
+
+									}
+
+								}
+								
+
+		       					$data['assess_lap']	= $this->user_model->get_assessment_team_doc($app_st7,$id_keys);
+		       					echo "ASSESSS LAPPP :::: ".json_encode($data['assess_lap']);
+
+
+
+
+
+
+
+
+
+
+
+				    //     		foreach ($prev_id_app_status_arr as $value) {
+				    //     			# code...
+				    //     			$prev_id_app_status = $value->id_application_status;
+				    //     		}
+
+				    //     		echo "|PREV_ID_APP_STATUS : {$prev_id_app_status}";
+
+		      //  					$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
+		      //  					$id_keys = array();
+								// foreach ($val as $index => $valIndex) {
+
+								// 	switch($valIndex->type){
+								// 		case "ASSESSMENT_DOC":
+								// 			array_push($id_keys, $valIndex->value);
+								// 			break;	 
+
+								// 	}
+
+								// }	
+
+								// echo "ID APPPPPSSSSS :::: ".$id_application_status;
+								// echo "ID KEEYYSSSSS :::: ".json_encode($id_keys);
+		      //  					$data['assess_lap']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
+		      //  					echo "ASSESSS LAPPP :::: ".json_encode($data['assess_lap']);
+
+
+
+
+
+
+
+
+								$page = '7';
+								$data['upload_status4'] = 'success';
+								$data['upload_status5'] = '';
+								$data['state7'] = "7";
+		        				
+
+
+								switch ( $id_application_status_name ) {
+									
+					       			case '15':
+						       			switch ( $process_status ) {
+						       				case 'PENDING':
+
+								        		break;
+
+							       			case 'COMPLETED':
+								        		break;
+						       			}
+									
+					       				break;
+
+					       			case '16':
+						       			switch ( $process_status ) {
+						       				case 'PENDING':
+						       					// $page = '7';
+												$data['state7'] = "assessment_rev";
+												$data['upload_status6'] = '';
+
+
+
+
+												// $prev_id_app_status_name = "15";
+				        // 						$query = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
+						      //  					echo "query : ".json_encode($query);
+
+								        		// $id_application_status_step7 = "";
+								        		// foreach ($query as $key => $value) {
+								        		// 	# code...
+								        		// 	$id_application_status_step7 = $value->id_application_status;
+								        		// }
+
+												// $prev_id_app_status_name = "15";
+												// $prev_id_app_status = "";
+								    //     		$prev_id_app_status_arr = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
+								    //     		echo "|PREV_ID_APP_STATUS_NAME : {$prev_id_app_status_name}";
+
+
+								    //     		foreach ($prev_id_app_status_arr as $value) {
+								    //     			# code...
+								    //     			$prev_id_app_status = $value->id_application_status;
+								    //     		}
+
+								    //     		echo "|PREV_ID_APP_STATUS : {$prev_id_app_status}";
+
+
+												/*
+												RENDER STEP 7 REVISION
+												*/
+												// $type='REV_DOC_ASM';
+
+						       					// echo "|ASS_DOC : ".json_encode($id_application_status);
+						       					$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
+						       					echo "|ASS_DOC : ".json_encode($val);
+
+						       					// echo "id_application_status : ".json_encode($id_application_status);
+
+
+					       						// $val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
+
+								        		// echo "|TEST : {$id_application_status}";
+
+			    								// echo "val : ".json_encode($val);
+
+								        		$id_document_config = array();
+												foreach ($val as $index => $valIndex) {
+
+
+													if ( $valIndex->type == 'REV_DOC_ASM' ) {
+														array_push($id_document_config, $valIndex->value);
+													}
+
+												}
+
+						       					echo "|ID DOC CONFIG : ".json_encode($id_document_config);
+			    								// echo json_encode($id_document_config);
+								        		
+
+								        		/*STEP 7*/
+												$data['assessment_rev_doc']	= $this->user_model->get_assessment_rev_list($id_document_config);
+
+			    								// echo json_encode($data['assessment_rev_doc']);
+								        		
+
+
+								        		break;
+
+							       			case 'COMPLETED':
+								        		break;
+						       			}
+									
+					       				break;
+
+
+					       			case '17':
+							       			switch ( $process_status ) {
+							       				case 'PENDING':
+							       					// $page = '7';
+
+													$data['state7'] = "process";
+									        		$data['title'] = "[Revisi] Assessment Lapangan";
+													$data['text'] = "Revisi dokumen terkait dengan hasil  Assessment Lapangan yang Anda ajukan sedang memasuki tahapan verifikasi dan validasi. Mohon menunggu paling lambat .... hari kerja.";
+
+									        		break;
+
+								       			case 'COMPLETED':
+									        		break;
+							       			}
+										
+						       				break;		
+
+								}
+
+								
+
+								if ( $id_application_status_name >= '18' ) {
+									$page = '8';	
+									$data['state8'] = "8";
+									if ( $id_application_status_name == '18' and $process_status = 'PENDING' ) {
+										
+
+									}	
+									switch ( $process_status ) {
+					       				case 'PENDING':
+					       					$data['state8'] = "process";
+							        		$data['title'] = "Proses Permohonan ke CRA";
+											$data['text'] = "Berdasarkan permohonan yang telah anda ajukan, saat ini permohonan IIN anda sudah memasuki tahapan permohonan ke CRA. Silakan tunggu selama kurang lebih 3 hari untuk proses pada tahapan ini.";
+							        		break;
+
+						       			case 'COMPLETED':
+							       			
+							        		break;
+					       			}
+
+
+									if ( $id_application_status_name == '19' ) {
+										
+										switch ( $process_status ) {
+						       				case 'PENDING':
+						       					// $page = '7';
+
+												
+
+								        		break;
+
+							       			case 'COMPLETED':
+							       				$data['state8'] = "8";
+								       				$page = '9';
+								  	      		break;
+					       				}
+									}
+								}
+			       			}
+					    
+					    }
 			        }
 
 			    }
@@ -723,14 +1232,14 @@ class SipinHome extends CI_Controller {
 				// $page = '4';
 			// if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
 			// 	$page = '5';
-			if ( $id_application_status_name >= '12' )
-				$page = '6';
-			if ( $id_application_status_name >= '14' )
-				$page = '7';
-			if ( $id_application_status_name >= '16' )
-				$page = '8';
-			if ( $id_application_status_name == '19' )
-				$page = '9';
+			// if ( $id_application_status_name >= '12' )
+			// 	$page = '6';
+			// if ( $id_application_status_name >= '14' )
+			// 	$page = '7';
+			// if ( $id_application_status_name >= '16' )
+			// 	$page = '8';
+			// if ( $id_application_status_name == '19' )
+			// 	$page = '9';
 
 		} 
 
@@ -778,150 +1287,11 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
-		$this->load->view('header');
-		$this->load->view('submit-iin',$data);
-		$this->load->view('footer');
+			$this->load->view('header');
+			$this->load->view('submit-iin',$data);
+			$this->load->view('footer');
 
 	}
-
-	
-	public function submit_application2(){
-
-		/*
-		Get Application Status where iin_status = OPEN
-		*/
-		$get_app_status =  $this->user_model->get_applications_Status($id_user);
-		$iin_status = $get_app_status->row()->iin_status;
-
-		$id_application_status_name = $get_app_status->row()->id_application_status_name;
-		$process_status = $get_app_status->row()->process_status;
-		echo "process_status : {$process_status}";
-		/*
-		Default Var
-		@page
-		*/
-		$page = '0';
-
-		/*
-		Instantiate arr $data
-		*/
-		$data = array(
-			'id_application_status_name' => $id_application_status_name,
-			'title' => '',
-			'text' => '',
-			'state0' => '0',
-			'state2' => ''
-		);
-
-		// $id_application_status_name = '19'; //there is minor error when the value is id_application_status_name='19'
-		// $id_application_status_name = '1';
-		// $process_status = 'PENDING';
-		// $iin_status = 'OPEN';
-		// $process_status = 'COMPLETED';
-		// $iin_status = 'CLOSED';
-
-		if ( $id_application_status_name >= '1' ) {
-			/*
-			Validate StepId (step0)
-			*/
-			if ( $id_application_status_name == '1' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
-				$data['state0'] = "rejected";
-				$data['title'] = "Hasil Verifikasi Status Permohonan";
-				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan Klik Link di bawah ini untuk mengakhiri proses permohonan IIN baru.";
-			} elseif ( $id_application_status_name == '1' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
-				$data['state0'] = "process";
-				$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
-				$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
-			} else {
-				$data['state0'] = "0";
-				$page = '1';
-				$input_field = $this->user_model->step_0_get_application($id_user);
-				print_r($input_field->row());
-				$data['applicant'] = $input_field->row()->applicant;
-				$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
-				$data['application_date'] = $input_field->row()->application_date;
-				$data['application_purpose'] = $input_field->row()->application_purpose;
-				$data['instance_name'] = $input_field->row()->instance_name;
-				$data['instance_email'] = $input_field->row()->instance_email;
-				$data['instance_phone'] = $input_field->row()->instance_phone;
-				$data['instance_director'] = $input_field->row()->instance_director;
-				$data['mailing_location'] = $input_field->row()->mailing_location;
-				$data['mailing_number'] = $input_field->row()->mailing_number;
-			}
-		}
-
-
-
-		if ( $id_application_status_name >= '2' ) {
-			$page = '2';
-			
-			$data['state2'] = "2"; //this must be commented
-
-
-
-			// if ( $id_application_status_name == '2' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
-			// 	$data['state2'] = "2";
-			// } elseif
-
-			if ( $id_application_status_name == '3' and $process_status == 'COMPLETED' and $iin_status == 'CLOSED' ) {
-				$data['state0'] = "rejected";
-				$data['title'] = "Revisi Submit Kelengkapan Dokumen";
-				$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik button di bawah ini untuk mengakhiri proses permohonan IIN baru.";
-			} elseif ( $id_application_status_name == '3' and $process_status == 'PENDING' and $iin_status == 'OPEN' ) {
-				$data['state0'] = "process";
-				$data['title'] = "Submit Kelengkapan Dokumen";
-				$data['text'] = "Dokumen yang anda unggah sudah BERHASIL masuk ke dalam database SIPIN. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.";
-			} else {
-				$data['state0'] = "0";
-			}
-		}
-			
-
-		//STEP 3 should be validated by button from step 2
-		
-		if ( $id_application_status_name == '6' or $id_application_status_name == '8' or $id_application_status_name == '9' )
-			$page = '4';
-		if ( $id_application_status_name == '7' or $id_application_status_name == '10' or $id_application_status_name == '11')
-			$page = '5';
-		if ( $id_application_status_name >= '12' )
-			$page = '6';
-		if ( $id_application_status_name >= '14' )
-			$page = '7';
-		if ( $id_application_status_name >= '16' )
-			$page = '8';
-		if ( $id_application_status_name == '19' )
-			$page = '9';
-
-
-		for ($i = 0; $i <= 9; $i++) {
-			
-			$string_status = "box_status_";
-			$string_status .= $i;
-
-			if ($i == $page) {
-				$data[$string_status] = "PENDING";
-				echo "|string_status : {$string_status}";
-			} else if ($i < $page){
-				$data[$string_status] = "COMPLETED";
-			echo "|string_status : {$string_status}";
-			} else {
-				// array_push($box_status_array, "" );
-				$data[$string_status] = "";
-			}
-
-		}
-
-		/*
-		Passing $data from Controller to View
-		*/
-		$this->load->view('header');
-		$this->load->view('submit-iin',$data);
-		$this->load->view('footer');
-
-	}
-
-
-	
 
 	public function modal_popup(){
 		$this->load->view('component/modal_popup');

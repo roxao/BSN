@@ -1,14 +1,10 @@
 <section section-id="2" class="section_iin float_right" style="display:none">
-	<!-- <h1 class="title_iin">Submit Kelengkapan Dokumen Permohonan IIN</h1>
-	<p>Silakan mengunggah dokumen-dokumen yang sudah dilengkapi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.</p> -->
-
 	<h1 class="title_iin"><?php echo $title_iin;?></h1>
 	<p><?php echo $text_iin;?></p>
 	<?php echo form_open_multipart('submit_iin/upload_files');?>
 	<ul class="list_iin_download">
 		<?php 
 
-			$no=0; 
 			foreach($step2_upload as $data) { 
 
 				?>
@@ -16,14 +12,11 @@
 				<li class="item-upload"> 
 					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> 
 					<?php  
-						$no++;
-						// $files = "file".$no;
 						$files = "file".$data->key;
 						$mandatory = ($data->mandatory == '1') ? '*': '' ;
-						$name = "{$no}. {$data->display_name} {$mandatory}";
+						$name = "{$data->key}. {$data->display_name} {$mandatory}";
 
-						echo $name;
-
+						echo $name;						
 					?>
 					
 					<label class="upload_button">
@@ -50,9 +43,12 @@
 		<br/>
 
 	<div class="clearfix">
+		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
 		<button style="background: #01923f" class="float_right uploadstep3" name="upload" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>	
+		
 	</div>
 	</form>
+
 </section>
 
 
@@ -71,8 +67,10 @@
 	var upload_status = "<?php echo $upload_status ?>";
 
 	if (upload_status == 'success') {
+		$(".uploadstep3").hide();
 		$(".upload_button").hide();
 	} else {
+		$(".uploadstep3").show();
 		$(".upload_button").show();
 	}
 
@@ -99,4 +97,7 @@
 
 
 
+
+
+<!-- KALAU GAGAL UPLOAD -->
 

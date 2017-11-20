@@ -54,7 +54,7 @@
 	<br/>
 	<br/>
 	<div class="clearfix">
-		<button style="background: red" class="btn_back float_left">Kembali</button>	
+		<!-- <button style="background: red" class="btn_back float_left">Kembali</button>	 -->
 		<a href="<?php echo base_url()?>submit_iin/step_1">
 			<button style="background: #01923f" class="float_right step1_next" name="step1_next" value="step1_next">  Lanjutkan Proses</button>
 		</a>	
