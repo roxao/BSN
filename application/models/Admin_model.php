@@ -768,14 +768,6 @@ class Admin_model extends CI_Model {
         }
         return $this->db->get();
     }
-
-    public function get_survey_question_active()
-    {
-        $this->db->select('*');
-        $this->db->from('survey_question sq');
-        $this->db->where('sq.question_status','1');
-        return $this->db->get();
-    }
     
 
 }

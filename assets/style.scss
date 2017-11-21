@@ -2379,3 +2379,85 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
 }
 
 
+.hidden{display:none}
+
+.survey-header, .survey-row{
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  .id_no{
+    max-width: 50px;
+    min-width: 50px;
+  }
+  .id_qs{
+    width: 100%
+  }
+  .id_as{
+    max-width: 100px;
+    min-width: 100px;
+  }
+}
+
+.td-stars span{
+  background: url(rate.png) no-repeat center;
+  width: 20px;
+  height: 20px;
+  display: inline-block
+}
+
+.modal-form-rev-assess{
+  position: fixed;
+  background: rgba(0,0,0,.3);
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  .btn-close-modal-rev-assess{
+    display: block;
+    width: 42px;
+    height: 42px;
+    background: url(cancel.svg) no-repeat center;
+    background-size: auto auto;
+    background-size: 16px 16px;
+    position: absolute;
+    right: 0;
+    top: 0
+  }
+  .modal-form-rev-assess-title{
+    position: relative;
+    display: block;
+    background: #f6f6f6;
+    font-size: 14px;
+    line-height: 42px;
+    padding: 0 20px;
+    font-weight: 600;
+    color: $c_2nd;
+  }
+  form{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 400px;
+    height: 230px;
+    margin: auto;
+    background: #fff;
+    text-align: center;
+    button{
+      margin: 0 auto
+    }
+    > div {
+      padding: 20px;
+      text-align: center;
+    }
+    input{
+      display: block;
+      margin: 10px auto;
+      text-align: center;
+      border-radius: 2px;
+    }
+  }
+  
+}

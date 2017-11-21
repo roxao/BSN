@@ -11,10 +11,27 @@
 	<br/>
 	<br/>
 
-	<div class="clearfix">
+	<!-- <div class="clearfix">
 		<a href="<?php echo base_url()?>submit_iin/download_iin">
 			<button style="background: #01923f" class="float_right step4_next" >Download IIN</button>
 		</a>	
-	</div>
+	</div> -->
+
+	<?php 
+			$no=0; 
+		 	// foreach($download_upload as $data) { 
+		 	foreach($iin_download as $data) { 
+		 	 	switch ($data->key) {
+		 	 		case 'IIN':?>
+		 				<div class="clearfix">
+							<a href="<?php echo base_url()?>submit_iin/download_iin?var1=<?php echo $data->path_id;?> ">
+								<button style="background: #01923f" class="float_right step4_next" >Download IIN</button>
+							</a>	
+						</div>
+		<?php 	
+					break;
+				} 
+	 		} 
+ 		?>
 
 </section>	

@@ -8,6 +8,7 @@ class submit_iin extends CI_Controller {
 	   	$this->load->library('session', 'upload');
 	   	$this->load->helper(array('captcha','url','form','download'));
 		$this->load->model('user_model');
+		$this->load->model('admin_model');
 		$this->load->library('email','form_validation', 'curl','roxao_captcha');
 		$this->model = $this->user_model;
         $this->load->database();
@@ -1229,9 +1230,19 @@ class submit_iin extends CI_Controller {
 			redirect(base_url("SipinHome"));
 		}
 
-	$iamge_id = $this->input->get('var1');
-   		force_download($iamge_id, NULL);	
+	$image_id = $this->input->get('var1');
+   		force_download($image_id, NULL);	
 	}
+
+	// public function download_iin_doc($image_id){
+	
+	// 	if($this->session->userdata('status') != "login"){
+	// 			redirect(base_url("SipinHome"));
+	// 		}
+
+	// 	$image_id = $this->input->get('var1');
+	//    		force_download($image_id, NULL);	
+	// }
 
 
 	// function  step_tiga_upload (){
@@ -1611,15 +1622,34 @@ class submit_iin extends CI_Controller {
  
 	function download_iin() {
 
-		
+		$id_user = $this->session->userdata('id_user');
+		// echo "|TYPEHERE : {$}";
+		// echo "|TYPEHERE : ".;
+
+		/*
+		Check Survey Status
+		@ Valid if survey_status = 0
+		*/
+		$survey_status = $this->session->userdata('survey_status');
+		if ($survey_status == '0') {
+			echo "|SURVEY STATUS : {$survey_status}";
+
+			/*
+			DOWNLOAD IIN document
+			@ Valid if survey_status = 0
+			*/
+			// $image_id = $this->input->get('var1');
+			// echo "|IMAGE ID : {$image_id}";
+			// $this->download();
+
+		}
+
 
 		//check survey status
-
 		//first time open survey tab
 		// on survey completed update survey status and directly download IIN
 		//logging
 
-		//
 
 	}
 
@@ -1632,5 +1662,82 @@ class submit_iin extends CI_Controller {
 		
 
 		//jump to step 3 (start from step 3)
-	}	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// ALDY SOURCE CODE
+	//SURVEY
+
+	public function set_template($view_name, $data = array()){
+        $this->load->view('header', $data);
+        $this->load->view($view_name, $data);
+        $this->load->view('footer', $data);
+        return;
+    }
+
+
+	public function survey( $x = null){
+		switch ($x) {
+			case 'vote':
+				$survey = $this->user_model->survey('vote',null)->result_array();
+				$data['survey'] = $survey[0]['id_survey_question'];
+				$data['data'] = json_decode($survey['0']['question'], true);
+				$this->set_template('survey',$data);
+				break;
+
+			case 'insert-survey';
+				$survey_config 	 = explode('|', $this->input->post('survey'));
+				$survey_question = array();
+				for ($i=1; $i <= $survey_config[1] ; $i++) { 
+					$answer = array(
+		                'no'   		=> $i,
+		                'type'   	=> $this->input->post('answer'.$i) ? 'RATING': "COMMENT",
+		                'answer'   	=> $this->input->post('answer'.$i) ? $this->input->post('answer'.$i) : $this->input->post('comment'.$i)
+		                );
+					array_push($survey_question, $answer);
+				}
+
+				$survey_answers = array(
+		                'id_user'   		=> $this->session->userdata('id_user'),
+		                'answer'   			=> json_encode($survey_question),
+		                'version'   		=> $survey_config[0],
+		                'created_date'		=> $this->date_time_now(),
+		                'created_by'		=> $this->session->userdata('username')
+		                );
+
+				// Masukan $survey_answers ke database
+				// Hapus echo dibawah
+				// function model sudah dibuat 
+				echo json_encode($survey_answers);
+				break;
+			case 'result-survey';
+				// KALAU SUDAH MEMBUAT QUERY YANG JIKA DI json_encode seperti dibawah
+				// HAPUS CODE DIBAWAH INI
+				$data['survey'] = json_decode('{"id_survey_question":"1","version":"1","total_answer":"15","survey_questions":[{"no":"1","question":"Question number 1","average":"4","answer":{"1":"0","2":"0","3":"3","4":"3","5":"9"}},{"no":"2","question":"Question number 2","average":"4","answer":{"1":"0","2":"0","3":"3","4":"3","5":"9"}}]}',true);
+				// SAMPAI CODE INI
+
+				// LALU HAPUS COMMENT CODE DIBAWAH INI
+				// $data['survey'] = $this->user_model->get-survey-result()->result_array();
+
+				$this->set_template('survey-result',$data);
+				break;
+			default:
+				redirect(base_url());
+				break;
+		}
+
+	}
 }

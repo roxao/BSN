@@ -63,3 +63,12 @@ $route['post/(:any)'] = 'SipinHome/cms_post/$1';
 
 
 $route['Layanan-IIN'] = 'SipinHome/submit_application';
+$route['registrasi'] = 'SipinHome/user/register';
+
+
+//activation 
+
+$route['aktivasi'] = 'SipinHome/verify';
+
+
+$route['survey/(:any)'] = 'submit_iin/survey/$1';

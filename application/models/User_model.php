@@ -56,7 +56,7 @@ class User_model extends CI_Model {
     - Application Type?
     */
     public function cek_login($username,$password){  
-        $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type');
+        $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type, us.survey_status');
         $this->db->from('user us'); 
         $this->db->join('applications ap', 'us.id_user = ap.id_user','left');
         $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
@@ -95,6 +95,41 @@ class User_model extends CI_Model {
  
         return  $query;    
     }
+
+
+
+    /**
+    GET id application STATUS  ^^^ 
+    */
+    public function get_form_id_app_status($id_application, $id_application_status_name){  
+        $this->db->select('*');
+        $this->db->from('application_status a'); 
+        $this->db->join('application_status_form_mapping b', 'a.id_application_status = b.id_application_status');
+        $this->db->join('document_config c', 'c.key = b.value','left');
+        $this->db->join('application_file d', 'd.id_document_config = c.id_document_config AND d.id_application = a.id_application','left');
+        $this->db->where('a.id_application_status_name', $id_application_status_name);
+        $this->db->where('a.id_application', $id_application);
+
+        return  $this->db->get();   
+    }
+    /**
+    GET id application STATUS ^^^
+    */
+    public function get_form_mapping_by_id_aps($id_application_status){  
+        $this->db->select('*');
+        $this->db->from('application_status_form_mapping'); 
+        $this->db->where('id_application_status', $id_application_status);
+ 
+        return  $this->db->get();   
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -167,14 +202,30 @@ class User_model extends CI_Model {
         $this->db->from('document_config dc');
         $this->db->where('dc.type','DYNAMIC');
         $this->db->or_where('dc.type','STATIC');
+        $this->db->or_where('dc.type','TRANSACTIONAL');
         return $this->db->get()->result();
     }
 
 
-    //menampilkan data documen yang harus di diupload user
-    public function get_doc_user_upload($key,$id_application)
+    /*
+    
+    */
+    // public function get_doc_iin()
+    // {
+    //     $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
+    //     $this->db->from('document_config dc');
+    //     $this->db->where('dc.type','DYNAMIC');
+    //     $this->db->or_where('dc.type','STATIC');
+    //     return $this->db->get()->result();
+    // }
+
+
+    /*
+    Get Doc User
+    */
+    public function get_doc_user_upload($key,$id_application,$id_keys)
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
+        // $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
         
 
@@ -192,24 +243,56 @@ class User_model extends CI_Model {
         }
 
         if ( $id_application != '' ) {
+
+            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory,af.path_id');
             $this->db->join('application_file af', 'dc.id_document_config = af.id_document_config');
             $this->db->where('af.id_application', $id_application);
-            // $this->db->where('dc.type','DYNAMIC');
-            $this->db->where('af.status','ACTIVE');
+
+            if ($id_keys != '') {
+                $this->db->where('dc.type', 'TRANSACTIONAL');
+                $this->db->where('af.status','ACTIVE');
+
+                $this->db->where_in('dc.key', $id_keys);
+
+
+                $this->db->limit(count($id_keys));
+
+            } else {    
+                $this->db->where('dc.type', 'DYNAMIC');
+                $this->db->where('af.status','ACTIVE');
+            }
+
+
         } 
         else {
+            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
             if($key == ''){
             $this->db->where('dc.type','DYNAMIC');
             }
         }
 
-        
+
         // $this->db->where('af.status','ACTIVE');
 
+        $this->db->order_by('dc.id_document_config', 'ASC');
+            
+        return $this->db->get()->result();
+    }
 
+    /*
+    GET id_application_status step
+    */
 
-        // $this->db->order_by('dc.id_document_config', 'ASC');
-        $this->db->order_by('dc.key', 'ASC');
+    public function id_application_status_step_n($id_application, $prev_id_app_status_name)
+    {
+        $this->db->select('aps.id_application_status');
+        $this->db->from('applications ap');
+        $this->db->join('application_status aps', 'ap.id_application = aps.id_application');
+        $this->db->where('ap.id_application', $id_application);
+        $this->db->where('aps.id_application_status_name', $prev_id_app_status_name);
+        $this->db->where('aps.process_status', 'COMPLETED');
+        $this->db->order_by('aps.id_application_status', 'DESC');
+        $this->db->limit('1');
             
         return $this->db->get()->result();
     }
@@ -226,6 +309,30 @@ class User_model extends CI_Model {
         $this->db->where('id_application_status', $id_application_status);
         
         $this->db->like('type', 'REVISED_DOC');
+
+        return $this->db->get()->result();
+    }
+
+    /*
+    Table application_status_form_mapping
+    @ $type = REVISED_DOC | List Index of Revision File {step2}
+    @ $type = REVISED_PAY | Admin Message for Revision Payment {step5}
+    @ $type = BILLING_CODE | get billing code {step4}
+    @ $type = BILLING_DATE | get billing date {step4}
+    @ $type = BILLING_DOC | get list of billing doc value (document_config_id) {step4}
+    @ $type = ASSESSMENT_DOC | get list of assesment team doc value (document_config_id) {step4}
+    @ $type = REV_DOC_ASM | get list of assesment revision file list  (document_config_id) {step7}
+    */
+    public function get_form_mapping_by_type($id_application_status, $type)
+    {
+        $this->db->select('*');
+        $this->db->from('application_status_form_mapping'); 
+        $this->db->where('id_application_status', $id_application_status);
+        
+        // $this->db->like('type', 'REVISED_DOC');
+        if ($type != "") {
+            $this->db->like('type', $type);
+        }
 
         return $this->db->get()->result();
     }
@@ -317,22 +424,131 @@ class User_model extends CI_Model {
         return  $results ;   
     }
 
-    /*Melakukan Assesment Status*/
-    public function getAssesmentStatus($id_user){ 
-        $this->db->select('*');
-        $this->db->from('applications'); 
-        $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
-        $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_registered.id_assessment_application');
-        $this->db->join('assessment_team','assessment_registered.id_assessment_team=assessment_team.id_assessment_team');
-        $this->db->join('assessment_team_title','assessment_registered.id_assessment_team_title=assessment_team_title.id_assessment_team_title');
-        $this->db->where('applications.id_user',$id_user);
-        $this->db->where('applications.iin_status',"OPEN");
-        // $this->db->where('document_config.type','STATIC'); 
-        // $this->db->where('document_config.key',"IPPSA"); 
-         $query = $this->db->get(); 
-        $results = $query->result(); 
-        return  $results ; 
+
+
+    
+
+
+
+
+
+    /*
+    Get id_assessment_application
+    @ value of this query is the parameter for Get assesment_team
+    */
+    public function get_id_assessment_application($id_user){ 
+        $this->db->select('assa.id_assessment_application');
+        $this->db->from('applications app'); 
+        $this->db->join('assessment_application assa','app.id_application=assa.id_application');
+        $this->db->where('app.id_user',$id_user);
+        $this->db->where('app.iin_status',"OPEN");
+        $this->db->order_by('assa.id_assessment_application', 'DESC');
+        $this->db->limit('1');
+
+
+        return $this->db->get()->result();
     }
+
+    /*
+    Get assesment_team
+    @ value of this query is,  list of assessment team (step6)
+    */
+    public function get_assesment_team($id_assessment_application){ 
+        $this->db->select('*');
+        $this->db->from('assessment_registered asr'); 
+        $this->db->join('assessment_team ate','ate.id_assessment_team=asr.id_assessment_team');
+        $this->db->join('assessment_team_title att','att.id_assessment_team_title=asr.id_assessment_team_title');
+        $this->db->where('asr.id_assessment_application',$id_assessment_application);
+         
+        return $this->db->get()->result();
+    }
+
+
+
+    /*
+    Get assessment team doc
+    @ get list of document assessment (step 6)
+    */
+    public function get_assessment_team_docxx($id_application_status,$id_application_status_name, $key){ 
+        $this->db->select('*');
+        $this->db->from('application_status aps'); 
+        $this->db->join('application_file af','af.id_application = aps.id_application');
+        $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
+        $this->db->where('aps.id_application_status',$id_application_status);
+        $this->db->where('dc.type','TRANSACTIONAL');
+        $this->db->where('aps.id_application_status_name', $id_application_status_name);
+        $this->db->where_in('dc.key', $key);
+        $this->db->order_by('af.id_application_file', 'DESC');
+        $this->db->limit(count($key));
+
+
+        return $this->db->get()->result();
+    }
+
+    public function get_assessment_team_doc($id_application_status, $key){ 
+        $this->db->select('*');
+        $this->db->from('application_status aps'); 
+        $this->db->join('application_file af','af.id_application = aps.id_application');
+        $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
+        $this->db->where('aps.id_application_status',$id_application_status);
+        $this->db->where('dc.type',"TRANSACTIONAL");
+        $this->db->where_in('dc.key', $key);
+        $this->db->order_by('af.id_application_file', 'DESC');
+        $this->db->limit(count($key));
+
+        // $sql = $this->db->get_compiled_select('application_status aps');
+        // echo $sql;
+
+
+        return $this->db->get()->result();
+    }
+
+    // public function get_assessment_doc($id_application_status, $key){ 
+    //     $this->db->select('*');
+    //     $this->db->from('application_status aps'); 
+    //     $this->db->join('application_file af','af.id_application = aps.id_application');
+    //     $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
+    //     $this->db->where('aps.id_application_status',$id_application_status);
+    //     $this->db->where('dc.type',"TRANSACTIONAL");
+    //     $this->db->where_in('dc.key', $key);
+    //     $this->db->order_by('af.id_application_file', 'DESC');
+
+
+    //     return $this->db->get()->result();
+    // }
+
+    /*
+    Get assessment rev file list ()
+    @ get list of assessment verification file list (step 6)
+    */
+    public function get_assessment_rev_list($id_document_config){ 
+
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
+        $this->db->from('document_config dc');
+        $this->db->where_in('dc.id_document_config', $id_document_config);
+
+
+        return $this->db->get()->result();
+    }
+
+     
+
+    // /*Melakukan Assesment Status*/
+    // public function getAssesmentStatus($id_user){ 
+    //     $this->db->select('*');
+    //     $this->db->from('applications'); 
+    //     $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
+    //     $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_registered.id_assessment_application');
+    //     $this->db->join('assessment_team','assessment_registered.id_assessment_team=assessment_team.id_assessment_team');
+    //     $this->db->join('assessment_team_title','assessment_registered.id_assessment_team_title=assessment_team_title.id_assessment_team_title');
+    //     $this->db->where('applications.id_user',$id_user);
+    //     $this->db->where('applications.iin_status',"OPEN");
+    //     // $this->db->where('document_config.type','STATIC'); 
+    //     // $this->db->where('document_config.key',"IPPSA"); 
+    //      $query = $this->db->get(); 
+    //     $results = $query->result(); 
+    //     return  $results ; 
+    // }
 
         // public function get_applications_Status($id_user){
         //     $this->db->select('*');
@@ -350,7 +566,7 @@ class User_model extends CI_Model {
     */
     public function get_applications_Status($id_user) {
 
-        $this->db->select('aps.id_application_status, ap.id_application, apsn.id_application_status_name, aps.process_status, ap.iin_status, ap.created_by');
+        $this->db->select('aps.id_application_status, ap.id_application, ap.application_type, apsn.id_application_status_name, aps.process_status, ap.iin_status, ap.created_by');
         $this->db->from('application_status aps');
         $this->db->join ('applications ap', 'aps.id_application = ap.id_application');
         $this->db->join('application_status_name apsn','apsn.id_application_status_name = aps.id_application_status_name');
@@ -573,6 +789,43 @@ class User_model extends CI_Model {
 
     }
 
+
+
+    /*
+    GET Survey answer
+    */
+    public function get_survey_answer()
+    {
+        $this->db->select('*');
+        $this->db->from('survey_answer');
+        $this->db->where('id_user', 'ISO7812');
+        return  $this->db->get();
+    }
+
+    /*
+    GET Survey status
+    */
+    public function get_survey_status()
+    {
+        $this->db->select('*');
+        $this->db->from('survey_answer');
+        $this->db->where('id_user', 'ISO7812');
+        return  $this->db->get();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //ANDARU DEFAULT
     /*Simpan File*/
     public function simpan($data){
         $this->db->insert('upload', $data);
@@ -617,5 +870,79 @@ class User_model extends CI_Model {
         $this->db->where('id_user', $id_usr);
         return $this->db->get(); 
      }
+
+
+
+
+
+
+
+
+
+
+
+     // ALDY SOURCE CODE
+     public function survey($type, $data){
+        switch ($type) {
+            case 'vote':
+                $this->db->select('*');
+                $this->db->from('survey_question sq');
+                $this->db->where('sq.question_status','1');
+                return $this->db->get();
+                break;
+            case 'insert-answer':
+                // TYPE CODE HERE FOR ANSWER FROM USER
+                return $this->db->get();
+                break;
+            case 'get-survey-result':
+                // QUERY BERDASARKAN survey_question yang aktif
+                // 
+                // CONTOH 
+                // NILAI     JUMLAH ORANG YANG MENJAWAB
+                // 1         * 0                           = 0
+                // 2         * 0                           = 0
+                // 3         * 3                           = 9
+                // 4         * 3                           = 12
+                // 5         * 9                           = 45
+                //      total= 15                     total= 66
+                // lalu 66/15 = 4.4
+                // nilai rata-rata 4.4
+
+                // CONTOH HASIL QUERY RESULT() JIKA DI UBAH KE JSON
+                // {
+                //   "id_survey_question": "1",
+                //   "version"           : "1",
+                //   "total_answer"      : "15",
+                //   "survey_questions"  : [
+                //     {
+                //       "no"       : "1",
+                //       "question" : "Question number 1",
+                //       "average"  : "4.4",
+                //       "answer": {
+                //         "1": "0",
+                //         "2": "0",
+                //         "3": "3",
+                //         "4": "3",
+                //         "5": "9"
+                //       }
+                //     },
+                //     {
+                //       "no": "2",
+                //       "question": "Question number 2",
+                //       "average"  : "4.4",
+                //       "answer": {
+                //         "1": "0",
+                //         "2": "0",
+                //         "3": "3",
+                //         "4": "3",
+                //         "5": "9"
+                //       }
+                //     }
+                //   ]
+                // }
+                break;
+        }
+        
+    }
     
 }

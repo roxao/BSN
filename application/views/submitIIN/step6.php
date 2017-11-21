@@ -40,12 +40,19 @@
 	</ul>
 
 		<br/>
-
-		<div>	
+		<button style="background: orange" class="float_left show-rev-assess-modal step6_rev">Revisi Tanggal</button>
+		<div class="modal-form-rev-assess hidden" >	
 			<form action="<?php echo base_url()?>submit_iin/step_6_rev" method="post">
-				<p>Masukkan tanggal permohonan Assesment Lapangan :</p>
-				<input type="date" name="rev_assess_date" placeholder="dd/MM/yyyy" required>
-				<button style="background: orange" class="float_left step6_rev" name="step6_rev" value="step6_rev">Revisi Tanggal</button>
+				<h1 class="modal-form-rev-assess-title">
+					Revisi Tanggal
+					<span class="btn-close-modal-rev-assess"></span>
+				</h1>
+				<div>
+					<p>Masukkan tanggal permohonan Assesment Lapangan :</p>
+					<input type="date" name="rev_assess_date" placeholder="dd/MM/yyyy" required><br/><br/>
+					<button style="background: orange" class="float_right " name="step6_rev" value="step6_rev">Kirim</button>
+				</div>
+				
 			</form>
 		</div>
 
@@ -53,7 +60,7 @@
 		<div class="clearfix">
 			<!-- <button style="background: red" class="float_left">Kembali</button> -->
 			<a href="<?php echo base_url()?>submit_iin/step_6">
-				<button style="background: #01923f" class="float_right step6_next" name="step_6" value="step6_next">Lanjutkan Proses</button>
+				<button style="background: #01923f" class="float_right step6_next"  value="step6_next">Lanjutkan Proses</button>
 			</a>
 		</div>
 </section>
@@ -70,4 +77,5 @@
 		$(".step6_next").show();
 		$(".step6_rev").show();
 	}
+
 </script>

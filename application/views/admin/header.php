@@ -104,9 +104,8 @@
 
 					}
 				});
-		}
-	</script>
-	<script>
+		};
+
 		$('.nav-menu').on('click', function(event) {
 			if($('#dashboard_menu').hasClass('active')){
 				$(this).removeClass('active');

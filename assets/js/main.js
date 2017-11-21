@@ -106,6 +106,13 @@ $('a[action="modal_pupop"]').click(function(event) {
 	  $('.costum_select').click(function(event) {
   		  $('.costum_select ul').slideDown();
 	  });	
+	  $(".show-rev-assess-modal").click(function(event) {
+	  	$('.modal-form-rev-assess').fadeIn('slow');
+	  });
+	   $(".btn-close-modal-rev-assess").click(function(event) {
+	  	$('.modal-form-rev-assess').fadeOut('slow');
+	  });
+
 
 	function goBack(){window.history.back();}
 
@@ -113,7 +120,7 @@ $('a[action="modal_pupop"]').click(function(event) {
 	// var dateFormat = $('[type=date]').datepicker( "option", "dateFormat" );
 	// // Setter
 	// $('[type=date]').datepicker("option", "dateFormat", "yyyy-mm-dd");
-	$('[type=date]').datepicker({dateFormat: "yy-mm-dd", setDate: new Date}).prop('type','text');
+	$('[type=date]').datepicker({dateFormat: "yy/mm/dd", setDate: new Date}).prop('type','text');
 });
 
 

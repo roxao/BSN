@@ -26,38 +26,6 @@ class Dashboard extends CI_Controller {
         return $datetime->format('Y\-m\-d\ h:i:s');
     }
 
-    public function notif(){
-        if($this->input->get('id_notif')){
-            $id_notif = $this->input->get('id_notif');
-            $result = $this->admin_model->get_data_notif($id_notif);
-            if($result) 
-                redirect(base_url('dashboard?application=' . $result['id_notification']));
-            else 
-                echo '<script>alert("Rinaldy Sam Ganteng")</script>';
-                // redirect(base_url('dashboard'));
-        } else {
-            redirect(base_url('dashboard'));
-        }
-    }
-
-    public function ntest(){
-        if($this->input->get('id_notif')){
-            $id_notif = $this->input->get('id_notif');
-            $result = $this->admin_model->get_notif()->result_array();
-            echo json_encode($result);
-            return false;
-            if($result) 
-                echo json_encode($result);
-                // redirect(base_url('dashboard?application=' . $result->id_notification));
-            else 
-                echo '<script>alert("Rinaldy Sam Ganteng")</script>';
-                // redirect(base_url('dashboard'));
-        } else {
-            redirect(base_url('dashboard'));
-        }
-
-    }
-
     public function index(){
         $this->user('check-autho');
         if($this->input->get('application')){

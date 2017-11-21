@@ -7,12 +7,13 @@
 	<title></title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/style.css"/>
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.slides.min.js"></script>
-	<script type="text/javascript" src="<?php echo base_url();?>assets/js/script.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
-	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">	
+	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js');?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.slides.min.js');?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/main.min.js');?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/swal.js'); ?>"></script>
+	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">	
+	
 
 </head>
 <body>
@@ -29,8 +30,10 @@
 					<ul>
 						<?php if ($this->session->userdata('have_iin') == "N") {?>
 						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Penerbitan IIN Baru</a>
+						<?php } else if ($this->session->userdata('have_iin') == "Y" and $this->session->userdata('survey_status') == '0'){ ?>
+						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Penerbitan IIN Baru</a>
 						<?php } else { ?>
-						<li class="nav-link"><a href="<?php echo base_url();?>extend-iin">Pengawasan IIN Lama</a>
+						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Pengawasan IIN Lama</a>
 						<?php } ?>
 					</ul>
 				</li>

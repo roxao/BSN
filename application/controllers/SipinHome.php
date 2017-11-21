@@ -129,8 +129,8 @@ class SipinHome extends CI_Controller {
     public function logout() {	
       	$username = $this->session->userdata('username');
       	$this->log("logout","logout", $username);
-		$this->session->sess_destroy();	
-		redirect(base_url("SipinHome"));
+		$this->session->sess_destroy($_SESSION=[]);	
+		redirect(base_url());
 	}
 
 	/* 
@@ -177,29 +177,31 @@ class SipinHome extends CI_Controller {
 					
 								$this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda, untuk mengaktifkan akun yang telah Anda buat');
 								$this->log("login","Login", $username);
-								$this->user('register');
+								// redirect(base_url('Registrasi'));
 
 						    } else {
 								$this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
-								$this->user('register'); 
+								// redirect(base_url('Registrasi'));
 							}
 						}
 					}
 				} else { 
 					$this->captcha();
 					$this->session->set_flashdata('validasi-login', 'password yang anda masukkan tidak sesuai');
-					$this->user('register');}	
+					// redirect(base_url('Registrasi'));
+				}	
 			} else {
 				$this->captcha();
 				$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
-				$this->user('register');
+				// redirect(base_url('Registrasi'));
 			}	
 		} else {
 			$this->captcha();
 			$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
 			// $this->user('register');
-			redirect(base_url('user/register'));
+			// redirect(base_url('Registrasi'));
 		}
+		redirect(base_url('registrasi'));
 	}
 
 	/*
@@ -244,7 +246,7 @@ class SipinHome extends CI_Controller {
 
         /*Get Registration Message on Current Session*/
 	 	echo $this->session->flashdata('regis_msg');
-		redirect(base_url("SipinHome"));
+		redirect(base_url());
   	}
 
 
@@ -268,6 +270,9 @@ class SipinHome extends CI_Controller {
 	@var password
 	*/
     public function login() {
+
+    	
+		// $this->session->session_start();
 
 	    $username = $this->input->post('username');
 	    $password = hash ( "sha256", $this->input->post('password'));
@@ -308,6 +313,8 @@ class SipinHome extends CI_Controller {
 					'username' 		=> $cek->row()->username,
 					'email' 		=> $cek->row()->email,
 					'status_user'   => $cek->row()->status_user,
+					'survey_status'   => $cek->row()->survey_status,
+					'iin_status'   => $cek->row()->iin_status,
 					'status' => "login",
 					'have_iin' => $have_iin
 				));
@@ -328,12 +335,12 @@ class SipinHome extends CI_Controller {
 						// echo "|{$cek->row()->application_type}|";
 
 						$url = "";
-						redirect(base_url("SipinHome/submit_application/{$url}"));
+						redirect(base_url("Layanan-IIN/{$url}"));
 
 					} else {
 						// echo "|{$cek->row()->application_type}|";
 						// redirect(base_url('extend'));
-						redirect(base_url("SipinHome/submit_application/", $base_url));
+						redirect(base_url("Layanan-IIN", $base_url));
 					}
 
 				} else {
@@ -371,21 +378,41 @@ class SipinHome extends CI_Controller {
 		/*
 		Get Application Status last step 15
 		*/
+
+		echo "|ID USER : {$id_user}";
+
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
-		$iin_status = $get_app_status->row()->iin_status;
 
+		/*
+		Validate If row Exist 
+		*/
+		$iin_status ="";
 
-		$id_application = $get_app_status->row()->id_application;
-		$id_application_status = $get_app_status->row()->id_application_status;
-		$id_application_status_name = $get_app_status->row()->id_application_status_name;
-		$process_status = $get_app_status->row()->process_status;
-		// echo "|get_app_status : ";
-		// print_r($get_app_status);
+		// if ( !is_null($get_app_status->row()->id_application) ) {
+		if ( sizeof($get_app_status->result()) != '0' ) {
+			$iin_status = $get_app_status->row()->iin_status;
+			$id_application = $get_app_status->row()->id_application;
+			$id_application_status = $get_app_status->row()->id_application_status;
+			$id_application_status_name = $get_app_status->row()->id_application_status_name;
+			$process_status = $get_app_status->row()->process_status;
+			$application_type = $get_app_status->row()->application_type;
+			// echo "|get_app_status : ";
+			// print_r($get_app_status);
 
-		$this->session->set_userdata('id_application',$id_application);
-		$this->session->set_userdata('id_application_status',$id_application_status);
-		$this->session->set_userdata('id_application_status_name',$id_application_status_name);
+			$this->session->set_userdata('id_application',$id_application);
+			$this->session->set_userdata('id_application_status',$id_application_status);
+			$this->session->set_userdata('id_application_status_name',$id_application_status_name);
+			$this->session->set_userdata('application_type',$application_type);
 
+			// echo "|APP TYPE : {$application_type}";
+			/*
+			Instantiate arr $data
+			*/
+			$data = array(
+				'id_application_status_name' => $id_application_status_name,
+			);
+		}
+				
 
 		/*
 		Default Var
@@ -397,7 +424,6 @@ class SipinHome extends CI_Controller {
 		Instantiate arr $data
 		*/
 		$data = array(
-			'id_application_status_name' => $id_application_status_name,
 			'title' => '',
 			'text' => '',
 			'reject_msg' => '',
@@ -1201,6 +1227,13 @@ class SipinHome extends CI_Controller {
 
 									if ( $id_application_status_name == '19' ) {
 										
+					       				// $data['team_doc'] = $this->user_model->get_doc_statis($id_user);
+
+					       				$id_keys = array('IIN');
+
+										$data['iin_download']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
+										echo "IIN DOWNLOAD :".json_encode($data['iin_download']);
+					       				$page = '9';
 										switch ( $process_status ) {
 						       				case 'PENDING':
 						       					// $page = '7';
@@ -1210,8 +1243,6 @@ class SipinHome extends CI_Controller {
 								        		break;
 
 							       			case 'COMPLETED':
-							       				$data['state8'] = "8";
-								       				$page = '9';
 								  	      		break;
 					       				}
 									}
@@ -1269,6 +1300,7 @@ class SipinHome extends CI_Controller {
 			if ($i == $page) {
 				$data[$string_status] = "PENDING";
 				echo "|string_status : {$string_status}";
+				if ($page == '9') $data[$string_status] = "COMPLETED";
 			} else if ($i < $page){
 				$data[$string_status] = "COMPLETED";
 			echo "|string_status : {$string_status}";
@@ -1287,9 +1319,9 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
-			$this->load->view('header');
-			$this->load->view('submit-iin',$data);
-			$this->load->view('footer');
+		$this->load->view('header');
+		$this->load->view('submit-iin',$data);
+		$this->load->view('footer');
 
 	}
 
