@@ -81,21 +81,34 @@ class User_model extends CI_Model {
     }
 
     /*
-    Get all fields for box_status_0
+    Get all fields for box_status_0 (New Application)
     */
     public function step_0_get_application($id_user){  
-        // SELECT * FROM applications WHERE applicant LIKE '%novalen%' AND iin_status ='OPEN' ORDER BY id_application DESC;
-        // echo $id_user;
         $this->db->select('*');
         $this->db->from('applications'); 
         $this->db->where('id_user', $id_user);
         $this->db->where('iin_status', 'OPEN');
-        // $this->db->order_by('id_application', 'DESC');
         $query = $this->db->get(); 
  
         return  $query;    
     }
 
+
+    /*
+    Get all fields for box_status_0 (New Application)
+    */
+    public function step_0_get_application_extend($id_user){ 
+        $this->db->select('*');
+        $this->db->from('applications'); 
+        $this->db->where('id_user', $id_user);
+        $this->db->where('iin_status', 'CLOSED');
+        $this->db->order_by('id_application', 'DESC');
+        $this->db->limit('1');
+
+        $query = $this->db->get(); 
+ 
+        return  $query;    
+    }
 
 
     /**
