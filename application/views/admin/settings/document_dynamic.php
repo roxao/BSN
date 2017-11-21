@@ -20,7 +20,7 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
-        <button id="btn-add" class="btn-flat float_left">TAMBAH ANGGOTA</button>
+        <button id="btn-add" class="btn-flat float_left">TAMBAH DOKUMEN</button>
 
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
@@ -91,7 +91,7 @@
           $('.z-modal-frame input').val('');
           $('#z-modal-edit').slideDown()
           $('.modal-form').attr('action', url_i);
-          $('[name=docType]').val('DYNAMIC');
+          $('[name=type_doc]').val('DYNAMIC');
         });
       })
    });
@@ -128,7 +128,8 @@
   <?php echo form_open_multipart('dashboard/action_update/document', 'class="modal-form"') ?>
         <div class="z-modal-form">
             <input name="id_document_config" type="hidden"/>
-            <input name="docType" class="hidden" type="text"/>
+            <input name="type_doc" type="hidden" value="DYNAMIC"/>
+            <input name="file_url" type="hidden" value=" "/>
             <label><span>Key</span>
                 <input name="key" type="text" placeholder="Username"/>
             </label>

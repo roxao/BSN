@@ -132,11 +132,12 @@
         <div class="z-modal-form">
             <input name="id_document_config" type="hidden"/>
             <input name="type_doc" type="hidden" value="STATIC"/>
+            <input name="key" type="hidden" />
             <label><span>Nama </span>
                 <input name="display_name" type="text" placeholder="Username"/>
             </label>
             <label><span>Dokumen</span>
-                <input name="images[]" type="file" placeholder="Username"/>
+                <input name="file_url[]" type="file" placeholder="Username"/>
             </label>
             <label>
                 <span>Mandatory</span>       

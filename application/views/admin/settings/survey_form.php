@@ -19,11 +19,11 @@
         <input class="hidden" name="id_survey" value="<?php echo ($data) ? $data[0]['id_survey_question']: ''?>">
         
         <div class="survey-option">
-          <label>
+          <label class="hidden" style="display: none">
             <span>Status Survei:</span>
             <select name="question_status">
-              <option value="1" <?php echo ($data ? ($data[0]['question_status']== 1 ? 'selected' : ''): '') ?> >Aktif</option>
-              <option value="0" <?php echo ($data ? ($data[0]['question_status']== 0 ? 'selected' : ''): '') ?>>Tidak Aktif</option>
+              <option value="1" selected>Aktif</option>
+              <option value="0" >Tidak Aktif</option>
             </select>
           </label>
           <label>

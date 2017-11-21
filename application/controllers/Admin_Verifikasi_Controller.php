@@ -2410,11 +2410,14 @@ class Admin_Verifikasi_Controller extends CI_Controller
             echo "email kantor = ".$cek->row()->instance_email;
             echo "user name = ".$cek->row()->username;
         
+        $email = "";
+        $username = "";
+        $pesan = " Silahkan Klik Link di Bawah ini untuk melanjutkan proses permohonan IIN Anda";
 
        
-        if($this->usr_model->sendMail($cek->row()->email,$cek->row()->username, "Please click on the below activation link to verify your email address."))
+        if($this->usr_model->stepMailAdmin($cek->row()->email,$cek->row()->username, $pesan))
         {
-             $this->usr_model->sendMail($cek->row()->instance_email,$cek->row()->username);
+             $this->usr_model->stepMailAdmin($cek->row()->instance_email,$cek->row()->username, $pesan);
             echo "terkirim";
         }else
         {
