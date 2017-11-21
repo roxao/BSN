@@ -46,7 +46,7 @@
 							</div>
 
 				<?php }} ?>
-				<button class="btn-submit-survey" type="submit">KIRIM</button>
+				<button class="btn-submit-survey" name="submit_survey" type="submit">KIRIM</button>
 			</form>
 		</div>
 	</article>

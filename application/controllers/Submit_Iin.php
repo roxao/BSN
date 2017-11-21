@@ -1632,16 +1632,27 @@ class submit_iin extends CI_Controller {
 		*/
 		$survey_status = $this->session->userdata('survey_status');
 		if ($survey_status == '0') {
+			/*
+			DOWNLOAD IIN document
+			@ Valid if survey_status = 0
+			*/
 			echo "|SURVEY STATUS : {$survey_status}";
+			redirect(base_url('submit_iin/survey/vote'));
 
+			
+
+		} elseif ($survey_status == '1') { 
+
+
+			
 			/*
 			DOWNLOAD IIN document
 			@ Valid if survey_status = 0
 			*/
 			// $image_id = $this->input->get('var1');
 			// echo "|IMAGE ID : {$image_id}";
-			// $this->download();
-
+			$this->download();
+			redirect(base_url('Layanan-IIN'));
 		}
 
 
