@@ -312,7 +312,7 @@ class Dashboard extends CI_Controller {
                 $condition = array('id_assessment_team' => $this->input->post('id_assessment_team'));
                 $data = array(
                     'name' => $this->input->post('name'),
-                    'status' => $this->input->post('status'),               
+                    'status' => $this->input->post('STATUS'),               
                 );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
@@ -456,7 +456,7 @@ class Dashboard extends CI_Controller {
                 $uploaded = $this->upload->data();
 
                 $data = array(
-                    'type' => $this->input->post('docType'),
+                    'type' => $this->input->post('type_doc'),
                     'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $this->input->post('file_url'),

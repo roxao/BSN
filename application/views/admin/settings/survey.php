@@ -97,12 +97,14 @@
       $('.modal-form button').click();
     })
 
-    $('.btn-survey-edit').on('click', function() {
+   
+    
+    });
+
+     $('.btn-survey-edit').on('click', function() {
         $('[name=id_surv').val($(this).attr('data-id'));
         $('.modal-form button').click();
       })
-    
-    });
   </script>
 </section>
 

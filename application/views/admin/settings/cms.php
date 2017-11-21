@@ -77,16 +77,18 @@
       $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
       $('.tableInbox tr th:first-child').click();
       
-      $('.row_select').on('click', function() {
-        $('[name=id_cms').val($(this).attr('data-id'));
-        $('.modal-form button').click();
-      })
+      
 
       $('#btn-add').on('click', function() {
         $('[name=id_cms').val('insert');
         $('.modal-form button').click();
       })
    });
+
+    $('.row_select').on('click', function() {
+        $('[name=id_cms').val($(this).attr('data-id'));
+        $('.modal-form button').click();
+      })
   </script>
 </section>
 

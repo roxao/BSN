@@ -769,6 +769,81 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
     
+    // ALDY SOURCE CODE
+     public function survey($type, $data)
+     {
+        switch ($type) {
+
+            case 'vote':
+                $this->db->select('*');
+                $this->db->from('survey_question sq');
+                $this->db->where('sq.question_status','1');
+                return $this->db->get();
+                break;
+            case 'insert-answer':
+                // TYPE CODE HERE FOR ANSWER FROM USER
+                $this->db->insert('survey_answer',$data);
+                $inserted_id = $this->db->insert_id();
+                return $inserted_id;
+
+                break;
+            case 'get-survey-result':
+                // QUERY BERDASARKAN survey_question yang aktif
+                // 
+                // CONTOH 
+                // NILAI     JUMLAH ORANG YANG MENJAWAB
+                // 1         * 0                           = 0
+                // 2         * 0                           = 0
+                // 3         * 3                           = 9
+                // 4         * 3                           = 12
+                // 5         * 9                           = 45
+                //      total= 15                     total= 66
+                // lalu 66/15 = 4.4
+                // nilai rata-rata 4.4
+
+                // CONTOH HASIL QUERY RESULT() JIKA DI UBAH KE JSON
+                // {
+                //   "id_survey_question": "1",
+                //   "version"           : "1",
+                //   "total_answer"      : "15",
+                //   "survey_questions"  : [
+                //     {
+                //       "no"       : "1",
+                //       "question" : "Question number 1",
+                //       "average"  : "4.4",
+                //       "answer": {
+                //         "1": "0",
+                //         "2": "0",
+                //         "3": "3",
+                //         "4": "3",
+                //         "5": "9"
+                //       }
+                //     },
+                //     {
+                //       "no": "2",
+                //       "question": "Question number 2",
+                //       "average"  : "4.4",
+                //       "answer": {
+                //         "1": "0",
+                //         "2": "0",
+                //         "3": "3",
+                //         "4": "3",
+                //         "5": "9"
+                //       }
+                //     }
+                //   ]
+                // }
+
+            $this->db->select('*');
+            $this->db->from('survey_question sq');
+            $this->db->join('survey_answer sa','sq.id_survey_question=sa.version');
+            $this->db->where('sq.question_status','1');
+
+            return $this->db->get();
+                break;
+        }
+        
+    }
 
 }
 ?>
