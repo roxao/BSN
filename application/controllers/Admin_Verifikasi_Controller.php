@@ -152,6 +152,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             //             'iin_status'=> 'CLOSED');
             // $id_application = array('id_application'=> $this->input->post('id_application'));
             // $this->admin_model->update_applications($data5,$id_application);
+
+            $this->send_mail($this->input->post('id_application'));
            redirect(base_url('dashboard'));
         
     }
@@ -253,6 +255,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $this->admin_model->insert_app_sts_for_map($data2);
 
            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+           $this->send_mail($this->input->post('id_application'));
+
            redirect(base_url('dashboard'));
 
     }
@@ -334,6 +339,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+             $this->send_mail($this->input->post('id_application'));
+
             redirect(base_url('dashboard'));
     }
 
@@ -391,6 +398,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $this->admin_model->insert_app_sts_for_map($data3);    
 
            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+           $this->send_mail($this->input->post('id_application'));
 
             redirect(base_url('dashboard'));
 
@@ -468,6 +477,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              }
 
              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+             $this->send_mail($this->input->post('id_application'));
 
             redirect(base_url('dashboard')); 
             
@@ -614,6 +625,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              
              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+             $this->send_mail($this->input->post('id_application'));
+
             redirect(base_url('dashboard'));       
   
     }
@@ -728,6 +741,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
             
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+            $this->send_mail($this->input->post('id_application'));
 
             redirect(base_url('dashboard'));
         
@@ -921,6 +936,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+              $this->send_mail($this->input->post('id_application'));
+
             redirect(site_url('dashboard'));
     }
         
@@ -989,6 +1006,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->admin_model->insert_app_sts_for_map($data4);
 
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+            $this->send_mail($this->input->post('id_application'));
 
             redirect(site_url('dashboard'));
 
@@ -1198,6 +1217,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+              $this->send_mail($this->input->post('id_application'));
+
             redirect(site_url('dashboard'));
     }
 
@@ -1243,6 +1264,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
            $this->admin_model->insert_app_sts_for_map($data6);
 
            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+            $this->send_mail($this->input->post('id_application'));
 
            redirect(site_url('dashboard'));
 
@@ -1493,6 +1516,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+              $this->send_mail($this->input->post('id_application'));
+
               redirect(site_url('dashboard')); 
    
 	}
@@ -1626,6 +1651,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
         $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+        $this->send_mail($this->input->post('id_application'));
+
         redirect(site_url('dashboard'));
 
     }
@@ -1755,6 +1782,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                 $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+                $this->send_mail($this->input->post('id_application'));
+
         redirect(site_url('dashboard'));
     }
 
@@ -1858,6 +1887,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
             }
 
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+            $this->send_mail($this->input->post('id_application'));
 
              redirect(site_url('dashboard'));
 
@@ -2046,6 +2077,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+           $this->send_mail($this->input->post('id_application'));
+
            redirect (site_url('dashboard'));
 
         
@@ -2120,6 +2153,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              }
 
              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+             $this->send_mail($this->input->post('id_application'));
 
              redirect(site_url('dashboard'));
 
@@ -2229,6 +2264,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
              }
 
              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+             $this->send_mail($this->input->post('id_application'));
 
             redirect(base_url('dashboard'));
 
@@ -2354,6 +2391,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
+            $this->send_mail($this->input->post('id_application'));
+
             redirect(base_url('dashboard'));
 
     }   
@@ -2412,7 +2451,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         
         $email = "";
         $username = "";
-        $pesan = " Silahkan Klik Link di Bawah ini untuk melanjutkan proses permohonan IIN Anda";
+        $pesan = " Silahkan Klik Link di Bawah ini untuk melanjutkan proses permohonan atau pengawasan IIN Anda";
 
        
         if($this->usr_model->stepMailAdmin($cek->row()->email,$cek->row()->username, $pesan))
@@ -2423,6 +2462,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
         {
             echo "tidak terkirim";
         }
+
+        
     }
 
 
