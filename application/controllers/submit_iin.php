@@ -9,7 +9,7 @@ class submit_iin extends CI_Controller {
 	   	$this->load->helper(array('captcha','url','form','download'));
 		$this->load->model('user_model');
 		$this->load->model('admin_model');
-		$this->load->library('email','form_validation', 'curl','roxao_captcha');
+		$this->load->library('email','form_validation', 'curl');
 		$this->model = $this->user_model;
         $this->load->database();
 			
