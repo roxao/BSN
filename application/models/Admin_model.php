@@ -592,7 +592,7 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config,application_file.path_id');
+        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config,application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
@@ -657,7 +657,7 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant ,applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config, application_file.path_id');
+        $this->db->select('applications.applicant ,applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config, application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');

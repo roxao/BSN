@@ -15,18 +15,21 @@ class SipinHome extends CI_Controller {
 	}
  
 	public function index() {		
-
-		// $data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-
-		// $this->load->view('header');
-		
 		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$data['banner'] = $this->model->get_banner_active()->result_array();
 		$this->load->view('header',$header_data);
-		$this->load->view('home');
+		$this->load->view('home', $data);
 		$this->load->view('footer');
-		$this->captcha();
+
 	}
 
+
+	public function set_template($view_name, $data = array()){
+        $this->load->view('header', $data);
+        $this->load->view($view_name, $data);
+        $this->load->view('footer', $data);
+        return;
+    }
 
 	public function captcha() {
 
@@ -109,6 +112,7 @@ class SipinHome extends CI_Controller {
 
 	// ALDY: LOGIN USER
 	public function user($param) {
+		$this->captcha();
 		$data['type']=$param;
 		$message = $this->session->flashdata('validasi-login');
 		$data['message']=$message;
@@ -363,7 +367,7 @@ class SipinHome extends CI_Controller {
 	@var process_status
 	*/
 	public function submit_application() {
-
+		$this->captcha();
 		$userIdReq = $this->input->get('userIdSelected', TRUE);
 
 		if(null == $userIdReq || "" == $userIdReq){

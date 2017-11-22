@@ -2,39 +2,34 @@
 		<!-- SLIDESHOW -->
 		<script>
 		$(function() {
-		      $('#slideshow').slidesjs({
-		      	width: 1920,
-		      	height: 850,
-		      	navigation: {active: false},
-		        play: {
-		          active: true,
-		          auto: true,
-		          interval: 3000,
-		          swap: true,
-		          pauseOnHover: true
-		        }
-		      });
+			if ($('#slideshow li').length > 1){
+			    $("#slideshow").slidesjs({
+			        width:  window.innerWidth,
+			      	height:  window.innerWidth/2,
+			      	navigation: {active: false},
+			        play: {
+			          active: true,
+			          auto: true,
+			          interval: 5000,
+			          swap: true,
+			          pauseOnHover: true
+			        }
+			      });
+		    } else {
+			    $("#slideshow").show();
+		    };
+
 		    });
 		</script>
 		<ul id="slideshow">
-			<li class="item_slideshow" style="background-image: url(assets/banner2.jpeg);">
-				<div class="item_slideshow_caption">
-					<h1>Slideshow Title 1</h1>
-					<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem facilis modi aliquam eligendi placeat deleniti perferendis, amet unde voluptatum obcaecati excepturi molestiae eum autem. Reprehenderit explicabo tempore soluta praesentium totam.</h2>
-				</div>
-			</li>
-			<li class="item_slideshow" style="background-image: url(assets/banner2.jpeg)">
-				<div class="item_slideshow_caption">
-					<h1>Slideshow Title 2</h1>
-					<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem facilis modi aliquam eligendi placeat deleniti perferendis, amet unde voluptatum obcaecati excepturi molestiae eum autem. Reprehenderit explicabo tempore soluta praesentium totam.</h2>
-				</div>
-			</li>
-			<li class="item_slideshow" style="background-image: url(assets/banner2.jpeg)">
-				<div class="item_slideshow_caption">
-					<h1>Slideshow Title 3</h1>
-					<h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem facilis modi aliquam eligendi placeat deleniti perferendis, amet unde voluptatum obcaecati excepturi molestiae eum autem. Reprehenderit explicabo tempore soluta praesentium totam.</h2>
-				</div>
-			</li>
+			<?php foreach ($banner as $key => $data) {?>
+				<li class="item_slideshow" style="background-image: url(<?=$data['path']?>);">
+					<div class="item_slideshow_caption">
+						<h1><?=$data['title']?></h1>
+						<h2><?=$data['text']?></h2>
+					</div>
+				</li>
+			<?php } ?>
 		</ul>
 		<ul id="slideshow-control">
 			<li></li>

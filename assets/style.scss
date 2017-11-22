@@ -14,7 +14,28 @@ $width_cont   : 1200px;
 $desktop      : 800px;
 
 /*RESET DEFAULT HTML*/ 
+
+::-webkit-scrollbar{
+  width: 10px;
+  background: rgba(0,0,0,0);
+  &:window-inactive{
+    width: 0;
+  }
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f7f7f7;  
+}
  
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2); 
+  border: 2px solid #f7f7f7;
+}
+
+
 * {margin: 0;padding: 0}
 article,aside,details,figcaption,figure,footer,header,hgroup,nav,section {display: block}
 li {list-style: none}
@@ -171,7 +192,6 @@ header {
 
 .nav-logo{
   display: inline-block;
-  border-right: 1px solid #eee;
   margin-right: 20px;
   img{
     transition: all .5s ease;
@@ -306,12 +326,18 @@ header {
 .nav-notif{
   position: relative;
   >a{
+    display: flex;
     span{
-          border: 1px solid red;
-          color: red;
-          padding: 3px 7px 2px 7px;
-          line-height: 0;
-          border-radius: 7px;
+        border: 1px solid red;
+        color: red;
+        padding: 3px 7px 2px 7px;
+        border-radius: 7px;
+        width: 15px;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        margin: 0 10px;
         }
   }
   .box_notif{
@@ -329,8 +355,8 @@ header {
     max-width: 300px;
     width: 100vw;
     right: 0;
-    max-height: 250px;
-    overflow: scroll;
+    max-height: 400px;
+    overflow-y: scroll;
     li{
       padding: 10px 15px;
       font-size: 12px;
@@ -341,7 +367,7 @@ header {
         color: #999
       }
     }
-    .false{
+    .ACTIVE{
       background: #edf2fa;
       a{
         color: #555
@@ -388,14 +414,9 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
 
 #slideshow {
   max-width: 1920px;
-  max-height: 350px;
+  max-height: 450px;
   margin: 0 auto;
   position: relative;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  .item_slideshow.slidesjs-slide{
-    filter:blur(0px);
-  }
   .item_slideshow.slidesjs-slide:after {
     transition: all .5s ease;
     background:rgba(0,0,0,0);
@@ -408,41 +429,75 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     
   }
   &:hover .item_slideshow.slidesjs-slide:after, &:hover .item_slideshow.slidesjs-slide{
-    background-color:rgba(0,0,0,0.1);
-    filter:blur(2px);
-    transition: all .5s ease;
+    background-color:rgba(255,255,255,0.8);
+    transition: all 1s ease;
+  }
+  &:hover {
+    cursor:  pointer;
+    .item_slideshow_caption{
+      transition: all 1s ease;
+      h1{ transition: all 1s ease;color: #333}
+      h2{ transition: all 1s ease;color: #555}
+    }
   }
 }
 
 .item_slideshow {
   background-size: cover;
   background-position: center;
-  height: 100%;
+  height: 50vw;
+  max-height: 450px;
+  @media screen and (max-width: $desktop ) {
+    max-height: 50vw;
+  }
 }
+.slidesjs-control{
+  height: 450px !important;
+  @media screen and (max-width: $desktop ) {
+    font-size: 12px;
+    height: inherit !important;
+  }
 
+}
 .item_slideshow_caption {
-  display: none;
+  z-index: 1;
+  transition: all .5s ease;
   position: absolute;
-  bottom: 25px;
-  left: 20px;
-  right: 20px;
-  padding: 20px 30px 20px 30px;
-  background: rgba(255, 255, 255, 0.5);
-  border-bottom: 2px solid rgba(0,0,0,0.4);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: max-content;
   line-height: 25px;
-  margin: 0 auto;
-  max-width: 800px;
+  margin: auto auto;
+  max-width: 70%;
   h1 {
-    font-size: 16pt;
+    transition: all 1s ease;
+    text-align: center;
+    font-size: 3em;
+    color: transparent;
     text-overflow: ellipsis;
-    font-weight: normal;
-    margin-bottom: 10px;
+    font-weight: bold;
+    margin-bottom: 32px;
+    @media screen and (max-width: $desktop ) {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
   }
   h2 {
-    font-size: 14px !important;
+     transition: all 1s ease;
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
     text-overflow: ellipsis !important;
     font-weight: 100 !important;
-    color: #222;
+    color: transparent;
+    max-height: 6em;
+    line-height: 2em;
+    @media screen and (max-width: $desktop ) {
+      max-height: 2em;
+    }
+    overflow: hidden;
   }
 }
 
@@ -457,18 +512,18 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   z-index: 100}
 .slidesjs-pagination-item {
   display: inline-block;
-  margin: 10px 3px;
+  margin: 20px 3px;
   a {
     font-size: 0;
-    width: 30px;
-    height: 3px;
+    width: 50px;
+    height: 5px;
     background: rgba(0,0,0,0.2);
     display: block;
     transition: width .3s ease;
     border-radius: 10px;
     &.active {
       background: rgba(0,0,0,0.7);
-      width: 50px;
+      width: 75px;
       transition: width .3s ease;
     }
   }
