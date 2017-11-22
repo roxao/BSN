@@ -524,3 +524,130 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+|                              ROXAO CONSTANT
+|--------------------------------------------------------------------------
+|
+| THIS IS LIST OF CONSTANTS THAT CUSTOMIZED FOR BSN
+| 
+|
+|--------------------------------------------------------------------------
+| * MESSAGE :
+|--------------------------------------------------------------------------
+|
+|
+| USER VIEW  
+|
+|--------------------------------------------------------------------------
+|
+|
+| User State
+|
+*/
+define('STATEREJECTED', 'rejected',true);
+define('STATEPROCESS', 'process',true);
+define('STATE1', '1',true);
+define('STATE2', '2',true);
+define('STATE3', '3',true);
+define('STATE4', '4',true);
+define('STATE5', '5',true);
+define('STATE6', '6',true);
+define('STATE7', '7',true);
+define('STATE8', '8',true);
+define('STATE9', '9',true);
+
+/*
+|
+| TEXT AND TITLE
+|
+*/
+define('TITLE1PENDING', 'Menunggu Hasil Verifikasi Status Permohonan',true);
+define('TEXT1PENDING', 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.',true);
+define('TITLE1REJECTED', 'Hasil Verifikasi Status Permohonan',true);
+define('TEXT1REJECTED', 'Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.',true);
+
+define('TITLE2PENDING', 'Submit Kelengkapan Dokumen Permohonan IIN',true);
+define('TEXT2PENDING', 'Kelengkapan Dokumen anda telah masuk ke database sistem SIPIN, mohon menunggu verifikasi admin',true);
+define('TITLE2REVISI', 'Revisi Kelengkapan Dokumen Permohonan IIN',true);
+define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('TITLE1PENDING', '',true);
+// define('TEXT1PENDING', '',true);
+
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+// define('STATE9', '9',true);
+
+
+// define('ASU', 'ASUUUU I',true);
+// define('ASU', 'ASUUUU I',true);
+// define('ASU', 'ASUUUU I',true);
+// define('ASU', 'ASUUUU I',true);
+// define('ASU', 'ASUUUU I',true);
+// define('ASU', 'ASUUUU I',true);
+
+/*
+|
+|--------------------------------------------------------------------------
+| DOCUMENT TYPE :
+|--------------------------------------------------------------------------
+|
+|
+| USER VIEW  
+|
+*/
+
+
+
+/*
+|
+|--------------------------------------------------------------------------
+| VARIABLES :
+|--------------------------------------------------------------------------
+|
+|
+| USER VIEW  
+|
+*/
+/*
+|
+|--------------------------------------------------------------------------
+| DATABASE :
+|--------------------------------------------------------------------------
+|
+|
+| TABLE APPLICATION FILE (Key)
+|
+*/

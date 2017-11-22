@@ -21,6 +21,7 @@
 			echo "|iin_status : {$this->session->userdata('iin_status')}";
 			echo "|survey_status : {$this->session->userdata('survey_status')}";
 			echo "|have_iin : {$this->session->userdata('have_iin')}";
+			echo "|id_application_status_name : {$this->session->userdata('id_application_status_name')}";
 
 		?>
 		<ul id="section_progress" style="width: 100%">

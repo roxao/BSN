@@ -62,12 +62,12 @@
 </section>
 
 <script type="text/javascript">
-		var id_application_status_name = ("<?php echo $id_application_status_name ?>" != "") ? "<?php echo $id_application_status_name ?>" : '';
+		var step1_next = ("<?php echo $step1_next ?>" != "") ? "<?php echo $step1_next ?>" : '';
 
 
-		if (id_application_status_name == '2') {
-			$(".step1_next").show();
-		} else {
+		if (step1_next == 'success') {
 			$(".step1_next").hide();
+		} else {
+			$(".step1_next").show();
 		}
 </script>

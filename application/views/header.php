@@ -40,9 +40,29 @@
 				<?php } ?>
 				<li class="nav-link parent"><a>Informasi IIN</a>
 					<ul>
-						<li class="nav-link"><a href="<?php echo base_url();?>">Daftar penerima IIN</a>
+						<li class="nav-link"><a href="<?php echo base_url('daftar-penerima-iin');?>">Daftar penerima IIN</a>
 						<li class="nav-link"><a href="<?php echo base_url();?>SipinHome/file_iso_7812">File ISO 7812</a>
 						<li class="nav-link"><a href="<?php echo base_url();?>">Hasil Survey</a>
+						<?php 
+							foreach ($cms_name as $value => $index) {
+
+								$url = "";
+								$title = "";
+								foreach ($index as $key => $val) {
+									# code...
+									// echo $key;
+									if ( $key =='url' ) {
+										$url = $val;
+									}
+									if ( $key =='title' ) {
+										$title = $val;
+									}
+
+									
+								}
+								?><li class="nav-link"><a href="<?php echo base_url('informasi-iin/'.$url);?>"><?php echo $title?></a> <?php
+							}
+						?>
 					</ul>
 				</li>
 				<li class="nav-link"><a href="<?php echo base_url('contact-us');?>">Hubungi Kami</a></li>

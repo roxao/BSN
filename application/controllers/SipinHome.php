@@ -14,7 +14,11 @@ class SipinHome extends CI_Controller {
 	}
  
 	public function index() {		
-		$this->load->view('header');
+
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		echo "ENCODE ".json_encode($data['cms_name']);
+
+		$this->load->view('header',$data);
 		$this->load->view('home');
 		$this->load->view('footer');
 		$this->captcha();
@@ -300,6 +304,7 @@ class SipinHome extends CI_Controller {
 					// echo "|Already have IIN|";
 					$have_iin = "Y";
 				}
+				$this->session->set_userdata('have_iin');
 
 				//date_default_timezone_get()
 				$this->session->set_flashdata('validasi-login', 'Selamat Datang');
@@ -404,7 +409,7 @@ class SipinHome extends CI_Controller {
 			$this->session->set_userdata('id_application_status_name',$id_application_status_name);
 			$this->session->set_userdata('application_type',$application_type);
 
-			// echo "|APP TYPE : {$application_type}";
+			echo "|APP TYPE : {$application_type}";
 			/*
 			Instantiate arr $data
 			*/
@@ -437,21 +442,70 @@ class SipinHome extends CI_Controller {
 			'state8' => '',
 			'state7' => ''
 		);
+
+		$have_iin = $this->session->userdata('have_iin');
+
+		echo "|HAVE IIN : ".$have_iin; 
+				        		
+		/*
+		if iin_status = 'CLOSED'
+		@THIS IS AN ACTIVE APPLICATION (New Application)
+		*/
+		if ( $iin_status == 'CLOSED' ) {
+			if ( $have_iin=='Y' ) {
+				echo "|EXTEND START";
+				$data['app_type'] = "extend";
+
+				$input_field = $this->user_model->step_0_get_application_extend($id_user);
+				echo "|INPUT VAL".$input_field->row()->applicant;
+				// echo "INPUT VAL ::".json_encode($input_field->row()->applicant);
+				// print_r($input_field->row());
+				$data['applicant'] = $input_field->row()->applicant;
+				$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
+				$data['application_date'] = $input_field->row()->application_date;
+				$data['application_purpose'] = $input_field->row()->application_purpose;
+				$data['instance_name'] = $input_field->row()->instance_name;
+				$data['instance_email'] = $input_field->row()->instance_email;
+				$data['instance_phone'] = $input_field->row()->instance_phone;
+				$data['instance_director'] = $input_field->row()->instance_director;
+				$data['mailing_location'] = $input_field->row()->mailing_location;
+				$data['mailing_number'] = $input_field->row()->mailing_number;
+
+			}
+		}
 				        		
 		/*
 		if iin_status = 'OPEN'
-		@THIS IS AN ACTIVE APPLICATION
+		@THIS IS AN ACTIVE APPLICATION (New Application)
 		*/
 		if ( $iin_status == 'OPEN' ) {
 
 
+
 			if ( $id_application_status_name >= '1' ) {
 				
+				
+				$data['step1_next'] = "success";
+				if ( $application_type == 'new' ) {
+				/*
+				New Application
+				*/
+
+
+				} elseif  ( $application_type == 'extend' ) {
+					/*
+					Extend Application
+					*/
+					
+				}
+
+
 				/*
 				Validate StepId (step0)
 				*/
 				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
 					$data['state0'] = "process";
+					$data['step1_next'] = "";
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
@@ -473,6 +527,7 @@ class SipinHome extends CI_Controller {
 					$data['title'] = "Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 				} else {
+					$data['app_type'] = "new";
 					$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
 					$data['state0'] = "0";
 					$page = '1';
@@ -513,11 +568,6 @@ class SipinHome extends CI_Controller {
 								case 'PENDING':
 									$page = '1';
 									$data['state2'] = "";
-									break;
-
-								
-								default:
-									# code...
 									break;
 							}
 
@@ -1229,11 +1279,7 @@ class SipinHome extends CI_Controller {
 										
 					       				// $data['team_doc'] = $this->user_model->get_doc_statis($id_user);
 
-					       				$id_keys = array('IIN');
-
-										$data['iin_download']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
-										echo "IIN DOWNLOAD :".json_encode($data['iin_download']);
-					       				$page = '9';
+					       				
 										switch ( $process_status ) {
 						       				case 'PENDING':
 						       					// $page = '7';
@@ -1241,8 +1287,12 @@ class SipinHome extends CI_Controller {
 												
 
 								        		break;
-
 							       			case 'COMPLETED':
+								        	$id_keys = array('IIN');
+
+											$data['iin_download']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
+											echo "IIN DOWNLOAD :".json_encode($data['iin_download']);
+						       				$page = '9';
 								  	      		break;
 					       				}
 									}
@@ -1308,7 +1358,6 @@ class SipinHome extends CI_Controller {
 				// array_push($box_status_array, "" );
 				$data[$string_status] = "";
 			}
-
 		}
 
 		/*
@@ -1354,7 +1403,11 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function cms_post($prm){
-		$data['cms'] = $this->adm_model->get_cms_by_prm($prm)->result_array();
+		$data['cms'] = $this->model->get_cms_by_prm($prm)->result_array();
+		echo "ENCODE ".json_encode($data['cms'][0]['created_date']);
+		// return false;
+
+
 		$this->load->view('header');
 		$this->load->view('cms-post-view',$data);
 		$this->load->view('footer');

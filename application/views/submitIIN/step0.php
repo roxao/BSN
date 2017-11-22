@@ -58,6 +58,8 @@
 					<button class="float_right" style="background: #01923f" name="kirim" value="kirim" type="kirim">Kirim</button>
 				</div>
 			</div>
+
+			<input type="hidden" id="app_type" name="app_type" >
 		</article>
 	</form>
 
@@ -75,35 +77,39 @@
 		var applicant = ("<?php echo $applicant ?>" != "") ? "<?php echo $applicant ?>" : '';
 		var applicant_phone_number = ("<?php echo $applicant_phone_number ?>" != "") ? "<?php echo $applicant_phone_number ?>" : '';
 
-		if (mailing_location != "") {
+
+		var app_type = ("<?php echo $app_type ?>" != "") ? "<?php echo $app_type ?>" : '';
+		$("#app_type").val(app_type);
+
+		if (mailing_location != "" && app_type == "new") {
 			$(".inputValidation2").hide();
 			$("#app_address").prop('disabled','disabled');
 		}
-		if (application_date != "") {
+		if (application_date != "" && app_type == "new") {
 			$("#app_date").prop('disabled','disabled');
 		}
-		if (application_purpose != "") {
+		if (application_purpose != "" && app_type == "new") {
 			$("#app_purpose").prop('disabled','disabled');
 		}
-		if (mailing_number != "") {
+		if (mailing_number != "" && app_type == "new") {
 			$("#app_num").prop('disabled','disabled');
 		}
-		if (instance_name != "") {
+		if (instance_name != "" && app_type == "new") {
 			$("#app_instance").prop('disabled','disabled');
 		}
-		if (instance_email != "") {
+		if (instance_email != "" && app_type == "new") {
 			$("#app_mail").prop('disabled','disabled');
 		}
-		if (instance_phone != "") {
+		if (instance_phone != "" && app_type == "new") {
 			$("#app_phone").prop('disabled','disabled');
 		}
-		if (instance_director != "") {
+		if (instance_director != "" && app_type == "new") {
 			$("#app_div").prop('disabled','disabled');
 		}
-		if (applicant != "") {
+		if (applicant != "" && app_type == "new") {
 			$("#app_applicant").prop('disabled','disabled');
 		}
-		if (applicant_phone_number != "") {
+		if (applicant_phone_number != "" && app_type == "new") {
 			$("#app_no_applicant").prop('disabled','disabled');
 		}
 

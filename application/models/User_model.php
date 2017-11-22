@@ -914,6 +914,20 @@ class User_model extends CI_Model {
         return $this->db->get(); 
      }
 
+    public function get_cms_by_prm($url){
+        $this->db->select('*');
+        $this->db->from('cms');
+        $this->db->where('url',$url);
+        $this->db->where('status','Y');
+        return $this->db->get();
+    }
+
+     public function get_cms_by_name(){
+        $this->db->select('title, url');
+        $this->db->from('cms');
+        $this->db->where('status','Y');
+        return $this->db->get();
+    }
 
 
 

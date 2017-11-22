@@ -121,25 +121,50 @@ class submit_iin extends CI_Controller {
 
 					if (($this->input->post('security_code') == $this->session->userdata('mycaptcha'))){
 						echo "|MASUK Captcha";
-						$data = array(
-						'id_user' => $id_user,
-						'applicant' => $this->input->post('app_applicant'),
-						'applicant_phone_number' => $this->input->post('app_no_applicant'),
-						'application_date' => date('Y-m-j', strtotime( $this->input->post('app_date') )),
-						// 'application_date' => $this->input->post('app_date'),
-						'application_purpose' => $this->input->post('app_purpose'),
-						'instance_name' => $this->input->post('app_instance'),
-						'instance_email' => $this->input->post('app_mail'),
-						'instance_phone' => $this->input->post('app_phone'),
-						'instance_director' => $this->input->post('app_div'),
-						'mailing_location' => $this->input->post('app_address'),
-						'mailing_number' => $this->input->post('app_num'),
-						'iin_status' => "OPEN",
-						'application_type' => "new",
-						'created_date' => date('Y-m-j H:i:s'),
-						'created_by' => $username);
 
-						/*insert Status 1 Pending*/
+
+						/*
+						Define id_application_status_name => x (for below validation)
+						@ Validate wether new or extend application
+						*/
+						$id_aps = "";
+						$aps_type = "";
+						$process_status = "";
+						$app_type = $this->input->post('app_type');
+
+						echo "|APP TYPE :".$app_type;
+
+						if ( $app_type == "new" ) {
+							$id_aps = "1";
+						} else {
+							$id_aps = "2";
+						}
+
+						$data = array(
+							'id_user' => $id_user,
+							'applicant' => $this->input->post('app_applicant'),
+							'applicant_phone_number' => $this->input->post('app_no_applicant'),
+							'application_date' => date('Y-m-j', strtotime( $this->input->post('app_date') )),
+							// 'application_date' => $this->input->post('app_date'),
+							'application_purpose' => $this->input->post('app_purpose'),
+							'instance_name' => $this->input->post('app_instance'),
+							'instance_email' => $this->input->post('app_mail'),
+							'instance_phone' => $this->input->post('app_phone'),
+							'instance_director' => $this->input->post('app_div'),
+							'mailing_location' => $this->input->post('app_address'),
+							'mailing_number' => $this->input->post('app_num'),
+							'iin_status' => "OPEN",
+							'application_type' => $app_type,
+							'created_date' => date('Y-m-j H:i:s'),
+							'created_by' => $username
+						);
+
+
+
+
+						/*
+						insert id_application_status_name => x(defined on above validation) Pending
+						*/
 						// if ( is_null($get_document->row()->iin_status ) ) {
 						if ( $get_document->row()->iin_status != 'OPEN' ) {
 							// echo  "application_date : {$data['application_date']}";
@@ -150,9 +175,8 @@ class submit_iin extends CI_Controller {
 							$data1 = array(
 				                // 'id_application '=> $get_document->row()->id_application,
 				                'id_application '=> $inserted_id,
-				                'id_application_status_name' => '1',
-				                'process_status' => 'PENDING',	
-				                // 'created_date' => date('Y-m-j'),
+				                'id_application_status_name' => $id_aps,
+				                'process_status' => 'PENDING',
 				                'created_date' => $this->date_time_now(),
 				                'created_by' => $username
 			            	);
@@ -1644,7 +1668,7 @@ class submit_iin extends CI_Controller {
 		} elseif ($survey_status == '1') { 
 
 
-			
+
 			/*
 			DOWNLOAD IIN document
 			@ Valid if survey_status = 0
@@ -1658,7 +1682,9 @@ class submit_iin extends CI_Controller {
 
 		//check survey status
 		//first time open survey tab
-		// on survey completed update survey status and directly download IIN
+		// on survey completed:
+			// update survey status : 1  and directly download IIN
+			//update iin status : CLOSED
 		//logging
 
 
