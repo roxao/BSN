@@ -831,7 +831,7 @@ class User_model extends CI_Model {
         return $this->db->get();
     }
 
-     public function get_cms_by_name(){
+    public function get_cms_by_name(){
         $this->db->select('title, url');
         $this->db->from('cms');
         $this->db->where('status','Y');
@@ -840,6 +840,13 @@ class User_model extends CI_Model {
 
 
 
+
+    public function get_banner_active(){
+        $this->db->select('*');
+        $this->db->from('banner');
+        $this->db->where('status','Y');
+        return $this->db->get();
+    }
 
 
 

@@ -43,10 +43,12 @@
 			<ul>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/cms') ?>">Content Management</a></li>
+				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/banner') ?>">Content Slideshow</a></li>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/survey') ?>">Survey</a></li>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/document_static') ?>">Dokumen Statis</a></li>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/document_dynamic') ?>">Kelengkapan Dokumen</a></li>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/assessment') ?>">Tim Assessment</a></li>
+
 			</ul>
 		</li>
 	</ul>
@@ -60,27 +62,18 @@
 				dataType: 'json',
 				success: function (data) {
 							$("#unreadCount").val(0);							
-
 					        for(var notif in data){(function(row){
-
 					        	var state = row.Status;	
-
 					        	if(state != 'INACTIVE'){
 					        		unreadCount = unreadCount + 1;
 					        	}
-
 					        	var linkId="linkNotif"+row.id_notification;
-
 					        	var notifBuilder=[];
-					        	
 					        	var urlNotif = baseUrl + row.notification_url; 
-
 					        	notifBuilder.push('<li class="notif '+ row.Status + '">',
 					        					   '<a id="'+  linkId +'" href="#">'+ row.message+'</a>',
 					        					   '</li>');	
-
 					        	$(".box_notif").append(notifBuilder.join(''));
-
 					        	$("#"+linkId).click(function(){
 					        		//update status to INACTIVE
 					        		$.ajax({
