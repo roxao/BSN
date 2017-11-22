@@ -225,7 +225,7 @@ class User_model extends CI_Model {
 
         if ( $id_application != '' ) {
 
-            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory,af.path_id');
+            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory,af.path_file');
             $this->db->join('application_file af', 'dc.id_document_config = af.id_document_config');
             $this->db->where('af.id_application', $id_application);
 
@@ -678,9 +678,9 @@ class User_model extends CI_Model {
     }
 
 
-    public function update_document($id_application, $id_application_file, $id_document_config, $path_id, $modified_by)
+    public function update_document($id_application, $id_application_file, $id_document_config, $path_file, $modified_by)
     {
-        $data = array('path_id' => $path_id,
+        $data = array('path_file' => $path_file,
                 // 'created_date' => date('Y-m-j'),
                 'modified_by' => $modified_by,
                 'modified_date' => date('Y-m-j H:i:s'));

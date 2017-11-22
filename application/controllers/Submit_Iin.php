@@ -321,7 +321,7 @@ class submit_iin extends CI_Controller {
 					'id_document_config' => $query[$i]->id_document_config,
 					// 'id_document_config' => $explode_str[$i],
 					'id_application' =>	 $id_application,
-					'path_id' => $uploaded[$i]['full_path'],
+					'path_file' => $uploaded[$i]['full_path'],
 					'status' => 'ACTIVE',
 		            'created_date' => date('Y-m-j'),
 					'created_by' => $this->session->userdata('username')
@@ -395,7 +395,7 @@ class submit_iin extends CI_Controller {
 				$app_file =  array(
 					// 'id_document_config' => $query[$index]->id_document_config,
 					'id_application' =>	 $id_application,
-					'path_id' => $uploaded[$index]['full_path'],
+					'path_file' => $uploaded[$index]['full_path'],
 					'status' => 'ACTIVE',
 		            'created_date' => $this->date_time_now(),
 					'created_by' => $this->session->userdata('username')
@@ -516,7 +516,7 @@ class submit_iin extends CI_Controller {
 					'id_document_config' => $query[$i]->id_document_config,
 					// 'id_document_config' => $explode_str[$i],
 					'id_application' =>	 $id_application,
-					'path_id' => $uploaded[$i]['full_path'],
+					'path_file' => $uploaded[$i]['full_path'],
 					'status' => 'ACTIVE',
 		            'created_date' => date('Y-m-j'),
 					'created_by' => $this->session->userdata('username')
@@ -590,7 +590,7 @@ class submit_iin extends CI_Controller {
 				$app_file =  array(
 					'id_document_config' => $id_doc_arr[$index]->id_document_config,
 					'id_application' =>	 $id_application,
-					'path_id' => $uploaded[$index]['full_path'],
+					'path_file' => $uploaded[$index]['full_path'],
 					'status' => 'ACTIVE',
 		            'created_date' => $this->date_time_now(),
 					'created_by' => $this->session->userdata('username')
@@ -818,7 +818,7 @@ class submit_iin extends CI_Controller {
 				$app_file =  array(
 					'id_document_config' => $keys[$index],
 					'id_application' =>	 $id_application,
-					'path_id' => $uploaded[$index]['full_path'],
+					'path_file' => $uploaded[$index]['full_path'],
 					'status' => 'ACTIVE',
 		            'created_date' => $this->date_time_now(),
 					'created_by' => $this->session->userdata('username')
@@ -1066,6 +1066,7 @@ class submit_iin extends CI_Controller {
 
 		$id_user = $this->session->userdata('id_user');
 
+
 		/*
 		Check Survey Status
 		@ Valid if survey_status = 0
@@ -1093,7 +1094,7 @@ class submit_iin extends CI_Controller {
 
 
 	}
-	
+
 
 	//SURVEY
 
@@ -1147,8 +1148,6 @@ class submit_iin extends CI_Controller {
 				// Masukan $survey_answers ke database
 				// Hapus echo dibawah
 				// function model sudah dibuat 
-				echo json_encode($survey_answers);
-				echo "Asuii ".$id_answer;
 
 				redirect(base_url('Layanan-IIN'));
 				break;

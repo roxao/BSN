@@ -8,7 +8,7 @@
 	<p>Atau</p>
 	</br>
 	<p>	
-	<p>Silakan klik tombol "Akhiri Permohonan” untuk mengakhiri proses permohonan penerbitan IIN Anda.</p>
+	<p>Silakan klik tombol "Akhiri Permohonan” untuk memulai proses permohonan IIN baru dan mengakhiri proses permohonan IIN Anda.</p>
 	</br>
 	<p>	
 	Demikian kami sampaikan, atas perhatian dan kerjasama yang diberikan, kami mengucapkan terima kasih.
@@ -30,7 +30,7 @@
 		 	 	switch ($data->key) {
 		 	 		case 'IIN':?>
 		 				<div class="clearfix">
-							<a href="<?php echo base_url()?>submit_iin/download_iin?var1=<?php echo $data->path_id;?> ">
+							<a href="<?php echo base_url()?>submit_iin/download_iin?var1=<?php echo $data->path_file;?> ">
 								<button style="background: #01923f" class="float_right " >Download IIN</button>
 							</a>
 						</div>

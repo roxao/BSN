@@ -66,7 +66,12 @@
 	</article>
 
 
-
+	<script type="text/javascript">
+		var btn_step0 = "<?php echo $btn_step0 ?>";
+		if (btn_step0  == "hide") {
+			$(".inputValidation2").hide();
+		}
+	</script>
 	<script type="text/javascript">
 		var app_type = "<?php echo $app_type ?>";
 		$("#no_type").val(app_type);
@@ -86,9 +91,7 @@
 
 
 		
-		if (mailing_location != "") {
-			$(".inputValidation2").hide();
-		}
+
 		if (mailing_location != "" && app_type == "new") {
 			$("#app_address").prop('disabled','disabled');
 		}
@@ -131,15 +134,4 @@
 		$("#app_applicant").val(applicant);
 		$("#app_no_applicant").val(applicant_phone_number);
 	</script>
-	<!-- <script type="text/javascript">
-		document.getElementById("app_address").value = localStorage.getItem("address");
-
-		function saveComment() {
-			var app_address = document.getElementById("app_address").value;
-
-
-			localStorage.setItem("address", app_address);
-		}
-	</script> -->
-	<!-- form  -->
 </section>

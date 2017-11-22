@@ -473,6 +473,7 @@ class SipinHome extends CI_Controller {
 			if ( $id_application_status_name >= '1' ) {
 				
 				$data['step1_next'] = "";
+				$data['btn_step0'] = "";
 				/*
 				Validate StepId (step0)
 				*/
@@ -500,6 +501,7 @@ class SipinHome extends CI_Controller {
 					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 				} else {
 					// $data['app_type'] = "new";
+					$data['btn_step0'] = "hide";
 					$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
 					$data['state0'] = "0";
 					$page = '1';
