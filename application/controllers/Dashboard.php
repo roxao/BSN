@@ -953,5 +953,8 @@ class Dashboard extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function get_list_cms(){
+        echo json_encode($this->admin_model->get_list_cms()->result_array());
+    }
 
 }

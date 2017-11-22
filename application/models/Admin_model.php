@@ -382,6 +382,13 @@ class Admin_model extends CI_Model {
         return $this->db->get();
     }
 
+    public function get_list_cms(){
+        $this->db->select('id_cms, url, title');
+        $this->db->from('cms');
+        $this->db->where('status','Y');
+        return $this->db->get();
+    }
+
     public function update_cms($condition,$data){
         $this->db->where($condition);
         $this->db->update('cms',$data);
