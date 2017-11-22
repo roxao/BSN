@@ -83,7 +83,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
             $this->send_mail($this->input->post('id_application'));
-             redirect(site_url('dashboard'));
+             redirect(base_url('dashboard'));
             
         
     }
@@ -181,12 +181,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-    public function VERIF_UPLDOC_REQ($id_application_status)
-    {
-        $data['aplication_setujui'] = $this->admin_model->get_application_file($id_application_status)->result();
-        // echo json_encode($data);
-        $this->load->view('admin_cek_upload_document', $data);
-    }
 
 //setujui kelemngkapan document dari user
     public function VERIF_UPLDOC_REQ_PROSES_SUCCEST()
@@ -347,12 +341,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
    
 
 
-   public function VERIF_REVDOC_REQ($id_application_status)
-   {
-        $data['aplication_setujui'] = $this->admin_model->get_application_file($id_application_status)->result();
-        // echo json_encode($data);
-        $this->load->view('admin_cek_revisi_upload_document', $data);
-   }
+   
 
 //revisi dokumen disetujui
    public function VERIF_REVDOC_REQ_PROSES()
@@ -449,7 +438,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     //app file search dgn 2 parameter yaitu id_application dan id_document_config
                     $apf = $this->admin_model->application_file_get_by_idapp_iddc($this->input->post('id_application'),$dc->row()->id_document_config);
-                    echo json_encode($dc->row()->id_document_config) ;
+                    
                     //data untuk insert ke tabel applications_form_mapping
                     if(!$doc[$i] == null)
                     {
@@ -548,7 +537,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $data3 = array(
                 'id_application' => $this->input->post('id_application'),
                 'id_document_config'=> '23',
-                'path_id'=> '/',
+                'path_file'=> '/',
                 'status' => 'ACTIVE'
                 );
 
@@ -598,7 +587,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_document_config' => $getDoc[$x]->id_document_config,
                     'status' => 'ACTIVE',
                     'created_date'=> $this->date_time_now(),
-                    'path_id' => $uploaded[$x]['full_path'],
+                    'path_file' => $uploaded[$x]['full_path'],
                     'created_by' => $this->session->userdata('admin_username')
                                 );
 
@@ -719,7 +708,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                             'id_document_config' => $getDoc[$x]->id_document_config,
                             'status' => 'ACTIVE',
                             'created_date'=> date('y-m-d'),
-                            'path_id' => $uploaded[$x]['full_path'],
+                            'path_file' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('admin_username')
                             );
 
@@ -913,7 +902,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $data6 = array(
                     'id_document_config' => $getLetterAssigment[$y]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'path_file' =>  $uploaded[$y]['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
@@ -1194,7 +1183,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $data6 = array(
                     'id_document_config' => $getLetterAssigment[$y]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id' =>  $uploaded[$y]['full_path'],
+                    'path_file' =>  $uploaded[$y]['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
@@ -1422,13 +1411,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-	public function FIELD_ASSESS_REQ($id_application_status)
-	{
-        // $data['aplication_setujui'] = $this->admin_model->get_aplication_status($id_application_status)->result();
-        $data['aplication_setujui'] = $this->admin_model->get_application($id_application_status)->result();
-        echo json_encode($data);
-        $this->load->view('input_tim_asesmen', $data);
-	}
+	
 
     //input dokumen penugasan tim asesment dan tgl asesment
 	public function FIELD_ASSESS_REQ_SUCCEST()
@@ -1493,7 +1476,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $data6 = array(
                     'id_document_config' => $getLetterAssigment[$y]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id' =>  $uploaded['full_path'],
+                    'path_file' =>  $uploaded['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => date('y-m-d'),
                     'created_by' =>  $this->session->userdata('admin_username')
@@ -1512,7 +1495,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
                 
 
-              }else{echo "gagal upload";}
+              }
 
               $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
 
@@ -1630,7 +1613,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $data6 = array(
                     'id_document_config' => $getLetterAssigment[$i]->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id' =>  $uploaded[$i]['full_path'],
+                    'path_file' =>  $uploaded[$i]['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => $this->date_time_now(),
                     'created_by' =>  $this->session->userdata('admin_username')
@@ -1760,7 +1743,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                             'id_document_config' => $getDoc[$x]->id_document_config,
                             'status' => 'ACTIVE',
                             'created_date'=> $this->date_time_now(),
-                            'path_id' => $uploaded[$x]['full_path'],
+                            'path_file' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('admin_username')
                         );
                        
@@ -2054,7 +2037,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                             'id_document_config' => $getDoc[$x]->id_document_config,
                             'status' => 'ACTIVE',
                             'created_date'=> $this->date_time_now(),
-                            'path_id' => $uploaded[$x]['full_path'],
+                            'path_file' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('admin_username')
                         );
                        
@@ -2243,8 +2226,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                             'id_document_config' => $id_doc_conf->row($x)->id_document_config,
                             'status' => 'ACTIVE',
                             'created_date' => $this->date_time_now(),
-                            // 'path_id' => $doc[$y],uploaded
-                            'path_id' => $uploaded[$x]['full_path'],
+                            // 'path_file' => $doc[$y],uploaded
+                            'path_file' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('admin_username')
                         );
                         //insert applications file untuk surat cra
@@ -2362,7 +2345,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 $data7 = array(
                     'id_document_config' => $doc_iin->row()->id_document_config,
                     'id_application' => $this->input->post('id_application'),
-                    'path_id'=> $uploaded['full_path'],
+                    'path_file'=> $uploaded['full_path'],
                     'status' => 'ACTIVE',
                     'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
@@ -2444,11 +2427,6 @@ class Admin_Verifikasi_Controller extends CI_Controller
         
         $cek = $this->admin_model->get_data_for_mail($prm);
         
-            // echo "jumlah ".$cek->num_rows();
-            echo "email user = ".$cek->row()->email;
-            echo "email kantor = ".$cek->row()->instance_email;
-            echo "user name = ".$cek->row()->username;
-        
         $email = "";
         $username = "";
         $pesan = " Silahkan Klik Link di Bawah ini untuk melanjutkan proses permohonan atau pengawasan IIN Anda";
@@ -2457,10 +2435,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
         if($this->usr_model->stepMailAdmin($cek->row()->email,$cek->row()->username, $pesan))
         {
              $this->usr_model->stepMailAdmin($cek->row()->instance_email,$cek->row()->username, $pesan);
-            echo "terkirim";
-        }else
-        {
-            echo "tidak terkirim";
+            
         }
 
         
@@ -2471,7 +2446,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
     public function get_doc($prm)
     {
         $query = $this->admin_model->get_doc_for_user()->result();
-        // echo json_encode($data);
+        
                     
         for($x = 0; $x < count($query); $x++)
         {

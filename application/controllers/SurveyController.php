@@ -80,10 +80,14 @@ class SurveyController extends CI_Controller {
 					foreach ($valIndex as $key => $value) {
 						foreach ($value as $keyval => $val) {
 							# code...
+							if($keyval == 'id_survey_question')
+							{
+								echo $val;
+							}
 						// print_r($val);
 							if ($keyval == 'answer') {
 								// echo "string";
-								// echo $val;
+								echo $val;
 						// echo json_encode($val);
 							}
 
@@ -91,7 +95,7 @@ class SurveyController extends CI_Controller {
 					}
 				}
 
-				echo json_encode($result);
+				// echo json_encode($result);
 
 				return false;
 				$this->set_template('survey-result',$data);
