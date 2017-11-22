@@ -29,19 +29,6 @@ class User_model extends CI_Model {
         return $this->db->insert('user', $data);        
     }
 
-
-
-// public function cek_login($username,$password){ 
-//     $this->db->select('*');
-//     $this->db->from('user'); 
-//     $this->db->join('iin', 'user.id_user=applications.id_user');
-//     $this->db->where("user.email = '$username' or user.username = '$username' or iin.number = '$username' ");
-//     $this->db->where('user.password', $password);         
-//     $query = $this->db->get(); 
- 
-//         return  $query;   
-//     }
-
     public function cek_login2($username,$password){  
         $this->db->where("email = '$username' or username = '$username'");  
         $this->db->where('password', $password); 
@@ -137,25 +124,6 @@ class User_model extends CI_Model {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-    /*Check any open application*/
-    // public function validate_active_application($username) {  
-    //     $this->db->select('ap.iin_status');
-    //     $this->db->from('user us'); 
-    //     $this->db->join('applications ap', 'us.id_user = ap.id_user');
-    //     $this->db->join('iin ii', 'us.id_user = ii.id_user');
-    //     $this->db->where("email = '$username' or username = '$username'");
-    //     return  $this->db->get('applications'); 
-    // }
 
     public function get_all_notifikasi($id_user){  
         $this->db->where('notification_owner ','$id_user');  
@@ -516,20 +484,6 @@ class User_model extends CI_Model {
         return $this->db->get()->result();
     }
 
-    // public function get_assessment_doc($id_application_status, $key){ 
-    //     $this->db->select('*');
-    //     $this->db->from('application_status aps'); 
-    //     $this->db->join('application_file af','af.id_application = aps.id_application');
-    //     $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
-    //     $this->db->where('aps.id_application_status',$id_application_status);
-    //     $this->db->where('dc.type',"TRANSACTIONAL");
-    //     $this->db->where_in('dc.key', $key);
-    //     $this->db->order_by('af.id_application_file', 'DESC');
-
-
-    //     return $this->db->get()->result();
-    // }
-
     /*
     Get assessment rev file list ()
     @ get list of assessment verification file list (step 6)
@@ -545,34 +499,6 @@ class User_model extends CI_Model {
     }
 
      
-
-    // /*Melakukan Assesment Status*/
-    // public function getAssesmentStatus($id_user){ 
-    //     $this->db->select('*');
-    //     $this->db->from('applications'); 
-    //     $this->db->join('assessment_application','applications.id_application=assessment_application.id_application');
-    //     $this->db->join('assessment_registered','assessment_application.id_assessment_application=assessment_registered.id_assessment_application');
-    //     $this->db->join('assessment_team','assessment_registered.id_assessment_team=assessment_team.id_assessment_team');
-    //     $this->db->join('assessment_team_title','assessment_registered.id_assessment_team_title=assessment_team_title.id_assessment_team_title');
-    //     $this->db->where('applications.id_user',$id_user);
-    //     $this->db->where('applications.iin_status',"OPEN");
-    //     // $this->db->where('document_config.type','STATIC'); 
-    //     // $this->db->where('document_config.key',"IPPSA"); 
-    //      $query = $this->db->get(); 
-    //     $results = $query->result(); 
-    //     return  $results ; 
-    // }
-
-        // public function get_applications_Status($id_user){
-        //     $this->db->select('*');
-        //     $this->db->from('application_status');
-        //     $this->db->join ('applications', 'application_status.id_application = applications.id_application');
-        //     $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
-        //     $this->db->where('applications.id_user',$id_user);
-        //     $this->db->where('applications.iin_status',"OPEN");
-
-        //     return $this->db->get();
-        // }
 
     /*
     Get Application Status
@@ -661,33 +587,6 @@ class User_model extends CI_Model {
 
         return  $this->db->get();
     }
-
-    /*Proses send email*/
-    // public function sendMail($email,$username, $Desc) {
-    //     $encrypted_id = md5($email) ;
-    //     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
-    //     $subject = 'Verify Your Email Address';
-
-
-    //     $config['protocol'] = 'smtp';
-    //     $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
-    //     $config['smtp_timeout'] = '7';
-    //     $config['smtp_port'] = '465'; // sesuaikan
-    //     $config['smtp_user'] = $from_email;
-    //     $config['smtp_pass'] = '14071989'; // ganti dengan password email
-    //     $config['mailtype'] = 'html';
-    //     $config['charset'] = 'iso-8859-1';
-    //     $config['wordwrap'] = TRUE;
-    //     $config['newline'] = "\r\n";
-    //     $config['crlf'] = "\r\n";
-    //     $this->email->initialize($config);
-    //     $this->email->from($from_email, 'Bsn');
-    //     $this->email->to($email);
-    //     $this->email->subject($subject);
-    //     $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
-    //     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
-    //     return $this->email->send();
-    // }
 
     public function sendMail($email,$username, $Desc) {
         $encrypted_id = md5($email) ;
@@ -844,6 +743,16 @@ class User_model extends CI_Model {
         $this->db->where('id_user', 'ISO7812');
         return  $this->db->get();
     }
+
+    public function update_survey_status_user($id_user)
+    {   
+        $data = array('survey_status' => '1',
+                'modified_by' => $id_user,
+                'modified_date' => date('Y-m-j H:i:s'));
+        $this->db->where('id_user', $id_user);
+        return $this->db->update('user', $data);
+    }
+
 
     /*
     GET Survey status

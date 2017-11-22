@@ -67,6 +67,7 @@ $route['registrasi'] = 'SipinHome/user/register';
 $route['daftar-penerima-iin'] = 'SipinHome/iin_list';
 $route['informasi-iin/(:any)'] = 'SipinHome/cms_post/$1';
 
+$route['penolakan'] = 'submit_iin/step_rejected';
 
 //activation 
 

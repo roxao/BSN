@@ -437,6 +437,7 @@ class SipinHome extends CI_Controller {
 		$have_iin = $this->session->userdata('have_iin');
 
 		$data['app_type'] = "new";	
+		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'
 		@THIS IS AN ACTIVE APPLICATION (New Application)
@@ -444,6 +445,7 @@ class SipinHome extends CI_Controller {
 		if ( $iin_status == 'CLOSED' ) {
 			if ( $have_iin=='Y' ) {
 				$data['app_type'] = "extend";
+				$data['title_iin0'] = "Pengajuan Surat Pengawasan IIN Lama";
 
 				$input_field = $this->user_model->step_0_get_application_extend($id_user);
 				$data['applicant'] = $input_field->row()->applicant;
@@ -1086,7 +1088,7 @@ class SipinHome extends CI_Controller {
 
 			if ($i == $page) {
 				$data[$string_status] = "PENDING";
-				if ($page == '9') $data[$string_status] = "COMPLETED";
+				// if ($page == '9') $data[$string_status] = "COMPLETED";
 			} else if ($i < $page){
 				$data[$string_status] = "COMPLETED";
 			} else {

@@ -1,5 +1,5 @@
 <section section-id="0" class="section_iin float_right" >
-	<h1 class="title_iin">Pengajuan Surat Permohonan IIN Baru</h1>
+	<h1 class="title_iin"><?php echo $title_iin0 ?></h1>
 		<p>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem dengan klik button <b>"Kirim"</b>, maka sebelumnya Anda harus mengunduh(download) surat permohonan yang sudah diisi yang akan akan digunakan kembali jika status data Anda sudah terverifikasi dan disetujui oleh Sekretariat Layanan.</p>
 		<article style="margin: 50px">
 		
@@ -51,8 +51,6 @@
 			<input type="hidden" id="no_type" name="no_type" />
 
 			<div class="inputValidation2">
-					<!-- <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" data-sitekey="6LerwS0UAAAAAF27mC7K-XWf-IYBMyrZcTKbhEeB" > </div> -->
-
 				<div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> 
 				</div>
 				<input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
@@ -88,38 +86,39 @@
 
 
 		
-
-		// if (mailing_location != "" && app_type == "new") {
-		// 	$(".inputValidation2").hide();
-		// 	$("#app_address").prop('disabled','disabled');
-		// }
-		// if (application_date != "" && app_type == "new") {
-		// 	$("#app_date").prop('disabled','disabled');
-		// }
-		// if (application_purpose != "" && app_type == "new") {
-		// 	$("#app_purpose").prop('disabled','disabled');
-		// }
-		// if (mailing_number != "" && app_type == "new") {
-		// 	$("#app_num").prop('disabled','disabled');
-		// }
-		// if (instance_name != "" && app_type == "new") {
-		// 	$("#app_instance").prop('disabled','disabled');
-		// }
-		// if (instance_email != "" && app_type == "new") {
-		// 	$("#app_mail").prop('disabled','disabled');
-		// }
-		// if (instance_phone != "" && app_type == "new") {
-		// 	$("#app_phone").prop('disabled','disabled');
-		// }
-		// if (instance_director != "" && app_type == "new") {
-		// 	$("#app_div").prop('disabled','disabled');
-		// }
-		// if (applicant != "" && app_type == "new") {
-		// 	$("#app_applicant").prop('disabled','disabled');
-		// }
-		// if (applicant_phone_number != "" && app_type == "new") {
-		// 	$("#app_no_applicant").prop('disabled','disabled');
-		// }
+		if (mailing_location != "") {
+			$(".inputValidation2").hide();
+		}
+		if (mailing_location != "" && app_type == "new") {
+			$("#app_address").prop('disabled','disabled');
+		}
+		if (application_date != "" && app_type == "new") {
+			$("#app_date").prop('disabled','disabled');
+		}
+		if (application_purpose != "" && app_type == "new") {
+			$("#app_purpose").prop('disabled','disabled');
+		}
+		if (mailing_number != "" && app_type == "new") {
+			$("#app_num").prop('disabled','disabled');
+		}
+		if (instance_name != "" && app_type == "new") {
+			$("#app_instance").prop('disabled','disabled');
+		}
+		if (instance_email != "" && app_type == "new") {
+			$("#app_mail").prop('disabled','disabled');
+		}
+		if (instance_phone != "" && app_type == "new") {
+			$("#app_phone").prop('disabled','disabled');
+		}
+		if (instance_director != "" && app_type == "new") {
+			$("#app_div").prop('disabled','disabled');
+		}
+		if (applicant != "" && app_type == "new") {
+			$("#app_applicant").prop('disabled','disabled');
+		}
+		if (applicant_phone_number != "" && app_type == "new") {
+			$("#app_no_applicant").prop('disabled','disabled');
+		}
 
 		$("#app_address").val(mailing_location);
 		$("#app_date").val(application_date);

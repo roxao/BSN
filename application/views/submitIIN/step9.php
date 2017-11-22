@@ -5,17 +5,23 @@
 	<p>Silakan klik tombol “Download IIN” untuk mengunduh informasi penerbitan nomor IIN. Namun sebelumnya akan ada halaman pengisian questioner / survey kepuasan pelanggan untuk meningkatkan kualitas pelayanan kami sebagai Sekretariat Layanan Otoritas Sponsor.</p>
 	</br>
 	<p>
+	<p>Atau</p>
+	</br>
+	<p>	
+	<p>Silakan klik tombol "Akhiri Permohonan” untuk mengakhiri proses permohonan penerbitan IIN Anda.</p>
+	</br>
+	<p>	
 	Demikian kami sampaikan, atas perhatian dan kerjasama yang diberikan, kami mengucapkan terima kasih.
 	</p>
 
 	<br/>
 	<br/>
 
-	<!-- <div class="clearfix">
-		<a href="<?php echo base_url()?>submit_iin/download_iin">
-			<button style="background: #01923f" class="float_right step4_next" >Download IIN</button>
+	<div class="clearfix">
+		<a href="<?php echo base_url("penolakan") ?>">
+			<button id="btn_back" class="float_left " style="background:red" class="btn_back">Akhiri Permohonan</button>
 		</a>	
-	</div> -->
+	
 
 	<?php 
 			$no=0; 
@@ -25,7 +31,7 @@
 		 	 		case 'IIN':?>
 		 				<div class="clearfix">
 							<a href="<?php echo base_url()?>submit_iin/download_iin?var1=<?php echo $data->path_id;?> ">
-								<button style="background: #01923f" class="float_right step4_next" >Download IIN</button>
+								<button style="background: #01923f" class="float_right " >Download IIN</button>
 							</a>
 						</div>
 		<?php 	
@@ -33,5 +39,6 @@
 				} 
 	 		} 
  		?>
+ 	</div>
 
 </section>	

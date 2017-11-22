@@ -736,7 +736,7 @@ class submit_iin extends CI_Controller {
 			/*
 			..INSERT log Table..
 			*/
-			$this->log("Revisi Form Mapping","Revision Form Mapping Submitted by");
+			$this->log("Revision Assessment Date","Revision Assessment Date Submitted by");
 
 			/*
 			..UPDATE application_status Table..
@@ -767,6 +767,7 @@ class submit_iin extends CI_Controller {
 
 			$this->user_model->set_app_form($form_map);
 		}
+		redirect(base_url('Layanan-IIN'));
 
 	}
 
@@ -896,9 +897,11 @@ class submit_iin extends CI_Controller {
 			redirect(base_url("SipinHome"));
 		}
 
-	$image_id = $this->input->get('var1');
+		$image_id = $this->input->get('var1');
    		force_download($image_id, NULL);	
 	}
+
+
 
 	/*Melakukan Upload document*/
 	function upload_files_assessment() {
@@ -1059,79 +1062,9 @@ class submit_iin extends CI_Controller {
 
 	}
 	
-	/*Melakukan Upload document*/
-	// function do_upload() {
-
-	//  	if($this->session->userdata('status') != "login"){
-	// 		redirect(base_url("SipinHome"));
-	// 	}
-
-	// 	$id_user = $this->session->userdata('id_user');
-	// 	$get_document = $this->user_model->get_aplication($id_user);
-	// 	$username = $this->session->userdata('username');
-	// 	$query = 0;
-	//  	$this->load->library('upload');
- 		
- //      	//Configure upload.
- //         $this->upload->initialize(array(
-	// 		 "allowed_types" => "gif|jpg|png|jpeg|png|doc|docx|pdf",
- //             "upload_path"   => "./upload/"
- //         ));
-        
- //        //Perform upload.
-	// 	if($this->upload->do_upload("images")) {
-		
-	// 		// if($this->upload->do_upload()) {
- //             $uploaded = $this->upload->data();
-            
- //            if ($this->input->post('upload') == "uploadstep3"){
-	// 			// $query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.type", "DYNAMIC", "ACTIVE");
-	// 			$query = $this->user_model->get_doc_user_upload();
-
-	// 		} else if ($this->input->post('upload') == "uploadstep6") {
-	// 			$query = $this->user_model->getdocument_aplication_forUpload($id_user, "document_config.key", "BT PT", "ACTIVE");
-	// 		}
-
-	// 		/*Query Di Looping Menggunakan Buble Short Supaya mudah di pahami*/
-	// 		for ($j = 0; $j < count($query); $j++) {
-	// 		   	/*Array Image di parsing*/
-	// 			for ($i = 0; $i < count($uploaded); $i++) {
-	// 				/*Disamain Indexnnya Setelah Index Sama Baru di Insert ke DB*/
-	// 			 	if ($j == $i) {
-	// 		 			/*Query Insert FilePathnya ke DB*/
-	// 					if ($this->input->post('upload') == "uploadstep6") {
-	// 						$this->user_model->update_document( $query[$j]->id_application, $query[$j]->id_application_file, $query[$j]->id_document_config, $uploaded['full_path'], $username);
-	// 					} else if ($this->input->post('upload') == "uploadstep3") {
-	// 						$dataFile = array(
-	// 							'id_document_config' => $query[$i]->id_document_config,
-	// 							'id_application' => $get_document->row()->id_application,
-	// 							'path_id' => $uploaded[$i]['full_path'],
-	// 							'status' => 'ACTIVE',
-	// 							'created_date' => date('y-m-d'),
-	// 							'created_by' => $this->session->userdata('username'));
-
-	// 						$this->user_model->insert_app_file($dataFile);
-	// 					}
-	// 		 		}
-	// 			}
-	// 		}
-	// 	} else {
-	// 		die('GAGAL UPLOAD');
- //  		} 
- 
-	// 	if ($this->input->post('upload') == "uploadstep3"){
-	// 		$this->step_tiga_upload();
-	// 	} 
-	// 	else if ($this->input->post('upload') == "uploadstep6") {
-	// 		 $this->step_enam_upload();
-	// 	}
-	// } 
- 
 	function download_iin() {
 
 		$id_user = $this->session->userdata('id_user');
-		// echo "|TYPEHERE : {$}";
-		// echo "|TYPEHERE : ".;
 
 		/*
 		Check Survey Status
@@ -1143,10 +1076,7 @@ class submit_iin extends CI_Controller {
 			DOWNLOAD IIN document
 			@ Valid if survey_status = 0
 			*/
-			echo "|SURVEY STATUS : {$survey_status}";
 			redirect(base_url('submit_iin/survey/vote'));
-
-			
 
 		} elseif ($survey_status == '1') { 
 
@@ -1154,27 +1084,16 @@ class submit_iin extends CI_Controller {
 			DOWNLOAD IIN document
 			@ Valid if survey_status = 0
 			*/
+			$this->download();
 			// $image_id = $this->input->get('var1');
 			// echo "|IMAGE ID : {$image_id}";
-			$this->download();
 			redirect(base_url('Layanan-IIN'));
 		}
 
 
-		//check survey status
-		//first time open survey tab
-		// on survey completed:
-			// update survey status : 1  and directly download IIN
-			//update iin status : CLOSED
-		//logging
-
 
 	}
-
-
-
-
-
+	
 
 	//SURVEY
 
@@ -1189,7 +1108,7 @@ class submit_iin extends CI_Controller {
 	public function survey( $x = null){
 		switch ($x) {
 			case 'vote':
-				$survey = $this->user_model->survey('vote',null)->result_array();
+				$survey = $this->model->survey('vote',null)->result_array();
 				$data['survey'] = $survey[0]['id_survey_question'];
 				$data['data'] = json_decode($survey['0']['question'], true);
 				$this->set_template('survey',$data);
@@ -1211,14 +1130,27 @@ class submit_iin extends CI_Controller {
 		                'id_user'   		=> $this->session->userdata('id_user'),
 		                'answer'   			=> json_encode($survey_question),
 		                'version'   		=> $survey_config[0],
-		                'created_date'		=> $this->date_time_now(),
+		                'created_date'		=> (new DateTime('Asia/Jakarta'))->format('Y\-m\-d\ h:i:s'),
 		                'created_by'		=> $this->session->userdata('username')
 		                );
 
+
+				$id_answer = $this->admin_model->survey('insert-answer',$survey_answers);
+
+				/*
+				| Update User Table |
+				*/
+				$this->model->update_survey_status_user($this->session->userdata('id_user'));
+				$this->session->set_userdata('survey_status','1');
+
+				
 				// Masukan $survey_answers ke database
 				// Hapus echo dibawah
 				// function model sudah dibuat 
 				echo json_encode($survey_answers);
+				echo "Asuii ".$id_answer;
+
+				redirect(base_url('Layanan-IIN'));
 				break;
 			case 'result-survey';
 				// KALAU SUDAH MEMBUAT QUERY YANG JIKA DI json_encode seperti dibawah
@@ -1229,6 +1161,26 @@ class submit_iin extends CI_Controller {
 				// LALU HAPUS COMMENT CODE DIBAWAH INI
 				// $data['survey'] = $this->user_model->get-survey-result()->result_array();
 
+				$result['survey']=$this->admin_model->survey('get-survey-result',null)->result();
+
+				foreach ($result as $index => $valIndex) {
+					foreach ($valIndex as $key => $value) {
+						foreach ($value as $keyval => $val) {
+							# code...
+						// print_r($val);
+							if ($keyval == 'answer') {
+								// echo "string";
+								// echo $val;
+						// echo json_encode($val);
+							}
+
+						}
+					}
+				}
+
+				echo json_encode($result);
+
+				return false;
 				$this->set_template('survey-result',$data);
 				break;
 			default:
@@ -1237,4 +1189,8 @@ class submit_iin extends CI_Controller {
 		}
 
 	}
+
+
+
+
 }
