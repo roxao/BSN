@@ -278,9 +278,6 @@ class SipinHome extends CI_Controller {
 	*/
     public function login() {
 
-    	
-		// $this->session->session_start();
-
 	    $username = $this->input->post('username');
 	    $password = hash ( "sha256", $this->input->post('password'));
 
@@ -468,7 +465,7 @@ class SipinHome extends CI_Controller {
 				        		
 		/*
 		if iin_status = 'OPEN'
-		@THIS IS AN ACTIVE APPLICATION (New Application)
+		@THIS IS AN ACTIVE APPLICATION (New Application , type : new/extend)
 		*/
 		if ( $iin_status == 'OPEN' ) {
 
