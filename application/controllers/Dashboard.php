@@ -241,7 +241,7 @@ class Dashboard extends CI_Controller {
             case 'admin': 
                 $data['data'] = $this->admin_model->get_admin()->result_array(); break;
             case 'assessment': 
-                $data['data_name'] = $this->admin_model->get_assessment()->result_array(); break;
+                $data['data_name'] = $this->admin_model->get_assessment()->result_array();
                 $data['data_title'] = $this->admin_model->get_assessment_title()->result_array(); break;
             case 'document_dynamic': 
                 $data['data'] = $this->admin_model->get_document_config('DYNAMIC')->result_array(); break;
@@ -275,6 +275,9 @@ class Dashboard extends CI_Controller {
                  } else {
                     $data['data']=null;
                  }
+                break;
+             case 'banner':
+                $data['data']=$this->admin_model->get_banner()->result_array();
                 break;
             default: 
                 redirect(base_url('dashboard')); break;
@@ -793,7 +796,41 @@ class Dashboard extends CI_Controller {
     }
 
 
+    public function upload_image_acceptor($path){
+        $file_path = "upload/".$path."/";
+        reset ($_FILES);
+        $temp = current($_FILES);
+        if (is_uploaded_file($temp['tmp_name'])){
+            if (preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $temp['name'])) {
+                header("HTTP/1.0 500 Invalid file name.");
+                return;
+            }
 
+            if (!in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array("jpeg","gif", "jpg", "png"))) {
+                $data = array('status' => "HTTP/1.0 500 Invalid extension.");
+                echo json_encode($data);
+                return;
+            }
+            $filename = date('ymjHis'). '-' .$temp['name'];
+            $filetowrite = $file_path . $filename;
+            move_uploaded_file($temp['tmp_name'], $filetowrite);
+
+            $pathinfo = pathinfo($file_path.$filename);
+            $data = array(
+                'file_name' => $pathinfo['basename'],
+                'path_file' => $pathinfo['dirname'],
+                'full_path' => base_url($file_path.$filename),
+                'extension' => $pathinfo['extension'],
+                'size'      => $temp['size'],
+                'width'     => getimagesize(base_url($file_path.$filename))[0],
+                'height'    => getimagesize(base_url($file_path.$filename))[1]
+
+            );
+            echo json_encode($data);
+        } else {
+            header("HTTP/1.0 500 Server Error");
+        }
+    }
 
 
 

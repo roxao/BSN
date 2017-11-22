@@ -269,7 +269,7 @@ $_sort_color : rgba(80, 114, 153, .2);
       background: #fff;
       max-width: 200px;
       min-width: 30px;
-      overflow: auto;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
   }
@@ -1465,7 +1465,7 @@ header {
     width: 100vw;
     right: 0;
     max-height: 250px;
-    overflow: scroll;
+    overflow-y: scroll;
     li{
       padding: 10px 15px;
       font-size: 12px;
@@ -1916,6 +1916,122 @@ header {
           outline: none;
         }
       }
+    }
+  }
+}
+
+
+
+#modal-image-upload{
+  background: rgba(0,0,0,.3);
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  overflow-y: scroll;
+  padding: 20px; 
+  .image-upload-title{
+    line-height: 42px;
+    padding: 0 20px;
+    background: #f7f7f7;
+    color: $c_2nd;
+    font-size: 16px;
+    position: relative;
+    span{
+      background-position: -4px -4px;
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      right: 0;
+      margin: 15px 17px;
+      top: 0;
+    }
+  }
+  .upload-image-success{
+    background-position: center;
+    background-size:contain !important;
+    margin: 0 -20px 0 -20px;
+    width: calc(100% + 40px)!important;
+    box-sizing: content-box;
+    border-radius: 0 !important;
+    transition: all 1s ease;
+    border: 0 !important;
+    height: 175px !important; 
+  }
+  .image-upload-content{
+    max-width: 500px;
+    margin: auto auto;
+    background: #fff;
+    overflow: hidden;
+  }
+  .insert-image{
+    border: 0;
+    border-top: 1px solid #eee;
+    border-radius: 0;
+    min-height: 20px;
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    background: #f7f7f7;
+    input{display:none}
+    span{
+        border-radius: 5px;
+        border: 2px dashed rgba(0,0,0,0.1);
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        height: 100%;
+        background: url('upload.svg') no-repeat center;
+        background-size: 50px;
+        height: 100px;
+    }
+  }
+  .banner-option-desc{
+    display: block;
+    min-width: 400px;
+    button{
+      margin: 10px auto;
+
+    }
+    label{
+      display: block;
+      padding: 5px 20px;
+      box-sizing: border-box;
+      font-size: 11px;
+      color: #777;
+      text-transform: uppercase;
+    }
+    textarea{
+      min-height: 100px;
+      appearance: none;
+    }
+    input, textarea{
+      font-family: 'Arial';
+      display: block;
+      padding: 10px 15px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #eee;
+      border-radius:0;
+      max-width: 100%;
+      &:focus{
+        border: 1px solid #ddd;
+      }
+    }
+    select{
+      display: block;
+      appearance: none;
+      border: 1px solid #ddd;
+      border-radius: 2px;
+      padding: 10px 15px;
+      background: #FFF;
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
     }
   }
 }

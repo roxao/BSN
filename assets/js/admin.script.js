@@ -106,29 +106,35 @@ $(document).ready(function() {
 
 
 
+	$.set_table_list = function(){
+		$('#tableInbox').append('<ul class="main_pagination"><li class="listjsprev"><</li><ul class="pagination"></ul><li class="listjsnext">></li></ul>');
+		$('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
+		var datasort=[];
+		$(".table_def thead tr [data-sort]").map(function(){return datasort.push($(this).attr('data-sort'))});
+		var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
+		$('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
+		$('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
+	}
 
+
+	$.upload_process = function(file_data, location){
+		var form_data = new FormData();
+        form_data.append('file', file_data);
+        return $.ajax({
+            url: base_url + '/upload_image_acceptor/' + location, // point to server-side controller method
+            dataType: 'json', // what to expect back from the server
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post'
+        })        
+	}
 
 
 
 
 	$.set_add_row_survey_form = function(x,y,z){
-		// $(x).append($('div').addClass('the-question')
-		// 						.append($('label')
-		// 							.append($('select').prop('name', 'question_type[]')
-		// 								.append($('option').val('RATING').html('Rating'))
-		// 								.append($('option').val('COMMENT').html('Komentar')))
-		// 						.append($('label')
-		// 							.append($('input')
-		// 										.prop({name:'question_message[]',type:'text',placeholder: 'Pertanyaan'})))
-		// 						.append($('label')
-		// 							.addClass('del-row-survey')
-		// 							.append('img').prop({
-		// 								src: (base_url.replace("dashboard",""))+'/assets/delete.svg',
-		// 								alt: 'Hapus Pertanyaan'
-		// 							})));
-		// $('.del-row-survey').on('click', function(event) {
-		// 	$(this).parent().remove();
-		// });	
 		html = 	'<div class="the-question">'
 				+ '<label>'
 					+ '<select name="question_type[]">'

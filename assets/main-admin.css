@@ -58,8 +58,8 @@ a {
   color: #ccc; }
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-  background: transparent !important;
-  -webkit-box-shadow: 0 0 0 30px transparent inset; }
+  background: rgba(0, 0, 0, 0) !important;
+  -webkit-box-shadow: 0 0 0 30px rgba(0, 0, 0, 0) inset; }
 
 .float_left {
   float: left; }
@@ -251,7 +251,7 @@ body {
     background: #fff;
     max-width: 200px;
     min-width: 30px;
-    overflow: auto;
+    overflow: hidden;
     text-overflow: ellipsis; }
   .table_def .id_name {
     font-size: 1em;
@@ -1264,7 +1264,7 @@ header {
     width: 100vw;
     right: 0;
     max-height: 250px;
-    overflow: scroll; }
+    overflow-y: scroll; }
     .nav-notif .box_notif li {
       padding: 10px 15px;
       font-size: 12px;
@@ -1624,5 +1624,105 @@ header {
           border-radius: 0; }
         #survey-form .the-question label select:focus, #survey-form .the-question label input:focus {
           outline: none; }
+
+#modal-image-upload {
+  background: rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  overflow-y: scroll;
+  padding: 20px; }
+  #modal-image-upload .image-upload-title {
+    line-height: 42px;
+    padding: 0 20px;
+    background: #f7f7f7;
+    color: #01923f;
+    font-size: 16px;
+    position: relative; }
+    #modal-image-upload .image-upload-title span {
+      background-position: -4px -4px;
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      right: 0;
+      margin: 15px 17px;
+      top: 0; }
+  #modal-image-upload .upload-image-success {
+    background-position: center;
+    background-size: contain !important;
+    margin: 0 -20px 0 -20px;
+    width: calc(100% + 40px) !important;
+    box-sizing: content-box;
+    border-radius: 0 !important;
+    transition: all 1s ease;
+    border: 0 !important;
+    height: 175px !important; }
+  #modal-image-upload .image-upload-content {
+    max-width: 500px;
+    margin: auto auto;
+    background: #fff;
+    overflow: hidden; }
+  #modal-image-upload .insert-image {
+    border: 0;
+    border-top: 1px solid #eee;
+    border-radius: 0;
+    min-height: 20px;
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    background: #f7f7f7; }
+    #modal-image-upload .insert-image input {
+      display: none; }
+    #modal-image-upload .insert-image span {
+      border-radius: 5px;
+      border: 2px dashed rgba(0, 0, 0, 0.1);
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      height: 100%;
+      background: url("upload.svg") no-repeat center;
+      background-size: 50px;
+      height: 100px; }
+  #modal-image-upload .banner-option-desc {
+    display: block;
+    min-width: 400px; }
+    #modal-image-upload .banner-option-desc button {
+      margin: 10px auto; }
+    #modal-image-upload .banner-option-desc label {
+      display: block;
+      padding: 5px 20px;
+      box-sizing: border-box;
+      font-size: 11px;
+      color: #777;
+      text-transform: uppercase; }
+    #modal-image-upload .banner-option-desc textarea {
+      min-height: 100px;
+      appearance: none; }
+    #modal-image-upload .banner-option-desc input, #modal-image-upload .banner-option-desc textarea {
+      font-family: 'Arial';
+      display: block;
+      padding: 10px 15px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #eee;
+      border-radius: 0;
+      max-width: 100%; }
+      #modal-image-upload .banner-option-desc input:focus, #modal-image-upload .banner-option-desc textarea:focus {
+        border: 1px solid #ddd; }
+    #modal-image-upload .banner-option-desc select {
+      display: block;
+      appearance: none;
+      border: 1px solid #ddd;
+      border-radius: 2px;
+      padding: 10px 15px;
+      background: #FFF;
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box; }
 
 /*# sourceMappingURL=main-admin.css.map */

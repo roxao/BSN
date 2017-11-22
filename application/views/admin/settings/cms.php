@@ -37,24 +37,25 @@
 
       <div id="targetExcel" class="parent_table">
         <table id="tableInbox" class="table_def tableInbox" style="width: 100%;">
-          <tr><?php foreach($data_table as $x){echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';}?></tr>
+          <thead>
+            <tr>
+              <th class="sort" data-sort="id_cms">#</th>
+              <th class="sort" data-sort="title">Judul Content</th>
+              <th class="sort" data-sort="url">URL</th>
+              <th class="sort" data-sort="status">Status</th>
+              <th class="sort" data-sort="created_by">Dibuat Oleh</th></tr>
+          </thead>
           <tbody class="list">
-            <?php foreach($data as $key=>$data) {
+            <?php foreach($data as $key=>$data){
               echo '<tr class="row_select" data-id="'.$data[$data_table[0][0]].'">';
                   foreach($data_table as $x) {
                     echo '<td class="'.$x[0].''. ($x[0]=='status'? strtolower($data[$x[0]]) : '') .'" width="'.$x[2].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
                   }
               echo '</tr>';
-            } ?>
+              } ?>
           </tbody>
         </table>
       </div>
-      <ul class="main_pagination">
-        <li class="listjsprev"><</li>
-        <ul class="pagination"></ul>
-        <li class="listjsnext">></li>
-      </ul>
-
       <div id="popup_box" style="display: none">
       </div>
     </div>
@@ -65,20 +66,7 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      $('#filtertable input').click(function(event) {
-        if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
-        $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
-        $('td[data-sort="' + $(this).attr('value') + '"]').toggle();
-      });
-      $('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
-      var datasort = [<?php foreach($data_table as $key=>$x) {echo '"'.$x[0].'",';}?>]
-      var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
-      $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
-      $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
-      $('.tableInbox tr th:first-child').click();
-      
-      
-
+      $.set_table_list();
       $('#btn-add').on('click', function() {
         $('[name=id_cms').val('insert');
         $('.modal-form button').click();
