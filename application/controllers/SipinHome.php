@@ -436,19 +436,16 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		// echo "|HAVE IIN : ".$have_iin; 
-				        		
+		$data['app_type'] = "new";	
 		/*
 		if iin_status = 'CLOSED'
 		@THIS IS AN ACTIVE APPLICATION (New Application)
 		*/
 		if ( $iin_status == 'CLOSED' ) {
 			if ( $have_iin=='Y' ) {
-				// echo "|EXTEND START";
 				$data['app_type'] = "extend";
 
 				$input_field = $this->user_model->step_0_get_application_extend($id_user);
-				// echo "|INPUT VAL".$input_field->row()->applicant;
 				$data['applicant'] = $input_field->row()->applicant;
 				$data['applicant_phone_number'] = $input_field->row()->applicant_phone_number;
 				$data['application_date'] = $input_field->row()->application_date;
@@ -473,6 +470,7 @@ class SipinHome extends CI_Controller {
 
 			if ( $id_application_status_name >= '1' ) {
 				
+				$data['step1_next'] = "";
 				/*
 				Validate StepId (step0)
 				*/
@@ -499,8 +497,7 @@ class SipinHome extends CI_Controller {
 					$data['title'] = "Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Mohon Maaf Status Permohonan IIN anda telah di verifikasi dan telah ditolak. Silakan klik tombol di bawah ini untuk mengakhiri proses permohonan IIN baru.";
 				} else {
-					$data['step1_next'] = "success";
-					$data['app_type'] = "new";
+					// $data['app_type'] = "new";
 					$data['step1_download'] = $this->user_model->get_doc_statis($id_user);
 					$data['state0'] = "0";
 					$page = '1';
@@ -538,6 +535,7 @@ class SipinHome extends CI_Controller {
 									break;
 
 								case 'PENDING':
+									$data['step1_next'] = "";
 									$page = '1';
 									$data['state2'] = "";
 									break;

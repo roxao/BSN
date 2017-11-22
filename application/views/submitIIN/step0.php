@@ -46,7 +46,9 @@
 				Nomor Telepon Pemohon
 				<input  required  id="app_no_applicant" name="app_no_applicant"  type="text" placeholder="Nomor Telepon" />
 			</label>
-			
+
+
+			<input type="hidden" id="no_type" name="no_type" />
 
 			<div class="inputValidation2">
 					<!-- <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" data-sitekey="6LerwS0UAAAAAF27mC7K-XWf-IYBMyrZcTKbhEeB" > </div> -->
@@ -59,12 +61,19 @@
 				</div>
 			</div>
 
-			<input type="hidden" id="app_type" name="app_type" >
-		</article>
-	</form>
+			
+		
+		</form>
+		
+	</article>
 
 
 
+	<script type="text/javascript">
+		var app_type = "<?php echo $app_type ?>";
+		$("#no_type").val(app_type);
+		console.log(app_type);
+	</script>
 	<script type="text/javascript">
 		var mailing_location = ("<?php echo $mailing_location ?>" != "") ? "<?php echo $mailing_location ?>" : '';
 		var application_date = ("<?php echo $application_date ?>" != "") ? "<?php echo $application_date ?>" : '';
@@ -78,40 +87,39 @@
 		var applicant_phone_number = ("<?php echo $applicant_phone_number ?>" != "") ? "<?php echo $applicant_phone_number ?>" : '';
 
 
-		var app_type = ("<?php echo $app_type ?>" != "") ? "<?php echo $app_type ?>" : '';
-		$("#app_type").val(app_type);
+		
 
-		if (mailing_location != "" && app_type == "new") {
-			$(".inputValidation2").hide();
-			$("#app_address").prop('disabled','disabled');
-		}
-		if (application_date != "" && app_type == "new") {
-			$("#app_date").prop('disabled','disabled');
-		}
-		if (application_purpose != "" && app_type == "new") {
-			$("#app_purpose").prop('disabled','disabled');
-		}
-		if (mailing_number != "" && app_type == "new") {
-			$("#app_num").prop('disabled','disabled');
-		}
-		if (instance_name != "" && app_type == "new") {
-			$("#app_instance").prop('disabled','disabled');
-		}
-		if (instance_email != "" && app_type == "new") {
-			$("#app_mail").prop('disabled','disabled');
-		}
-		if (instance_phone != "" && app_type == "new") {
-			$("#app_phone").prop('disabled','disabled');
-		}
-		if (instance_director != "" && app_type == "new") {
-			$("#app_div").prop('disabled','disabled');
-		}
-		if (applicant != "" && app_type == "new") {
-			$("#app_applicant").prop('disabled','disabled');
-		}
-		if (applicant_phone_number != "" && app_type == "new") {
-			$("#app_no_applicant").prop('disabled','disabled');
-		}
+		// if (mailing_location != "" && app_type == "new") {
+		// 	$(".inputValidation2").hide();
+		// 	$("#app_address").prop('disabled','disabled');
+		// }
+		// if (application_date != "" && app_type == "new") {
+		// 	$("#app_date").prop('disabled','disabled');
+		// }
+		// if (application_purpose != "" && app_type == "new") {
+		// 	$("#app_purpose").prop('disabled','disabled');
+		// }
+		// if (mailing_number != "" && app_type == "new") {
+		// 	$("#app_num").prop('disabled','disabled');
+		// }
+		// if (instance_name != "" && app_type == "new") {
+		// 	$("#app_instance").prop('disabled','disabled');
+		// }
+		// if (instance_email != "" && app_type == "new") {
+		// 	$("#app_mail").prop('disabled','disabled');
+		// }
+		// if (instance_phone != "" && app_type == "new") {
+		// 	$("#app_phone").prop('disabled','disabled');
+		// }
+		// if (instance_director != "" && app_type == "new") {
+		// 	$("#app_div").prop('disabled','disabled');
+		// }
+		// if (applicant != "" && app_type == "new") {
+		// 	$("#app_applicant").prop('disabled','disabled');
+		// }
+		// if (applicant_phone_number != "" && app_type == "new") {
+		// 	$("#app_no_applicant").prop('disabled','disabled');
+		// }
 
 		$("#app_address").val(mailing_location);
 		$("#app_date").val(application_date);

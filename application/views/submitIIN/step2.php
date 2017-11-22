@@ -43,7 +43,6 @@
 		<br/>
 
 	<div class="clearfix">
-		<!-- <button id="btn_back" style="background: red" class=" btn_back float_left">Kembali</button>	 -->
 		<button style="background: #01923f" class="float_right uploadstep3" name="upload" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>	
 		
 	</div>
