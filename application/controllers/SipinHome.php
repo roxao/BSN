@@ -1169,9 +1169,6 @@ class SipinHome extends CI_Controller {
 	public function iin_list(){
 		$data['iin'] = $this->user_model->get_iin()->result();
 		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$val = $this->session->userdata();
-		if($val['have_iin']=='Y') 
-			$data['download_iin'] = $this->user_model->get_iin_download($val['id_application_status'], 'IIN')->result_array();
 		$this->load->view('header',$header_data);
 		$this->load->view('iin-list-view',$data);
 		$this->load->view('footer');
