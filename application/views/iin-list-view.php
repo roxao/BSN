@@ -5,6 +5,12 @@
         <h1 class="cms-header-title">DAFTAR PENERIMA IIN</h1>  
       </div>
       <article id="tableiin"  style="max-width: 1000px">
+
+        <?php if($download_iin){ ?>
+          <div class="clearfix">
+            <a class="download-iin-file" href="<?=$download_iin[0]['path_file']?>">Download IIN Anda</a>
+          </div><br/>
+        <?php } ?>
         <table class="table_def" width="100%" style="border: 1px solid #ddd">
           <thead>
             <tr>

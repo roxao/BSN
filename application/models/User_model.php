@@ -855,6 +855,20 @@ class User_model extends CI_Model {
 
 
      // ALDY SOURCE CODE
+
+    public function get_iin_download($id_application_status, $key){ 
+        $this->db->select('*');
+        $this->db->from('application_status aps'); 
+        $this->db->join('application_file af','af.id_application = aps.id_application');
+        $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
+        $this->db->where('aps.id_application_status',$id_application_status);
+        $this->db->where('dc.type',"TRANSACTIONAL");
+        $this->db->where_in('dc.key', $key);
+        $this->db->order_by('af.id_application_file', 'DESC');
+        $this->db->limit(count($key));
+        return $this->db->get();
+    }
+
      public function survey($type, $data){
         switch ($type) {
             case 'vote':
