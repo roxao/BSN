@@ -74,17 +74,10 @@ class SurveyController extends CI_Controller {
 				// LALU HAPUS COMMENT CODE DIBAWAH INI
 				// $data['survey'] = $this->user_model->get-survey-result()->result_array();
 
-				$asu['survey']=$this->admin_model->survey('get-survey-result',null)->result();
+				$result['survey']=$this->admin_model->survey('get-survey-result',null)->result();
 
-				foreach ($asu as $index => $valIndex) {
-					# code...
-
-					// print_r($index);
-					// print_r($valIndex);
+				foreach ($result as $index => $valIndex) {
 					foreach ($valIndex as $key => $value) {
-						# code...
-
-						// print_r($value);
 						foreach ($value as $keyval => $val) {
 							# code...
 						// print_r($val);
@@ -98,7 +91,7 @@ class SurveyController extends CI_Controller {
 					}
 				}
 
-				echo json_encode($asu);
+				echo json_encode($result);
 
 				return false;
 				$this->set_template('survey-result',$data);

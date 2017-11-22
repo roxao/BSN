@@ -10,20 +10,6 @@
 
 	<div class="clearfix">
 		
-		<?php 
-			echo "|state0 : {$state0}";
-			echo "|state2 : {$state2}";
-			echo "|state3 : {$state3}";
-			echo "|state5 : {$state5}";
-			echo "|state6 : {$state6}";
-			echo "|state7 : {$state7}";
-			echo "|state8 : {$state8}";
-			echo "|iin_status : {$this->session->userdata('iin_status')}";
-			echo "|survey_status : {$this->session->userdata('survey_status')}";
-			echo "|have_iin : {$this->session->userdata('have_iin')}";
-			echo "|id_application_status_name : {$this->session->userdata('id_application_status_name')}";
-
-		?>
 		<ul id="section_progress" style="width: 100%">
 			<li stepId="<?php echo $state0?>" class="<?php echo $box_status_0?>"><button>Pengajuan Surat Permohonan ke BSN</button></li>
 			<li stepId="1" class="<?php echo $box_status_1?>"><button>Hasil Verifikasi Status Permohonan</button></li>	   
@@ -49,14 +35,6 @@
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
 		}
-
-		// $id_user 	= $this->session->userdata('id_user');	
-		// $Status 	= $this->user_model->get_applications_Status($id_user);
-		// $data['download_upload']    		= $this->user_model->get_doc_statis($id_user);
-		// $data['upload']	= $this->user_model->get_doc_user_upload($id_user);
-		// $data['download_upload_kode_bill']  = $this->user_model->get_doc_kbs();
-		// $datas['aplication_asesment']    	= $this->user_model->getAssesmentStatus($id_user);
-
 
 
 		$this->load->view('submitIIN/step0');
@@ -105,37 +83,11 @@
 			}
 		}
 
-
-		//ANDARU DEFAULT
-		// $this->load->view('submitIIN/step0');
-		// $this->load->view('submitIIN/step1',$data); 
-		// $this->load->view('submitIIN/step2',$data,$id_user);
-		// $this->load->view('submitIIN/step3',$data);	
-		// $this->load->view('submitIIN/step4',$data);
-		// $this->load->view('submitIIN/step5',$data); 
-		// $this->load->view('submitIIN/step6',$datas, $data);
-		// $this->load->view('submitIIN/step7',$data);
-		// $this->load->view('submitIIN/step8',$data);
-		// $this->load->view('submitIIN/step9',$data);
-
-		// ON PROCESS VIEW
-		
-		// $data['process_view'] = array(
-		// 		'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
-		// 		'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
-		// 	);
-
 		$data['process_view'] = array(
 			'title' => $title,
 			'text'  => $text
 		);
 		$this->load->view('submitIIN/process', $data);
-
-
-		// $data['rejected_view'] = array(
-		// 		'title' => 'Submit Kelengkapan Dokumen Permohonan IIN',
-		// 		'text'  => 'Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi yang akan diproses dalam waktu kurang lebih 3 hari kerja.'
-		// 	);
 
 		$data['rejected_view'] = array(
 			'title' => $title,
@@ -150,10 +102,6 @@
 		);
 		$this->load->view('submitIIN/assessment_rev', $data);
 
-		// $this->load->view('submitIIN/step0-rejected', $data);
-
-		// REVISION VIEW
-		// $this->load->view('submitIIN/step2-revision');
 
 ?>
 	</div>

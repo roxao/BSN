@@ -1715,7 +1715,6 @@ class submit_iin extends CI_Controller {
 
 
 
-	// ALDY SOURCE CODE
 	//SURVEY
 
 	public function set_template($view_name, $data = array()){
