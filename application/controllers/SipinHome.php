@@ -1148,10 +1148,6 @@ class SipinHome extends CI_Controller {
 
 	public function cms_post($prm){
 		$data['cms'] = $this->model->get_cms_by_prm($prm)->result_array();
-		echo "ENCODE ".json_encode($data['cms'][0]['created_date']);
-		// return false;
-
-
 		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
 		$this->load->view('header',$header_data);
 		$this->load->view('cms-post-view',$data);
