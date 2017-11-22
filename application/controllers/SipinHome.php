@@ -19,15 +19,11 @@ class SipinHome extends CI_Controller {
 		// $data['cms_name'] = $this->model->get_cms_by_name()->result_array();
 
 		// $this->load->view('header');
-		$this->load_header();
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$this->load->view('header',$data);
 		$this->load->view('home');
 		$this->load->view('footer');
 		$this->captcha();
-	}
-
-	public function load_header() {		
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
 	}
 
 
@@ -104,7 +100,8 @@ class SipinHome extends CI_Controller {
 		// $data['file_iso'] = 'http://localhost:8090/BSN/assets/sample.pdf';
 		$data['file_iso'] = $this->user_model->get_file_iso()->result();
 
-		$this->load->load_header();
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$this->load->view('header',$data);
 		$this->load->view('iso-document-view', $data);
 	}
 
@@ -1116,8 +1113,9 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function contact_us()
-	{
-		$this->load->load_header();
+	{	
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$this->load->view('header',$data);
 		$this->load->view('contact-us');
 		$this->load->view('footer');
 		
@@ -1145,7 +1143,8 @@ class SipinHome extends CI_Controller {
 		// return false;
 
 
-		$this->load->load_header();
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$this->load->view('header',$data);
 		$this->load->view('cms-post-view',$data);
 		$this->load->view('footer');
 	}
@@ -1160,7 +1159,8 @@ class SipinHome extends CI_Controller {
 
 	public function iin_list(){
 		$data['iin'] = $this->user_model->get_iin()->result();
-		$this->load->load_header();
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		$this->load->view('header',$data);
 		$this->load->view('iin-list-view',$data);
 		$this->load->view('footer');
 	}
