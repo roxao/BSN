@@ -2356,7 +2356,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 $dataDocAss = array(
                     'type' => 'DOC_IIN',
                     'value' => $doc_iin->row()->key,
-                    'id_application_status'=> $this->input->post('id_application'),
+                    'id_application_status'=> $this->input->post('id_application_status'),
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
                     );

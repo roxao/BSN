@@ -750,10 +750,7 @@ class Admin_model extends CI_Model {
         $this->db->insert('banner',$data);
         $inserted_id = $this->db->insert_id();
 
-        $this->insert_log2(
-                $this->session->userdata('admin_username') . 'Input Banner',
-                'Insert Banner');
-
+        
         return $inserted_id;
 
     }
