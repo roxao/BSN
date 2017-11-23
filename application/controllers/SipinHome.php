@@ -1136,7 +1136,6 @@ class SipinHome extends CI_Controller {
                 'complaint_details' => $this->input->post('message'),
                 'created_date' => date('Y-m-j'),
                 'created_by' => $this->input->post('name'));
-		// echo json_encode($data);
 		$this->user_model->insert_complain($data);
 
 		redirect(base_url('contact-us'));

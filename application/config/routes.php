@@ -64,7 +64,8 @@ $route['post/(:any)'] = 'SipinHome/cms_post/$1';
 
 $route['Layanan-IIN'] = 'SipinHome/submit_application';
 $route['registrasi'] = 'SipinHome/user/register';
-$route['daftar-penerima-iin'] = 'SipinHome/iin_list';
+$route['informasi-iin/file_iso_7812'] = 'SipinHome/file_iso_7812';
+$route['informasi-iin/daftar-penerima-iin'] = 'SipinHome/iin_list';
 $route['informasi-iin/(:any)'] = 'SipinHome/cms_post/$1';
 
 $route['penolakan'] = 'submit_iin/step_rejected';
