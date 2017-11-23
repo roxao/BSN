@@ -1162,22 +1162,40 @@ class submit_iin extends CI_Controller {
 
 				$result['survey']=$this->admin_model->survey('get-survey-result',null)->result();
 
+				$ans = array();
 				foreach ($result as $index => $valIndex) {
+
+
+						echo "| INDEX : ".$index;
+						echo "| VALINDEX : ".json_encode($index);
+
 					foreach ($valIndex as $key => $value) {
+
+						// echo $key;
 						foreach ($value as $keyval => $val) {
 							# code...
 						// print_r($val);
+							// echo $val;
+							// echo json_decode($val);
+							// array_push($a, json_decode($val));
+
+							// echo "AAAA : {$a}";
 							if ($keyval == 'answer') {
 								// echo "string";
-								// echo $val;
+								// echo $keyval;
 						// echo json_encode($val);
 							}
 
 						}
 					}
 				}
+				// echo json_encode($ans);
 
-				echo json_encode($result);
+				echo "|RESULT :".json_encode($result);
+				echo "|DATA :".json_encode($data);
+
+
+
 
 				return false;
 				$this->set_template('survey-result',$data);
