@@ -1160,7 +1160,7 @@ class submit_iin extends CI_Controller {
 				// LALU HAPUS COMMENT CODE DIBAWAH INI
 				// $data['survey'] = $this->user_model->get-survey-result()->result_array();
 
-				$result['survey']=$this->admin_model->survey('get-survey-result',null)->result();
+				$data['survey']=$this->admin_model->survey('get-survey-result',null)->result();
 
 				
 				#level 1 array
@@ -1194,7 +1194,7 @@ class submit_iin extends CI_Controller {
 				$iter_answer = 0;
 				$no = 1;
 				$i =0;
-				foreach ($result as $index => $valIndex) {
+				foreach ($data as $index => $valIndex) {
 
 					foreach ($valIndex as $key => $value) {
 							#value of total_answer

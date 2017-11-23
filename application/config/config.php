@@ -648,6 +648,14 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 | TABLE NAME (Key)
 |
 */
+define('TBADMIN', 'admin',true);
+define('TBAPPFILE', 'application_file',true);
+define('TBAPPSTS', 'application_status',true);
+define('TB', 'ADM',true);
+define('TB', 'ADM',true);
+define('TB', 'ADM',true);
+define('TB', 'ADM',true);
+define('TB', 'ADM',true);
 
 
 
