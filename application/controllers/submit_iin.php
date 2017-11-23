@@ -1162,42 +1162,124 @@ class submit_iin extends CI_Controller {
 
 				$result['survey']=$this->admin_model->survey('get-survey-result',null)->result();
 
+				
+				#level 1 array
 				$ans = array();
+				#level 2 array
+				$survey_question = array();
+				#level 3 array
+				$answer = array();
+
+				#define string
+				$id_survey_question = "";
+				$version = "";
+				$total_answer = "";
+				$average=0;
+
+				#int stars
+				$s_1 = 0;
+				$s_2 = 0;
+				$s_3 = 0;
+				$s_4 = 0;
+				$s_5 = 0;
+
+				$avg_array = array();
+
+				#array to populate string stars
+				$arr_stars =  array();
+
+				#array to get answer
+				$arr_answer = array();
+
+				$iter_answer = 0;
+				$no = 1;
+				$i =0;
 				foreach ($result as $index => $valIndex) {
 
-
-						echo "| INDEX : ".$index;
-						echo "| VALINDEX : ".json_encode($index);
-
 					foreach ($valIndex as $key => $value) {
-
-						// echo $key;
+							#value of total_answer
+							$iter_answer++;
+							$total_answer = (string)$iter_answer;
 						foreach ($value as $keyval => $val) {
-							# code...
-						// print_r($val);
-							// echo $val;
-							// echo json_decode($val);
-							// array_push($a, json_decode($val));
+							#value of id_survey_question
+							if ( $keyval == 'id_survey_question' ) $id_survey_question = $val;
+							#value of version
+							if ( $keyval == 'version' ) $version = $val;
 
-							// echo "AAAA : {$a}";
-							if ($keyval == 'answer') {
-								// echo "string";
-								// echo $keyval;
-						// echo json_encode($val);
+							if ( $keyval == 'question' ) {
+								#iterate from $val
+								#decode it so it turns to array
+								foreach (json_decode($val,true) as $a => $b) {
+									if ( $b['type'] == 'RATING') {
+										$survey_question[$a]['no'] = (string)$b['no'];
+										$survey_question[$a]['question'] = (string)$b['msg'];
+									}
+								}
 							}
 
-						}
+							if ( $keyval == 'answer' ) {
+								#iterate from $val
+								#decode it so it turns to array
+								foreach (json_decode($val,true) as $a => $b) {
+									if ( $b['type'] == 'RATING') {
+										switch ( $b['answer'] ) {
+											case '1':
+												$s_1 += 1;
+												break;
+											case '2':
+												$s_2 += 1;
+												break;
+											case '3':
+												$s_3 += 1;
+												break;
+											case '4':
+												$s_4 += 1;
+												break;
+											case '5':
+												$s_5 += 1;
+												break;
+										}
+											
+									$answer[$key]['1'] = (string)$s_1;
+									$answer[$key]['2'] = (string)$s_2;
+									$answer[$key]['3'] = (string)$s_3;
+									$answer[$key]['4'] = (string)$s_4;
+									$answer[$key]['5'] = (string)$s_5;
+
+									$survey_question[$key]['answer'] = $answer[$key];
+
+									}
+
+								}
+
+							#return int stars value to 0
+							$s_1 = 0;
+							$s_2 = 0;
+							$s_3 = 0;
+							$s_4 = 0;
+							$s_5 = 0;
+							}
+						}			
+						array_push($avg_array, $average);
 					}
+
 				}
-				// echo json_encode($ans);
-
-				echo "|RESULT :".json_encode($result);
-				echo "|DATA :".json_encode($data);
 
 
+				// echo json_encode($survey_question);
+
+
+				$ans['id_survey_question'] = $id_survey_question;
+				$ans['version'] = $version;
+				$ans['total_answer'] = $total_answer;
+				$ans['survey_question'] = $survey_question;
+				echo json_encode($ans);
 
 
 				return false;
+
+
+
 				$this->set_template('survey-result',$data);
 				break;
 			default:

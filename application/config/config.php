@@ -611,12 +611,6 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 // define('STATE9', '9',true);
 
 
-// define('ASU', 'ASUUUU I',true);
-// define('ASU', 'ASUUUU I',true);
-// define('ASU', 'ASUUUU I',true);
-// define('ASU', 'ASUUUU I',true);
-// define('ASU', 'ASUUUU I',true);
-// define('ASU', 'ASUUUU I',true);
 
 /*
 |
@@ -641,6 +635,9 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 | USER VIEW  
 |
 */
+
+
+
 /*
 |
 |--------------------------------------------------------------------------
@@ -648,6 +645,20 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 |--------------------------------------------------------------------------
 |
 |
-| TABLE APPLICATION FILE (Key)
+| TABLE NAME (Key)
+|
+*/
+
+
+
+
+/*
+|
+|--------------------------------------------------------------------------
+| DATABASE :
+|--------------------------------------------------------------------------
+|
+|
+| TABLE NAME (Key)
 |
 */
