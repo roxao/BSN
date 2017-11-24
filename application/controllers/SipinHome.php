@@ -1177,16 +1177,4 @@ class SipinHome extends CI_Controller {
 		$this->load->view('footer');
 	}
 
-	public function send_notif($id_application,$id_user)
-    {	
-    	$id_user = $this->session->userdata('id_user');
-        $data = array(
-            'notification_type' => 'admin',
-            'notification_owner' => $id_user,
-            'message' => 'Silahkan mengecek proses',
-            'Status' => 'ACTIVE',
-            'notification_url' => 'Layanan-IIN'
-        );
-        $this->admin_model->insert_notif($data);
-    }
  }
