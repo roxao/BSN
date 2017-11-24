@@ -791,11 +791,11 @@ class User_model extends CI_Model {
         return  $this->db->get();  
      }
 
-     public function get_user_by_prm($email,$name)
+     public function get_user_by_prm($id_user)
      {
         $this->db->select('*');
         $this->db->from('user');
-        $this->db->where('id_user',$id);
+        $this->db->where('id_user',$id_user);
         return $this->db->get();
      }
 
@@ -843,25 +843,15 @@ class User_model extends CI_Model {
         return $this->db->get();
     }
 
-
-
-    public function get_notif($notifikation_type){
-        $this->db->select('*');
-        $this->db->from('notification');
-        $this->db->where('notification_type', $notifikation_type);
-        
-        
+     public function get_instance_name($id_user)
+    {
+        $this->db->select('instance_name');
+        $this->db->from('applications');
+        $this->db->where('id_user', $id_user);
         return $this->db->get();
     }
 
-    public function update_notif($condition)
-    {
-        $data = array('Status' => 'INACTIVE' );
-        $this->db->where('id_notification', $condition);
-        $this->db->update('notification',$data);
-    }
-
-    public function insert_notif($data)
+    public function insert_notif_user($data)
     {
         $this->db->insert('notification', $data);
     }
