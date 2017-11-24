@@ -1137,149 +1137,78 @@ class submit_iin extends CI_Controller {
 
 
 				$id_answer = $this->admin_model->survey('insert-answer',$survey_answers);
-
-				/*
-				| Update User Table |
-				*/
 				$this->model->update_survey_status_user($this->session->userdata('id_user'));
 				$this->session->set_userdata('survey_status','1');
-
-				
-				// Masukan $survey_answers ke database
-				// Hapus echo dibawah
-				// function model sudah dibuat 
-
 				redirect(base_url('Layanan-IIN'));
 				break;
 			case 'result-survey';
-				// KALAU SUDAH MEMBUAT QUERY YANG JIKA DI json_encode seperti dibawah
-				// HAPUS CODE DIBAWAH INI
-				$data['survey'] = json_decode('{"id_survey_question":"1","version":"1","total_answer":"15","survey_questions":[{"no":"1","question":"Question number 1","average":"4","answer":{"1":"0","2":"0","3":"3","4":"3","5":"9"}},{"no":"2","question":"Question number 2","average":"4","answer":{"1":"0","2":"0","3":"3","4":"3","5":"9"}}]}',true);
-				// SAMPAI CODE INI
+				$result=$this->admin_model->survey('get-survey-result',null)->result_array();
+				if (!$result) {
+					$result = $this->model->survey('vote',null)->result_array();
+					$s_questions = json_decode($result[0]['question'],true);
+					for ($x=0; $x < count($s_questions); $x++) { 
+						if ($s_questions[$x]['type'] == 'RATING') {
+							$question[$x]['no'] 		= $x+1;
+						 	$question[$x]['question'] 	= $s_questions[$x]['msg'];
+						 	$question[$x]['average'] 	= 0;
+						 	$question[$x]['answer']['1']= 0;
+						 	$question[$x]['answer']['2']= 0;
+						 	$question[$x]['answer']['3']= 0;
+						 	$question[$x]['answer']['4']= 0;
+						 	$question[$x]['answer']['5']= 0;
+						}
+					 } 
+					$data['survey'] = array(
+						'id_survey_questions' => $result[0]['id_survey_question'],
+						'version' 			  => $result[0]['id_survey_question'],
+						'participant' 		  => 0, 
+						'survey_questions'	  => $question
+					);
+				} else {
+					// Decode Question Result
+					$q_result = json_decode($result[0]['question'],true);
 
-				// LALU HAPUS COMMENT CODE DIBAWAH INI
-				// $data['survey'] = $this->user_model->get-survey-result()->result_array();
-
-				$data['survey']=$this->admin_model->survey('get-survey-result',null)->result();
-
-				
-				#level 1 array
-				$ans = array();
-				#level 2 array
-				$survey_question = array();
-				#level 3 array
-				$answer = array();
-
-				#define string
-				$id_survey_question = "";
-				$version = "";
-				$total_answer = "";
-				$average=0;
-
-				#int stars
-				$s_1 = 0;
-				$s_2 = 0;
-				$s_3 = 0;
-				$s_4 = 0;
-				$s_5 = 0;
-
-				$avg_array = array();
-
-				#array to populate string stars
-				$arr_stars =  array();
-
-				#array to get answer
-				$arr_answer = array();
-
-				$iter_answer = 0;
-				$no = 1;
-				$i =0;
-				foreach ($data as $index => $valIndex) {
-
-					foreach ($valIndex as $key => $value) {
-							#value of total_answer
-							$iter_answer++;
-							$total_answer = (string)$iter_answer;
-						foreach ($value as $keyval => $val) {
-							#value of id_survey_question
-							if ( $keyval == 'id_survey_question' ) $id_survey_question = $val;
-							#value of version
-							if ( $keyval == 'version' ) $version = $val;
-
-							if ( $keyval == 'question' ) {
-								#iterate from $val
-								#decode it so it turns to array
-								foreach (json_decode($val,true) as $a => $b) {
-									if ( $b['type'] == 'RATING') {
-										$survey_question[$a]['no'] = (string)$b['no'];
-										$survey_question[$a]['question'] = (string)$b['msg'];
-									}
-								}
+					// Decode Answer
+					for ($i=0; $i < count($result); $i++) { 
+						$a_result[$i] = json_decode($result[$i]['answer'], true);
+					}
+					
+					// Set Question
+					for ($i=0; $i < count($q_result); $i++) { 
+						for ($k=0; $k < count($a_result[$i]); $k++){
+							if ($q_result[$i]['type'] == 'RATING') {
+								$question[$i] = array(
+									'no' 		=> $i+1,
+									'question' 	=> $q_result[$i]['msg'],
+									'average' 	=> 0,
+									'answer'  	=> 
+										array ('1'=>0, '2'=>0, '3'=>0, '4'=>0, '5'=> 0)
+								);	
 							}
-
-							if ( $keyval == 'answer' ) {
-								#iterate from $val
-								#decode it so it turns to array
-								foreach (json_decode($val,true) as $a => $b) {
-									if ( $b['type'] == 'RATING') {
-										switch ( $b['answer'] ) {
-											case '1':
-												$s_1 += 1;
-												break;
-											case '2':
-												$s_2 += 1;
-												break;
-											case '3':
-												$s_3 += 1;
-												break;
-											case '4':
-												$s_4 += 1;
-												break;
-											case '5':
-												$s_5 += 1;
-												break;
-										}
-											
-									$answer[$key]['1'] = (string)$s_1;
-									$answer[$key]['2'] = (string)$s_2;
-									$answer[$key]['3'] = (string)$s_3;
-									$answer[$key]['4'] = (string)$s_4;
-									$answer[$key]['5'] = (string)$s_5;
-
-									$survey_question[$key]['answer'] = $answer[$key];
-
-									}
-
-								}
-
-							#return int stars value to 0
-							$s_1 = 0;
-							$s_2 = 0;
-							$s_3 = 0;
-							$s_4 = 0;
-							$s_5 = 0;
-							}
-						}			
-						array_push($avg_array, $average);
+						}
 					}
 
+					// Set Answer By Question
+					for ($i=0; $i < count($question); $i++) {
+						// Set participant answer to question index
+						for ($j=0; $j < count($a_result[$i]) ; $j++) { 
+							$question[$i]['answer'][$a_result[$j][$i]['answer']]++;
+						}
+						// Average
+						for($x=1; $x < (count($question[$i]['answer'])+1); $x++) {
+							$question[$i]['average'] += $question[$i]['answer'][$x] * $x;
+						}
+						$question[$i]['average'] = $question[$i]['average'] / count($a_result[$i]);
+					}
+
+
+					$data['survey'] = array(
+						'id_survey_questions' => $result[0]['id_survey_question'],
+						'version' 			  => $result[0]['id_survey_question'],
+						'participant' 		  => count($result), 
+						'survey_questions'	  => $question
+					);
 				}
-
-
-				// echo json_encode($survey_question);
-
-
-				$ans['id_survey_question'] = $id_survey_question;
-				$ans['version'] = $version;
-				$ans['total_answer'] = $total_answer;
-				$ans['survey_question'] = $survey_question;
-				echo json_encode($ans);
-
-
-				return false;
-
-
-
 				$this->set_template('survey-result',$data);
 				break;
 			default:
@@ -1288,8 +1217,4 @@ class submit_iin extends CI_Controller {
 		}
 
 	}
-
-
-
-
 }
