@@ -444,7 +444,7 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		$data['app_type'] = 'APPTYPENEW';	
+		$data['app_type'] = APPTYPENEW;	
 		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'

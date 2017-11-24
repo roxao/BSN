@@ -545,12 +545,12 @@ $config['proxy_ips'] = '';
 |--------------------------------------------------------------------------
 |
 |
-| USER VIEW  
+| USER VIEWS
 |
 |--------------------------------------------------------------------------
 |
 |
-| User State
+| USERSTATE
 |
 */
 define('STATEREJECTED', 'rejected',true);
@@ -621,21 +621,93 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 |
 | USER VIEW  
 |
+*//*
+|
+|--------------------------------------------------------------------------
+| VARIABLES
+|--------------------------------------------------------------------------
+|
+|
+|  
+|
 */
+define('APPTYPENEW', 'new',true);
+define('APPTYPEEXT', 'extend',true);
 
 
 
 /*
 |
 |--------------------------------------------------------------------------
-| VARIABLES :
+| TABLE FORM MAPPING :
 |--------------------------------------------------------------------------
 |
 |
-| USER VIEW  
+| FIELD : TYPE 
 |
 */
 
+define('FMAPRST', 'APPROVAL_STATUS',true);
+define('FMAPR', 'APPROVED',true);
+define('FMCOMMENT', 'COMMENT',true);
+define('FMBILL', 'BILLING',true);
+define('FMBILLCODE', 'BILLING_CODE',true);
+define('FMBILLDT', 'BILLING_DATE',true);
+define('FMBILLEXP', 'BILLING_EXPIRED',true);
+define('FMBILLDOC', 'BILLING_DOC',true);
+define('FMRVNFL', 'REVISION_FILE',true);
+define('FMRVDDOC', 'REVISED_DOC',true);
+define('FMCRADOC', 'CRA_DOC',true);
+define('FMASMDOC', 'ASSESSMENT_DOC',true);
+define('FMRVNASMDT', 'REVISION_ASSESSMENT_DATE',true);
+define('FMRVNASMFL', 'REVISION_ASSESSMENT_FILE',true);
+define('FMRVDDOCASM', 'REV_DOC_ASM',true);
+
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+// define('FMBILLEXP', 'BILLING_EXPIRED',true);
+
+
+/*
+|
+|--------------------------------------------------------------------------
+| TABLE DOCUMENT CONFIG :
+|--------------------------------------------------------------------------
+|
+|
+| FIELD : TYPE  
+|
+*/
+define('DCTYPEST', 'STATIC',true);
+define('DCTYPEDN', 'DYNAMIC',true);
+define('DCTYPETRN', 'TRANSACTIONAL',true);
+
+
+/*
+|
+|--------------------------------------------------------------------------
+| TABLE DOCUMENT CONFIG :
+|--------------------------------------------------------------------------
+|
+|
+| FIELD : KEY  (ONLY FOR STATIC TYPE)
+|
+*/
+define('KEYIPPSA', 'IPPSA',true);
+define('KEYISO', 'ISO',true);
+define('KEYT&C', 'T&C',true);
+define('KEYSPP', 'SPP',true);
+define('KEYPNBP', 'PNBP',true);
+define('KEYKBS', 'KBS',true);
+define('KEYBTPT', 'BT PT',true);
+define('KEYUTVLI', 'UTVLI',true);
+define('KEYSPTAL', 'SPTAL',true);
+define('KEYSPPNBP', 'SPPNBP',true);
+define('KEYISO7812', 'ISO7812',true);
 
 
 /*
@@ -687,7 +759,7 @@ define('TBUSER', 'user',true);
 |
 */
 
-#general (these field used in more than 1 table)
+#general (these fields used in more than 1 table)
 define('FLURL', 'url',true);
 define('FLPATHFL', 'path_file',true);
 define('FLST', 'status',true);
