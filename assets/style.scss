@@ -2497,28 +2497,77 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
 
 .hidden{display:none}
 
+@media screen and (max-width: $desktop) {
+    .survey-section{
+      padding: 20px 10px !important
+    }
+}
 .survey-header, .survey-row{
+  color: #555;
   width: 100%;
   box-sizing: border-box;
   display: flex;
+  border: 1px solid #ddd;
+  margin: 4px 0;
+  padding: 10px 20px;
   .id_no{
-    max-width: 50px;
-    min-width: 50px;
+    max-width: 30px;
+    min-width: 30px;
+    line-height: 1.5em;
+    @media screen and (max-width: $desktop*.75) {
+        display: none;
+    }
   }
   .id_qs{
-    width: 100%
+    width: 100%;
+    line-height: 1.5em;
+    padding-right: 10px
   }
   .id_as{
-    max-width: 100px;
-    min-width: 100px;
+    max-width: 150px;
+    min-width: 130px;
+    border-left: 1px solid #ddd;
+    padding-left: 20px;
+    text-align: center
   }
 }
 
-.td-stars span{
-  background: url(rate.png) no-repeat center;
-  width: 20px;
-  height: 20px;
-  display: inline-block
+.td-stars {
+  .c-rating_no{
+    font-size: 1em;
+    span{
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+  .c-rating_pv{
+    font-size: .8em;
+  }
+  .c-rating{
+    position:relative;
+    width: 105px;
+    height: 20px;
+    margin: 0 auto;
+  }
+  .c-rating_bg, .c-rating_fg{
+    position: absolute;
+    background: url(rate-bar.jpg) repeat-x;
+    top: 0;
+    bottom:0;
+    left: 0
+  }
+  .c-rating_bg{
+    right: 0;
+  }
+  .c-rating_fg{
+    background: url(rate-bar.png) no-repeat;
+  }
+}
+.survey-header{
+  margin-bottom: -5px;
+  line-height: 1.5em;
+  background: rgba(0,0,0,.05);
+  font-weight: bold;
 }
 
 .modal-form-rev-assess{
