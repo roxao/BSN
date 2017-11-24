@@ -383,7 +383,7 @@ header {
 
 /*FOOTER*/
 
-footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top: 50px;font-size: 10pt}
+footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top: 30px;font-size: 10pt}
 .footer_container     {max-width: 1000px;margin: 0 auto;padding: 20px 0;position: relative}
 .footer_copyright {
   margin-top: 5px; 
@@ -983,6 +983,7 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
       height: 60px;
       text-align: left;
       padding: 0 10px 0 40px;
+      font-size: .95em;
     }
     &.step_l {
       float: left;
@@ -996,8 +997,8 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
       display: block;
       width: 6px;
       height: 6px;
-      border-right: 3px solid #01923F;
-      border-top: 3px solid #01923F;
+      border-right: 3px solid #aaa;
+      border-top: 3px solid #aaa;
     }
     &.step_l:after {
       content: '';
@@ -2501,6 +2502,10 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     .survey-section{
       padding: 20px 10px !important
     }
+    .line-header{
+      margin-top: 54px !important;
+      margin-bottom: 0 !important;
+    }
 }
 .survey-header, .survey-row{
   color: #555;
@@ -2641,6 +2646,61 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     padding: 6px 5px 4px 5px;
     background: #017532;
     box-shadow: inset 0 3px 0 0px rgba(0,0,0,.2);
+  }
+}
+
+
+#complain-section{
+  max-width: 900px;
+  margin: 100px auto;
+  .complain-title{
+    padding: 15px 30px;
+    font-size: 1.3em;
+    background: #f7f7f7;
+    color: $c_2nd;
+    font-weight: 600
+  }
+  .complain-desc{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 20px 30px;
+    color: #999;
+    font-size: 1em;
+    line-height: 1.5em;
+    margin: 0 auto;
+
+  }
+  .complain-form{
+    margin: 30px;
+    textarea{
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 200px;
+      padding: 20px;
+      color: #555;
+      font-size: 1.1em;
+      font-family: Arial;
+      letter-spacing: .5px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+  }
+  .complain-footer{
+    margin: 10px 0;
+    padding: 10px 0 0 0;
+    text-align: right;
+    button{
+      float: right;
+      margin: 0;
+      padding: 12px 20px;
+      box-shadow: none;
+      font-weight: 600;
+      letter-spacing: .5px;
+      &:hover{
+        box-shadow: inset 0 0 50px 0 rgba(0,0,0,.1), 0 5px 10px 0 rgba(0,0,0,.1) !important ;
+      }
+    }
   }
 }
    

@@ -106,13 +106,8 @@ class SipinHome extends CI_Controller {
 	// ALDY: FILE ISO
 	// public function iso_document(){ 
 	public function file_iso_7812() {		
-		// $data['file_iso'] = 'http://localhost:8090/BSN/assets/sample.pdf';
 		$data['file_iso'] = $this->user_model->get_file_iso()->result();
-
-		
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('iso-document-view', $data);
+		$this->set_template('iso-document-view', $data);
 	}
 
 	// ALDY: LOGIN USER
@@ -1114,10 +1109,7 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('submit-iin',$data);
-		$this->load->view('footer');
+		$this->set_template('submit-iin', $data);
 
 	}
 
@@ -1125,29 +1117,33 @@ class SipinHome extends CI_Controller {
 		$this->load->view('component/modal_popup');
 	}
 
-	public function contact_us()
-	{	
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('contact-us');
-		$this->load->view('footer');
-		
+	public function contact_us(){	
+		$this->set_template('contact-us', $data = null);
 	}
 
-	public function send_complaint()
-	{	
-		$cek = $this->user_model->get_user_by_prm($id_user = $this->session->userdata('id_user'));
-		
+	public function send_complaint(){	
+		$cek = $this->user_model->get_user_by_prm($this->session->userdata('id_user'))->result_array();
 		$data = array(
-                'id_user' => $cek->row()->id_user,
+                'id_user' => $cek[0]['id_user'],
                 'complaint_details' => $this->input->post('message'),
                 'created_date' => $this->date_time_now(),
-                'created_by' => $cek->row()->username
+                'created_by' => $cek[0]['username']
             );
-		$this->user_model->insert_complain($data);
+		if($this->user_model->insert_complain($data)){
+			$message['type'] 	= 'SUCCESS';
+			$message['title'] 	= 'Keluhan Terkirim';
+			$message['message'] = 'Keluhan anda telah dikirim silakan blablabla';
+			$message['redirect']= base_url('informasi-iin/pengaduan');
+		} else {
 
-		redirect(base_url(''));
+		}
+		$this->load->clear_vars();
 
+		$this->message($message);
+	}
+
+	public function complaint(){
+		$this->set_template('complaint',$data = null);
 	}
 
 	public function cms_post($prm){
@@ -1161,6 +1157,10 @@ class SipinHome extends CI_Controller {
 		$message = $this->input->post('message');
 		$this->user_model->sendMail($email,$name, $message);
 		redirect(base_url('contact-us'));
+	}
+
+	public function message($data = array()){	
+		$this->load->view('message', $data);
 	}
 
 	public function iin_list(){

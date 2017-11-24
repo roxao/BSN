@@ -43,26 +43,14 @@
 						<li class="nav-link"><a href="<?php echo base_url('informasi-iin/daftar-penerima-iin');?>">Daftar penerima IIN</a>
 						<li class="nav-link"><a href="<?= base_url('informasi-iin/file_iso_7812')?>">File ISO 7812</a>
 						<li class="nav-link"><a href="<?= base_url('survey/hasil-survei')?>">Hasil Survey</a>
-						<?php 
-							foreach ($cms_name as $value => $index) {
+						<?php for ($i=0; $i < count($cms_name) ; $i++) { ?>
+							<li class="nav-link"><a href="<?= base_url('informasi-iin/'. $cms_name[$i]['url']) ?>"><?=$cms_name[$i]['title']?></a></li>
+						<?php } ?>
 
-								$url = "";
-								$title = "";
-								foreach ($index as $key => $val) {
-									# code...
-									// echo $key;
-									if ( $key =='url' ) {
-										$url = $val;
-									}
-									if ( $key =='title' ) {
-										$title = $val;
-									}
-
-									
-								}
-								?><li class="nav-link"><a href="<?php echo base_url('informasi-iin/'.$url);?>"><?php echo $title?></a> <?php
-							}
-						?>
+						<?php if($this->session->userdata('status') == "login") {?>
+							<li class="nav-link"><a href="<?= base_url('informasi-iin/pengaduan')?>">Pengaduan</a></li>
+						<?php } ?>
+				
 					</ul>
 				</li>
 				<li class="nav-link"><a href="<?php echo base_url('contact-us');?>">Hubungi Kami</a></li>
@@ -73,7 +61,7 @@
 				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
 
 				<?php } else { ?>
-				<li class="nav-notif"><a href="<?php echo base_url();?>">Notifikasi <span id='unreadCount'></span></a>
+				<li class="nav-notif"><a href="" style="pointer-events: none">Notifikasi <span id='unreadCount'></span></a>
 					<ul class="box_notif">
 						
 					</ul>
