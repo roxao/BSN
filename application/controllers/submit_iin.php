@@ -1103,6 +1103,7 @@ class submit_iin extends CI_Controller {
 	//SURVEY
 
 	public function set_template($view_name, $data = array()){
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
         $this->load->view('header', $data);
         $this->load->view($view_name, $data);
         $this->load->view('footer', $data);
@@ -1157,7 +1158,7 @@ class submit_iin extends CI_Controller {
 				$this->session->set_userdata('survey_status','1');
 				redirect(base_url('Layanan-IIN'));
 				break;
-			case 'result-survey';
+			case 'hasil-survei';
 				$result=$this->admin_model->survey('get-survey-result',null)->result_array();
 				if (!$result) {
 					$result = $this->model->survey('vote',null)->result_array();
@@ -1231,7 +1232,6 @@ class submit_iin extends CI_Controller {
 				redirect(base_url());
 				break;
 		}
-
 	}
 
 }

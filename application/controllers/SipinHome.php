@@ -15,16 +15,13 @@ class SipinHome extends CI_Controller {
 	}
  
 	public function index() {		
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
 		$data['banner'] = $this->model->get_banner_active()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('home', $data);
-		$this->load->view('footer');
-
+		$this->set_template('home', $data);
 	}
 
 
 	public function set_template($view_name, $data = array()){
+		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
         $this->load->view('header', $data);
         $this->load->view($view_name, $data);
         $this->load->view('footer', $data);

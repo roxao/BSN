@@ -41,8 +41,8 @@
 				<li class="nav-link parent"><a>Informasi IIN</a>
 					<ul>
 						<li class="nav-link"><a href="<?php echo base_url('informasi-iin/daftar-penerima-iin');?>">Daftar penerima IIN</a>
-						<li class="nav-link"><a href="<?php echo base_url();?>informasi-iin/file_iso_7812">File ISO 7812</a>
-						<li class="nav-link"><a href="<?php echo base_url();?>">Hasil Survey</a>
+						<li class="nav-link"><a href="<?= base_url('informasi-iin/file_iso_7812')?>">File ISO 7812</a>
+						<li class="nav-link"><a href="<?= base_url('survey/hasil-survei')?>">Hasil Survey</a>
 						<?php 
 							foreach ($cms_name as $value => $index) {
 
