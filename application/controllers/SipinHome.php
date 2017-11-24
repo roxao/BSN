@@ -141,7 +141,9 @@ class SipinHome extends CI_Controller {
 
     public function logout() {	
       	$username = $this->session->userdata('username');
-      	$this->log("logout","logout", $username);
+      	if ($username != '') {
+      		$this->log("logout","logout", $username);
+      	}
 		$this->session->sess_destroy($_SESSION=[]);	
 		redirect(base_url());
 	}
@@ -437,7 +439,7 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		$data['app_type'] = "new";	
+		$data['app_type'] = APPTYPENEW;	
 		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'
@@ -445,7 +447,7 @@ class SipinHome extends CI_Controller {
 		*/
 		if ( $iin_status == 'CLOSED' ) {
 			if ( $have_iin=='Y' ) {
-				$data['app_type'] = "extend";
+				$data['app_type'] = APPTYPEEXT;
 				$data['title_iin0'] = "Pengajuan Surat Pengawasan IIN Lama";
 
 				$input_field = $this->user_model->step_0_get_application_extend($id_user);
@@ -479,7 +481,7 @@ class SipinHome extends CI_Controller {
 				Validate StepId (step0)
 				*/
 				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
-					$data['state0'] = "process";
+					$data['state0'] = STATEPROCESS;
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
