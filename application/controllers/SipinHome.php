@@ -444,7 +444,7 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		$data['app_type'] = APPTYPENEW;	
+		$data['app_type'] = 'APPTYPENEW';	
 		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'
@@ -1152,10 +1152,7 @@ class SipinHome extends CI_Controller {
 
 	public function cms_post($prm){
 		$data['cms'] = $this->model->get_cms_by_prm($prm)->result_array();
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('cms-post-view',$data);
-		$this->load->view('footer');
+		$this->set_template('cms-post-view',$data);
 	}
 
 	public function contact_us_prossess(){	
@@ -1168,10 +1165,7 @@ class SipinHome extends CI_Controller {
 
 	public function iin_list(){
 		$data['iin'] = $this->user_model->get_iin()->result();
-		$header_data['cms_name'] = $this->model->get_cms_by_name()->result_array();
-		$this->load->view('header',$header_data);
-		$this->load->view('iin-list-view',$data);
-		$this->load->view('footer');
+		$this->set_template('iin-list-view',$data);
 	}
 
  }
