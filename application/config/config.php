@@ -645,17 +645,30 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 |--------------------------------------------------------------------------
 |
 |
-| TABLE NAME (Key)
+| TABLE NAME (TB)
 |
 */
 define('TBADMIN', 'admin',true);
-define('TBAPPFILE', 'application_file',true);
-define('TBAPPSTS', 'application_status',true);
-define('TB', 'ADM',true);
-define('TB', 'ADM',true);
-define('TB', 'ADM',true);
-define('TB', 'ADM',true);
-define('TB', 'ADM',true);
+define('TBAPPFL', 'application_file',true);
+define('TBAPPST', 'application_status',true);
+define('TBAPPSTFM', 'application_status_form_mapping',true);
+define('TBAPPSTNM', 'application_status_name',true);
+define('TBAPP', 'applications',true);
+define('TBASMAPP', 'assessment_application',true);
+define('TBASMREG', 'assessment_registered',true);
+define('TBASMTM', 'assessment_team',true);
+define('TBASMTT', 'assessment_team_title',true);
+define('TBBANNER', 'banner',true);
+define('TBCMS', 'cms',true);
+define('TBCMSFL', 'cms_file',true);
+define('TBCOMPL', 'complaint',true);
+define('TBDOCCFG', 'document_config',true);
+define('TBIIN', 'iin',true);
+define('TBLOG', 'log',true);
+define('TBNOTIF', 'notification',true);
+define('TBSRVANS', 'survey_answer',true);
+define('TBSRVQUE', 'survey_question',true);
+define('TBUSER', 'user',true);
 
 
 
@@ -667,6 +680,128 @@ define('TB', 'ADM',true);
 |--------------------------------------------------------------------------
 |
 |
-| TABLE NAME (Key)
+| TABLE FIELD (FL)
+|
+|
+|--------------------------------------------------------------------------
 |
 */
+
+#general (these field used in more than 1 table)
+define('FLURL', 'url',true);
+define('FLPATHFL', 'path_file',true);
+define('FLST', 'status',true);
+define('FLTITLE', 'title',true);
+define('FLVERSION', 'version',true);
+define('FLDSPLNM', 'display_name',true);
+define('FLTYPE', 'type',true);
+define('FLEMAIL', 'email',true);
+define('FLUSRNM', 'username',true);
+define('FLPASSW', 'password',true);
+define('FLCRTDT', 'created_date',true);
+define('FLCRTBY', 'created_by',true);
+define('FLMDFDT', 'modified_date',true);
+define('FLMDFBY', 'modified_by',true);
+
+#admin
+define('FLIDADM', 'id_admin',true);
+define('FLADMST', 'admin_status',true);
+define('FLADMRL', 'admin_role',true);
+
+#user
+define('FLIDUSR', 'id_user',true);
+define('FLSTUSR', 'status_user',true);
+define('FLSRVST', 'survey_status',true);
+
+#application
+define('FLIDAPP', 'id_application',true);
+define('FLAPC', 'applicant',true);
+define('FLAPCPN', 'applicant_phone_number',true);
+define('FLAPPDT', 'application_date',true);
+define('FLAPPPU', 'application_purpose',true);
+define('FLAPPTYPE', 'application_type',true);
+define('FLINSML', 'instance_email',true);
+define('FLINSPH', 'instance_phone',true);
+define('FLINSDIR', 'instance_director',true);
+define('FLMLLOC', 'mailing_location',true);
+define('FLMLNUM', 'mailing_number',true);
+define('FLIINST', 'iin_status',true);
+
+#application status
+define('FLIDAPPST', 'id_application_status',true);
+define('FLPROCST', 'process_status',true);
+
+#application status name
+define('FLIDAPPSTNM', 'id_application_status_name',true);
+define('FLAPPSTNM', 'id_application_status_name',true);
+define('FLOWNER', 'owner',true);
+
+#application status form mapping
+define('FLIDAPPSTFM', 'id_application_status_form_mapping',true);
+define('FLVALUE', 'value',true);
+
+#application file
+define('FLIDAPPFL', 'id_application_file',true);
+
+#document config
+define('FLIDDOCCFG', 'id_document_config',true);
+define('FLKEY', 'key',true);
+define('FLMAND', 'mandatory',true);
+define('FLFILEURL', 'file_url',true);
+
+#log
+define('FLIDLOG', 'log',true);
+define('FLDTLLOG', 'detail_log',true);
+define('FLLOGTYPE', 'log_type',true);
+
+#notification
+define('FLIDNOTIF', 'id_notification',true);
+define('FLNOTIFTYPE', 'notification_type',true);
+define('FLNOTIFOWNER', 'notification_owner',true);
+define('FLNOTIFURL', 'notification_url',true);
+
+#survey answer
+define('FLIDSRVANS', 'id_survey_answer',true);
+define('FLANSWER', 'answer',true);
+
+#survey question
+define('FLIDSRVQUE', 'id_survey_question',true);
+define('FLQUESTION', 'question',true);
+
+#assessment application
+define('FLIDASMAPP', 'id_assessment_application',true);
+define('FLASMDT', 'assessment_date',true);
+define('FLASMST', 'assessment_status',true);
+
+#assessment registered
+define('FLIDASMREG', 'id_assessment_registered',true);
+
+#assessment team
+define('FLIDASMTM', 'id_assessment_team',true);
+define('FLNAME', 'name',true);
+
+#assessment team title
+define('FLIDASMTMTT', 'id_assessment_team_title',true);
+
+#iin
+define('FLIDIIN', 'id_iin',true);
+define('FLIINNUM', 'iin_number',true);
+define('FLIINESTDT', 'iin_established_date',true);
+define('FLIINEXPDT', 'iin_expiry_date',true);
+
+#cms
+define('FLIDCMS', 'id_cms',true);
+define('FLCONT', 'contents',true);
+
+#cms file
+define('FLIDCMSFL', 'id_cms_file',true);
+define('FLFLNM', 'file_name',true);
+
+#banner
+define('FLIDBANNER', 'id_banner',true);
+define('FLTEXT', 'text',true);
+define('FLPATH', 'path',true);
+
+#complaint
+define('FLIDCOMPL', 'id_complaint',true);
+define('COMPLDTL', 'complaint_details',true);
