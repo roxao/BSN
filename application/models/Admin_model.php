@@ -405,8 +405,8 @@ class Admin_model extends CI_Model {
         $this->db->update('cms_file',$data);
     }
 
-    public function get_conplain(){
-        return $this->db->get('complaint');
+    public function get_complaint(){
+        return $this->db->get(TBCOMPL);
     }
 
     public function insert_document_config($data){

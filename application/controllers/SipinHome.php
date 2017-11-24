@@ -64,6 +64,14 @@ class SipinHome extends CI_Controller {
 		return $data;
 	}
 
+	public function date_time_now() {
+		/*
+		SET TIMEZONE ASIA/JAKARTA
+		*/
+	    $datetime = new DateTime('Asia/Jakarta');
+	    return $datetime->format('Y\-m\-d\ H:i:s');
+	}
+
 	public function tanggal_indo($tanggal, $cetak_hari = false)
 	{
 		$hari = array ( 1 =>    'Senin',
@@ -132,7 +140,7 @@ class SipinHome extends CI_Controller {
 		$dataLog = array(
                 'detail_log' => $username. $detil,
                 'log_type' => $Type .$username, 
-                'created_date' => date('Y-m-j H:i:s'),
+                'created_date' => $this->date_time_now(),
                 'created_by' => $username
             );
         $this->user_model->insert_log($dataLog);
@@ -141,7 +149,9 @@ class SipinHome extends CI_Controller {
 
     public function logout() {	
       	$username = $this->session->userdata('username');
-      	$this->log("logout","logout", $username);
+      	if ($username != '') {
+      		$this->log("logout","logout", $username);
+      	}
 		$this->session->sess_destroy($_SESSION=[]);	
 		redirect(base_url());
 	}
@@ -437,7 +447,7 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		$data['app_type'] = "new";	
+		$data['app_type'] = APPTYPENEW;	
 		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'
@@ -445,7 +455,7 @@ class SipinHome extends CI_Controller {
 		*/
 		if ( $iin_status == 'CLOSED' ) {
 			if ( $have_iin=='Y' ) {
-				$data['app_type'] = "extend";
+				$data['app_type'] = APPTYPEEXT;
 				$data['title_iin0'] = "Pengajuan Surat Pengawasan IIN Lama";
 
 				$input_field = $this->user_model->step_0_get_application_extend($id_user);
@@ -479,7 +489,7 @@ class SipinHome extends CI_Controller {
 				Validate StepId (step0)
 				*/
 				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
-					$data['state0'] = "process";
+					$data['state0'] = STATEPROCESS;
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
 					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
@@ -1128,17 +1138,18 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function send_complaint()
-	{
-		$cek = $this->user_model->get_user_by_prm($this->input->post('email'),$this->input->post('name'));
+	{	
+		$cek = $this->user_model->get_user_by_prm($id_user = $this->session->userdata('id_user'));
 		
 		$data = array(
                 'id_user' => $cek->row()->id_user,
                 'complaint_details' => $this->input->post('message'),
-                'created_date' => date('Y-m-j'),
-                'created_by' => $this->input->post('name'));
+                'created_date' => $this->date_time_now(),
+                'created_by' => $cek->row()->username
+            );
 		$this->user_model->insert_complain($data);
 
-		redirect(base_url('contact-us'));
+		redirect(base_url(''));
 
 	}
 
@@ -1165,4 +1176,17 @@ class SipinHome extends CI_Controller {
 		$this->load->view('iin-list-view',$data);
 		$this->load->view('footer');
 	}
+
+	public function send_notif($id_application,$id_user)
+    {	
+    	$id_user = $this->session->userdata('id_user');
+        $data = array(
+            'notification_type' => 'admin',
+            'notification_owner' => $id_user,
+            'message' => 'Silahkan mengecek proses',
+            'Status' => 'ACTIVE',
+            'notification_url' => 'Layanan-IIN'
+        );
+        $this->admin_model->insert_notif($data);
+    }
  }

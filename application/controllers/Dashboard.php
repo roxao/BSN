@@ -1026,9 +1026,9 @@ class Dashboard extends CI_Controller {
 
 
     // menampilkan user yang komplain
-    public function get_complain_data()
+    public function get_complaint_data()
     {
-        $data['compalin'] = $this->admin_model->get_conplain()->result();
+        $data['complaint'] = $this->admin_model->complaint()->result();
         echo json_encode($data);
     }
 

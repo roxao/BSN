@@ -169,6 +169,10 @@ class submit_iin extends CI_Controller {
 							$this->log("Added New Application","Created new application by");
 					        
 					        /*
+							Send Notif Step 0
+							*/
+					        $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+					        /*
 				            	REMINDER : 
 				            	At this point , user should be stuck in this page
 								and waiting for admin verification

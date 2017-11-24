@@ -795,15 +795,10 @@ class User_model extends CI_Model {
      {
         $this->db->select('*');
         $this->db->from('user');
-        $this->db->where('email', $email);
-        $this->db->where('name', $name);
-        return $this->db->get(); 
+        $this->db->where('id_user',$id);
+        return $this->db->get();
      }
 
-     public function insert_complain($data)
-     {
-        $this->db->insert('complaint', $data);
-     }
 
      public function get_iin()
      {
@@ -850,11 +845,33 @@ class User_model extends CI_Model {
 
 
 
+    public function get_notif($notifikation_type){
+        $this->db->select('*');
+        $this->db->from('notification');
+        $this->db->where('notification_type', $notifikation_type);
+        
+        
+        return $this->db->get();
+    }
 
+    public function update_notif($condition)
+    {
+        $data = array('Status' => 'INACTIVE' );
+        $this->db->where('id_notification', $condition);
+        $this->db->update('notification',$data);
+    }
 
+    public function insert_notif($data)
+    {
+        $this->db->insert('notification', $data);
+    }
 
+    public function insert_complaint($data)
+    {
+        $this->db->insert('complaint', $data);
+    }
 
-     // ALDY SOURCE CODE
+     
 
     public function get_iin_download($id_application_status, $key){ 
         $this->db->select('*');
