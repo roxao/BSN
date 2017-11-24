@@ -1109,6 +1109,18 @@ class submit_iin extends CI_Controller {
         return;
     }
 
+    public function send_notif($id_application,$id_user)
+    {
+        $data = array(
+            'notification_type' => $id_user,
+            'notification_owner' => 'admin',
+            'message' => 'Silahkan mengecek proses',
+            'Status' => 'ACTIVE',
+            'notification_url' => 'Layanan-IIN'
+        );
+        $this->admin_model->insert_notif($data);
+    }
+
 
 	public function survey( $x = null){
 		switch ($x) {
@@ -1221,4 +1233,5 @@ class submit_iin extends CI_Controller {
 		}
 
 	}
+
 }
