@@ -1,33 +1,19 @@
 	<div style="margin-top: 54px">
 		<!-- SLIDESHOW -->
-		<script>
-		$(function() {
-			if ($('#slideshow li').length > 1){
-			    $("#slideshow").slidesjs({
-			        width:  window.innerWidth,
-			      	height:  window.innerWidth/2,
-			      	navigation: {active: false},
-			        play: {
-			          active: true,
-			          auto: true,
-			          interval: 5000,
-			          swap: true,
-			          pauseOnHover: true
-			        }
-			      });
-		    } else {
-			    $("#slideshow").show();
-		    };
 
-		    });
-		</script>
 		<ul id="slideshow">
-			<?php foreach ($banner as $key => $data) {?>
+			<?php foreach ($banner as $key => $data) {
+					if (empty(parse_url($data['url'])['scheme']))$data['url'] = 'http://' . ltrim($data['url']);
+				?>
 				<li class="item_slideshow" style="background-image: url(<?=$data['path']?>);">
+					
 					<div class="item_slideshow_caption">
-						<h1><?=$data['title']?></h1>
-						<h2><?=$data['text']?></h2>
+						<a href="<?=$data['url']?>">
+							<h1><?=$data['title']?></h1>
+							<h2><?=$data['text']?></h2>
+						</a>
 					</div>
+					
 				</li>
 			<?php } ?>
 		</ul>
@@ -36,6 +22,16 @@
 			<li></li>
 			<li style="width: 30px; background: #555"></li>
 		</ul>
+
+		<script>
+			var slide_option = {
+				target 	 : $('#slideshow'),
+				interval : 3, // second units
+				fadeTime : 'slow' // fast, 400, slow
+			}
+			carousel(slide_option);
+			
+		</script>
 
 		<div class="content_welcome_world container_article" >	
 			<article class="content_hello_world" style="margin-bottom: 50px" >

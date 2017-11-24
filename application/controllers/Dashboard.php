@@ -375,6 +375,27 @@ class Dashboard extends CI_Controller {
                 $this->admin_model->update_cms($condition,$data);
                 redirect('dashboard/settings/cms');
                 break;
+            case 'banner':
+                
+                $condition = array('id_banner' => $this->input->post('id_cms'));
+                $data = array(
+                    'title' => $this->input->post('title'),
+                    'text' => $this->input->post('text'),
+                    'path' => $this->input->post('path'),
+                    'status' => $this->input->post('status'),
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')             
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Update Data Banner',
+                    'log_type' => 'Update Data Banner', 
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
+                );
+                $this->admin_model->update_banner($condition,$data);
+                redirect('dashboard/settings/banner');
+                break;
+
             case 'iin':
                 $condition = array('id_iin' => $this->input->post('id_iin'));
                 $data = array(
@@ -497,6 +518,27 @@ class Dashboard extends CI_Controller {
                 $this->admin_model->insert_cms($data); 
                 redirect('dashboard/settings/cms');
                 break;
+
+            case 'banner':
+                
+                $data = array(
+                    'title' => $this->input->post('title'),
+                    'text' => $this->input->post('text'),
+                    'path' => $this->input->post('path'),
+                    'status' => $this->input->post('status'),
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')             
+                    );
+                $log = array(
+                    'detail_log' => $this->session->userdata('admin_role').' Insert Data Banner',
+                    'log_type' => 'Insert Data Banner', 
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
+                );
+                $this->admin_model->insert_banner($data);
+                redirect('dashboard/settings/banner');
+                break;
+
             case 'iin':
                 $data = array(
                     'id_user' => $this->input->post('id_user'),
