@@ -22,6 +22,7 @@ class SipinHome extends CI_Controller {
 
 	public function set_template($view_name, $data = array()){
 		$data['cms_name'] = $this->model->get_cms_by_name()->result_array();
+		if(!isset($data['web_title'])) $data['web_title'] = 'Layanan Issuer Identification Number';
         $this->load->view('header', $data);
         $this->load->view($view_name, $data);
         $this->load->view('footer', $data);
@@ -105,7 +106,8 @@ class SipinHome extends CI_Controller {
 
 	// ALDY: FILE ISO
 	// public function iso_document(){ 
-	public function file_iso_7812() {		
+	public function file_iso_7812() {
+		$data['web_title'] = 'Dokumen ISO 7812 :: Layanan Issuer Identification Number';
 		$data['file_iso'] = $this->user_model->get_file_iso()->result();
 		$this->set_template('iso-document-view', $data);
 	}
@@ -1004,10 +1006,6 @@ class SipinHome extends CI_Controller {
 												/*
 												RENDER STEP 7 REVISION
 												*/
-
-														echo "TEST|".$id_application_status;
-						       					$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
-						       					echo json_encode($val);
 								        		$id_document_config = array();
 												foreach ($val as $index => $valIndex) {
 
@@ -1110,6 +1108,7 @@ class SipinHome extends CI_Controller {
 		/*
 		Passing $data from Controller to View
 		*/
+		$data['web_title'] = 'Layanan IIN :: Layanan Issuer Identification Number';
 		$this->set_template('submit-iin', $data);
 
 	}
@@ -1119,6 +1118,7 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function contact_us(){	
+		$data['web_title'] = 'Hubungi Kami :: Layanan Issuer Identification Number';
 		$this->set_template('contact-us', $data = null);
 	}
 
@@ -1130,20 +1130,12 @@ class SipinHome extends CI_Controller {
                 'created_date' => $this->date_time_now(),
                 'created_by' => $cek[0]['username']
             );
-		if($this->user_model->insert_complain($data)){
-			$message['type'] 	= 'SUCCESS';
-			$message['title'] 	= 'Keluhan Terkirim';
-			$message['message'] = 'Keluhan anda telah dikirim silakan blablabla';
-			$message['redirect']= base_url('informasi-iin/pengaduan');
-		} else {
-
-		}
-		$this->load->clear_vars();
-
-		$this->message($message);
+		$this->user_model->insert_complaint($data)
+		redirect(base_url('informasi-iin/pengaduan'));
 	}
 
 	public function complaint(){
+		$data['web_title'] = 'Layanan Pengaduan :: Layanan Issuer Identification Number';
 		$this->set_template('complaint',$data = null);
 	}
 
@@ -1165,7 +1157,14 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function iin_list(){
+		$val = $this->session->userdata();
+		if($val['have_iin']=='Y') 
+			$data['download_iin'] = $this->user_model->get_iin_download($val['id_application_status'], 'IIN')->result_array();
+		else 
+			$data['download_iin'] = null;
+
 		$data['iin'] = $this->user_model->get_iin()->result();
+		$data['web_title'] = 'Daftar Penerima IIN :: Layanan Issuer Identification Number';
 		$this->set_template('iin-list-view',$data);
 	}
 
