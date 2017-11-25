@@ -674,6 +674,7 @@ class Admin_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('notification');
         $this->db->where('notification_type', $notifikation_type);
+        $this->db->where('Status !=', 'INACTIVE');
         
         
         return $this->db->get();

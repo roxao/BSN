@@ -80,7 +80,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
             $this->admin_model->insert_app_sts_for_map($data4);
 
-            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP0;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
              redirect(base_url('dashboard'));
@@ -127,7 +128,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
 
                 //kirim notifikasi
-                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+
+                $message = ADMNTFSTEP0;
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             }else{
                 
@@ -248,7 +251,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
            $this->admin_model->insert_app_sts_for_map($data2);
 
-           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP2;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
            $this->send_mail($this->input->post('id_application'));
 
@@ -331,7 +335,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     }
              }
 
-             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP2REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
              $this->send_mail($this->input->post('id_application'));
 
@@ -386,7 +391,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
            $this->admin_model->insert_app_sts_for_map($data3);    
 
-           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+           $message = ADMNTFSTEP2REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
            $this->send_mail($this->input->post('id_application'));
 
@@ -465,7 +471,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     }
              }
 
-             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+             
+           $message = ADMNTFSTEP2REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
              $this->send_mail($this->input->post('id_application'));
 
@@ -611,8 +619,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
            
                 }
-             
-             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            
+            $message = ADMNTFSTEP3;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
              $this->send_mail($this->input->post('id_application'));
 
@@ -729,7 +738,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
            
                 }
             
-            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP3REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
 
@@ -923,7 +933,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               } 
 
-              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP5;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
               $this->send_mail($this->input->post('id_application'));
 
@@ -993,8 +1004,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
                 
             $this->admin_model->insert_app_sts_for_map($data4);
-
-            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            
+            $message = ADMNTFSTEP5REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
 
@@ -1204,7 +1216,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               } 
 
-              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+              $message = ADMNTFSTEP5REV;
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
               $this->send_mail($this->input->post('id_application'));
 
@@ -1230,7 +1243,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             $this->admin_model->insert_log($dataL);
 
-            $this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($dta,$condition);
 
             $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -1252,7 +1265,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     );
            $this->admin_model->insert_app_sts_for_map($data6);
 
-           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+           $message = ADMNTFSTEP5REV;
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
 
@@ -1497,7 +1511,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
               }
 
-              $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+              $message = ADMNTFSTEP7;
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
               $this->send_mail($this->input->post('id_application'));
 
@@ -1631,8 +1646,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     $this->admin_model->insert_app_sts_for_map($dataDocAss);
                 }
         }
-
-        $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+        $message = ADMNTFSTEP6REV;
+        $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
         $this->send_mail($this->input->post('id_application'));
 
@@ -1869,7 +1884,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
             }
 
-            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP7REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
 
@@ -2135,7 +2151,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     }
              }
 
-             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+             $message = ADMNTFSTEP7REV;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
              $this->send_mail($this->input->post('id_application'));
 
@@ -2381,12 +2398,13 @@ class Admin_Verifikasi_Controller extends CI_Controller
     }   
 
         //belum fix
-    public function send_notif($id_application,$id_user)
+    public function send_notif($id_application,$id_user,$message)
     {
         $data = array(
             'notification_type' => $id_user,
             'notification_owner' => 'admin',
-            'message' => 'Silahkan mengecek proses',
+            // 'message' => 'Silahkan mengecek proses',
+            'message' => $message,
             'Status' => 'ACTIVE',
             'notification_url' => 'Layanan-IIN'
         );

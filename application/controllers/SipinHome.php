@@ -897,7 +897,6 @@ class SipinHome extends CI_Controller {
 								foreach ($id_arr as $val) {
 									$id_assessment_application = $val->id_assessment_application;
 								}
-
 								/*
 								RENDER STEP 6 Team
 								*/
@@ -1006,7 +1005,9 @@ class SipinHome extends CI_Controller {
 												RENDER STEP 7 REVISION
 												*/
 
+														echo "TEST|".$id_application_status;
 						       					$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
+						       					echo json_encode($val);
 								        		$id_document_config = array();
 												foreach ($val as $index => $valIndex) {
 

@@ -841,13 +841,14 @@ class User_model extends CI_Model {
         $this->db->from('banner');
         $this->db->where('status','Y');
         return $this->db->get();
-    }
+    }   
 
      public function get_instance_name($id_user)
     {
         $this->db->select('instance_name');
         $this->db->from('applications');
         $this->db->where('id_user', $id_user);
+        $this->db->where('iin_status', 'OPEN');
         return $this->db->get();
     }
 

@@ -171,7 +171,8 @@ class submit_iin extends CI_Controller {
 					        /*
 							Send Notif Step 0
 							*/
-					        $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+							$message = USNTFSTEP0.$this->input->post('app_instance');
+					        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
 					        /*
 				            	REMINDER : 
 				            	At this point , user should be stuck in this page
@@ -442,7 +443,18 @@ class submit_iin extends CI_Controller {
 			$logMsg = "Revision ";
 		
 		}
+		/*
+		Send Notif Step 2
+		*/
 
+		$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
+		$inst_nm = $dat->row()->instance_name;
+		
+
+		$message = USNTFSTEP2;
+		if ( $logMsg != "") $message = USNTFSTEP2REV;
+		$message = $message.$inst_nm;
+        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
 		/*
 		..INSERT log Table..
 		*/
@@ -643,7 +655,17 @@ class submit_iin extends CI_Controller {
 
 		}
 	
+		/*
+		Send Notif Step 5
+		*/
 
+		$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
+		$inst_nm = $dat->row()->instance_name;	
+
+		$message = USNTFSTEP5;
+		if ( $logMsg != "") $message = USNTFSTEP5REV;
+		$message = $message.$inst_nm;
+        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
 		/*
 		..INSERT log Table..
 		*/
@@ -695,6 +717,15 @@ class submit_iin extends CI_Controller {
 				
 		        $this->user_model->insert_app_status($app_status);
 
+		        /*
+				Send Notif Step 6
+				*/
+		        $dat = $this->model->get_instance_name($this->session->userdata('id_user'));
+				$inst_nm = $dat->row()->instance_name;	
+
+		        $message = USNTFSTEP6.$inst_nm;;
+	        	$this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
+
 				/*
 				AUDIT TRAIL Step 1
 				*/
@@ -736,6 +767,16 @@ class submit_iin extends CI_Controller {
 			);
 
 			$rev_assess_date = date('Y-m-j', strtotime( $this->input->post('rev_assess_date')));
+
+			/*
+			Send Notif Step 6 REV
+			*/
+
+			$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
+			$inst_nm = $dat->row()->instance_name;	
+
+			$message = USNTFSTEP6REV.$inst_nm;
+	        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
 
 			/*
 			..INSERT log Table..
@@ -1100,6 +1141,22 @@ class submit_iin extends CI_Controller {
 	}
 
 
+    public function send_notif_user($id_application,$id_user,$message)
+    {
+        $data = array(
+            'notification_type' => 'admin',
+            'notification_owner' => $id_user,
+            'message' => $message,
+            'Status' => 'ACTIVE',
+            'notification_url' => 'dashboard'
+        );
+        $this->model->insert_notif_user($data);
+    }
+
+
+
+
+
 	//SURVEY
 
 	public function set_template($view_name, $data = array()){
@@ -1109,19 +1166,6 @@ class submit_iin extends CI_Controller {
         $this->load->view('footer', $data);
         return;
     }
-
-    public function send_notif($id_application,$id_user)
-    {
-        $data = array(
-            'notification_type' => $id_user,
-            'notification_owner' => 'admin',
-            'message' => 'Silahkan mengecek proses',
-            'Status' => 'ACTIVE',
-            'notification_url' => 'Layanan-IIN'
-        );
-        $this->admin_model->insert_notif($data);
-    }
-
 
 	public function survey( $x = null){
 		switch ($x) {

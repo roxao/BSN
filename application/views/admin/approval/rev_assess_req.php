@@ -1,8 +1,5 @@
 <section class="clearfix content-approval">
-	<div class="section_list_file">
-		<p>Pemohon mengajukan revisi dikarenakan hal berikut.</p>
-		<p class="notes_modal">Ganti Ini dengan Alasan Pemohon</p>
-	</div>
+	
 
 	<div id="assessment_team">
 		<div style="flex:1">
@@ -22,7 +19,9 @@
 				<div class="x1">POSISI</div><div class="x2">NAMA ANGGOTA</div><div class="x3"></div>
 			</li>
 		</ul>
-
+		<div class="section_list_file">
+			<p class="notes_modal">Pemohon mengajukan pemindahan jadwal assessment lapangan pada :</p>
+		</div>
 		<!-- TANGGAL PELAKSANAAN -->
 		<label class="input_dashed float_left" style="width: 100%">
 			Tanggal Pelaksanaan
@@ -31,7 +30,7 @@
 
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Masukan Usulan Tim Verivikasi Lapangan
+			Masukan Usulan Tim Verifikasi Lapangan
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>

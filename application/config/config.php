@@ -634,6 +634,52 @@ define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi d
 define('APPTYPENEW', 'new',true);
 define('APPTYPEEXT', 'extend',true);
 
+/*
+|
+|--------------------------------------------------------------------------
+| NOTIFICATION :
+|--------------------------------------------------------------------------
+|
+|
+| USER  
+|
+*/
+define('USNTFSTEP0', 'Permohonan IIN baru dari : ',true);
+define('USNTFSTEP2', 'Submit kelengkapan dokumen dari : ',true);
+define('USNTFSTEP2REV', 'Revisi Submit kelengkapan dokumen dari : ',true);
+define('USNTFSTEP5', 'Bukti pembayaran telah di upload oleh : ',true);
+define('USNTFSTEP5REV', 'Revisi bukti pembayaran telah di upload oleh : ',true);
+define('USNTFSTEP6', 'Konfirmasi jadwal dan tim verifikasi lapangan telah di setujui oleh : ',true);
+define('USNTFSTEP6REV', 'Pengajuan pemindahan jadwal assesment lapangan dari : ',true);
+define('USNTFSTEP7', 'Konfirmasi jadwal dan tim verifikasi lapangan telah di setujui oleh : ',true);
+define('USNTFSTEP7REV', 'Tambahan dokumen revisi assessment lapangan dari : ',true);
+// define('USNTFSTEP0', 'STATIC',true);
+
+/*
+|
+|--------------------------------------------------------------------------
+| NOTIFICATION :
+|--------------------------------------------------------------------------
+|
+|
+| ADMIN  
+|
+*/
+define('ADMNTFSTEP0', 'Pengajuan surat permohonan Anda telah selesai diverifikasi',true);
+define('ADMNTFSTEP0REV', 'Pengajuan surat permohonan Anda ditolak',true);
+define('ADMNTFSTEP2', 'Submit kelengkapan dokumen Anda telah selesai di verifikasi',true);
+define('ADMNTFSTEP2REV', 'Revisi kelengkapan dokumen Anda telah selesai di verifikasi',true);
+define('ADMNTFSTEP3', 'Proses verifikasi dan validasi anda telah selesai',true);
+define('ADMNTFSTEP3REV', 'Mohon segera melakukan pembayaran melalui SIMPONI',true);
+define('ADMNTFSTEP5', 'Bukti pembayaran Anda telah dikonfirmasi',true);
+define('ADMNTFSTEP5REV', 'Revisi bukti pembayaran Anda telah dikonfirmasi',true);
+define('ADMNTFSTEP6', 'Anda telah memasuki tahap assessment lapangan',true);
+define('ADMNTFSTEP6REV', 'Pengajuan pemindahan jadwal assessment lapangan Anda telah dikonfirmasi',true);
+define('ADMNTFSTEP7', 'Anda telah memasuki tahap assessment lapangan',true);
+define('ADMNTFSTEP7REV', 'Mohon melanjutkan ke tahap selanjutnya',true);
+// define('ADMNTFSTEP0', 'STATIC',true);
+// define('ADMNTFSTEP0', 'STATIC',true);
+// define('ADMNTFSTEP0', 'STATIC',true);
 
 
 /*

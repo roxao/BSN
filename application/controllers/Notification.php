@@ -19,7 +19,12 @@ class Notification extends CI_Controller {
       
 	}
 
+
+
 	public function getNotification(){
+	// echo "iduser : ".$this->session->userdata('id_user');
+	// echo "adminrol : ".$this->session->userdata('admin_role');
+
 		if($this->session->userdata('admin_role') != NULL)
 		{
 			$notifikation_type = 'admin';
