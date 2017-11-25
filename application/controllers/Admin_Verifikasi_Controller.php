@@ -2074,7 +2074,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 }
 
 
-           $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+           
+            $message = ADMNTFSTEP8;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
            $this->send_mail($this->input->post('id_application'));
 
@@ -2263,7 +2265,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         
              }
 
-             $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP9PEND;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
              $this->send_mail($this->input->post('id_application'));
 
@@ -2389,7 +2392,8 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
 
 
-            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+            $message = ADMNTFSTEP9;
+            $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
             $this->send_mail($this->input->post('id_application'));
 

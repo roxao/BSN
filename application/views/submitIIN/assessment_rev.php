@@ -1,6 +1,6 @@
 <section section-id="assessment_rev" class="section_iin float_right" style="display:none">
 	<h1 class="title_iin">Assessment Lapangan</h1>
-	<p class="step-process">Hasil dari Assessment Lapangan Anda telah diverifikasi, mohon unggah kembali dokumen-dokumen berikut ini :</p>
+	<p class="step-process">Hasil dari Assessment Lapangan Anda telah diverifikasi, mohon unggah dokumen-dokumen berikut ini :</p>
 	<br>
 	<?php echo form_open_multipart('submit_iin/upload_files_assessment');?>
 	<ul class="list_iin_download">
