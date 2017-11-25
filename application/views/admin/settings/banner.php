@@ -1,3 +1,4 @@
+<!-- base_url('Dashboard/action_insert/banner')   untuk actions update mas all-->
 <?php
   $page_title = 'Dashboard :: Pengaturan Konten';
   $page_section = 'Content Management System';
@@ -61,7 +62,7 @@
         <input type="file" name="img_file">
         <span></span>
       </label>
-      <form class="banner-option-desc">
+      <form class="banner-option-desc" action="<?php echo base_url('Dashboard/action_insert/banner') ?>" method="post">
         <input type="hidden" name="id_banner">
         <input type="hidden" name="file_name" class="file_name">
         <label>
@@ -96,12 +97,10 @@
         var preview = $(this).next();
 
         $.upload_process($(this).prop('files')[0], 'banner').done(function(e){
-          preview.css({'background-image': 'url("'+e.full_path+'")'}).addClass('upload-image-success');
+          preview.css({'background-image': 'url("'+e.path_file+e.full_path+'")'}).addClass('upload-image-success');
           $('.file_name').val(e.file_name);
         })
       })
-
-
 
    });
     $('.close_modal').on('click', function(){
@@ -111,7 +110,7 @@
         $('#modal-image-upload').fadeIn('slow');
         $('.banner-option-desc [name=id_banner]').val('');
         $('.banner-option-desc [name=file_name]').val('');
-        $('.banner-option-desc [name=status]').val('');
+        $('.banner-option-desc [name=status]').val('Y');
         $('.banner-option-desc [name=title]').val('');
         $('.banner-option-desc [name=url]').val('');
         $('.banner-option-desc [name=description]').val('');
@@ -119,7 +118,7 @@
      $('.row_select').on('click', function(){
         console.log($(this).children('[data-sort=title]').val());
         $('#modal-image-upload').fadeIn('slow');
-        $('.banner-option-desc [name=id_banner]').val($(this).prop('data-id');
+        $('.banner-option-desc [name=id_banner]').val($(this).prop('data-id'));
         $('.banner-option-desc [name=file_name]').val('');
         $('.banner-option-desc [name=status]').val($(this).children('.status').text());
         $('.banner-option-desc [name=title]').val($(this).children('.title').text());

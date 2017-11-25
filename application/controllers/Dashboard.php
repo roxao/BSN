@@ -365,11 +365,10 @@ class Dashboard extends CI_Controller {
                 $condition = array('id_banner' => $this->input->post('id_cms'));
                 $data = array(
                     'title' => $this->input->post('title'),
-                    'text' => $this->input->post('text'),
-                    'path' => $this->input->post('path'),
+                    'text' => $this->input->post('description'),
+                    'path' => $this->input->post('file_name'),
                     'status' => $this->input->post('status'),
-                    'created_date' => $this->date_time_now(),
-                    'created_by' => $this->session->userdata('admin_username')             
+                    'url' => $this->input->post('url')
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data Banner',
@@ -508,11 +507,10 @@ class Dashboard extends CI_Controller {
                 
                 $data = array(
                     'title' => $this->input->post('title'),
-                    'text' => $this->input->post('text'),
-                    'path' => $this->input->post('path'),
+                    'text' => $this->input->post('description'),
+                    'path' => $this->input->post('file_name'),
                     'status' => $this->input->post('status'),
-                    'created_date' => $this->date_time_now(),
-                    'created_by' => $this->session->userdata('admin_username')             
+                    'url' => $this->input->post('url')
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Insert Data Banner',
@@ -839,10 +837,7 @@ class Dashboard extends CI_Controller {
                 'path_file' => $pathinfo['dirname'],
                 'full_path' => base_url($file_path.$filename),
                 'extension' => $pathinfo['extension'],
-                'size'      => $temp['size'],
-                'width'     => getimagesize(base_url($file_path.$filename))[0],
-                'height'    => getimagesize(base_url($file_path.$filename))[1]
-
+                'size'      => $temp['size']
             );
             echo json_encode($data);
         } else {
