@@ -55,7 +55,11 @@ $(document).ready(function() {
 		$("[name=application_type]").val(app.application_type);
 	}
 	$.base_config_approval = function(){
-		$('[type=date]').prop('type','text').datepicker().datepicker("setDate", new Date());
+		var formatted = $.datepicker.formatDate("dd M yy", new Date());
+   		if($('[type=date]').length !== 0)
+			$('[type=date]').prop({type: 'text'}).val(formatted).datepicker({dateFormat: "dd M yy", setDate: new Date()});
+		else
+			$('[type=date]').prop({type: 'text'}).datepicker({dateFormat: "dd M yy", setDate: new Date()});
 		$('#btn-approval').on('click', function(event) {$('[name=submit_approval]').click()});
 		$('#btn-revision-send').on('click', function(event) {$('[name=submit_revision]').click()});
 		$('#btn-revision').on('click', function(event) {
@@ -139,7 +143,7 @@ $(document).ready(function() {
 				+ '<label>'
 					+ '<select name="question_type[]">'
 						+ '<option value="RATING"' +(y=='RATING'?'selected':'')+ '>Rating</option>'
-						+ '<option value="COMMENT"'  +(y=='COMMENT'?'selected':'')+ '>Komentar</option>'
+						+ '<option value="date"'  +(y=='COMMENT'?'selected':'')+ '>Komentar</option>'
 					+ '</select>'
 				+ '</label>'
 				+ '<label>'

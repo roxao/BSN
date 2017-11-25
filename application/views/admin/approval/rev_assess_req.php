@@ -40,7 +40,7 @@
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
-		<input type="submit" name="submit_approval" style="display:none"/>
+		<input type="submit" name="submit_approval" onClick="return checkInput('#assessment-team-list')" style="display:none"/>
 	</form>
 </section>
 
@@ -71,7 +71,12 @@
 	$.config_file_type();
 	$.set_assessment_roles_on_select();
 	
-
+	function checkInput(x){
+		if($(x).has('li').length < 2){
+			alert('Silakan anggota assessment.');
+		 	return false;
+		}
+	};
 	// SET AUTOCOMPLETE ASSESSMENT LIST NAME
 	$("[name=assessment_list]").autocomplete({
       	source:function(request,response){$.ajax({

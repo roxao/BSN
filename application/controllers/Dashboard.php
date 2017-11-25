@@ -72,30 +72,33 @@ class Dashboard extends CI_Controller {
 
         $this->load->view('admin/header');
         $this->load->view('admin/data-entry-form', $data);
+    }
 
-         
-
-
+    public function complaint(){
+        $this->user('check-autho');
+        $data['complaint'] = $this->admin_model->get_complaint()->result_array();
+        $this->load->view('admin/header');
+        $this->load->view('admin/complaint', $data);
     }
 
     public function extend(){
         $this->user('check-autho');
-        $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications_ext()->result();
+        $this->load->view('admin/header');
         $this->load->view('admin/extend', $data);
     }
 
     public function submission(){
         $this->user('check-autho');
-        $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications_new()->result();
+        $this->load->view('admin/header');
         $this->load->view('admin/submission', $data);
     }
 
      public function report(){
         $this->user('check-autho');
-        $this->load->view('admin/header');
         $data['applications'] = $this->admin_model->get_applications()->result_array();
+        $this->load->view('admin/header');
         $this->load->view('admin/report', $data);
     }
 
@@ -1025,12 +1028,6 @@ class Dashboard extends CI_Controller {
     }
 
 
-    // menampilkan user yang komplain
-    public function get_complaint_data()
-    {
-        $data['complaint'] = $this->admin_model->complaint()->result();
-        echo json_encode($data);
-    }
 
     public function get_list_cms(){
         echo json_encode($this->admin_model->get_list_cms()->result_array());

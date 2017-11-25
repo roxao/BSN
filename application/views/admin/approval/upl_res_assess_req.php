@@ -22,13 +22,13 @@
 		<input type="text" name="autocomplete" data-key="doc" placeholder="Ketik nama dokumen revisi ..." />
 	</div>
 	<br/>
-	<?php echo form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_REVISI') ?>
+	<!-- form_open_multipart('admin_verifikasi_controller/UPL_RES_ASSESS_REQ_REVISI') -->
+	<?php echo form_open_multipart('admin_verifikasi_controller/abc') ?>
 		<input type="hidden" name="id_application_status">
 		<input type="hidden" name="id_application">
 		<input type="hidden" name="created_by">
-		<div class="item-revision">
-		</div>
-		<input type="submit" name="submit_revision" style="display:none"/>
+		<div class="item-revision"></div>
+		<input type="submit" name="submit_revision" onClick="return checkInput('.item-revision')" style="display:none"/>
 	</form>
 </section>
 
@@ -40,13 +40,17 @@
 
 
 <script>
-
 	$.set_value_data();
 	$.base_config_approval();
 	$.config_file_type();
 	$.set_add_upload();
 
-
+	function checkInput(x){
+		if($(x).has('input').length < 1){
+			alert('Silakan masukan dokumen revisi.');
+		 	return false;
+		}
+	};
 	var acresult = false;
 	$("[name=autocomplete]").autocomplete({
       	source:function(request,response){$.ajax({
