@@ -33,7 +33,7 @@
 
 		<!-- DOKUMEN PENDUKUNG -->
 		<label class="input_dashed_file float_left" style="width: 100%">
-			Masukan Usulan Tim Verivikasi Lapangan
+			Masukan Usulan Tim Verifikasi Lapangan
 			<input name="images[]" type="file" placeholder="Masukan Surat Persetujuan Proses" required />
 			<span>Pilih</span><i class="float_right"></i>
 		</label>
