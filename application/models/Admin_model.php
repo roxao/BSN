@@ -14,11 +14,11 @@ class Admin_model extends CI_Model {
         $this->db->where('password', $password);
         $this->db->where('username', $username)
                 ->or_where('email', $username);        
-        return  $this->db->get('admin');   
+        return  $this->db->get(TbadmiN);   
     }
 
     public function insert_log($data){
-         $this->db->insert('log', $data);
+         $this->db->insert(TbloG, $data);
     }
 
     public function insert_log2($detail, $type){
@@ -28,87 +28,87 @@ class Admin_model extends CI_Model {
             'created_date' => (new DateTime('Asia/Jakarta'))->format('Y\-m\-d\ h:i:s'),
             'created_by' => $this->session->userdata('admin_username')
             );
-         $this->db->insert('log', $data);
+         $this->db->insert(TbloG, $data);
     }
 
     public function get_admin(){
-       return $this->db->get('admin');
+       return $this->db->get(TbadmiN);
     }
 
     public function get_admin_byprm($prm){
        $this->db->select('*');
-        $this->db->from('admin');
+        $this->db->from(TbadmiN);
         $this->db->where('id_admin', $prm);
         return $this->db->get();
     }
 
     public function update_admin($condition,$data){
         $this->db->where($condition);
-        $this->db->update('admin',$data);
+        $this->db->update(TbadmiN,$data);
     }
 
     public function insert_admin ($data){
-        $this->db->insert('admin', $data);
+        $this->db->insert(TbadmiN, $data);
     }
 
 
     // ALL GET TABLE
     public function get_assessment(){
-        return $this->db->get('assessment_team');
+        return $this->db->get(Tbasmtm);
     }
 
     public function get_assessment_byid($data){
         $this->db->select('*');
-        $this->db->from('assessment_team');
+        $this->db->from(Tbasmtm);
         $this->db->where('id_assessment_team', $data);
         return $this->db->get();
     }
 
     public function get_assessment_by_prm($data){
         $this->db->select('*');
-        $this->db->from('assessment_team');
+        $this->db->from(Tbasmtm);
         $this->db->like('name', $data);
         return $this->db->get();
     }
 
     public function update_assessment($condition,$data){
         $this->db->where($condition);
-        $this->db->update('assessment_team',$data);
+        $this->db->update(Tbasmtm,$data);
     }
 
     public function insert_assesment($data){
-        $this->db->insert('assessment_team', $data);
+        $this->db->insert(Tbasmtm, $data);
     }
 
     public function get_assessment_title(){
-        return $this->db->get('assessment_team_title');
+        return $this->db->get(Tbasmtt);
     }
 
     public function get_assessment_title_byprm($prm){
         $this->db->select('*');
-        $this->db->from('assessment_team_title');
+        $this->db->from(Tbasmtt);
         $this->db->where('id_assessment_team_title', $prm);
         return $this->db->get();
     }
 
     public function insert_assesment_title($data){
-        $this->db->insert('assessment_team_title', $data);
+        $this->db->insert(Tbasmtt, $data);
     }
 
     public function get_user(){
-        return $this->db->get('user');
+        return $this->db->get(TbuseR);
     }
 
     public function get_user_by_prm($id){
         $this->db->select('*');
-        $this->db->from('user');
+        $this->db->from(TbuseR);
         $this->db->where('id_user',$id);
         return $this->db->get();
     }
 
     public function update_user($condition,$data){
         $this->db->where($condition);
-        $this->db->update('user',$data);
+        $this->db->update(TbuseR,$data);
     }
     //untuk menampilkan data pengajuan iin
     public function get_applications(){
@@ -152,8 +152,8 @@ class Admin_model extends CI_Model {
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
-        $this->db->join('user','user.id_user=applications.id_user');
-        $this->db->join('iin','iin.id_user=user.id_user');
+        $this->db->join(TbuseR,'user.id_user=applications.id_user');
+        $this->db->join(TbiiN,'iin.id_user=user.id_user');
         $this->db->where($where);
         $this->db->where('application_status.id_application_status_name','19');
         $this->db->where('application_status.process_status','COMPLETED');
@@ -163,18 +163,20 @@ class Admin_model extends CI_Model {
 
     public function get_data_history()
     {
+        $this->db->distinct();
         $this->db->select('*');
-        $this->db->from('iin');
-        $this->db->join('user', 'user.id_user=iin.id_user');
+        $this->db->from(TbiiN);
+        $this->db->join(TbuseR, 'user.id_user=iin.id_user');
         $this->db->join('applications','user.id_user=applications.id_user');
+        $this->db->where('applications.iin_status','OPEN');
         return $this->db->get();
     }
 
     public function get_data_history_byprm($id_user)
     {
         $this->db->select('*');
-        $this->db->from('iin');
-        $this->db->join('user', 'user.id_user=iin.id_user');
+        $this->db->from(TbiiN);
+        $this->db->join(TbuseR, 'user.id_user=iin.id_user');
         $this->db->join('applications','user.id_user=applications.id_user');
         $this->db->where('iin.id_user',$id_user);
         return $this->db->get();
@@ -231,7 +233,7 @@ class Admin_model extends CI_Model {
             $this->db->from("applications")
             ->join
              (
-                'user',
+                TbuseR,
                 'user.id_user = applications.id_user'
              )
              ->join
@@ -249,12 +251,12 @@ class Admin_model extends CI_Model {
             $this->db->from("applications")
             ->join
              (
-                'user',
+                TbuseR,
                 'user.id_user = applications.id_user'
              )
              ->join
              (
-                'iin',
+                TbiiN,
                 'iin.id_user=user.id_user'
              );
             $this->db->where('id_user', $user); 
@@ -285,19 +287,19 @@ class Admin_model extends CI_Model {
 
     public function get_assessment_team($data){
         $this->db->select('id_assessment_team, name');
-        $this->db->from('assessment_team');
+        $this->db->from(Tbasmtm);
         $this->db->like('name', $data);
         $this->db->where('status','active');
         return $this->db->get();
     }
 
     public function get_assessment_team_title(){
-        return $this->db->get('assessment_team_title');
+        return $this->db->get(Tbasmtt);
     }
 
     public function update_assessment_team_title($condition,$data){
         $this->db->where($condition);
-        $this->db->update('assessment_team_title',$data);
+        $this->db->update(Tbasmtt,$data);
     }
 
     public function get_document_config($param){
@@ -339,23 +341,23 @@ class Admin_model extends CI_Model {
     }
 
     public function get_iin(){
-       return $this->db->get('iin');
+       return $this->db->get(TbiiN);
     }
 
     public function get_iin_by_prm($id){
         $this->db->select('*');
-        $this->db->from('iin');
+        $this->db->from(TbiiN);
         $this->db->where('id_iin',$id);
         return $this->db->get();
     }
 
     public function update_iin($condition,$data){
         $this->db->where($condition);
-        $this->db->update('iin',$data);
+        $this->db->update(TbiiN,$data);
     }
 
     public function insert_iin($data){
-        $this->db->insert('iin', $data);
+        $this->db->insert(TbiiN, $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;
     }
@@ -517,7 +519,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('applications');
-        $this->db->join('user', 'applications.id_user=user.id_user');
+        $this->db->join(TbuseR, 'applications.id_user=user.id_user');
         $this->db->where('applications.id_application',$prm);
         return $this->db->get(); 
     }
@@ -621,7 +623,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config');
-        $this->db->where('key','IIN');
+        $this->db->where('key',TBIIN);
         
         return $this->db->get();
     }
@@ -702,7 +704,7 @@ class Admin_model extends CI_Model {
 
     public function insert_user($dataUser)
     {
-        $this->db->insert('user', $dataUser);
+        $this->db->insert(TbuseR, $dataUser);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;        
     }
@@ -763,11 +765,11 @@ class Admin_model extends CI_Model {
 
     }
 
-    public function get_banner($data)
+    public function get_banner($data = null)
     {
         $this->db->select('*');
         $this->db->from('banner');
-        if($data==null)
+        if($data!=null)
         {
             $this->db->where('id_banner',$data);
         }
