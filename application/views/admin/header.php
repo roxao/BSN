@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
-	<title><?php site_url(); ?></title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />	
+	<title><?=$web_title?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?=base_url('favicon.ico')?>" />	
 	<link rel="stylesheet" href="<?php echo base_url('assets/main-admin.css'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js'); ?>"></script>

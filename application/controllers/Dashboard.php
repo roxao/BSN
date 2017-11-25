@@ -19,87 +19,73 @@ class Dashboard extends CI_Controller {
     }
 
     public function date_time_now() {
-        /*
-        SET TIMEZONE ASIA/JAKARTA
-        */
         $datetime = new DateTime('Asia/Jakarta');
         return $datetime->format('Y\-m\-d\ h:i:s');
     }
 
+    public function set_template($view_name, $data = array()){
+        if(!isset($data['web_title'])) $data['web_title'] = 'Sistem Admin :: Layanan Issuer Identification Number';
+        $this->load->view('admin/header', $data);
+        $this->load->view($view_name, $data);
+        return;
+    }
     public function index(){
         $this->user('check-autho');
-        if($this->input->get('application')){
-            $data['notif_result'] = $this->input->get('application');
-        }
-        
-        $data['notification'] = $this->admin_model->get_notif('admin')->result_array();
-        $data['applications'] = $this->admin_model->get_applications()->result();
-        $this->load->view('admin/header', $data);
-        $this->load->view('admin/inbox', $data);
+        $data['applications']   = $this->admin_model->get_applications()->result();
+        $data['web_title']      = 'Inbox :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/inbox', $data);
     }
 
     public function iinlist(){
         $this->user('check-autho');
         $data['applications'] = $this->admin_model->get_data_history()->result();
-        $this->load->view('admin/header');
-        $this->load->view('admin/iin-list', $data);
+        $data['web_title']      = 'Daftar Penerima IIN :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/iin-list', $data);
     }
     public function data_entry(){
         $this->user('check-autho');
-        // $data['applications'] = $this->admin_model->get_applications_finish()->result();
         $data['applications'] = $this->admin_model->get_data_history()->result();
-        $this->load->view('admin/header');
-        $this->load->view('admin/data-entry', $data);
-    }
-
-    public function data_entry_by_prm($id_user){
-        $this->user('check-autho');
-        // $data['applications'] = $this->admin_model->get_applications_finish()->result();
-        $data['applications'] = $this->admin_model->get_data_history_byprm($id_user)->result();
-        $this->load->view('admin/header');
-        $this->load->view('admin/data-entry', $data);
+        $data['web_title']      = 'Historical Data Entry :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/data-entry', $data);
     }
 
     public function data_entry_form($id_user=null){
         $this->user('check-autho');
-        
         if($this->input->post('id_entry')!='new'){
             $data['data'] = $this->admin_model->get_data_history_byprm($this->input->post('id_entry'))->result_array();
         } else {
-            //$data['data']=null;
             $data['data'] = $this->admin_model->get_applications_finish()->result();
         }
-
-        $this->load->view('admin/header');
-        $this->load->view('admin/data-entry-form', $data);
+        $data['web_title']      = 'Form Historical Data Entry:: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/data-entry-form', $data);
     }
 
     public function complaint(){
         $this->user('check-autho');
         $data['complaint'] = $this->admin_model->get_complaint()->result_array();
-        $this->load->view('admin/header');
-        $this->load->view('admin/complaint', $data);
+        $data['web_title'] = 'Daftar Pengaduan :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/complaint', $data);
     }
 
     public function extend(){
         $this->user('check-autho');
         $data['applications'] = $this->admin_model->get_applications_ext()->result();
-        $this->load->view('admin/header');
-        $this->load->view('admin/extend', $data);
+        $data['web_title']    = 'Pengawasan IIN Lama :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/extend', $data);
     }
 
     public function submission(){
         $this->user('check-autho');
         $data['applications'] = $this->admin_model->get_applications_new()->result();
-        $this->load->view('admin/header');
-        $this->load->view('admin/submission', $data);
+        $data['web_title']    = 'Pengajuan IIN Baru :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/submission', $data);
     }
 
      public function report(){
         $this->user('check-autho');
         $data['applications'] = $this->admin_model->get_applications()->result_array();
-        $this->load->view('admin/header');
-        $this->load->view('admin/report', $data);
+        $data['web_title']    = 'Laporan :: Sistem Admin :: Layanan Issuer Identification Number';
+        $this->set_template('admin/report', $data);
     }
 
 
@@ -266,7 +252,6 @@ class Dashboard extends CI_Controller {
             case 'data_entry_form':
                 if($this->input->post('id_entry')!='new'){
                    $data['data'] = $this->admin_model->get_data_history_byprm($this->input->post('id_entry'))->result_array();
-
                  } else {
                     $data['data']=null;
                  } 
@@ -285,10 +270,7 @@ class Dashboard extends CI_Controller {
             default: 
                 redirect(base_url('dashboard')); break;
         }
-        // echo json_encode($data);
-        // return false;
-        $this->load->view('admin/header');
-        $this->load->view('admin/settings/'.$param ,$data);
+        $this->set_template('admin/settings/'.$param, $data);
     }
 
     public function action_update($param){
@@ -768,15 +750,7 @@ class Dashboard extends CI_Controller {
                  $this->admin_model->update_applications($dataApp,$id_application);
                 break;
         }
-        
-
-        
-
-
-
-
         redirect(site_url('dashboard/data_entry'));
-
     }    
 
     public function survey_question($param)
@@ -836,7 +810,6 @@ class Dashboard extends CI_Controller {
     public function get_survey_by_prm()
     {
         $id_ques = $this->input->post('');
-
         $this->admin_model->get_survey_by_prm($id_ques);
     }
 
