@@ -1130,7 +1130,7 @@ class SipinHome extends CI_Controller {
                 'created_date' => $this->date_time_now(),
                 'created_by' => $cek[0]['username']
             );
-		$this->user_model->insert_complaint($data)
+		$this->user_model->insert_complaint($data);
 		redirect(base_url('informasi-iin/pengaduan'));
 	}
 
