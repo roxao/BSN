@@ -56,7 +56,7 @@
               <span><i style="color:red" >*</i> Tidak Boleh Disingkat</span>
             </div>
             <input required type="username" id= "username" name="username" placeholder="Username">
-            <input  type="number" id= "iin-number" name="iin-number" placeholder="Nomor IIN" >
+            <input  type="text" pattern="\d*" maxlength="6" id= "iin-number" name="iin-number"  placeholder="Nomor IIN" >
             <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
             <input required type="email" id= "email" name="email" placeholder="E-mail">
             <input required type="password" name="password" placeholder="Kata Sandi">
@@ -161,11 +161,15 @@
     event.preventDefault();
     $('#show_popup').remove();
   });
-  $('input[type="number"]').keydown(function(event) {
-    console.log($(this).val().length);
-    if($(this).val().length > 5){
-      return false;
-    }
+  $('[name=iin-number]').keydown(function(e) {
+      if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+               return;
+      }
+      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+          e.preventDefault();
+      }
   });
 
   function show_action(a,b){
