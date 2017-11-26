@@ -190,7 +190,7 @@ class SipinHome extends CI_Controller {
 		  				$this->user('register');
 			    	} else {
 
-			    		if ($no_iin == "" || is_null($no_iin) ) {
+			    		if ($no_iin != "" ) {
 			    			$get_passw = $this->model->get_user_password($no_iin);
 				    		if ($get_passw->row()->iin_number == $no_iin) {
 				    			$this->user_model->update_user_has_iin($email ,$username, $password, $name, $get_passw->row()->id_user);
@@ -246,7 +246,7 @@ class SipinHome extends CI_Controller {
 			$this->captcha();
 			$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
 		}
-		// redirect(base_url('registrasi'));
+		redirect(base_url('registrasi'));
 	}
 
 	/*
