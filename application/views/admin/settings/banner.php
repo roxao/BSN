@@ -1,6 +1,7 @@
-<!-- base_url('Dashboard/action_insert/banner')   untuk actions update mas all-->
+<!-- base_url('dashboard/action_insert/banner')   untuk actions insert mas all-->
+<!-- base_url('dashboard/action_update/banner')   untuk actions update mas all-->
 <?php
-  $page_title = 'Dashboard :: Pengaturan Konten';
+  $page_title = 'Dashboard :: Pengaturan Konten Slideshow';
   $page_section = 'Content Management System';
 ?>
 
@@ -16,8 +17,8 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
-        <button id="btn-add" class="btn-flat float_left">TAMBAH</button>
-
+        <button id="btn-add" class="btn-flat float_left" 
+            data-url="<?=base_url('dashboard/action_insert/banner')?>">TAMBAH</button>
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
         </div> 
@@ -39,14 +40,20 @@
           </thead>
           <tbody class="list">
             <?php foreach ($data as $key => $data): ?>
-              <tr class="row_select" data-id="<?=$data['id_banner']?>">
+              <tr class="row_select" data-id="<?=$data['id_banner']?>" 
+                  data-id="<?=base_url($data['id_banner'])?>"
+                  data-url="<?=base_url('dashboard/action_update/banner')?>"
+                  data-path="<?=$data['path']?>"
+                  data-full-path="<?=base_url($data['path'])?>"
+                  data-status="<?=$data['status']?>">
                 <td class="id_banner" data-sort="id_banner"><?=($key+1)?></td>
                 <td class="title"     data-sort="title"><?=$data['title']?></td>
                 <td class="text"      data-sort="text"><?=$data['text']?></td>
                 <td class="path"      data-sort="path"><?=$data['path']?></td>
                 <td class="link"      data-sort="link"><?=$data['url']?></td>
-                <td class="status"    data-sort="status"><?=$data['status']?></td>
+                <td class="status"    data-sort="status"><?=($data['status']=='Y' ? 'Aktif' : 'Tidak Aktif')?></td>
               </tr>
+
             <?php endforeach; ?>
           </tbody>
         </table>
@@ -62,7 +69,7 @@
         <input type="file" name="img_file">
         <span></span>
       </label>
-      <form class="banner-option-desc" action="<?php echo base_url('Dashboard/action_insert/banner') ?>" method="post">
+      <form class="banner-option-desc" action="<?php echo base_url('dashboard/action_udpate/banner') ?>" method="post">
         <input type="hidden" name="id_banner">
         <input type="hidden" name="file_name" class="file_name">
         <label>
@@ -93,12 +100,10 @@
       $.set_table_list();
 
       $("[name=img_file]").change(function() {
-        var fileName = $(this).val().split('/').pop().split('\\').pop();
         var preview = $(this).next();
-
         $.upload_process($(this).prop('files')[0], 'banner').done(function(e){
-          preview.css({'background-image': 'url("'+e.path_file+e.full_path+'")'}).addClass('upload-image-success');
-          $('.file_name').val(e.file_name);
+          preview.css({'background-image': 'url("'+e.full_path+'")'}).addClass('upload-image-success');
+          $('.file_name').val(e.path_file+e.file_name);
         })
       })
 
@@ -108,22 +113,22 @@
       })
      $('#btn-add').on('click', function(){
         $('#modal-image-upload').fadeIn('slow');
-        $('.banner-option-desc [name=id_banner]').val('');
-        $('.banner-option-desc [name=file_name]').val('');
+        $('.banner-option-desc').prop('action', $(this).attr('data-url'));
+        $('.banner-option-desc input').val('');
         $('.banner-option-desc [name=status]').val('Y');
-        $('.banner-option-desc [name=title]').val('');
-        $('.banner-option-desc [name=url]').val('');
-        $('.banner-option-desc [name=description]').val('');
       })
      $('.row_select').on('click', function(){
-        console.log($(this).children('[data-sort=title]').val());
         $('#modal-image-upload').fadeIn('slow');
-        $('.banner-option-desc [name=id_banner]').val($(this).prop('data-id'));
-        $('.banner-option-desc [name=file_name]').val('');
-        $('.banner-option-desc [name=status]').val($(this).children('.status').text());
-        $('.banner-option-desc [name=title]').val($(this).children('.title').text());
-        $('.banner-option-desc [name=url]').val($(this).children('.link').text());
-        $('.banner-option-desc [name=description]').val($(this).children('.text').text());
+        var x_form = $('.banner-option-desc');
+        $('.insert-image').children('span').css({'background-image':'url("'+$(this).attr('data-full-path')+'")'}).addClass('upload-image-success');
+        x_form.prop('action', $(this).attr('data-url'));
+        $(x_form).children('[name=id_banner]').val($(this).attr('data-id'));
+        $(x_form).children('[name=file_name]').val($(this).attr('data-path'));
+        $(x_form).children('[name=id_banner]').val($(this).attr('data-id'));
+        $(x_form).children('[name=status]').val($(this).attr('data-status'));
+        $(x_form).children('[name=title]').val($(this).children('.title').text());
+        $(x_form).children('[name=url]').val($(this).children('.link').text());
+        $(x_form).children('[name=description]').val($(this).children('.text').text());
       })
   </script>
 </section>
