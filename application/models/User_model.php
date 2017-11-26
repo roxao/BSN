@@ -25,15 +25,19 @@ class User_model extends CI_Model {
             'modified_by'   => "",
             'status_user'   => "0",
             'survey_status'   => "0",
-            );
-        return $this->db->insert('user', $data);        
+        );
+        
+
+        $this->db->insert('user', $data);   
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;     
     }
 
-    public function cek_login2($username,$password){  
-        $this->db->where("email = '$username' or username = '$username'");  
-        $this->db->where('password', $password); 
-        return  $this->db->get('user');   
-    }
+    // public function cek_login2($username,$password){  
+    //     $this->db->where("email = '$username' or username = '$username'");  
+    //     $this->db->where('password', $password); 
+    //     return  $this->db->get('user');   
+    // }
 
     /*
     This Query to Validate :
@@ -42,17 +46,66 @@ class User_model extends CI_Model {
     - Any Open Application?
     - Application Type?
     */
-    public function cek_login($username,$password){  
-        $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type, us.survey_status');
+    public function get_user_password($username){
+        $this->db->select(' us.id_user,us.username, us.email,
+            us.survey_status, us.status_user, us.password, ii.iin_number');
         $this->db->from('user us'); 
-        $this->db->join('applications ap', 'us.id_user = ap.id_user','left');
         $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
         $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
-        $this->db->where('us.password', $password);
-        $query = $this->db->get(); 
- 
-        return  $query;    
+        
+        return  $this->db->get();  
     }
+
+    #using id_user value from above query, to run this one.
+    public function get_login_data($id_user){
+        $this->db->select('*');
+        $this->db->from('applications ap'); 
+        $this->db->join('user us', 'us.id_user = ap.id_user');
+        $this->db->where('us.id_user', $id_user);
+         
+        return  $this->db->get(); 
+    }
+
+    public function update_user_register($email, $username, $password, $name, $id_user) {
+        $data = array(
+            'email'      => $email,
+            'username'   => $username,
+            'password'   => $password,
+            'name'   => $name,
+            'status_user'   => "0",
+            'survey_status'   => "0",
+            'modified_date'   => date('Y-m-j H:i:s'),
+            'modified_by'   => $username,
+        );
+        
+        $this->db->where('id_user', $id_user);
+        $this->db->update('iin', $data);
+        $inserted_id = $this->db->insert_id();
+        return $inserted_id;     
+    }
+
+    public function update_iin_register($username, $iin_number)
+    {   
+        $data = array(
+            'modified_date'   => date('Y-m-j H:i:s'),
+            'modified_by'   => $username
+        );
+        $this->db->where('iin_number', $iin_number);
+        return $this->db->update('iin', $data);
+    }
+
+    #this one is the default
+    // public function cek_login($username,$password){  
+    //     $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type, us.survey_status');
+    //     $this->db->from('user us'); 
+    //     $this->db->join('applications ap', 'us.id_user = ap.id_user','left');
+    //     $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
+    //     $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
+    //     $this->db->where('us.password', $password);
+    //     $query = $this->db->get(); 
+ 
+    //     return  $query;    
+    // }
 
     /*
     Validate if there is more than 1 OPEN(iin_status) Application

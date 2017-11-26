@@ -653,13 +653,12 @@ define('USNTFSTEP6', 'Konfirmasi jadwal dan tim verifikasi lapangan telah di set
 define('USNTFSTEP6REV', 'Pengajuan pemindahan jadwal Assesment Lapangan dari : ',true);
 define('USNTFSTEP7', 'Konfirmasi jadwal dan tim verifikasi lapangan telah di setujui oleh : ',true);
 define('USNTFSTEP7REV', 'Tambahan dokumen revisi assessment lapangan dari : ',true);
-// define('USNTFSTEP0', 'STATIC',true);
 
 /*
 |
-|--------------------------------------------------------------------------
-| NOTIFICATION :
-|--------------------------------------------------------------------------
+|-------CATION :
+|-------------------------------------------------------------------------
+| NOTIFI--------------------------------------------------------------------
 |
 |
 | ADMIN  
@@ -680,9 +679,6 @@ define('ADMNTFSTEP7REV', 'Mohon melanjutkan ke tahap selanjutnya',true);
 define('ADMNTFSTEP8', 'Permohonan Anda telah memasuki tahapan permohonan ke CRA',true);
 define('ADMNTFSTEP9PEND', 'Permohonan Anda telah memasuki tahapan permohonan ke CRA',true);
 define('ADMNTFSTEP9', 'Proses permohonan IIN Anda telah selesai, silakan mengunduh IIN Anda',true);
-// define('ADMNTFSTEP0', 'STATIC',true);
-// define('ADMNTFSTEP0', 'STATIC',true);
-// define('ADMNTFSTEP0', 'STATIC',true);
 
 
 /*
@@ -926,3 +922,4 @@ define('FLPATH', 'path',true);
 #complaint
 define('FLIDCOMPL', 'id_complaint',true);
 define('COMPLDTL', 'complaint_details',true);
+
