@@ -66,7 +66,7 @@ class User_model extends CI_Model {
         return  $this->db->get(); 
     }
 
-    public function update_user_register($email, $username, $password, $name, $id_user) {
+    public function update_user_has_iin($email, $username, $password, $name, $id_user) {
         $data = array(
             'email'      => $email,
             'username'   => $username,
@@ -79,7 +79,7 @@ class User_model extends CI_Model {
         );
         
         $this->db->where('id_user', $id_user);
-        $this->db->update('iin', $data);
+        $this->db->update('user', $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;     
     }
