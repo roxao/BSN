@@ -44,24 +44,24 @@
 				<div style="margin-bottom: 50px" ><a href="#" class="next_home_article">Selengkapnya</a></div>
 			</article>
 
-			<div class="submit_iin">
-				<article id="submit_new_iin">
-					<h1  class="float_right">PENERBITAN IIN BARU</h1>
-					<div class="float_right">Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem<br/>
+			<div class="home-submit-iin-intro">
+				<article class="home-submit-iin-intro-item green-item">
+					
+					<div>
+						<h1>PENERBITAN IIN BARU</h1>
+						Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem
 						<a href="<?php echo base_url("SipinHome/submit_application/"); ?>">
-							<div class="float_right">
-							<button class="btn_submit_iin float_right">DAFTAR</button>
-						</div>
+							<span>DAFTAR</span>
 						</a>
 					</div>
 				</article>
-				<article id="submit_old_iin">
-					<h1>PENGAWASAN IIN LAMA</h1>
-					<div>Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem<br/>
+				<article class="home-submit-iin-intro-item blue-item">
+					<div>
+						<h1>PENGAWASAN IIN LAMA</h1>
+						Silakan mengisi form di bawah ini untuk melakukan permohonan IIN baru. Sebelum anda mengirim surat ini melalui sistem
 						<a href="<?php echo base_url("SipinHome/submit_application/"); ?>">
-							<div class="float_left"><button class="btn_submit_iin float_right">DAFTAR</button></div>
+							<span>DAFTAR</span>
 						</a>
-						
 					</div>
 				</article>
 			</div>

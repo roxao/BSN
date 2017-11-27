@@ -200,7 +200,6 @@ header {
     @media screen and (min-width: $desktop) {
     max-height: 32px;
     margin: 13px 10px 13px 30px;
-
     }
     @media screen and (max-width: $desktop) {
     max-height: 25px;
@@ -2705,3 +2704,113 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   }
 }
    
+
+
+.home-submit-iin-intro{
+  display: flex;
+  width: 100%;
+  @media screen and (max-width: $desktop) {
+    display: block;
+  }
+  > article{
+      flex: 1;
+      background: #ddd;
+      font-size: 14px;
+      position: relative;
+      height: 300px;
+      h1{
+        font-size: 1.5em;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        line-height: 3em;
+        margin-bottom: 20px;
+      }
+      div{
+        position: absolute;
+        margin: 20px 40px;
+        color: #fff;
+        line-height: 28px;
+        @media screen and (max-width: $desktop) {
+            left: 0;
+            right: 0;
+            text-align: center !important;
+          }
+        a{
+          display: block;
+          span{
+            display: inline-block;
+            padding: 5px 30px;
+            background: #fff;
+            box-shadow: none;
+            margin: 40px 0;
+            text-align: center;
+            min-width: 100px;
+            font-weight: 600;
+            border: 2px solid #fff;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+            &:before{
+              background: #fff;
+              content: '';
+              display: block;
+              top: 0px;
+              right: 0;
+              left: 0;
+              bottom: 0;
+              margin: auto auto;
+              width: 0px;
+              height: 0px;
+              border-radius: 500px;
+              position: absolute;
+            }
+            &:hover{
+              &:before{
+                width: 500px;
+                height: 500px;
+                background: rgba(0,0,0,0);
+                transition: all 1s ease;
+              }
+            }
+          }
+        }
+      }
+      &.blue-item{
+        background: -webkit-linear-gradient(left top, $c_1st, $c_1st_light); 
+        background: -o-linear-gradient(left top, $c_1st, $c_1st_light); 
+        background: -moz-linear-gradient(left top, $c_1st, $c_1st_light); 
+        background: linear-gradient(left top, $c_1st, $c_1st_light); 
+        div{
+          left: 0;
+          span{
+            color: $c_1st;
+            transition: all 1s ease;
+            &:hover{
+              color: #fff;
+              background: $c_1st;
+              transition: all 1s ease;
+            }
+          }
+        }
+      }
+      &.green-item{
+        background: -webkit-linear-gradient(left top, $c_2nd, $c_2nd_light); 
+        background: -o-linear-gradient(left top, $c_2nd, $c_2nd_light); 
+        background: -moz-linear-gradient(left top, $c_2nd, $c_2nd_light); 
+        background: linear-gradient(left top, $c_2nd, $c_2nd_light); 
+        div{
+          right: 0;
+          text-align: right;
+          span{
+            color: $c_2nd;
+            transition: all 1s ease;
+            &:hover{
+              color: #fff;
+              background: $c_2nd;
+              transition: all 1s ease;
+            }
+          }
+        }
+      }
+
+  }
+}
