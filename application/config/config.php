@@ -580,37 +580,6 @@ define('TEXT2PENDING', 'Kelengkapan Dokumen anda telah masuk ke database sistem 
 define('TITLE2REVISI', 'Revisi Kelengkapan Dokumen Permohonan IIN',true);
 define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.',true);
 
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('TITLE1PENDING', '',true);
-// define('TEXT1PENDING', '',true);
-
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-// define('STATE9', '9',true);
-
-
 
 /*
 |
@@ -708,13 +677,6 @@ define('FMRVNASMDT', 'REVISION_ASSESSMENT_DATE',true);
 define('FMRVNASMFL', 'REVISION_ASSESSMENT_FILE',true);
 define('FMRVDDOCASM', 'REV_DOC_ASM',true);
 
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
-// define('FMBILLEXP', 'BILLING_EXPIRED',true);
 
 
 /*

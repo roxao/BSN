@@ -766,7 +766,9 @@ class SipinHome extends CI_Controller {
 				        		break;
 
 				        	case '8':
-					       		$page = '5';
+					       		$page = '4';
+								$data['upload_status2'] = '';
+				        		$data['state4'] = "4";
 
 
 				        		break;

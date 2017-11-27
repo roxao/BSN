@@ -695,7 +695,11 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $this->load->library('upload');
             $cek = $this->input->post("bill");
             $getDoc = $this->admin_model->get_doc_bill_res()->result();
-           
+            
+            for($d=0;$d < count($getDoc);$d++)
+            {
+                $this->admin_model->reupl_bil_rec_update($this->input->post('id_application'),$getDoc[$d]->id_document_config);        
+            }
 
             $this->upload->initialize(array(
                 "allowed_types" => "gif|jpg|png|jpeg|pdf|doc|docx",

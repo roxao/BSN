@@ -153,7 +153,7 @@ class Admin_model extends CI_Model {
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
         $this->db->join(TbuseR,Tbuser.'.id_user=applications.id_user');
-        $this->db->join(TbiiN,'iin.id_user=users.id_user');
+        $this->db->join(TbiiN,'iin.id_user=user.id_user');
         $this->db->where($where);
         $this->db->where('application_status.id_application_status_name','19');
         $this->db->where('application_status.process_status','COMPLETED');
@@ -239,7 +239,7 @@ class Admin_model extends CI_Model {
              ->join
              (
                 'survey_answer',
-                'survey_answer.id_user=users.id_user'
+                'survey_answer.id_user=user.id_user'
              );
             $this->db->where('id_user', $user); 
             return $this->db->get();
@@ -257,7 +257,7 @@ class Admin_model extends CI_Model {
              ->join
              (
                 TbiiN,
-                'iin.id_user=users.id_user'
+                'iin.id_user=user.id_user'
              );
             $this->db->where('id_user', $user); 
             return $this->db->get();
@@ -317,7 +317,7 @@ class Admin_model extends CI_Model {
     }
 
     public function get_document_by_display($display){
-        $this->db->select('id_document_config, display_name, keys');
+        $this->db->select('id_document_config, display_name, key');
         $this->db->from(Tbdoccfg);
         $this->db->like('display_name',$display);
         return $this->db->get();
@@ -472,8 +472,8 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config dc');
-            $con = 'dc.keys = "KBS" 
-            or dc.keys="SPNP" or dc.keys="SPPNBP"';
+            $con = 'dc.key = "KBS" 
+            or dc.key="SPNP" or dc.key="SPPNBP"';
         $this->db->where($con);
 
         return $this->db->get();
@@ -483,8 +483,8 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config dc');
-            $con = 'dc.keys = "BA" 
-            or dc.keys="HAL" ';
+            $con = 'dc.key = "BA" 
+            or dc.key="HAL" ';
         $this->db->where($con);
 
         return $this->db->get();
@@ -493,19 +493,19 @@ class Admin_model extends CI_Model {
     //untuk mengambil document Usulan Tim Verivikasi Lapangan dan Surat Informasi Tim Verifikasi Lapangan IIN
     public function get_letter_of_assignment()
     {
-        $this->db->select('id_document_config, keys, display_name, file_url');
+        $this->db->select('id_document_config, key, display_name, file_url');
         $this->db->from('document_config dc');
-        $this->db->where('keys','UTVLI');
-        $this->db->or_where('keys','SITVL');
+        $this->db->where('key','UTVLI');
+        $this->db->or_where('key','SITVL');
         return $this->db->get();
     }
 
     //untuk mengambil document surat Surat Penugasan Tim Penugasan Asessment Lapangan
     public function get_letter_of_assignment_SPTAL()
     {
-        $this->db->select('id_document_config, keys, display_name, file_url');
+        $this->db->select('id_document_config, key, display_name, file_url');
         $this->db->from('document_config dc');
-        $this->db->where('keys','SPTAL');
+        $this->db->where('key','SPTAL');
         return $this->db->get();
     }
 
@@ -522,7 +522,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('applications');
-        $this->db->join(TbuseR, 'applications.id_user=users.id_user');
+        $this->db->join(TbuseR, 'applications.id_user=user.id_user');
         $this->db->where('applications.id_application',$prm);
         return $this->db->get(); 
     }
@@ -563,7 +563,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from(Tbdoccfg);
-        $this->db->where('keys','BT PT');
+        $this->db->where('key','BT PT');
         return $this->db->get(); 
     }
 
@@ -571,7 +571,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from(Tbdoccfg);
-        $this->db->where('keys',$key);
+        $this->db->where('key',$key);
         return $this->db->get(); 
     }
 
@@ -587,7 +587,7 @@ class Admin_model extends CI_Model {
 
     public function application_status_form_mapping_rev_by_idapp($idapp,$id_app_status)
     {
-        $sub = $this->db->select('application_status_form_mapping.value as keys');
+        $sub = $this->db->select('application_status_form_mapping.value as key');
         $sub = $this->db->from(Tbappst)
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
@@ -597,7 +597,7 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant, applications.id_application, document_config.keys, document_config.display_name, document_config.id_document_config,application_file.path_file');
+        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config,application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join(Tbdoccfg, 'document_config.id_document_config=application_file.id_document_config');
@@ -605,7 +605,7 @@ class Admin_model extends CI_Model {
         $this->db->where('application_file.id_application', $idapp);
 
         $this->db->where('application_file.status','ACTIVE');
-        $this->db->where_in('document_config.keys',$sub, false);
+        $this->db->where_in('document_config.key',$sub, false);
 
 
 
@@ -617,7 +617,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from(Tbdoccfg);
-        $this->db->where('keys','CRADOC');
+        $this->db->where('key','CRADOC');
         $this->db->where('mandatory','1');
         return $this->db->get();
     }
@@ -626,7 +626,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from(Tbdoccfg);
-        $this->db->where('keys',TBIIN);
+        $this->db->where('key',TBIIN);
         
         return $this->db->get();
     }
@@ -642,7 +642,7 @@ class Admin_model extends CI_Model {
 
     public function get_doc_conf_by_name($name)
     {
-        $this->db->select('id_document_config, keys, display_name');
+        $this->db->select('id_document_config, key, display_name');
         $this->db->from(Tbdoccfg);
         $this->db->where('display_name', $name);
         
@@ -652,7 +652,7 @@ class Admin_model extends CI_Model {
 //ini dicoba dulu dengan menggunakan function 
     public function get_revised_resuld_assessment($idapp,$id_app_status)
     {
-        $sub = $this->db->select('application_status_form_mapping.value as keys');
+        $sub = $this->db->select('application_status_form_mapping.value as key');
         $sub = $this->db->from(Tbappst)
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
@@ -662,7 +662,7 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant ,applications.id_application, document_config.keys, document_config.display_name, document_config.id_document_config, application_file.path_file');
+        $this->db->select('applications.applicant ,applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config, application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
         $this->db->join(Tbdoccfg, 'document_config.id_document_config=application_file.id_document_config');
@@ -853,6 +853,18 @@ class Admin_model extends CI_Model {
                 break;
         }
         
+    }
+
+
+    public function reupl_bil_rec_update($id_app,$id_doc_con)
+    {
+        $data = array('id_application' => $id_app,
+            'id_document_config' => $id_doc_con,
+            'status' => 'ACTIVE');
+        $sts = array('status'=>'INACTIVE');
+        $this->db->where($data);
+        $this->db->update('application_file', $sts);
+
     }
 
 }
