@@ -747,7 +747,7 @@ define('TBLOG', 'log',true);
 define('TBNOTIF', 'notification',true);
 define('TBSRVANS', 'survey_answer',true);
 define('TBSRVQUE', 'survey_question',true);
-define('TBUSER', 'user',true);
+define('TBUSER', 'users',true);
 
 
 
@@ -824,7 +824,7 @@ define('FLIDAPPFL', 'id_application_file',true);
 
 #document config
 define('FLIDDOCCFG', 'id_document_config',true);
-define('FLKEY', 'key',true);
+define('FLKEY', 'keys',true);
 define('FLMAND', 'mandatory',true);
 define('FLFILEURL', 'file_url',true);
 
