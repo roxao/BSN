@@ -3,7 +3,7 @@
   $page_section = 'KELENGKAPAN DOKUMEN';
   $data_table = [
     ['id_document_config', 'ID', '50'],
-    ['key', 'Key', '50'], 
+    [Flkey, FLkey, '50'], 
     ['display_name', 'Nama Dokumen', '400'],
     ['file_url', 'Dokumen', '120'],
     ['mandatory', 'Mandatory', '50']
@@ -37,7 +37,7 @@
         <table id="tableInbox" class="table_def tableInbox" style="width: 100%;">
           <tr><?php foreach($data_table as $x){echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';}?></tr>
           <tbody class="list">
-            <?php foreach($data as $key=>$data) {
+            <?php foreach($data as $keys=>$data) {
               echo '<tr class="row_select"';
                   foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
               echo '>';
@@ -77,7 +77,7 @@
         $('td[data-sort="' + $(this).attr('value') + '"]').toggle();
       });
       $('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
-      var datasort = [<?php foreach($data_table as $key=>$x) {echo '"'.$x[0].'",';}?>]
+      var datasort = [<?php foreach($data_table as $keys=>$x) {echo '"'.$x[0].'",';}?>]
       var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
       $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
       $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
@@ -117,7 +117,7 @@
 
 
 
-<!-- KEY | Nama Dokumen | file_url | Mandatory -->
+<!-- KEYS | Nama Dokumen | file_url | Mandatory -->
 <div class="z-modal-frame" style="display: none;">
   <div id="z-modal-edit" style="display: none;">
     <div class="z-modal-header">
@@ -130,8 +130,8 @@
             <input name="id_document_config" type="hidden"/>
             <input name="type_doc" type="hidden" value="DYNAMIC"/>
             <input name="file_url" type="hidden" value=" "/>
-            <label><span>Key</span>
-                <input name="key" type="text" placeholder="Username"/>
+            <label><span>Keys</span>
+                <input name="keys" type="text" placeholder="Username"/>
             </label>
             <label><span>Nama </span>
                 <input name="display_name" type="text" placeholder="Username"/>

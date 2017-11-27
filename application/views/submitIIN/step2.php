@@ -12,16 +12,16 @@
 				<li class="item-upload"> 
 					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> 
 					<?php  
-						$files = "file".$data->key;
+						$files = "file".$data->keys;
 						$mandatory = ($data->mandatory == '1') ? '*': '' ;
-						$name = "{$data->key}. {$data->display_name} {$mandatory}";
+						$name = "{$data->keys}. {$data->display_name} {$mandatory}";
 
 						echo $name;						
 					?>
 					
 					<label class="upload_button">
 						<span>Cari...</span>
-						<input type="file"  id="<?php echo $data->key?>" class="fileChoser" name="<?php echo $files?>" 
+						<input type="file"  id="<?php echo $data->keys?>" class="fileChoser" name="<?php echo $files?>" 
 						<?php echo (($data->mandatory == "1") ? "required": "" );?>	/>
 						<i id="<?php echo $files?>" ></i>
 

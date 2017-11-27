@@ -27,7 +27,7 @@
 			$no=0; 
 		 	// foreach($download_upload as $data) { 
 		 	foreach($iin_download as $data) { 
-		 	 	switch ($data->key) {
+		 	 	switch ($data->keys) {
 		 	 		case 'IIN':?>
 		 				<div class="clearfix">
 							<a href="<?php echo base_url()?>submit_iin/download_iin?var1=<?php echo $data->path_file;?> ">

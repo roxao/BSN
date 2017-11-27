@@ -12,6 +12,7 @@ class SipinHome extends CI_Controller {
 		$this->model = $this->user_model;
         $this->load->database();
         $this->load->model('admin_model','adm_model');
+        // $this->session->set_userdata('have_iin', '');
 	}
  
 	public function index() {		
@@ -172,6 +173,7 @@ class SipinHome extends CI_Controller {
 			$username = $this->input->post('username');
 			$no_iin    = $this->input->post('iin-number');
 			$email    = $this->input->post('email');
+			$email_enc    = md5($email);
 			$password = hash ( "sha256", $this->input->post('password'));
 			$password_confirm = hash ( "sha256", $this->input->post('retype-password'));
 			
@@ -184,7 +186,7 @@ class SipinHome extends CI_Controller {
 					/*
 					User Status Validation
 					*/		
-					$cek = $this->user_model->cek_status_user($username);
+					$cek = $this->user_model->cek_status_user($email,$username);
 			        if($cek->num_rows() > 0){
 		        		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
 		  				$this->user('register');
@@ -193,12 +195,12 @@ class SipinHome extends CI_Controller {
 			    		if ($no_iin != "" ) {
 			    			$get_passw = $this->model->get_user_password($no_iin);
 				    		if ($get_passw->row()->iin_number == $no_iin) {
-				    			$this->user_model->update_user_has_iin($email ,$username, $password, $name, $get_passw->row()->id_user);
+				    			$this->user_model->update_user_has_iin($email, $email_enc, $username, $password, $name, $get_passw->row()->id_user);
 						    } else {
-						    	$this->user_model->register_user($email ,$username, $password, $name);
+						    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
 						    }
 			    		} else {
-					    	$this->user_model->register_user($email ,$username, $password, $name);
+					    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
 					    }
 
 
@@ -323,6 +325,8 @@ class SipinHome extends CI_Controller {
 					$this->user('login');
 				} else {
 
+
+
 				    $this->session->set_userdata(array(
 						'id_user'  		=> $get_passw->row()->id_user,
 						'username' 		=> $get_passw->row()->username,
@@ -334,26 +338,24 @@ class SipinHome extends CI_Controller {
 
 					$this->session->set_flashdata('validasi-login', 'Selamat Datang');
 					$this->log("login","Login", $username);
-					// $id_user = $this->session->userdata('id_user');
-
-
-				    #get login data 
-				    $cek = $this->model->get_login_data($get_passw->row()->id_user);
-
 					/*
 					Already have IIN
 					*/
+					// $have_iin = ($cek->row()->iin_number ? $cek->row()->iin_number : "N");
+
+				    $get_iin_num = $this->model->get_iin_num($get_passw->row()->id_user);
 					$have_iin = "N";
-					if (!empty($cek->row()->iin_number)) {
-						// echo "|Already have IIN|";
+					if (!empty($get_iin_num->row()->iin_number)) {
+						#IIN exist
 						$have_iin = "Y";
 					}
 					$this->session->set_userdata('have_iin', $have_iin);
-
-					// echo $cek->row()->iin_status;
+					
 					/*
 					Any Open Application?
 					*/
+				    #get login data
+				    $cek = $this->model->get_login_data($get_passw->row()->id_user);
 					if (!empty($cek->row()->iin_status) and $cek->row()->iin_status == 'OPEN') {
 						// echo "|Active application|";
 
@@ -522,8 +524,8 @@ class SipinHome extends CI_Controller {
 	        		$type = "REJECTED";
 	        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
 	        		foreach ($val as $index => $valIndex) {
-						foreach ($valIndex as $key => $val) {
-							if ($key == 'value') {
+						foreach ($valIndex as $keys => $val) {
+							if ($keys == 'value') {
 					       		$reject_msg = "Keterangan : {$val}";
 							}
 						}
@@ -704,7 +706,7 @@ class SipinHome extends CI_Controller {
 		        		$query = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
 						        		
 		        		$id_application_status_step4 = "";
-		        		foreach ($query as $key => $value) {
+		        		foreach ($query as $keys => $value) {
 		        			# code...
 		        			$id_application_status_step4 = $value->id_application_status;
 		        		}
@@ -799,8 +801,8 @@ class SipinHome extends CI_Controller {
 						        		$type = "REVISED_PAY";
 						        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
 						        		foreach ($val as $index => $valIndex) {
-											foreach ($valIndex as $key => $val) {
-												if ($key == 'value') {
+											foreach ($valIndex as $keys => $val) {
+												if ($keys == 'value') {
 										       		$adm_pay_msg = "Keterangan : {$val}";
 												}
 											}
@@ -1038,11 +1040,13 @@ class SipinHome extends CI_Controller {
 												/*
 												RENDER STEP 7 REVISION
 												*/
+												$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
 								        		$id_document_config = array();
 												foreach ($val as $index => $valIndex) {
-
-
+														
 													if ( $valIndex->type == 'REV_DOC_ASM' ) {
+
+
 														array_push($id_document_config, $valIndex->value);
 													}
 
@@ -1190,11 +1194,13 @@ class SipinHome extends CI_Controller {
 
 	public function iin_list(){
 		$val = $this->session->userdata();
-		if($val['have_iin']=='Y') 
-			$data['download_iin'] = $this->user_model->get_iin_download($val['id_application_status'], 'IIN')->result_array();
-		else 
-			$data['download_iin'] = null;
+		if($this->session->userdata('have_iin')=='Y') {
 
+		$data['download_iin'] = $this->user_model->download_doc_iin($this->session->userdata('id_user'))->result_array();
+		
+		}else{ 
+			$data['download_iin'] = null;
+		}
 		$data['iin'] = $this->user_model->get_iin()->result();
 		$data['web_title'] = 'Daftar Penerima IIN :: Layanan Issuer Identification Number';
 		$this->set_template('iin-list-view',$data);
