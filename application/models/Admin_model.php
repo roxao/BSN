@@ -113,7 +113,7 @@ class Admin_model extends CI_Model {
     //untuk menampilkan data pengajuan iin
     public function get_applications(){
         $this->db->select('*');
-        $this->db->from('application_status');
+        $this->db->from(Tbappst);
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
@@ -124,7 +124,7 @@ class Admin_model extends CI_Model {
     }
     public function get_applications_new(){
         $this->db->select('*');
-        $this->db->from('application_status');
+        $this->db->from(Tbappst);
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
@@ -135,7 +135,7 @@ class Admin_model extends CI_Model {
     //untuk menampilkan data pengawasan iin lama
     public function get_applications_ext(){
         $this->db->select('*');
-        $this->db->from('application_status');
+        $this->db->from(Tbappst);
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
@@ -148,12 +148,12 @@ class Admin_model extends CI_Model {
         //untuk menampilkan data pengawasan yang sudah memiliki IIN
     public function get_applications_finish(){
         $this->db->select('*');
-        $this->db->from('application_status');
+        $this->db->from(Tbappst);
         $this->db->join ('applications', 'application_status.id_application = applications.id_application');
         $this->db->join('application_status_name','application_status_name.id_application_status_name=application_status.id_application_status_name');
         $where = ("applications.iin_status = "."'OPEN'"." and application_status.id_application_status in (select max(id_application_status) from application_status group by id_application)");
-        $this->db->join(TbuseR,'user.id_user=applications.id_user');
-        $this->db->join(TbiiN,'iin.id_user=user.id_user');
+        $this->db->join(TbuseR,Tbuser.'.id_user=applications.id_user');
+        $this->db->join(TbiiN,'iin.id_user=users.id_user');
         $this->db->where($where);
         $this->db->where('application_status.id_application_status_name','19');
         $this->db->where('application_status.process_status','COMPLETED');
@@ -166,9 +166,9 @@ class Admin_model extends CI_Model {
         $this->db->distinct();
         $this->db->select('*');
         $this->db->from(TbiiN);
-        $this->db->join(TbuseR, 'user.id_user=iin.id_user');
-        $this->db->join('applications','user.id_user=applications.id_user');
-        $this->db->where('applications.iin_status','OPEN');
+        $this->db->join(TbuseR, Tbuser.'.id_user=iin.id_user');
+        $this->db->join('applications',Tbuser.'.id_user=applications.id_user');
+        $this->db->where('applications.iin_status','CLOSED');
         return $this->db->get();
     }
 
@@ -176,8 +176,8 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from(TbiiN);
-        $this->db->join(TbuseR, 'user.id_user=iin.id_user');
-        $this->db->join('applications','user.id_user=applications.id_user');
+        $this->db->join(TbuseR, Tbuser.'.id_user=iin.id_user');
+        $this->db->join('applications',Tbuser.'.id_user=applications.id_user');
         $this->db->where('iin.id_user',$id_user);
         return $this->db->get();
     }
@@ -201,11 +201,11 @@ class Admin_model extends CI_Model {
 
     public function next_step($data,$condition){
         $this->db->where($condition);
-        $this->db->update('application_status',$data);
+        $this->db->update(Tbappst,$data);
     }
 
     public function insert_app_status($data){
-       $this->db->insert('application_status', $data);
+       $this->db->insert(Tbappst, $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;
     }
@@ -219,7 +219,7 @@ class Admin_model extends CI_Model {
             $this->db->from("application_status");
             $this->db->join('applications','application_status.id_application = applications.id_application');
             $this->db->join('application_file','application_file.id_application=applications.id_application');
-            $this->db->join('document_config','document_config.id_document_config=application_file.id_document_config');
+            $this->db->join(Tbdoccfg,'document_config.id_document_config=application_file.id_document_config');
             $this->db->where('id_application_status', $id_application_status);
             return $this->db->get();
     }
@@ -234,12 +234,12 @@ class Admin_model extends CI_Model {
             ->join
              (
                 TbuseR,
-                'user.id_user = applications.id_user'
+                Tbuser.'.id_user = applications.id_user'
              )
              ->join
              (
                 'survey_answer',
-                'survey_answer.id_user=user.id_user'
+                'survey_answer.id_user=users.id_user'
              );
             $this->db->where('id_user', $user); 
             return $this->db->get();
@@ -252,12 +252,12 @@ class Admin_model extends CI_Model {
             ->join
              (
                 TbuseR,
-                'user.id_user = applications.id_user'
+                Tbuser.'.id_user = applications.id_user'
              )
              ->join
              (
                 TbiiN,
-                'iin.id_user=user.id_user'
+                'iin.id_user=users.id_user'
              );
             $this->db->where('id_user', $user); 
             return $this->db->get();
@@ -269,7 +269,7 @@ class Admin_model extends CI_Model {
 
     public function get_assesment_application($id){
         $this->db->select('*');
-        $this->db->from('application_status');
+        $this->db->from(Tbappst);
         $this->db->where('id_application', $id);
         $this->db->where('assessment_status', 'OPEN');
         return $this->db->get();
@@ -304,28 +304,28 @@ class Admin_model extends CI_Model {
 
     public function get_document_config($param){
         $this->db->select('*');
-        $this->db->from('document_config');
+        $this->db->from(Tbdoccfg);
         $this->db->like('type', $param);
         return $this->db->get();
     }
 
     public function get_document_by_prm($id){
         $this->db->select('*');
-        $this->db->from('document_config');
+        $this->db->from(Tbdoccfg);
         $this->db->where('id_document_config',$id);
         return $this->db->get();
     }
 
     public function get_document_by_display($display){
-        $this->db->select('id_document_config, display_name, key');
-        $this->db->from('document_config');
+        $this->db->select('id_document_config, display_name, keys');
+        $this->db->from(Tbdoccfg);
         $this->db->like('display_name',$display);
         return $this->db->get();
     }
 
     public function update_documenet_config($condition,$data){
         $this->db->where($condition);
-        $this->db->update('document_config',$data);
+        $this->db->update(Tbdoccfg,$data);
     }
 
     public function insert_documenet_config($data){
@@ -412,7 +412,7 @@ class Admin_model extends CI_Model {
     }
 
     public function insert_document_config($data){
-        $this->db->insert('document_config', $data);
+        $this->db->insert(Tbdoccfg, $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;
     }
@@ -436,7 +436,7 @@ class Admin_model extends CI_Model {
     public function get_doc_for_user()
     {
         $this->db->select('*');
-        $this->db->from('document_config');
+        $this->db->from(Tbdoccfg);
             $con = 'type="DYNAMIC" and mandatory = "1"';
         $this->db->where($con);
         // $this->db->or('type','DYNAMIC');
@@ -456,7 +456,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('application_file');
-        $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
+        $this->db->join(Tbdoccfg, 'document_config.id_document_config=application_file.id_document_config');
             // $con = 'application_file.id_application = "'.$prm.'" AND application_file.id_document_config = "24" ';
         // $this->db->where($con);    
         $this->db->where('application_file.id_application', $prm);
@@ -469,8 +469,8 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config dc');
-            $con = 'dc.key = "KBS" 
-            or dc.key="SPNP" or dc.key="SPPNBP"';
+            $con = 'dc.keys = "KBS" 
+            or dc.keys="SPNP" or dc.keys="SPPNBP"';
         $this->db->where($con);
 
         return $this->db->get();
@@ -480,8 +480,8 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('document_config dc');
-            $con = 'dc.key = "BA" 
-            or dc.key="HAL" ';
+            $con = 'dc.keys = "BA" 
+            or dc.keys="HAL" ';
         $this->db->where($con);
 
         return $this->db->get();
@@ -490,19 +490,19 @@ class Admin_model extends CI_Model {
     //untuk mengambil document Usulan Tim Verivikasi Lapangan dan Surat Informasi Tim Verifikasi Lapangan IIN
     public function get_letter_of_assignment()
     {
-        $this->db->select('id_document_config, key, display_name, file_url');
+        $this->db->select('id_document_config, keys, display_name, file_url');
         $this->db->from('document_config dc');
-        $this->db->where('key','UTVLI');
-        $this->db->or_where('key','SITVL');
+        $this->db->where('keys','UTVLI');
+        $this->db->or_where('keys','SITVL');
         return $this->db->get();
     }
 
     //untuk mengambil document surat Surat Penugasan Tim Penugasan Asessment Lapangan
     public function get_letter_of_assignment_SPTAL()
     {
-        $this->db->select('id_document_config, key, display_name, file_url');
+        $this->db->select('id_document_config, keys, display_name, file_url');
         $this->db->from('document_config dc');
-        $this->db->where('key','SPTAL');
+        $this->db->where('keys','SPTAL');
         return $this->db->get();
     }
 
@@ -519,7 +519,7 @@ class Admin_model extends CI_Model {
     {
         $this->db->select('*');
         $this->db->from('applications');
-        $this->db->join(TbuseR, 'applications.id_user=user.id_user');
+        $this->db->join(TbuseR, 'applications.id_user=users.id_user');
         $this->db->where('applications.id_application',$prm);
         return $this->db->get(); 
     }
@@ -559,16 +559,16 @@ class Admin_model extends CI_Model {
     public function document_config_get_by_key()
     {
         $this->db->select('*');
-        $this->db->from('document_config');
-        $this->db->where('key','BT PT');
+        $this->db->from(Tbdoccfg);
+        $this->db->where('keys','BT PT');
         return $this->db->get(); 
     }
 
     public function document_config_get_by_prm_key($key)
     {
         $this->db->select('*');
-        $this->db->from('document_config');
-        $this->db->where('key',$key);
+        $this->db->from(Tbdoccfg);
+        $this->db->where('keys',$key);
         return $this->db->get(); 
     }
 
@@ -584,8 +584,8 @@ class Admin_model extends CI_Model {
 
     public function application_status_form_mapping_rev_by_idapp($idapp,$id_app_status)
     {
-        $sub = $this->db->select('application_status_form_mapping.value as key');
-        $sub = $this->db->from('application_status')
+        $sub = $this->db->select('application_status_form_mapping.value as keys');
+        $sub = $this->db->from(Tbappst)
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
@@ -594,15 +594,15 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant, applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config,application_file.path_file');
+        $this->db->select('applications.applicant, applications.id_application, document_config.keys, document_config.display_name, document_config.id_document_config,application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
-        $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
-        $this->db->join('application_status', 'applications.id_application=application_status.id_application');
+        $this->db->join(Tbdoccfg, 'document_config.id_document_config=application_file.id_document_config');
+        $this->db->join(Tbappst, 'applications.id_application=application_status.id_application');
         $this->db->where('application_file.id_application', $idapp);
 
         $this->db->where('application_file.status','ACTIVE');
-        $this->db->where_in('document_config.key',$sub, false);
+        $this->db->where_in('document_config.keys',$sub, false);
 
 
 
@@ -613,8 +613,8 @@ class Admin_model extends CI_Model {
     public function get_doc_cra()
     {
         $this->db->select('*');
-        $this->db->from('document_config');
-        $this->db->where('key','CRADOC');
+        $this->db->from(Tbdoccfg);
+        $this->db->where('keys','CRADOC');
         $this->db->where('mandatory','1');
         return $this->db->get();
     }
@@ -622,8 +622,8 @@ class Admin_model extends CI_Model {
     public function get_doc_iin()
     {
         $this->db->select('*');
-        $this->db->from('document_config');
-        $this->db->where('key',TBIIN);
+        $this->db->from(Tbdoccfg);
+        $this->db->where('keys',TBIIN);
         
         return $this->db->get();
     }
@@ -639,8 +639,8 @@ class Admin_model extends CI_Model {
 
     public function get_doc_conf_by_name($name)
     {
-        $this->db->select('id_document_config, key, display_name');
-        $this->db->from('document_config');
+        $this->db->select('id_document_config, keys, display_name');
+        $this->db->from(Tbdoccfg);
         $this->db->where('display_name', $name);
         
         return $this->db->get();
@@ -649,8 +649,8 @@ class Admin_model extends CI_Model {
 //ini dicoba dulu dengan menggunakan function 
     public function get_revised_resuld_assessment($idapp,$id_app_status)
     {
-        $sub = $this->db->select('application_status_form_mapping.value as key');
-        $sub = $this->db->from('application_status')
+        $sub = $this->db->select('application_status_form_mapping.value as keys');
+        $sub = $this->db->from(Tbappst)
         ->join('applications','application_status.id_application=applications.id_application')
         ->join('application_status_form_mapping','application_status.id_application_status=application_status_form_mapping.id_application_status');
         $sub = $this->db->where('applications.id_application',$idapp)
@@ -659,11 +659,11 @@ class Admin_model extends CI_Model {
         $sub = $this->db->get_compiled_select();
 
         $this->db->distinct();
-        $this->db->select('applications.applicant ,applications.id_application, document_config.key, document_config.display_name, document_config.id_document_config, application_file.path_file');
+        $this->db->select('applications.applicant ,applications.id_application, document_config.keys, document_config.display_name, document_config.id_document_config, application_file.path_file');
         $this->db->from('applications');
         $this->db->join('application_file', 'applications.id_application=application_file.id_application');
-        $this->db->join('document_config', 'document_config.id_document_config=application_file.id_document_config');
-        $this->db->join('application_status', 'applications.id_application=application_status.id_application');
+        $this->db->join(Tbdoccfg, 'document_config.id_document_config=application_file.id_document_config');
+        $this->db->join(Tbappst, 'applications.id_application=application_status.id_application');
         $this->db->where('application_file.id_application', $idapp);
 
         $this->db->where('application_file.status','ACTIVE');
