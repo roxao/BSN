@@ -1,4 +1,11 @@
+    $(document).bind('keydown', function(){
+        var key = event.keyCode || event.charCode;
+        console.log(key);
+        if( key == 8 || key == 46 )
+            $('.o-close').click();
+    });
 $(document).ready(function() {
+
     var stickyNav = function() {
         var scrollTop = $(window).scrollTop();
         if (scrollTop > 200) {

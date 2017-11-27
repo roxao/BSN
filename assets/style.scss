@@ -2814,3 +2814,20 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
 
   }
 }
+
+.g-recaptcha{
+  background: #fff !important;
+  padding: 10px 10px 0 10px !important;
+  margin-bottom: -10px !important;
+}
+@media screen and (max-width: $desktop) {
+  .o-layout{
+    max-width: unset;
+  }
+  .popup_box{
+    max-width: unset !important;
+    margin: unset !important;
+    max-height: unset !important;
+    bottom: 0  !important;
+  }
+}
