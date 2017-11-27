@@ -11,9 +11,7 @@
             <div class="id_qs">Pertanyaan</div>
             <div class="id_as">Nilai</div>
           </div>
-          <?php 
-          if (isset($survey)) {
-          for ($i=0; $i < count($survey['survey_questions']) ; $i++):
+          <?php for ($i=0; $i < count($survey['survey_questions']) ; $i++):
                 $x=$survey['survey_questions'][$i]?>
           <div class="survey-row">
             <div class="id_no"> <?= $x['no'] ?> </div>
@@ -28,7 +26,6 @@
             </div>
           </div>
           <?php endfor ?>
-          <?php }?>
       </article>
     </section>
 

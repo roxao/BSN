@@ -33,84 +33,6 @@ class Dashboard extends CI_Controller {
         $this->user('check-autho');
         $data['applications']   = $this->admin_model->get_applications()->result();
         $data['web_title']      = 'Inbox :: Sistem Admin :: Layanan Issuer Identification Number';
-
-//         $cek = $this->admin_model->get_applications_for_exp()->result_array();
-        
-
-
-//         foreach ($cek as $a => $b) {
-//             # code...
-            
-//             $d = $b['id_application_status'];
-//             $d -= 1;
-            
-//             $exp_date = $this->admin_model->form_mapping_exp_date($d)->result_array();
-            
-
-//             if ( $exp_date[$a]['type'] == 'BILLING_DATE' ) 
-//             {
-//                 // echo sizeof($exp_date);
-
-
-//                 if (date_format(date_create($exp_date[$a]['value']), 'Y\-m\-d\ h:i:s') < $this->date_time_now()) 
-//                 {
-
-
-// // echo date_format(date_create($exp_date[$a]['value']), 'Y\-m\-d\ h:i:s');
-// // echo "tanggal ".$this->date_time_now();
-
-
-
-                    
-//                     $get_doc_bill = $this->admin_model->get_doc_bill_res()->result_array();
-            
-//                     foreach( $get_doc_bill as $doc => $bill )
-//                     {
-//                         $id_application = array('id_application' => $b['id_application']);
-//                         $data_appf = array(
-//                         'id_document_config' => $bill['id_document_config'],
-//                         'status' => 'INACTIVE',
-//                         'modified_by' => $this->session->userdata('admin_username'),
-//                         'modified_date' => $this->date_time_now()
-//                         );
-
-//                         #Inactive application file
-//                         // $this->admin_model->exp_bill_simponi($id_application, $data_appf);
-
-
-//                     }
-
-
-
-//                 }
-
-//             }
-//             #update status 7 == completed
-//             $condition = array('id_application_status' => $b['id_application_status']);
-//             $update_status_7 = array(
-//                 'id_application_status_name' => '7',
-//                 'id_application' => $b['id_application'],
-//                 'process_status' => 'COMPLETED', 
-//                 'modified_date' => $this->date_time_now(), 
-//                 'modified_by' => $this->session->userdata('admin_username')
-//             );       
-            
-//             // $this->admin_model->next_step($update_status_7, $condition);
-//             #insert status 8==pending
-//             $update_status_8 = array(
-//                 'id_application' => $b['id_application'],
-//                 'id_application_status_name' => '8',
-//                 'process_status' => 'PENDING', 
-//                 'created_date' => $this->date_time_now(), 
-//                 'created_by' => $this->session->userdata('admin_username')
-//             );
-            
-//             // $this->admin_model->insert_app_status($update_status_8);
-//         }
-
-
-
-
         $this->set_template('admin/inbox', $data);
     }
 
@@ -200,95 +122,6 @@ class Dashboard extends CI_Controller {
                             'admin_status'  => $cek->row()->admin_status,
                             'status' => 'login',
                             'admin_role'    => $cek->row()->admin_role));
-
-
-        $cek = $this->admin_model->get_applications_for_exp()->result_array(); 
-                        // echo json_encode($cek);
-        // echo sizeof($cek);
-
-        #validate size
-        if ( !is_null($cek) ) {
-
-            #iterate $cek to get id_application_status
-            for($i=0; $i < sizeof($cek); $i++) {
-
-                $id_application_status = $cek[$i]['id_application_status'];
-
-
-                $get_id_app_before = $this->admin_model->get_id_before($cek[$i]['id_application'])->result_array();
-
-                if ( !is_null($id_application_status) ) {
-
-                    if(isset($get_id_app_before[$i]['id_application_status']))
-                        $id_application_status = $get_id_app_before[$i]['id_application_status'];
-
-                    $exp_date = $this->admin_model->form_mapping_exp_date($id_application_status)->result_array();
-                    if ( !is_null($exp_date) ) {
-
-                        $date_bill = "";
-
-                        foreach ($exp_date as $key ) {
-                            # code...
-                            $date_bill =  date_format(date_create($key['value']), 'Y\-m\-d\ h:i:s');                      
-
-                            if ( $date_bill < $this->date_time_now()) {
-
-                                #update table 7
-                                $condition = array('id_application_status' => $cek[$i]['id_application_status']);
-                                $update_status_7 = array(
-                                    'id_application_status_name' => '7',
-                                    'id_application' => $cek[$i]['id_application'],
-                                    'process_status' => 'COMPLETED', 
-                                    'modified_date' => $this->date_time_now(), 
-                                    'modified_by' => $this->session->userdata('admin_username')
-                                );       
-                                
-                                $this->admin_model->next_step($update_status_7, $condition);
-
-                                $insert_status_8 = array(
-                                    'id_application' => $cek[$i]['id_application'],
-                                    'id_application_status_name' => '8',
-                                    'process_status' => 'PENDING', 
-                                    'created_date' => $this->date_time_now(), 
-                                    'created_by' => $this->session->userdata('admin_username')
-                                );
-                                
-                                $this->admin_model->insert_app_status($insert_status_8);
-
-
-                                $get_doc_bill = $this->admin_model->get_doc_bill_res()->result_array();
-            
-                                foreach( $get_doc_bill as $doc => $bill )
-                                {
-                                    $id_application = array('id_application' => $cek[$i]['id_application']);
-                                    $data_appf = array(
-                                    'id_document_config' => $bill['id_document_config'],
-                                    'status' => 'INACTIVE',
-                                    'modified_by' => $this->session->userdata('admin_username'),
-                                    'modified_date' => $this->date_time_now()
-                                    );
-
-                                    #Inactive application file
-                                    $this->admin_model->exp_bill_simponi($id_application, $data_appf);
-
-
-                                }
-
-
-                            }
-                        }
-                    }
-
-                }
-
-
-                
-
-            }
-
-
-        } 
-
                         redirect(base_url('dashboard'));
                     }
                 }
@@ -356,25 +189,25 @@ class Dashboard extends CI_Controller {
         $result =  array();
         switch ($step) {
             case 'assessment_team':
-                foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $keys):
+                foreach($this->admin_model->get_assessment_team($this->input->get('term'))->result_array() as $key):
                     $result[] = array(
-                        'label'   => trim($keys['name']),
-                        'id_team' => trim($keys['id_assessment_team'])
+                        'label'   => trim($key['name']),
+                        'id_team' => trim($key['id_assessment_team'])
                     );
                 endforeach;
                 break; 
             case 'doc':
-                foreach($this->admin_model->get_document_by_display($this->input->get('term'))->result_array() as $keys):
+                foreach($this->admin_model->get_document_by_display($this->input->get('term'))->result_array() as $key):
                     $result[] = array(
-                        'label'   => trim($keys['display_name']),
-                        'id_doc' => trim($keys['id_document_config'])
+                        'label'   => trim($key['display_name']),
+                        'id_doc' => trim($key['id_document_config'])
                     );
                 endforeach;
                 break;  
             case 'instance_name':
-                foreach($this->admin_model->get_instance_list($this->input->get('term'))->result_array() as $keys):
+                foreach($this->admin_model->get_instance_list($this->input->get('term'))->result_array() as $key):
                     $result[] = array(
-                        'label'   => trim($keys['instance_name'])
+                        'label'   => trim($key['instance_name'])
                         // 'id_doc' => trim($key['id_document_config'])
                     );
                 endforeach;
@@ -472,8 +305,8 @@ class Dashboard extends CI_Controller {
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data assesment team',
                     'log_type' => 'Update Data '.$this->input->post('name'), 
-                    'modified_date' => $this->date_time_now(),
-                    'modified_by' => $this->session->userdata('admin_username')
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_assessment($condition,$data);
                 break;
@@ -490,11 +323,11 @@ class Dashboard extends CI_Controller {
                 $condition = array('id_document_config' => $this->input->post('id_document_config'));
                 $data = array(
                     'type' => $this->input->post('type_doc'),
-                    'keys' => $this->input->post('keys'),
+                    'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $uploaded['full_path'],
                     'mandatory' => $this->input->post('mandatory'),
-                    'modified_date' => $this->date_time_now(),
+                    'last_updated_date' => $this->date_time_now(),
                     'modified_by' => $this->session->userdata('admin_username')                
                 );
                 $log = array(
@@ -511,12 +344,12 @@ class Dashboard extends CI_Controller {
 
                 $condition = array('id_cms' => $this->input->post('id_cms'));
                 $data = array(
-                    'contents' => $this->input->post('contents'),
+                    'content' => $this->input->post('content'),
                     'title' => $this->input->post('title'),
                     'url' => substr($url, 0, 50),
                     'status' => $this->input->post('status'),
-                    'modified_date' => $this->date_time_now(),
-                    'modified_by' => $this->session->userdata('admin_username')             
+                    'created_date' => $this->date_time_now(),
+                    'created_by' => $this->session->userdata('admin_username')             
                     );
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data CMS',
@@ -525,7 +358,6 @@ class Dashboard extends CI_Controller {
                     'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_cms($condition,$data);
-                $this->admin_model->insert_log($log);
                 redirect('dashboard/settings/cms');
                 break;
             case 'banner':
@@ -545,7 +377,6 @@ class Dashboard extends CI_Controller {
                     'created_by' => $this->session->userdata('admin_username')
                 );
                 $this->admin_model->update_banner($condition,$data);
-                $this->admin_model->insert_log($log);
                 redirect('dashboard/settings/banner');
                 break;
 
@@ -634,7 +465,7 @@ class Dashboard extends CI_Controller {
 
                 $data = array(
                     'type' => $this->input->post('type_doc'),
-                    'keys' => $this->input->post('keys'),
+                    'key' => $this->input->post('key'),
                     'display_name' => $this->input->post('display_name'),
                     'file_url' => $this->input->post('file_url'),
                     'mandatory' => $this->input->post('mandatory'),
@@ -654,7 +485,7 @@ class Dashboard extends CI_Controller {
                 $url = str_replace(' ', '_', $url);
 
                 $data = array(
-                    'contents' => $this->input->post('contents'),
+                    'content' => $this->input->post('content'),
                     'title' => $this->input->post('title'),
                     'url' => substr($url, 0, 50),
                     'status' => 'Y',

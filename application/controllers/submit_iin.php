@@ -417,7 +417,7 @@ class submit_iin extends CI_Controller {
 					/*
 					Validate $key== key
 					*/
-					if ($key == 'keys') {
+					if ($key == 'key') {
 						/*
 						Insert application_status_form_mapping Table
 						@Insert KEY of revision Files Uploaded by User
@@ -1198,14 +1198,13 @@ class submit_iin extends CI_Controller {
 
 
 				$id_answer = $this->admin_model->survey('insert-answer',$survey_answers);
-				$this->model->update_survey_status_user($this->session->userdata('id_user'),$this->session->userdata('username'));
+				$this->model->update_survey_status_user($this->session->userdata('id_user'));
 				$this->session->set_userdata('survey_status','1');
 				redirect(base_url('Layanan-IIN'));
 				break;
 			case 'hasil-survei';
 				$result=$this->admin_model->survey('get-survey-result',null)->result_array();
-				// if (!$result) {
-				if(!is_null($result) or empty($result)) {
+				if (!$result) {
 					$result = $this->model->survey('vote',null)->result_array();
 					$s_questions = json_decode($result[0]['question'],true);
 					for ($x=0; $x < count($s_questions); $x++) { 

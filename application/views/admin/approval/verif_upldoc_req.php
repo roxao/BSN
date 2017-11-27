@@ -62,7 +62,7 @@
 							.append($('<input>')
 								.prop('name', 'docRef[]')
 								.prop('type','checkbox')
-								.val(value[i].keys)))
+								.val(value[i].key)))
 						.append($('<span>')
 							.append(value[i].display_name)));
 	}

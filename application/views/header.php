@@ -28,10 +28,12 @@
 				<?php if($this->session->userdata('status') == "login") {?>
 				<li class="nav-link parent"><a>Layanan IIN</a>
 					<ul>
-						<?php if ($this->session->userdata('have_iin') == "Y") {?>
-						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Pengawasan IIN Lama</a>
-						<?php } else { ?>
+						<?php if ($this->session->userdata('have_iin') == "N") {?>
 						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Penerbitan IIN Baru</a>
+						<?php } else if ($this->session->userdata('have_iin') == "Y" and $this->session->userdata('survey_status') == '0'){ ?>
+						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Penerbitan IIN Baru</a>
+						<?php } else { ?>
+						<li class="nav-link"><a href="<?php echo base_url();?>Layanan-IIN">Pengawasan IIN Lama</a>
 						<?php } ?>
 					</ul>
 				</li>

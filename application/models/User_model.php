@@ -13,10 +13,9 @@ class User_model extends CI_Model {
     }
     
     /*Registrasi*/
-    public function register_user($email, $email_enc, $username, $password, $name) {
+    public function register_user($email, $username, $password, $name) {
         $data = array(
             'email'      => $email,
-            'email_enc' => $email_enc,
             'username'   => $username,
             'password'   => $password,
             'name'   => $name,
@@ -29,7 +28,7 @@ class User_model extends CI_Model {
         );
         
 
-        $this->db->insert(TbuseR, $data);   
+        $this->db->insert('user', $data);   
         $inserted_id = $this->db->insert_id();
         return $inserted_id;     
     }
@@ -46,7 +45,7 @@ class User_model extends CI_Model {
     public function get_user_password($username){
         $this->db->select(' us.id_user,us.username, us.email,
             us.survey_status, us.status_user, us.password, ii.iin_number');
-        $this->db->from(Tbuser.' us'); 
+        $this->db->from('user us'); 
         $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
         $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
         
@@ -57,24 +56,15 @@ class User_model extends CI_Model {
     public function get_login_data($id_user){
         $this->db->select('*');
         $this->db->from('applications ap'); 
-        $this->db->join(Tbuser.' us', 'us.id_user = ap.id_user');
+        $this->db->join('user us', 'us.id_user = ap.id_user');
         $this->db->where('us.id_user', $id_user);
          
         return  $this->db->get(); 
     }
 
-    public function get_iin_num($id_user){
-        $this->db->select('*');
-        $this->db->from('iin');
-        $this->db->where('id_user', $id_user);
-         
-        return  $this->db->get(); 
-    }
-
-    public function update_user_has_iin($email, $email_enc, $username, $password, $name, $id_user) {
+    public function update_user_has_iin($email, $username, $password, $name, $id_user) {
         $data = array(
             'email'      => $email,
-            'email_enc' => $email_enc,
             'username'   => $username,
             'password'   => $password,
             'name'   => $name,
@@ -85,7 +75,7 @@ class User_model extends CI_Model {
         );
         
         $this->db->where('id_user', $id_user);
-        $this->db->update(TbuseR, $data);
+        $this->db->update('user', $data);
         $inserted_id = $this->db->insert_id();
         return $inserted_id;     
     }
@@ -151,7 +141,7 @@ class User_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('application_status a'); 
         $this->db->join('application_status_form_mapping b', 'a.id_application_status = b.id_application_status');
-        $this->db->join('document_config c', 'c.keys = b.value','left');
+        $this->db->join('document_config c', 'c.key = b.value','left');
         $this->db->join('application_file d', 'd.id_document_config = c.id_document_config AND d.id_application = a.id_application','left');
         $this->db->where('a.id_application_status_name', $id_application_status_name);
         $this->db->where('a.id_application', $id_application);
@@ -185,9 +175,9 @@ class User_model extends CI_Model {
     /*Forgot Password*/
     public function forgot_password($username){ 
         $this->db->select('*');
-        $this->db->from(TbuseR); 
-        $this->db->join('applications', Tbuser.'.id_user=applications.id_user');
-        $this->db->where(Tbuser."'.email = '$username' or '.tbuser.'.username = '$username' or instance_name = '$username'");        
+        $this->db->from('user'); 
+        $this->db->join('applications', 'user.id_user=applications.id_user');
+        $this->db->where("user.email = '$username' or user.username = '$username' or instance_name = '$username'");        
         $query = $this->db->get(); 
  
         return  $query;   
@@ -202,7 +192,7 @@ class User_model extends CI_Model {
         $this->db->where('id_user', $id_user);
 
 
-        return $this->db->update(TbuseR, $data);
+        return $this->db->update('user', $data);
     }
 
     /*Melkukan pengecekan file untuk didownload di step2*/
@@ -225,7 +215,7 @@ class User_model extends CI_Model {
     //menampilkan data documen yang harus di download user typenya yang static
     public function get_doc_statis()
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url', 'dc.mandatory');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
         $this->db->from('document_config dc');
         $this->db->where('dc.type','DYNAMIC');
         $this->db->or_where('dc.type','STATIC');
@@ -253,12 +243,12 @@ class User_model extends CI_Model {
             $this->db->where('dc.type','DYNAMIC');
             }
             // $this->db->limit($limit);
-            $this->db->where_in('dc.keys', $key);
+            $this->db->where_in('dc.key', $key);
         }
 
         if ( $id_application != '' ) {
 
-            $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url ,dc.mandatory,af.path_file');
+            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory,af.path_file');
             $this->db->join('application_file af', 'dc.id_document_config = af.id_document_config');
             $this->db->where('af.id_application', $id_application);
 
@@ -266,7 +256,7 @@ class User_model extends CI_Model {
                 $this->db->where('dc.type', 'TRANSACTIONAL');
                 $this->db->where('af.status','ACTIVE');
 
-                $this->db->where_in('dc.keys', $id_keys);
+                $this->db->where_in('dc.key', $id_keys);
 
 
                 $this->db->limit(count($id_keys));
@@ -279,7 +269,7 @@ class User_model extends CI_Model {
 
         } 
         else {
-            $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url ,dc.mandatory');
+            $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
             if($key == ''){
             $this->db->where('dc.type','DYNAMIC');
             }
@@ -356,10 +346,10 @@ class User_model extends CI_Model {
     */
     public function get_rev_doc_user_upload($key)
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url ,dc.mandatory');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
         $this->db->where('dc.type','DYNAMIC');
-        $this->db->where_in('dc.keys', $key);
+        $this->db->where_in('dc.key', $key);
         $this->db->order_by('dc.id_document_config', 'ASC');
             
         return $this->db->get()->result();
@@ -404,7 +394,7 @@ class User_model extends CI_Model {
     //menampilkan data documen yang harus di download user typenya yang static
     public function get_doc_dynamic()
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
         $this->db->from('document_config dc');
         $this->db->where('mandatory','1');
         $this->db->where('type','DYNAMIC');
@@ -414,7 +404,7 @@ class User_model extends CI_Model {
     //menampilkan data documen yang harus di download user typenya yang static
     public function get_doc_kbs()
     {
-        $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url');
         $this->db->from('document_config dc');
         
         return $this->db->get()->result();
@@ -491,7 +481,7 @@ class User_model extends CI_Model {
         $this->db->where('aps.id_application_status',$id_application_status);
         $this->db->where('dc.type','TRANSACTIONAL');
         $this->db->where('aps.id_application_status_name', $id_application_status_name);
-        $this->db->where_in('dc.keys', $key);
+        $this->db->where_in('dc.key', $key);
         $this->db->order_by('af.id_application_file', 'DESC');
         $this->db->limit(count($key));
 
@@ -506,7 +496,7 @@ class User_model extends CI_Model {
         $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
         $this->db->where('aps.id_application_status',$id_application_status);
         $this->db->where('dc.type',"TRANSACTIONAL");
-        $this->db->where_in('dc.keys', $key);
+        $this->db->where_in('dc.key', $key);
         $this->db->order_by('af.id_application_file', 'DESC');
         $this->db->limit(count($key));
 
@@ -523,7 +513,7 @@ class User_model extends CI_Model {
     */
     public function get_assessment_rev_list($id_document_config){ 
 
-        $this->db->select('dc.id_document_config, dc.type, dc.keys, dc.display_name, dc.file_url ,dc.mandatory');
+        $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url ,dc.mandatory');
         $this->db->from('document_config dc');
         $this->db->where_in('dc.id_document_config', $id_document_config);
 
@@ -566,9 +556,9 @@ class User_model extends CI_Model {
     }
 
     /*Cek Status User*/
-    public function cek_status_user($email,$username){  
-        $this->db->where("email = '$email' or username = '$username'");
-        return  $this->db->get(TbuseR);   
+    public function cek_status_user($username){  
+        $this->db->where("email = '$username' or username = '$username'"); 
+        return  $this->db->get('user');   
     }
 
     /*
@@ -734,9 +724,9 @@ class User_model extends CI_Model {
     /*Email Activation and status_user update*/
     public function verifyEmail($key) {
         // nilai dari status yang berawal dari Tidak Aktif akan diubah menjadi Aktif disini
-        echo " keys : {$key}|";
-        $this->db->from(TbuseR);
-        $this->db->where('email_enc', $key);
+        echo " key : {$key}|";
+        $this->db->from('user');
+        $this->db->where('md5(email)', $key);
         $query = $this->db->get()->row();
         echo "SIZE : ".sizeof($query)."|";
         
@@ -751,7 +741,7 @@ class User_model extends CI_Model {
             } else {
                 
                 /*Updating User Table, Set status_user='1'*/
-                $this->db->update(TbuseR, array('status_user' => '1'));
+                $this->db->update('user', array('status_user' => '1'));
 
                 /*Set Registration Message on Current Session*/
                 $this->session->set_flashdata('regis_msg', "Aktivasi Email Berhasil!");
@@ -777,13 +767,13 @@ class User_model extends CI_Model {
         return  $this->db->get();
     }
 
-    public function update_survey_status_user($id_user,$username)
+    public function update_survey_status_user($id_user)
     {   
         $data = array('survey_status' => '1',
-                'modified_by' => $username,
+                'modified_by' => $id_user,
                 'modified_date' => date('Y-m-j H:i:s'));
         $this->db->where('id_user', $id_user);
-        return $this->db->update(TbuseR, $data);
+        return $this->db->update('user', $data);
     }
 
 
@@ -820,14 +810,14 @@ class User_model extends CI_Model {
      {
         $this->db->select('*');
         $this->db->from('document_config');
-        $this->db->where('keys', 'ISO7812');
+        $this->db->where('key', 'ISO7812');
         return  $this->db->get();  
      }
 
      public function get_user_by_prm($id_user)
      {
         $this->db->select('*');
-        $this->db->from(TbuseR);
+        $this->db->from('user');
         $this->db->where('id_user',$id_user);
         return $this->db->get();
      }
@@ -837,9 +827,9 @@ class User_model extends CI_Model {
      {
         
         $this->db->select('iin.id_iin, iin.iin_number, iin.iin_established_date, iin.iin_expiry_date, applications.instance_name, applications.instance_email, applications.instance_phone, applications.mailing_location');
-        $this->db->from(TbuseR);
-        $this->db->join('iin', Tbuser.'.id_user=iin.id_user');
-        $this->db->join('applications','applications.id_user='.Tbuser.'.id_user');
+        $this->db->from('user');
+        $this->db->join('iin', 'user.id_user=iin.id_user');
+        $this->db->join('applications','applications.id_user=user.id_user');
         return $this->db->get(); 
      }
 
@@ -904,7 +894,7 @@ class User_model extends CI_Model {
         $this->db->join('document_config dc','af.id_document_config = dc.id_document_config');
         $this->db->where('aps.id_application_status',$id_application_status);
         $this->db->where('dc.type',"TRANSACTIONAL");
-        $this->db->where_in('dc.keys', $key);
+        $this->db->where_in('dc.key', $key);
         $this->db->order_by('af.id_application_file', 'DESC');
         $this->db->limit(count($key));
         return $this->db->get();
@@ -971,18 +961,6 @@ class User_model extends CI_Model {
                 break;
         }
         
-    }
-
-    public function download_doc_iin($iduser)
-    {
-        $this->db->select('*');
-        $this->db->from('application_file apf');
-        $this->db->join('applications app','app.id_application=apf.id_application');
-        $this->db->join('document_config dc','dc.id_document_config=apf.id_document_config');
-        $this->db->where('app.id_user',$iduser);
-        $this->db->where('dc.keys','IIN');
-        $this->db->where('apf.status','ACTIVE');
-        return $this->db->get();
     }
     
 }

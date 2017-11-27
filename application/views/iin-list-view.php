@@ -8,7 +8,7 @@
 
         <?php if($download_iin){ ?>
           <div class="clearfix">
-            <a class="download-iin-file" href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $download_iin[0]['path_file'];?>">Download IIN Anda</a>
+            <a class="download-iin-file" href="<?=$download_iin[0]['path_file']?>">Download IIN Anda</a>
           </div><br/>
         <?php } ?>
         <table class="table_def" width="100%" style="border: 1px solid #ddd">

@@ -5,25 +5,25 @@
 		<div class="content-upload clearfix">
 			<label class="input_dashed float_left" style="width: 100%">
 				Kode Billing SIMPONI
-				<input name="app_bill_code" type="text" placeholder="Masukan Kode SIMPONI" required />
+				<input name="app_bill_code" type="text" placeholder="Masukan Kode SIMPONI"/>
 			</label>
 			<label class="input_dashed float_left" style="width: 100%">
 				Masa Berlaku
-				<input name="expired_date" type="date" min="2017-11-18" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI" required/>
+				<input name="expired_date" type="date" min="2017-11-18" placeholder="Masukan Masa Berlaku Kode BIlling SIMPONI"/>
 			</label>
 			<label class="input_dashed_file float_left" style="width: 100%">
 				Kode Billing SIMPONI
-				<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI" required/>
+				<input name="bill[]"  type="file" placeholder="Masukan Dokumen Kode Billing SIMPONI"/>
 				<span>Pilih</span><i class="float_right"></i>
 			</label>
 			<label class="input_dashed_file float_left" style="width: 100%">
 				Surat Persetujuan Proses
-				<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses" required/>
+				<input name="bill[]"  type="file" placeholder="Masukan Surat Persetujuan Proses"/>
 				<span>Pilih</span><i class="float_right"></i>
 			</label>
 			<label class="input_dashed_file float_left" style="width: 100%">
 				Surat Permohonan PNBP
-				<input name="bill[]"  type="file" placeholder="Masukan Surat Permohonan PNBP" required/>
+				<input name="bill[]"  type="file" placeholder="Masukan Surat Permohonan PNBP"/>
 				<span>Pilih</span><i class="float_right"></i>
 			</label>
 		</div>

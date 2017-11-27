@@ -409,14 +409,14 @@ class Admin_Verifikasi_Controller extends CI_Controller
             $data = array(
                 'process_status' => 'COMPLETED',
                 'modified_by' => $this->session->userdata('admin_username'),
-                'modified_date' => $this->date_time_now());
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
 
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' revisi dokumen by : '.$user,
                 'log_type' => 'Revised Document '.$this->input->post('username'), 
-                'created_date' => $this->date_time_now(),
+                'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
@@ -428,7 +428,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '4',
              
-                'created_date' => $this->date_time_now(),
+                'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'));
 
            
@@ -462,7 +462,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                         
                         $data3 = array(
                             'status' => 'INACTIVE',
-                            'modified_date' => $this->date_time_now(),
+                            'modified_date' => date('y-m-d'),
                             'modified_by' => $this->session->userdata('admin_username')
                         );
                         //update applications file untuk direfisi
@@ -604,7 +604,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $dataDoc = array(
                     'type' => 'BILLING_DOC',
-                    'value' => $getDoc[$x]->keys,
+                    'value' => $getDoc[$x]->key,
                     'id_application_status'=> $this->input->post('id_application_status'),
                     'created_date' => $this->date_time_now(),
                     'created_by' => $this->session->userdata('admin_username')
@@ -653,7 +653,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
              $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Reupload Billing Code SIMPONI by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'Billing simponi Ulang '.$this->input->post('username'), 
-                'created_date' => $this->date_Time_now(),
+                'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
@@ -720,7 +720,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                             'id_application' => $this->input->post('id_application'),
                             'id_document_config' => $getDoc[$x]->id_document_config,
                             'status' => 'ACTIVE',
-                            'created_date'=> $this->date_time_now(),
+                            'created_date'=> date('y-m-d'),
                             'path_file' => $uploaded[$x]['full_path'],
                             'created_by' => $this->session->userdata('admin_username')
                             );
@@ -730,7 +730,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                             $dataDoc = array(
                             'type' => 'BILLING_DOC',
-                            'value' => $getDoc[$x]->keys,
+                            'value' => $getDoc[$x]->key,
                             'id_application_status'=> $this->input->post('id_application_status'),
                             'created_date' => $this->date_time_now(),
                             'created_by' => $this->session->userdata('admin_username')
@@ -926,7 +926,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                 $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
-                    'value' => $getLetterAssigment[$y]->keys,
+                    'value' => $getLetterAssigment[$y]->key,
                     'id_application_status'=> $id_apps_last,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1209,7 +1209,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                 $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
-                    'value' => $getLetterAssigment[$y]->keys,
+                    'value' => $getLetterAssigment[$y]->key,
                     'id_application_status'=> $id_sts,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1247,7 +1247,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 );
             $this->admin_model->insert_log($dataL);
 
-            $this->admin_model->next_step($data,$condition);
+            $this->admin_model->next_step($dta,$condition);
 
             $data2 = array(
                  'id_application '=> $this->input->post('id_application'),
@@ -1441,13 +1441,13 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'COMPLETED',
                 
                 'modified_by' => $this->session->userdata('admin_username'),
-                'modified_date' => $this->date_Time_now());
+                'modified_date' => date('Y-m-j H:i:s'));
 
             $condition = array('id_application_status' => $this->input->post('id_application_status'));
             $dataL = array(
                 'detail_log' => $this->session->userdata('admin_username').' dokumen penugasan tim asesment by : '.$this->session->userdata('admin_username'),
                 'log_type' => 'added new applicant '.$id_app->row()->applicant, 
-                'created_date' => $this->date_Time_now(),
+                'created_date' => date('Y-m-j H:i:s'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
@@ -1459,7 +1459,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'process_status' => 'PENDING',
                 'id_application_status_name' => '15',
              
-                'created_date' => $this->date_time_now(),
+                'created_date' => date('Y-m-j'),
                 'created_by' => $this->session->userdata('admin_username'));
            
             $id_app_sts = $this->admin_model->insert_app_status($data2,$condition);
@@ -1496,7 +1496,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                     'id_application' => $this->input->post('id_application'),
                     'path_file' =>  $uploaded['full_path'],
                     'status' => 'ACTIVE',
-                    'created_date' => $this->date_time_now(),
+                    'created_date' => date('y-m-d'),
                     'created_by' =>  $this->session->userdata('admin_username')
                     );
                             
@@ -1504,7 +1504,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
-                    'value' => $getLetterAssigment[$y]->keys,
+                    'value' => $getLetterAssigment[$y]->key,
                     'id_application_status'=> $id_app_sts,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1642,7 +1642,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $dataDocAss = array(
                     'type' => 'ASSESSMENT_DOC',
-                    'value' => $getLetterAssigment[$i]->keys,
+                    'value' => $getLetterAssigment[$i]->key,
                     'id_application_status'=> $id_app_sts_lst,
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -1770,7 +1770,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                         $dataDocAss = array(
                         'type' => 'ASSESSMENT_DOC',
-                        'value' => $getDoc[$x]->keys,
+                        'value' => $getDoc[$x]->key,
                         'id_application_status'=> $id_apps_sts_lst,
                         'created_by' => $this->session->userdata('admin_username'),
                         'created_date' => $this->date_time_now()
@@ -1836,7 +1836,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                     $data_doc = array(
                         'type'=> 'TRANSACTIONAL',
-                        'keys'=> $this->gen_uuid(),
+                        'key'=> $this->gen_uuid(),
                         'display_name'=> $display_name_doc[$x],
                         'created_date'=> $this->date_time_now(),
                         'created_by'=> $this->session->userdata('admin_username'));
@@ -2258,7 +2258,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                         $dataDocAss = array(
                         'type' => 'CRA_DOC_'.$id_doc_conf->row($x)->display_name,
-                        'value' => $id_doc_conf->row($x)->keys,
+                        'value' => $id_doc_conf->row($x)->key,
                         'id_application_status'=> $id_app_sts_lst,
                         'created_by' => $this->session->userdata('admin_username'),
                         'created_date' => $this->date_time_now()
@@ -2379,7 +2379,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
                 $dataDocAss = array(
                     'type' => 'DOC_IIN',
-                    'value' => $doc_iin->row()->keys,
+                    'value' => $doc_iin->row()->key,
                     'id_application_status'=> $this->input->post('id_application_status'),
                     'created_by' => $this->session->userdata('admin_username'),
                     'created_date' => $this->date_time_now()
@@ -2428,18 +2428,18 @@ class Admin_Verifikasi_Controller extends CI_Controller
     {   
         $data = array(
             'type' => $this->input->post('type'),
-            'keys' => $this->input->post('keys'),
+            'key' => $this->input->post('key'),
             'display_name' => $this->input->post('display_name'),
             'file_url' => $this->input->post('file_url'),
             'mandatory' => $this->input->post('mandatory'),
-            'created_date' => $this->$this->date_time_now()
+            'created_date' => $this->date('y-m-d')
             // 'created_by' => $this->session->userdata('nama')
 
             );
         $dataL = array(
                 'detail_log' => $this->session->userdata('admin_role').' Upload refisi tim asessment  ',
                 'log_type' => 'added '.$this->input->post('username'), 
-                'created_date' => $this->date_Time_now()
+                'created_date' => date('Y-m-j H:i:s')
                 // 'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_log($dataL);
@@ -2480,7 +2480,7 @@ class Admin_Verifikasi_Controller extends CI_Controller
                 'id_application' => $prm,
                 'id_document_config' => $query[$x]->id_document_config,
                 'status' => 'ACTIVE',
-                'created_date'=> $this->date_time_now(),
+                'created_date'=> date('y-m-d'),
                 'created_by' => $this->session->userdata('admin_username')
                 );
             $this->admin_model->insert_doc_for_user($data);

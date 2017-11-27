@@ -26,7 +26,7 @@
           </select>
           <button type="submit">Posting</button>
         </div>
-        <textarea class='editor' name="contents"> <?php echo ($data) ? $data[0]['contents']: ''?></textarea>
+        <textarea class='editor' name="content"> <?php echo ($data) ? $data[0]['content']: ''?></textarea>
       </form>
     </div>
   </section>

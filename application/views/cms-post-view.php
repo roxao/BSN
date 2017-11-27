@@ -6,7 +6,7 @@
         <h1 class="cms-header-title"><?php echo $cms[0]['title'] ?></h1>  
       </div>
       <article class="cms-content">
-        <?php echo $cms[0]['contents'] ?>
+        <?php echo $cms[0]['content'] ?>
       </article>
     </section>
 

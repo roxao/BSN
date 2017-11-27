@@ -62,6 +62,8 @@ class SurveyController extends CI_Controller {
 				// Masukan $survey_answers ke database
 				// Hapus echo dibawah
 				// function model sudah dibuat 
+				echo json_encode($survey_answers);
+				echo "Asuii ".$id_answer;
 				break;
 			case 'result-survey';
 				// KALAU SUDAH MEMBUAT QUERY YANG JIKA DI json_encode seperti dibawah

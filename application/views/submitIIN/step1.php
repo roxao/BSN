@@ -9,7 +9,7 @@
 			$no=0; 
 		 	// foreach($download_upload as $data) { 
 		 	foreach($step1_download as $data) { 
-		 	 	switch ($data->keys) {
+		 	 	switch ($data->key) {
 		 	 		case 'IPPSA':?>
 		 				<div class="item-download">
 							<div><?php $no++; echo "$no.  "; echo $data->display_name; ?></div>
@@ -33,7 +33,7 @@
 		 <?php 
 		 	// foreach($download_upload as $data) { 
 		 	foreach($step1_download as $data) { 
-		 	 	switch ($data->keys) {
+		 	 	switch ($data->key) {
 		 	 		case 'ISO':?>
 		 				<div class="item-download">
 							<div><?php $no++; echo "$no.  "; echo $data->display_name; ?></div>
