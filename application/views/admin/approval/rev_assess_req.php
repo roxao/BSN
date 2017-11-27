@@ -72,8 +72,8 @@
 	$.set_assessment_roles_on_select();
 	
 	function checkInput(x){
-		if($(x).has('li').length < 2){
-			alert('Silakan anggota assessment.');
+		if($(x).children().length < 2){
+			alert('Silakan masukkan anggota assessment.');
 		 	return false;
 		}
 	};
