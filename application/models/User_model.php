@@ -33,11 +33,7 @@ class User_model extends CI_Model {
         return $inserted_id;     
     }
 
-    // public function cek_login2($username,$password){  
-    //     $this->db->where("email = '$username' or username = '$username'");  
-    //     $this->db->where('password', $password); 
-    //     return  $this->db->get('user');   
-    // }
+  
 
     /*
     This Query to Validate :
@@ -93,19 +89,6 @@ class User_model extends CI_Model {
         $this->db->where('iin_number', $iin_number);
         return $this->db->update('iin', $data);
     }
-
-    #this one is the default
-    // public function cek_login($username,$password){  
-    //     $this->db->select('MAX(ap.id_application) AS id_application,us.id_user,us.username, us.email, us.status_user, ii.iin_number, MAX(ap.iin_status) AS iin_status, ap.application_type, us.survey_status');
-    //     $this->db->from('user us'); 
-    //     $this->db->join('applications ap', 'us.id_user = ap.id_user','left');
-    //     $this->db->join('iin ii', 'us.id_user = ii.id_user','left');
-    //     $this->db->where("us.email = '$username' or us.username = '$username' or ii.iin_number = '$username' ");
-    //     $this->db->where('us.password', $password);
-    //     $query = $this->db->get(); 
- 
-    //     return  $query;    
-    // }
 
     /*
     Validate if there is more than 1 OPEN(iin_status) Application
@@ -239,19 +222,6 @@ class User_model extends CI_Model {
         $this->db->or_where('dc.type','TRANSACTIONAL');
         return $this->db->get()->result();
     }
-
-
-    /*
-    
-    */
-    // public function get_doc_iin()
-    // {
-    //     $this->db->select('dc.id_document_config, dc.type, dc.key, dc.display_name, dc.file_url', 'dc.mandatory');
-    //     $this->db->from('document_config dc');
-    //     $this->db->where('dc.type','DYNAMIC');
-    //     $this->db->or_where('dc.type','STATIC');
-    //     return $this->db->get()->result();
-    // }
 
 
     /*

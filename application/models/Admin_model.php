@@ -408,7 +408,10 @@ class Admin_model extends CI_Model {
     }
 
     public function get_complaint(){
-        return $this->db->get(TBCOMPL);
+        $this->db->select('us.username, co.*');
+        $this->db->from('complaint co');
+        $this->db->join('user us','co.id_user = us.id_user');
+        return $this->db->get();
     }
 
     public function insert_document_config($data){

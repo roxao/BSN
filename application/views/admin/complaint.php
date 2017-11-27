@@ -24,7 +24,7 @@
             <tr>
               <td class="id_no"><?=$data['id_complaint']?></td>
               <td class="id_pt">
-                <div class="complaint-user"><?=$data['id_user']?></div>
+                <div class="complaint-user"><?=$data['username']?></div>
                 <div class="complaint-msg"><?=$data['complaint_details']?></div>
               </td>
               <td>

@@ -213,26 +213,6 @@ class SipinHome extends CI_Controller {
 
 					}
 
-					/*
-					User Status Validation
-					*/		
-					// $cek = $this->user_model->cek_status_user($username);
-			  //       if($cek->num_rows() > 0){
-		   //      		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
-		  	// 			$this->user('register');
-			  //   	} else {
-			   //  		if ($this->user_model->register_user($email ,$username, $password, $name)){
-						// 	if ($this->user_model->sendMail($email,$username, "Please click on the below activation link to verify your email address.")) {
-					
-						// 		$this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda, untuk mengaktifkan akun yang telah Anda buat');
-						// 		$this->log("login","Login", $username);
-
-						//     } else {
-						// 		$this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
-						// 	}
-						// }
-					// }
-
 
 				} else { 
 					$this->captcha();
@@ -322,75 +302,6 @@ class SipinHome extends CI_Controller {
 	    /*
 	    Validate User Login
 	    */
-
-	    #this is the default
-	    #$cek = $this->user_model->cek_login($username, $password);
-
-	  //   if (!is_null($cek->row()->status_user)) {
-			//     if ($cek->row()->status_user == 0){ 
-			//      	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
-			// 		$this->user('login');
-			// 	} else {
-
-			// 		/*
-			// 		Already have IIN
-			// 		*/
-			// 		if (empty($cek->row()->iin_number)) {
-			// 			// echo "|Do not have IIN|";
-			// 			$have_iin = "N";
-			// 		} else {
-			// 			// echo "|Already have IIN|";
-			// 			$have_iin = "Y";
-			// 		}
-			// 		$this->session->set_userdata('have_iin');
-
-			// 		//date_default_timezone_get()
-			// 		$this->session->set_flashdata('validasi-login', 'Selamat Datang');
-			// 		$this->log("login","Login", $username);
-			// 		$id_user = $this->session->userdata('id_user');
-
-
-			// 		$this->session->set_userdata(array(
-			// 			'id_user'  		=> $cek->row()->id_user,
-			// 			'username' 		=> $cek->row()->username,
-			// 			'email' 		=> $cek->row()->email,
-			// 			'status_user'   => $cek->row()->status_user,
-			// 			'survey_status'   => $cek->row()->survey_status,
-			// 			'iin_status'   => $cek->row()->iin_status,
-			// 			'status' => "login",
-			// 			'have_iin' => $have_iin
-			// 		));
-
-			// 		/*
-			// 		Any Open Application?
-			// 		*/
-			// 		if ($cek->row()->iin_status == 'OPEN') {
-			// 			// echo "|Active application|";
-
-			// 			/*
-			// 			Application Type?
-			// 			*/
-			// 			$this->session->set_userdata('application_type',$cek->row()->application_type);
-
-			// 			if ($cek->row()->application_type == 'new') {
-			// 				redirect(base_url("Layanan-IIN/{$url}"));
-
-			// 			} else {
-			// 				redirect(base_url("Layanan-IIN", $base_url));
-			// 			}
-
-			// 		} else {
-			// 			// echo "|NO active application|";
-			// 			redirect(base_url());
-			// 		}
-
-			// 	}
-				
-			// } else {
-			//     $this->session->set_flashdata('validasi-login', 'Username/Password yang anda masukkan salah');
-			//     // $this->user('login');
-			//     redirect(base_url("user/login"));
-			// }
 
 	    #get password to validate username/email/iin
 	    $get_passw = $this->model->get_user_password($username);
