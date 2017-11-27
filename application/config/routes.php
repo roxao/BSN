@@ -63,7 +63,7 @@ $route['post/(:any)'] = 'SipinHome/cms_post/$1';
 
 
 $route['Layanan-IIN'] = 'SipinHome/submit_application';
-$route['login'] = 'SipinHome/user/register';
+$route['login'] = 'SipinHome/user/login';
 $route['registrasi'] = 'SipinHome/user/register';
 $route['informasi-iin/file_iso_7812'] = 'SipinHome/file_iso_7812';
 $route['informasi-iin/daftar-penerima-iin'] = 'SipinHome/iin_list';

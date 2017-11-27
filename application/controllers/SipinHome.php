@@ -395,9 +395,6 @@ class SipinHome extends CI_Controller {
 	    #get password to validate username/email/iin
 	    $get_passw = $this->model->get_user_password($username);
 
-	    #get login data 
-	    $cek = $this->model->get_login_data($get_passw->row()->id_user);
-
 	    #if user login using old IIN, and havn't registered yet
 	    if (is_null($get_passw->row()->password)) {
 	    	redirect(base_url('registrasi'));
@@ -410,50 +407,50 @@ class SipinHome extends CI_Controller {
 		    } else {
 
 	    		#login success
-		    	if ($cek->row()->status_user == 0){ 
+		    	if ($get_passw->row()->status_user == 0){ 
 			     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
 					$this->user('login');
 				} else {
 
+				    $this->session->set_userdata(array(
+						'id_user'  		=> $get_passw->row()->id_user,
+						'username' 		=> $get_passw->row()->username,
+						'email' 		=> $get_passw->row()->email,
+						'status_user'   => $get_passw->row()->status_user,
+						'survey_status'   => $get_passw->row()->survey_status,
+						'status'   => 'login'
+					));
+
+					$this->session->set_flashdata('validasi-login', 'Selamat Datang');
+					$this->log("login","Login", $username);
+					// $id_user = $this->session->userdata('id_user');
+
+
+				    #get login data 
+				    $cek = $this->model->get_login_data($get_passw->row()->id_user);
+
 					/*
 					Already have IIN
 					*/
-					if (empty($cek->row()->iin_number)) {
-						// echo "|Do not have IIN|";
-						$have_iin = "N";
-					} else {
+					$have_iin = "N";
+					if (!empty($cek->row()->iin_number)) {
 						// echo "|Already have IIN|";
 						$have_iin = "Y";
 					}
-					$this->session->set_userdata('have_iin');
+					$this->session->set_userdata('have_iin', $have_iin);
 
-					//date_default_timezone_get()
-					$this->session->set_flashdata('validasi-login', 'Selamat Datang');
-					$this->log("login","Login", $username);
-					$id_user = $this->session->userdata('id_user');
-
-
-					$this->session->set_userdata(array(
-						'id_user'  		=> $cek->row()->id_user,
-						'username' 		=> $cek->row()->username,
-						'email' 		=> $cek->row()->email,
-						'status_user'   => $cek->row()->status_user,
-						'survey_status'   => $cek->row()->survey_status,
-						'iin_status'   => $cek->row()->iin_status,
-						'status' => "login",
-						'have_iin' => $have_iin
-					));
-
+					// echo $cek->row()->iin_status;
 					/*
 					Any Open Application?
 					*/
-					if ($cek->row()->iin_status == 'OPEN') {
+					if (!empty($cek->row()->iin_status) and $cek->row()->iin_status == 'OPEN') {
 						// echo "|Active application|";
 
 						/*
 						Application Type?
 						*/
 						$this->session->set_userdata('application_type',$cek->row()->application_type);
+						$this->session->set_userdata('iin_status',$cek->row()->iin_status);
 
 						if ($cek->row()->application_type == 'new') {
 							redirect(base_url("Layanan-IIN/{$url}"));
@@ -466,6 +463,8 @@ class SipinHome extends CI_Controller {
 						// echo "|NO active application|";
 						redirect(base_url());
 					}
+
+
 
 				}
 
