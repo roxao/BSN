@@ -185,9 +185,9 @@ class User_model extends CI_Model {
     /*Forgot Password*/
     public function forgot_password($username){ 
         $this->db->select('*');
-        $this->db->from(TbuseR); 
-        $this->db->join('applications', Tbuser.'.id_user=applications.id_user');
-        $this->db->where(Tbuser."'.email = '$username' or '.tbuser.'.username = '$username' or instance_name = '$username'");        
+        $this->db->from(TBUSER.' us'); 
+        $this->db->join('applications ap', 'us.id_user=ap.id_user');
+        $this->db->where("us.email = '$username' or us.username = '$username' or ap.instance_name = '$username'");        
         $query = $this->db->get(); 
  
         return  $query;   

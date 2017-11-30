@@ -75,6 +75,8 @@ $route['penolakan'] = 'submit_iin/step_rejected';
 //activation 
 
 $route['aktivasi'] = 'SipinHome/verify';
+$route['lupa-kata-sandi'] = 'SipinHome/forgot_password';
+$route['user-login'] = 'SipinHome/login';
 
 
 $route['survey/(:any)'] = 'submit_iin/survey/$1';

@@ -580,7 +580,15 @@ define('TEXT2PENDING', 'Kelengkapan Dokumen anda telah masuk ke database sistem 
 define('TITLE2REVISI', 'Revisi Kelengkapan Dokumen Permohonan IIN',true);
 define('TEXT2REVISI', 'Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.',true);
 
-
+/*
+|
+| Email
+|
+*/
+define('EMAILSBJREG', 'Verifikasi Alamat Email Anda',true);
+define('EMAILMSGREG', 'Terima kasih , <br><br>Anda telah berhasil melakukan registrasi ke dalam Sistem Informasi Penerbitan Issuer Identification Number (SIPIN). <br><br>Silakan klik link di bawah ini untuk mengaktifkan akun anda , selanjutnya Anda dapat login ke dalam sistem SIPIN.<br><br>',true);
+define('EMAILSBJCONTACTUS', 'SIPIN-CONTACT US',true);
+define('EMAILFORGOTPASS', 'Menunggu Hasil Verifikasi Status Permohonan',true);
 /*
 |
 |--------------------------------------------------------------------------

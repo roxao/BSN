@@ -191,20 +191,22 @@ class SipinHome extends CI_Controller {
 		        		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
 		  				$this->user('register');
 			    	} else {
+						
+						$encrypted_id = md5($email);
+					    $subject = EMAILSBJREG;
+					    $msg = EMAILMSGREG.base_url("SipinHome/verify/$encrypted_id");
+					    if ($this->user_model->sendMail($email,$username, $subject, $msg)) {
 
-			    		if ($no_iin != "" ) {
-			    			$get_passw = $this->model->get_user_password($no_iin);
-				    		if ($get_passw->row()->iin_number == $no_iin) {
-				    			$this->user_model->update_user_has_iin($email, $email_enc, $username, $password, $name, $get_passw->row()->id_user);
-						    } else {
+				    		if ($no_iin != "" ) {
+				    			$get_passw = $this->model->get_user_password($no_iin);
+					    		if ($get_passw->row()->iin_number == $no_iin) {
+					    			$this->user_model->update_user_has_iin($email, $email_enc, $username, $password, $name, $get_passw->row()->id_user);
+							    } else {
+							    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
+							    }
+				    		} else {
 						    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
 						    }
-			    		} else {
-					    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
-					    }
-
-
-					    if ($this->user_model->sendMail($email,$username, "Please click on the below activation link to verify your email address.")) {
 					
 							$this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda, untuk mengaktifkan akun yang telah Anda buat');
 							$this->log("login","Login", $username);
@@ -212,6 +214,7 @@ class SipinHome extends CI_Controller {
 					    } else {
 							$this->session->set_flashdata('validasi-login', 'Gagal melakukan registrasi');
 						}
+
 
 					}
 
@@ -1183,8 +1186,10 @@ class SipinHome extends CI_Controller {
 	public function contact_us_prossess(){	
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
+		$subject = EMAILSBJCONTACTUS;
 		$message = $this->input->post('message');
-		$this->user_model->sendMail($email,$name, $message);
+		$this->user_model->sendMailContactUs($email,$name,$subject, $message);
+
 		redirect(base_url('contact-us'));
 	}
 

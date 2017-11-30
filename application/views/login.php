@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>SipinHome/login" onSubmit="return saveInputLogin();" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>user-login" onSubmit="return saveInputLogin();" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="login">Tampilkan error message disini</div>
             <input required type="username" id="username_login" name="username" placeholder="Username">
@@ -91,11 +91,11 @@
       <div class="o-header">
         <div class="o-logo">
           <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
-          <div class="o-sub-logo">Kirim ulang email aktivasi</div>
+          <div class="o-sub-logo">Link untuk merubah kata sandi akan di kirimkan ke email Anda</div>
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>SipinHome/forgot_password" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>lupa-kata-sandi" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="forgot">Tampilkan error message disini</div>
             <input required type="email" name="E-mail" placeholder="E-mail">
