@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/style.css"/>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.slides.min.js');?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/main.min.js');?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/main.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/swal.js'); ?>"></script>
 	<link rel="stylesheet" href="<?php echo base_url('assets/js/swal.css'); ?>">	

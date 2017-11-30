@@ -621,32 +621,95 @@ class User_model extends CI_Model {
         return  $this->db->get();
     }
 
-    public function sendMail($email,$username, $Desc) {
-        $encrypted_id = md5($email) ;
-        // echo "|encrypted_id : {$encrypted_id} |";
-        $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
-        $subject = 'Verify Your Email Address';
+    public function sendMail($email,$username, $subject, $msg) {
+        // $encrypted_id = md5($email) ;
+        // echo "|encrypted_id : {$encrypted_id} |"; 
+        $smtp_user = 'andaru140789@gmail.com'; # ganti dengan email kalian
+        $from_email = 'kerjasama@bsn.go.id'; # ganti dengan email kalian
+        // $subject = 'Verify Your Email Address';
 
 
         $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
+        $config['smtp_host'] = 'ssl://smtp.gmail.com'; # sesuaikan dengan host email
         $config['smtp_timeout'] = '7';
-        $config['smtp_port'] = '465'; // sesuaikan
-        $config['smtp_user'] = $from_email;
-        $config['smtp_pass'] = '14071989'; // ganti dengan password email
+        $config['smtp_port'] = '465'; # sesuaikan
+        $config['smtp_user'] = $smtp_user;
+        $config['smtp_pass'] = '14071989'; # ganti dengan password email
         $config['mailtype'] = 'html';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
         $config['newline'] = "\r\n";
         $config['crlf'] = "\r\n";
         $this->email->initialize($config);
-        $this->email->from($from_email, 'Badan Standarisasi Nasional');
+        $this->email->from($from_email,'Badan Standarisasi Nasional');
         $this->email->to($email);
         $this->email->subject($subject);
-        $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
-        // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
+        // $this->email->message($msg."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
+        $this->email->message($msg);
+
+
+        # gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
         return $this->email->send();
     }
+
+    public function sendMailContactUs($from_email,$username, $subject, $msg) {
+        $encrypted_id = md5($email) ;
+        // echo "|encrypted_id : {$encrypted_id} |"; 
+        $smtp_user = 'andaru140789@gmail.com'; # ganti dengan email kalian
+        $email = 'kerjasama@bsn.go.id'; # ganti dengan email kalian
+        // $subject = 'Verify Your Email Address';
+
+
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'ssl://smtp.gmail.com'; # sesuaikan dengan host email
+        $config['smtp_timeout'] = '7';
+        $config['smtp_port'] = '465'; # sesuaikan
+        $config['smtp_user'] = $smtp_user;
+        $config['smtp_pass'] = '14071989'; # ganti dengan password email
+        $config['mailtype'] = 'html';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['newline'] = "\r\n";
+        $config['crlf'] = "\r\n";
+        $this->email->initialize($config);
+        $this->email->from($from_email);
+        $this->email->to($email);
+        $this->email->subject($subject);
+        // $this->email->message($msg."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
+        $this->email->message($msg);
+
+
+        # gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
+        return $this->email->send();
+    }
+
+    #original code
+    // public function forgotPasswordMail($email,$username, $Desc) {
+    //     $encrypted_id = md5($email) ;
+    //     // echo "|encrypted_id : {$encrypted_id} |";
+    //     $from_email = 'andaru140789@gmail.com'; // ganti dengan email kalian
+    //     $subject = 'Verify Your Email Address';
+
+
+    //     $config['protocol'] = 'smtp';
+    //     $config['smtp_host'] = 'ssl://smtp.gmail.com'; // sesuaikan dengan host email
+    //     $config['smtp_timeout'] = '7';
+    //     $config['smtp_port'] = '465'; // sesuaikan
+    //     $config['smtp_user'] = $from_email;
+    //     $config['smtp_pass'] = '14071989'; // ganti dengan password email
+    //     $config['mailtype'] = 'html';
+    //     $config['charset'] = 'iso-8859-1';
+    //     $config['wordwrap'] = TRUE;
+    //     $config['newline'] = "\r\n";
+    //     $config['crlf'] = "\r\n";
+    //     $this->email->initialize($config);
+    //     $this->email->from($from_email, 'Badan Standarisasi Nasional');
+    //     $this->email->to($email);
+    //     $this->email->subject($subject);
+    //     $this->email->message($Desc."<br><br>".base_url("SipinHome/verify/$encrypted_id"));
+    //     // gunakan return untuk mengembalikan nilai yang akan selanjutnya diproses ke verifikasi email
+    //     return $this->email->send();
+    // }
 
     public function stepMailAdmin($email,$username, $Desc) {
         $encrypted_id = md5($email) ;

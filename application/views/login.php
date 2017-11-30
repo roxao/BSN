@@ -100,10 +100,12 @@
             <div class="o-error" data-msg="forgot">Tampilkan error message disini</div>
             <input required type="email" name="E-mail" placeholder="E-mail">
             <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
-            <button type="submit">Kirim Kata Sandi</button>
+            <br/>
             <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
 
-            <input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
+            <input type="text" name='security_code_forgot' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
+
+            <button type="submit">Reset Kata Sandi</button>
         </form>
       </div>
       <div class="o-footer">
@@ -115,6 +117,35 @@
           <div class="o-url" o-data="box-login">Login</div>
         </div>
     </div>
+</div>
+
+<!-- RESET FORM -->
+  <div id="box-reset" class="box-layout" style="display:none">
+    <div class="o-title">
+        <div class="o-text-title">LUPA KATA SANDI</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Link untuk merubah kata sandi akan di kirimkan ke email Anda</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="<?php echo base_url();?>lupa-kata-sandi" method = "POST">
+            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+            <div class="o-error" data-msg="reset">Tampilkan error message disini</div>
+            <input required type="email" name="E-mail" placeholder="E-mail">
+            <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
+            <br/>
+            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
+
+            <input type="text" name='security_code_forgot' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
+
+            <button type="submit">Reset Kata Sandi</button>
+        </form>
+      </div>
+      
 </div>
 
 <link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">

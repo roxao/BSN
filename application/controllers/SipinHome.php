@@ -241,20 +241,59 @@ class SipinHome extends CI_Controller {
 	@model user_model
 	*/
 	public function forgot_password() {
-		$username_forgot = $this->input->post('E-mail');
 
-		$cek = $this->user_model->forgot_password($username_forgot);
-		if ($cek->num_rows() > 0){
-		if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,"Please click on the below activation link to verify your email address.")) {
-			$this->log("login","Login", $username_forgot );
-			$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
-			$this->user('forgot');
-		}else {
-			$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
-			$this->user('forgot');} 
-		} else {$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
-			$this->user('forgot'); 
-		} 
+		if (($this->input->post('security_code_forgot') == $this->session->userdata('mycaptcha'))) {
+			$username_forgot = $this->input->post('E-mail');
+			$cek = $this->user_model->forgot_password($username_forgot);
+			if ($cek->num_rows() > 0){
+
+				$encrypted_id = md5($username_forgot);
+				$subject = EMAILSBJFORGOTPASS;
+			    $msg = EMAILMSGFORGOTPASS.base_url("/SipinHome/reset_password/$encrypted_id");
+				if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,$subject, $msg)) {
+					$this->log("login","Login", $username_forgot );
+					$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
+				}else {
+					$this->captcha();
+					$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
+				} 
+			} else {
+				$this->captcha();
+				$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
+			}
+		} else {
+			$this->captcha();
+			$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+		}
+		$this->user('forgot'); 
+		
+	}
+
+	public function reset_password() {
+
+		// $username_forgot = $this->input->post('E-mail');
+
+		// $cek = $this->user_model->forgot_password($username_forgot);
+		// if ($cek->num_rows() > 0){
+			
+		// 	$subject = EMAILSBJFORGOTPASS;
+		//     $msg = EMAILMSGFORGOTPASS.base_url("SipinHome/verify/$encrypted_id");
+		// 	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,$subject, $msg)) {
+
+
+		// 		$this->log("Forgot Password","Forgot Password", $username_forgot );
+		// 		$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
+		// 	}else {
+		// 		$this->captcha();
+		// 		$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
+		// 	} 
+		// } else {
+		// 	$this->captcha();
+		// 	$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
+		// } 
+		
+		$this->user('reset');
+
 	}
 
 
