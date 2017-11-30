@@ -101,6 +101,9 @@
             <input required type="email" name="E-mail" placeholder="E-mail">
             <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
             <button type="submit">Kirim Kata Sandi</button>
+            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
+
+            <input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
         </form>
       </div>
       <div class="o-footer">
