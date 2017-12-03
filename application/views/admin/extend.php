@@ -14,20 +14,22 @@
           <th class="sort" data-sort="id_type">Jenis Pengajuan</th>
           <th class="sort" data-sort="id_date">Tanggal Pengajuan</th>
           <th class="sort" data-sort="id_status"><center>Status Pengajuan</center></th>
+          <th><center>Lihat</center></th>
         </tr>
         <tbody class="list">
-          <?php foreach($applications as $data) { ?>
+          <?php foreach($applications as $key => $data) { ?>
             <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
             data-id="<?php echo $data->id_application ?>" 
             data-status="<?php echo $data->display_name ?>" 
             data-id-status="<?php  echo $data->id_application_status ?>"
             data-step="<?php echo $data->application_status_name ?>">
-              <td class="id_no"><?php echo $data->id_application ?></td>
+              <td class="id_no"><?=($key)+1?></td>
               <td class="id_name"><?php echo $data->applicant ?></td>
               <td class="id_pt"><?php echo $data->instance_name ?></td>
               <td class="id_type"><?php  echo ($data->application_type == 'new' ? "Penerbitan IIN Baru": "Pengawasan IIN Lama") ?></td>
               <td class="id_date"><?php echo $data->application_date ?></td>
               <td class="id_status"><span class="<?php echo $data->owner ?>"><?php echo $data->display_name ?></span></td>
+               <td><a target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'?header=hidden';?>">lihat</a></td>
             </tr>
           <?php } ?>
         </tbody>

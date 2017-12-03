@@ -21,6 +21,7 @@
             <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
             <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
             <th style="min-width:250px" class="sort" data-sort="id_status">Status Pengajuan</th>
+            <th style="min-width:250px">Lihat</th>
           </tr>
           <tbody class="list">
             <?php $i=1; foreach($applications as $data) { ?>
@@ -40,6 +41,7 @@
                   <?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
                 <td class="id_process"><?php  echo $data->process_status ?></td>
                 <td class="id_status"><span class="<?php echo $data->owner ?> <?php echo $data->process_status ?>"><?php  echo $data->display_name ?></span></td>
+                <td><a target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'?header=hidden';?>">lihat</a></td>
               </tr>
             <?php $i++; } ?>
           </tbody>

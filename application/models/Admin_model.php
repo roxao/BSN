@@ -163,12 +163,12 @@ class Admin_model extends CI_Model {
 
     public function get_data_history()
     {
-        $this->db->distinct();
-        $this->db->select('*');
-        $this->db->from(TbiiN);
-        $this->db->join(TbuseR, Tbuser.'.id_user=iin.id_user');
-        $this->db->join('applications',Tbuser.'.id_user=applications.id_user');
-        $this->db->where('applications.iin_status','CLOSED');
+        $this->db->select('u.id_user, a.applicant, a.instance_email, a.instance_name, a.mailing_location, u.username, i.id_iin, i.iin_established_date, i.iin_expiry_date, i.iin_number, a.id_application');
+        $this->db->from(TbiiN.' i');
+        $this->db->join(TbuseR.' u', 'u.id_user=i.id_user');
+        $this->db->join('applications a', 'u.id_user=a.id_user');
+        $this->db->group_by('u.id_user, i.id_iin, i.iin_established_date, i.iin_expiry_date, i.iin_number');
+        
         return $this->db->get();
     }
 

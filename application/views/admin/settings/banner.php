@@ -122,13 +122,12 @@
         var x_form = $('.banner-option-desc');
         $('.insert-image').children('span').css({'background-image':'url("'+$(this).attr('data-full-path')+'")'}).addClass('upload-image-success');
         x_form.prop('action', $(this).attr('data-url'));
-        $(x_form).children('[name=id_banner]').val($(this).attr('data-id'));
-        $(x_form).children('[name=file_name]').val($(this).attr('data-path'));
-        $(x_form).children('[name=id_banner]').val($(this).attr('data-id'));
-        $(x_form).children('[name=status]').val($(this).attr('data-status'));
-        $(x_form).children('[name=title]').val($(this).children('.title').text());
-        $(x_form).children('[name=url]').val($(this).children('.link').text());
-        $(x_form).children('[name=description]').val($(this).children('.text').text());
+        x_form.find('[name=id_banner]').val($(this).attr('data-id'));
+        x_form.find('[name=file_name]').val($(this).attr('data-path'));
+        x_form.find('[name=status]').val($(this).attr('data-status'));
+        x_form.find('[name=title]').val($(this).children('.title').text());
+        x_form.find('[name=url]').val($(this).children('.link').text());
+        x_form.find('[name=description]').val($(this).children('.text').text());
       })
   </script>
 </section>

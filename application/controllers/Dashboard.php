@@ -391,6 +391,9 @@ class Dashboard extends CI_Controller {
 
     public function settings($param = null){
         $this->user('check-autho');
+        if($this->session->userdata('admin_role') == 'Super Admin')
+        {
+
         switch ($param) {
             case 'user': 
                 $data['data'] = $this->admin_model->get_user()->result_array(); break;
@@ -438,6 +441,10 @@ class Dashboard extends CI_Controller {
                 redirect(base_url('dashboard')); break;
         }
         $this->set_template('admin/settings/'.$param, $data);
+    }else
+    {
+        redirect(base_url('dashboard'));
+    }
     }
 
     public function action_update($param){
@@ -445,16 +452,31 @@ class Dashboard extends CI_Controller {
         switch ($param) {
             case 'admin':
             $condition = array('id_admin' => $this->input->post('id_admin'));
-                $data = array(
+                if(empty($this->input->post('password')) or is_null($this->input->post('password')))
+                {
+                    $data = array(
                     'email' => $this->input->post('email'),
                     'username' => $this->input->post('username'),
-                    // 'password' => $this->input->post('password'),
+                    'admin_status' => $this->input->post('admin_status'),
+                    'admin_role' => $this->input->post('admin_role'),
+                    'modified_date' => $this->date_time_now(),
+                    'modified_by' => $this->session->userdata('admin_username')                
+                    );
+                    
+                }else
+                {
+                    $data = array(
+                    'email' => $this->input->post('email'),
+                    'username' => $this->input->post('username'),
                     'password' => hash ( "sha256", $this->input->post('password')),
                     'admin_status' => $this->input->post('admin_status'),
                     'admin_role' => $this->input->post('admin_role'),
                     'modified_date' => $this->date_time_now(),
                     'modified_by' => $this->session->userdata('admin_username')                
-                );
+                    );
+                    
+                }
+                
                 $log = array(
                     'detail_log' => $this->session->userdata('admin_role').' Update Data Admin',
                     'log_type' => 'Update Data '.$this->input->post('username'), 
@@ -530,7 +552,7 @@ class Dashboard extends CI_Controller {
                 break;
             case 'banner':
                 
-                $condition = array('id_banner' => $this->input->post('id_cms'));
+                $condition = $this->input->post('id_banner');
                 $data = array(
                     'title' => $this->input->post('title'),
                     'text' => $this->input->post('description'),

@@ -20,9 +20,9 @@
           </tr>
         </thead>
         <tbody class="list">
-          <?php foreach($complaint as $data) { ?>
+          <?php $i=1; foreach($complaint as $data) { ?>
             <tr>
-              <td class="id_no"><?=$data['id_complaint']?></td>
+              <td class="id_no"><?=$i?></td>
               <td class="id_pt">
                 <div class="complaint-user"><?=$data['username']?></div>
                 <div class="complaint-msg"><?=$data['complaint_details']?></div>
@@ -32,7 +32,7 @@
                   <?=date("D, d M Y", strtotime($data['created_date']))?>
               </td>
             </tr>
-          <?php } ?>
+          <?php $i++;} ?>
         </tbody>
       </table>
 

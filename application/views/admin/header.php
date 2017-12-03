@@ -40,6 +40,7 @@
 		<li><a class="ic-adm ic-report " href="<?php echo base_url('dashboard/report') ?>">Laporan</a></li>
 		<li><a class="ic-adm ic-history " href="<?php echo base_url('dashboard/data_entry') ?>">Historical Data Entry</a></li>
 		<li><a class="ic-adm ic-inbox " href="<?php echo base_url('dashboard/complaint') ?>">Pengaduan</a></li>
+		<?php if($this->session->userdata('admin_role') == 'Super Admin') {?>
 		<li><a class="ic-adm ic-setting parent">Pengaturan</a>
 			<ul>
 				<li><a class="ic-adm" href="<?php echo base_url('dashboard/settings/admin') ?>">Administrator</a></li>
@@ -52,6 +53,7 @@
 
 			</ul>
 		</li>
+		<?php } ?>
 	</ul>
 	<script>
 		function getNotification(){

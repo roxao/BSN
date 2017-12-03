@@ -15,7 +15,7 @@
     <center><h2 class="title_content"><?php echo $page_section ?></h2></center>
     <div id="cms_editor">
       <form action="<?php echo base_url('dashboard/'.(($data) ? 'action_update': 'action_insert') . '/contents') ?>" method="post" accept-charset="utf-8">
-        <input name="id_cms" value="<?php echo ($data) ? $data[0]['id_cms']: ''?>">
+        <input name="id_cms" value="<?php echo ($data) ? $data[0]['id_cms']: ''?>" type="hidden">
         <div class="cms_editor_title">
           <label>Judul Konten
             <input  type="text" name="title" value="<?php echo ($data) ? $data[0]['title']: ''?>" placeholder="Judul Content">
