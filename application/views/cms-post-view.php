@@ -2,16 +2,37 @@
 
     <section id="cms-section" class="clearfix sheets_paper">
       <div class="cms-header">
-        <span class="cms-header-date date-format" date-id="<?php echo $cms[0]['created_date'] ?>"></span>
-        <h1 class="cms-header-title"><?php echo $cms[0]['title'] ?></h1>  
+        <div class="cms-header-info">
+          <div class="site-map">
+            Halaman Depan > <span>Informasi Layanan IIN</span>
+            <!-- <span> > <?=$cms[0]['title'] ?></span> -->
+            <div class="cms-date">Tanggal: <span><?=date("d M Y", strtotime($cms[0]['created_date'])) ?></span></div>
+          </div>
+          <div class="cms-share">
+            <div>Bagikan:</div>
+            <div>
+              <a class="shareToFB" href="#" title="Bagikan ke Twitter">
+                <svg class="sprite_icon" fill="#3b5998"><use xlink:href="<?=base_url("assets/ic_socmed.svg#ic_fb")?>"/></svg></a>
+              <a class="shareToTW" href="#" title="Bagikan ke Twitter">
+                <svg class="sprite_icon" fill="#00aced"><use xlink:href="<?=base_url("assets/ic_socmed.svg#ic_tw")?>"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <h1 class="cms-header-title"><?=$cms[0]['title'] ?></h1>
       </div>
       <article class="cms-content">
-        <?php echo $cms[0]['contents'] ?>
+        <?=$cms[0]['contents'] ?>
       </article>
     </section>
 
 <script>
-    document.title = '<?php echo $cms[0]['title'] ?>';
-    parseDate(".date-format");
-  function parseDate(o){date=$(o).attr('date-id');var x=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];y=date.substr(0,4);m=date.substr(5,2);d=date.substr(8,2);$(o).html(d+" "+x[m-1]+" "+y)}
+    document.title = '<?=$cms[0]['title'] ?>';
+    $('.shareToTW').on('click', function(){
+      window.open("https://twitter.com/share?url="+escape(window.location.href)+"&text="+document.title+' - ', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+      return false;
+    })
+    $('.shareToFB').on('click', function(){
+      window.open('https://www.facebook.com/sharer/sharer.php?u=' + document.URL, 'facebook-popup', 'height=350,width=600');
+      return false;
+    })
 </script>

@@ -3,35 +3,32 @@
 	<p><?php echo $text_iin;?></p>
 	<?php echo form_open_multipart('submit_iin/upload_files');?>
 	<ul class="list_iin_download">
-		<?php 
+		<?php
 
-			foreach($step2_upload as $data) { 
+			foreach($step2_upload as $data) {
 
 				?>
 
-				<li class="item-upload"> 
-					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/> 
-					<?php  
-						$files = "file".$data->keys;
-						$mandatory = ($data->mandatory == '1') ? '*': '' ;
-						$name = "{$data->keys}. {$data->display_name} {$mandatory}";
+				<li class="item-upload">
+					<input type="checkbox" <?php echo (($upload_status == "success") ? "checked ": "" );?> disabled/>
+					<span>
+						<?php
+							$mandatory = ($data->mandatory === '1') ? '*': '' ;
+							$name = "{$data->keys}. {$data->display_name} {$mandatory}";
+							echo $name;
+						?>
+					</span>
 
-						echo $name;						
-					?>
-					
 					<label class="upload_button">
 						<span>Cari...</span>
-						<input type="file"  id="<?php echo $data->keys?>" class="fileChoser" name="<?php echo $files?>" 
-						<?php echo (($data->mandatory == "1") ? "required": "" );?>	/>
-						<i id="<?php echo $files?>" ></i>
-
+						<input type="file"  id="<?php echo $data->keys?>" class="fileChoser" name="<?='file'.$data->keys?>" <?=(($data->mandatory === "1") ? "required": "" )?>/>
+						<i data-id="<?='file'.$data->keys?>"></i>
 					</label>
-					
-				</li> 	
+				</li>
 			<?php
-			} 
+			}
 
-			?> 
+			?>
 	</ul>
 
 
@@ -43,8 +40,8 @@
 		<br/>
 
 	<div class="clearfix">
-		<button style="background: #01923f" class="float_right uploadstep3" name="upload" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>	
-		
+		<button style="background: #01923f" class="float_right uploadstep3" name="upload" value="uploadstep3" onclick="checkUploadedFile()">Proses</button>
+
 	</div>
 	</form>
 
@@ -79,7 +76,7 @@
 			var value = $(this).val();
 			// alert(value);
 			if(value != null && value != ""){
-				
+
 				if(temp == "" || temp == null){
 					temp = $(this).attr("id");
 				} else {
@@ -92,11 +89,10 @@
 
 		// alert($("#no_count").val());
 	}
-</script>	
+</script>
 
 
 
 
 
 <!-- KALAU GAGAL UPLOAD -->
-
