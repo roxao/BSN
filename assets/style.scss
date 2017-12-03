@@ -11,7 +11,7 @@ $c_none       : none;
 $fsize_s      : 11px;
 $fsize_normal : 13px;
 $width_cont   : 1200px;
-$desktop      : 800px;
+$desktop      : 1000px;
 
 /*RESET DEFAULT HTML*/
 
@@ -377,17 +377,17 @@ header {
     background-size: 20px;
     height: 20px;
     span{
-        border: 1px solid red;
-        color: red;
-        padding: 3px 7px 2px 7px;
-        border-radius: 7px;
-        display: inline-block;
-        height: 20px;
-        min-width: 15px;
-        line-height: 20px;
-        text-align: center;
-        margin: -3px 0 -3px 20px;
-        font-size: 12px !important;
+      color: white;
+      border-radius: 3px;
+      display: block;
+      min-width: 12px;
+      line-height: 15px;
+      text-align: center;
+      margin: -5px 1px;
+      background: red;
+      height: 15px;
+      font-size: 10px !important;
+      padding: 0 3px;
         }
   }
   .box_notif{
