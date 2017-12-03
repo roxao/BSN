@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:700,600,500,400,300');
+@import url('font.css?family=Asap');
 
 $c_1st        : #507299;
 $c_1st_light  : #7996B7;
@@ -98,9 +98,6 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { bac
   margin: 0 auto;
   margin-top: 20vh;
   text-align: center;
-  label{
-
-  }
   .form{
     input{
       display: block;
@@ -119,7 +116,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { bac
 /*DEFAULT*/
 body {
   background: #fff;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Asap', sans-serif;
   font-size: $fsize_normal;
   font-weight: 300;
   min-width: 420px;
@@ -190,6 +187,10 @@ header {
   left: 0;
   top: 0;
   min-width: 420px;
+  nav{
+    max-width: 1200px;
+    margin: 0 auto
+  }
 }
 
 .nav-logo{
@@ -265,7 +266,8 @@ header {
       line-height: 32px;
       transition: all .5s ease;
       margin-right: 15px;
-      font-size: 12px;
+      font-size: 1em;
+      font-weight: 500;
       &:hover{
         color: $c_2nd
       }
@@ -274,7 +276,6 @@ header {
   .nav-sess{
     border-radius: 4px;
     transition: all .5s ease;
-    font-size: 11px;
     a{
       margin-right: 10px;
     }
@@ -283,12 +284,46 @@ header {
     a{
       color: #009240;
       border: 1px solid #009240;
-      padding: 6px 12px;
+      padding: 0px 30px;
       border-radius: 4px;
       transition: all .5s ease;
-      font-size: 11px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      text-align: center;
+      &:after, &:before{
+        border: 100px solid $c_2nd;
+        display: block;
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        transition: all 1s ease;
+        z-index: -1;
+      }
+      &:before{
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        top: -200%;
+        left: -200%;
+      }
+      &:after{
+        border-top-color: transparent;
+        border-left-color: transparent;
+        bottom: -200%;
+        right:-200%;
+      }
       &:hover{
-        background: #009240;
+        &:after{
+          bottom: 0;
+          right: 0;
+          transition: all 1s ease;
+        }
+        &:before{
+          left: 0;
+          top: 0;
+          transition: all 1s ease;
+        }
         color: #fff;
         transition: all .5s ease;
       }
@@ -326,29 +361,44 @@ header {
 
 .nav-notif{
   position: relative;
+  &:hover{
+    cursor: pointer;
+  }
+  &.active > .box_notif{
+    display: block;
+    height: auto;
+    transition: all 1s ease;
+  }
   >a{
+    background: url(notification.png) no-repeat left center;
+    font-size: 0 !important;
     display: flex;
+    width: auto;
+    background-size: 20px;
+    height: 20px;
     span{
         border: 1px solid red;
         color: red;
         padding: 3px 7px 2px 7px;
         border-radius: 7px;
-        width: 15px;
         display: inline-block;
         height: 20px;
+        min-width: 15px;
         line-height: 20px;
         text-align: center;
-        margin: 0 10px;
+        margin: -3px 0 -3px 20px;
+        font-size: 12px !important;
         }
   }
   .box_notif{
+    height: 0;
+    transition: all 1s ease;
     display: none;
     position: absolute;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0px 2px rgba(0, 0, 0, 0.1);
     border-radius: 2px;
-    margin: 0px 0 0 -15px;
-    padding: 5px 0;
+    margin: auto;
     z-index: 100;
     text-transform: none;
     font-size: 12px;
@@ -358,6 +408,7 @@ header {
     right: 0;
     max-height: 400px;
     overflow-y: scroll;
+    top: 110%;
     li{
       padding: 10px 15px;
       font-size: 12px;
@@ -371,12 +422,9 @@ header {
     .ACTIVE{
       background: #edf2fa;
       a{
-        color: #555
+        color: $c_1st
       }
     }
-  }
-  &:hover .box_notif{
-    display: block;
   }
 }
 
@@ -776,7 +824,6 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
   text-align: center;
   margin: 40px 0;
   h1 {
-    font-family: 'Lato', sans-serif;
     font-size: 32px;
     font-weight: 100;
     color: #000;
@@ -2172,7 +2219,6 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     text-align: center;
     padding: 20px;
     color: #3b9f58;
-    font-family: 'Lato';
     font-size: 18px;
     }
     .cms-header-date {
@@ -2464,7 +2510,6 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     padding: 0 20px;
     margin: 0 auto;
     text-align: center;
-    font-family: 'Lato';
     letter-spacing: .2px;
   }
   .footer-message{
@@ -2679,7 +2724,6 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
       padding: 20px;
       color: #555;
       font-size: 1.1em;
-      font-family: Arial;
       letter-spacing: .5px;
       border: 1px solid #ddd;
       border-radius: 3px;
@@ -2830,5 +2874,120 @@ footer                {background: #f7f7f7;border-top: 1px solid #ddd;margin-top
     margin: unset !important;
     max-height: unset !important;
     bottom: 0  !important;
+  }
+}
+
+$_sort_color : rgba(80, 114, 153, .2);
+.sort{
+  &:hover{
+    cursor: pointer;
+  }
+  span{
+    display: flex;
+  }
+  &.asc span:after, &.desc span:after, span:after{
+    display: inline-block;
+    content: '';
+    margin: auto 5px;
+    min-width: 10px;
+    min-height: 10px;
+    box-shadow: inset 0 -2px rgba(80,114,153,0.2), inset -3px -4px #fff, inset 0 -6px rgba(80,114,153,0.2), inset -6px -8px #fff, inset 0 -10px rgba(80,114,153,0.2);
+  }
+  &.asc span:after, &:hover span:after{
+    $_sort_color : rgba(80, 114, 153, 1);
+    box-shadow:
+      inset 0 -2px $_sort_color, inset -3px -4px white,
+      inset 0 -6px $_sort_color, inset -6px -8px white,
+      inset 0 -10px $_sort_color;
+  }
+  &.desc span:after{
+    $_sort_color : rgba(80, 114, 153, 1);
+      box-shadow:
+        inset 0 2px $_sort_color, inset -3px 4px white,
+        inset 0 6px $_sort_color, inset -6px 8px white,
+        inset 0 10px $_sort_color;
+  }
+}
+
+#iin-section{
+  margin: 15vh auto 0 auto;
+  max-width: 1000px;
+  padding: 30px;
+  @media screen and (max-width: $desktop) {
+    margin: 50px auto 0 auto;
+  }
+}
+#table-iin{
+  margin: 0 -30px;
+  .table-list-iin{
+    width: 100%;
+    overflow-x: scroll;
+    table{
+      width: 100%;
+    }
+    thead tr th{
+      background: #fff;
+      padding: 25px 10px 15px 10px;
+      text-align: left;
+      text-transform: uppercase;
+      font-size: .8em;
+      color: $c_1st_light;
+      &:first-child{
+        text-align: right;
+      }
+      &:hover{
+        color: $c_1st;
+      }
+    }
+    tbody tr td{
+      background: #fafafa;
+      padding: 15px 10px;
+      text-align: left;
+      border-bottom: 1px solid #f1f1f1;
+      color: #777;
+      &:first-child{
+        text-align: center;
+      }
+    }
+
+  }
+}
+td{
+  &.id_iin_name{
+    color: #333 !important;
+  }
+  &.id_iin_cell span{
+    letter-spacing: 2px;
+    border: 1px dashed #ddd;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background: #fff;
+    font-weight: 600;
+    color: $c_2nd
+  }
+}
+
+.page-header-title{
+  position: relative;
+  margin: 20px -30px;
+  padding: 10px 30px;
+  color: $c_1st;
+  &:after, &:before{
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    content: '';
+    display: inline-block;
+    height: 3px;
+  }
+  &:before{
+    background: #eee;
+    width: 100%;
+  }
+  &:after{
+    background: $c_1st;
+    width: 250px;
+    border-right: 25px solid #fff;
   }
 }

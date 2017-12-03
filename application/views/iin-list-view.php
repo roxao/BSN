@@ -1,74 +1,56 @@
 
-    <section id="cms-section" class="clearfix sheets_paper">
-      <div class="cms-header">
-        <span class="cms-header-date"><a href="<?php echo base_url() ?>" style="color:#3b9f58">HOME</a> > Penerima IIN</span>
-        <h1 class="cms-header-title">DAFTAR PENERIMA IIN</h1>  
+    <section id="iin-section" class="clearfix sheets_paper">
+      <div class="iin-header">
+        <span class="site-map"><a href="<?php echo base_url() ?>" style="color:#3b9f58">HOME</a> > Penerima IIN</span>
+        <h1 class="page-header-title">DAFTAR PENERIMA IIN</h1>
       </div>
-      <article id="tableiin"  style="max-width: 1000px">
+      <article id="table-iin">
 
-        <?php if($download_iin){ ?>
+        <?php if(isset($download_iin)){ ?>
           <div class="clearfix">
             <a class="download-iin-file" href="<?php echo base_url();?>submit_iin/download?var1=<?php echo $download_iin[0]['path_file'];?>">Download IIN Anda</a>
           </div><br/>
         <?php } ?>
-        <table class="table_def" width="100%" style="border: 1px solid #ddd">
+        <div class="table-list-iin">
+        <table>
           <thead>
             <tr>
-              <th class="sort auto_click" data-sort="id_1"><center>No.</center></th>
-              <th class="sort" data-sort="id_2">Nama Perusahaan</th>
-              <th class="sort" data-sort="id_3">Email Perusahaan</th>
-              <th class="sort" data-sort="id_4">Telepon Perusahaan</th>
-              <th class="sort" data-sort="id_5">Lokasi</th>
-              <th class="sort" data-sort="id_6">Pengesahan</th>
-              <th class="sort" data-sort="id_7">Kadaluarsa</th>
-              <th class="sort" data-sort="id_8"><center>Nomor IIN</center></th>
+              <th class="sort" data-sort="id_1"><span>No</span></th>
+              <th class="sort" data-sort="id_2"><span>Nama Perusahaan</span></th>
+              <th class="sort" data-sort="id_3"><span>Email Perusahaan</span></th>
+              <th class="sort" data-sort="id_4"><span>Tlp. Perusahaan</span></th>
+              <th class="sort" data-sort="id_5"><span>Lokasi</span></th>
+              <th class="sort" data-sort="id_6"><span>Pengesahan</span></th>
+              <th class="sort" data-sort="id_7"><span>Kadaluarsa</span></th>
+              <th class="sort" data-sort="id_iin_cell"><span>Nomor IIN</span></th>
             </tr>
           </thead>
           <tbody class="list">
-          <?php foreach ($iin as $row) {?>
+          <?php foreach ($iin as $key => $row) {?>
             <tr>
-              <td class="id_1"> <?php echo $row->id_iin ?> </td>
-              <td class="id_2"> <?php echo $row->instance_name ?> </td>
-              <td class="id_3"> <?php echo $row->instance_email ?> </td>
-              <td class="id_4"> <?php echo $row->instance_phone ?> </td>
-              <td class="id_5"> <?php echo $row->mailing_location ?> </td>
-              <td class="id_6"><?php echo date("D, d M Y", strtotime($row->iin_established_date)) ?> </td>
-              <td class="id_7"> <?php echo date("D, d M Y", strtotime($row->iin_expiry_date)) ?> </td>
-              <td class="id_8"><center><?php echo $row->iin_number ?></center></td>
+              <td class="id_1"><?=($key)+1 ?> </td>
+              <td class="id_2 id_iin_name"><?=$row->instance_name ?> </td>
+              <td class="id_3"><?=$row->instance_email ?> </td>
+              <td class="id_4"><?=$row->instance_phone ?> </td>
+              <td class="id_5"><?=ucwords(strtolower($row->mailing_location)) ?></td>
+              <td>
+                <span class="id_6 hidden"><?=$row->iin_established_date?></span>
+                <?=date("d M Y", strtotime($row->iin_established_date)) ?> </td>
+              <td>
+                <span class="id_7 hidden"><?=$row->iin_expiry_date?></span>
+                <?=date("d M Y", strtotime($row->iin_expiry_date)) ?> </td>
+              <td class="id_iin_cell"><span><?=$row->iin_number ?></span></td>
             </tr>
           <?php } ?>
           </tbody>
         </table>
-        <ul class="main_pagination">
-          <li class="listjsprev"><</li>
-          <ul class="pagination"></ul>
-          <li class="listjsnext">></li>
-        </ul>
+      </div>
       </article>
     </section>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/list.min.js"></script>
   <script type="text/javascript">
     $('document').ready(function(){
-      var options = {valueNames: ['id_1','id_2','id_3','id_4','id_5','id_6','id_7','id_8'],page: 25,pagination: true};
-      var inboxList = new List('tableiin', options);
-            $('.auto_click').click();
-
+      $.set_table_list('table-iin', 20);
     });
-    $('.listjsnext').on('click', function(){
-    var list = $('.pagination').find('li');
-    $.each(list, function(position, element){
-        if($(element).is('.active')){
-            $(list[position+1]).trigger('click');
-        }
-    })
-    })
-    $('.listjsprev').on('click', function(){
-        var list = $('.pagination').find('li');
-        $.each(list, function(position, element){
-            if($(element).is('.active')){
-                $(list[position-1]).trigger('click');
-            }
-        })
-    })
   </script>
