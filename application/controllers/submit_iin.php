@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class submit_iin extends CI_Controller {
 	public function __construct() {
-		
+
 		parent::__construct();
 		/* load library dan helper*/
 	   	$this->load->library('session', 'upload');
@@ -12,10 +12,10 @@ class submit_iin extends CI_Controller {
 		$this->load->library('email','form_validation', 'curl');
 		$this->model = $this->user_model;
         $this->load->database();
-			
+
 	}
- 
-	public function index(){		
+
+	public function index(){
 		$this->load->view('header');
 		$this->load->view('submit-iin');
 		$this->load->view('footer');
@@ -34,7 +34,7 @@ class submit_iin extends CI_Controller {
 	{
 
 		$this->load->helper('captcha');
- 		
+
 		$vals = array(
 			//'word' => 'Random word',
 			'img_path' => './captcha/',
@@ -47,9 +47,9 @@ class submit_iin extends CI_Controller {
 			'font_size' => 20,
 			//'img_id' => 'Imageid',
 			//'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			
+
 			// White background and border, black text and red grid
-			
+
 			'colors' => array(
 				'background' => array(255, 255, 255),
 				'border' => array(255, 255, 255),
@@ -63,7 +63,7 @@ class submit_iin extends CI_Controller {
 		 $data['image'] = $cap['image'];
 		return $data;
 	}
-	
+
 
 	/*
 	INSERT LOG
@@ -79,7 +79,7 @@ class submit_iin extends CI_Controller {
                 );
         $this->user_model->insert_log($dataLog);
 	}
-	
+
 
 
 	/*
@@ -87,7 +87,7 @@ class submit_iin extends CI_Controller {
 	@view step0.php
 	*/
 	public function step_0() {
-		
+
 		// $this->captcha();
 		// $a = $this->session->userdata('status');
 
@@ -105,8 +105,6 @@ class submit_iin extends CI_Controller {
 
 					$get_document = $this->user_model->get_applications_Status($id_user);
 					$username = $this->session->userdata('username');
-
-					if (($this->input->post('security_code') == $this->session->userdata('mycaptcha'))){
 
 						/*
 						Define id_application_status_name => x (for below validation)
@@ -152,7 +150,7 @@ class submit_iin extends CI_Controller {
 						if ( $get_document->row()->iin_status != 'OPEN' ) {
 							/*Insert Pengajuan*/
 							$inserted_id = $this->user_model->insert_pengajuan($data);
-							
+
 							$data1 = array(
 				                // 'id_application '=> $get_document->row()->id_application,
 				                'id_application '=> $inserted_id,
@@ -162,34 +160,28 @@ class submit_iin extends CI_Controller {
 				                'created_by' => $username
 			            	);
 				            $this->user_model->insert_app_status($data1);
-							
+
 							/*
 							AUDIT TRAIL Step 0
 							*/
 							$this->log("Added New Application","Created new application by");
-					        
+
 					        /*
 							Send Notif Step 0
 							*/
 							$message = USNTFSTEP0.$this->input->post('app_instance');
 					        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
 					        /*
-				            	REMINDER : 
+				            	REMINDER :
 				            	At this point , user should be stuck in this page
 								and waiting for admin verification
 				            */
 							redirect(base_url("Layanan-IIN"));
-				            
+
 						} else {
 							echo "|ERR: Controller submit_iin - function step_0";
 						}
-						
 
-					} else {
-						$this->session->set_flashdata('validasi-captcha', 'Captcha tidak sesuai');
-						echo "Tidak Sama";
-						redirect(base_url("Layanan-IIN"));
-					}
 				} else {
 					echo "Dibatalkan";
 					redirect(base_url("Layanan-IIN"));
@@ -209,12 +201,12 @@ class submit_iin extends CI_Controller {
 		$id_user = $this->session->userdata('id_user');
 
 		/*
-		Get Application Status 
+		Get Application Status
 		*/
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 
 		/*
-		Validate If row Exist 
+		Validate If row Exist
 		*/
 		if ( !is_null($get_app_status->row()->id_application) ) {
 
@@ -228,7 +220,7 @@ class submit_iin extends CI_Controller {
 	            'id_application'=> $id_application,
 	            'created_by' => $created_by
 	    	);
-		    
+
 			/*
 			Validate id_application_status_name  exist
 			*/
@@ -239,7 +231,7 @@ class submit_iin extends CI_Controller {
 				$app_status['process_status'] = $process_status;
 
 			}
-			
+
 		    return $app_status;
 
 		} else {
@@ -249,12 +241,12 @@ class submit_iin extends CI_Controller {
 
 	}
 	/*
-	
+
 	*/
 	public function step_1() {
 
 		/*
-		THIS METHOD USING check_app_status function 
+		THIS METHOD USING check_app_status function
 		*
 		*/
 
@@ -275,7 +267,7 @@ class submit_iin extends CI_Controller {
 			$id_application_status_name = $app_status['id_application_status_name'];
 
 			if ( $id_application_status_name == $step_status_name ) {
-				
+
 				/*
 				Update The Value of application_status Table
 				*/
@@ -286,7 +278,7 @@ class submit_iin extends CI_Controller {
 				AUDIT TRAIL Step 1
 				*/
 				$this->log("New Application Verified","Application Verified | Applicant");
-		        
+
 			}
 
 			redirect(base_url("Layanan-IIN"));
@@ -298,7 +290,7 @@ class submit_iin extends CI_Controller {
 	}
 
 	/*
-	
+
 	*/
 	public function step_2($uploaded, $key) {
 
@@ -347,12 +339,12 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => $id_application_status_name,
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            // 'created_date' => date('Y-m-j'),
 	            'created_by' => $this->session->userdata('username')
 	    	);
-			
+
 	        $this->user_model->insert_app_status($app_status);
 
 		} elseif ( $id_application_status_name == '4' ) {
@@ -383,11 +375,11 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => $id_application_status_name,
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            'created_by' => $this->session->userdata('username')
 	    	);
-			
+
 	        $inserted_id = $this->user_model->insert_app_status($app_status);
 
 			// $app_file = array();
@@ -432,7 +424,7 @@ class submit_iin extends CI_Controller {
 
 						$this->user_model->set_app_form($form_map, $list_id_form_mapping[$index]);
 
-						
+
 					}
 				}
 
@@ -441,7 +433,7 @@ class submit_iin extends CI_Controller {
 			}
 
 			$logMsg = "Revision ";
-		
+
 		}
 		/*
 		Send Notif Step 2
@@ -449,7 +441,7 @@ class submit_iin extends CI_Controller {
 
 		$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
 		$inst_nm = $dat->row()->instance_name;
-		
+
 
 		$message = USNTFSTEP2;
 		if ( $logMsg != "") $message = USNTFSTEP2REV;
@@ -459,15 +451,15 @@ class submit_iin extends CI_Controller {
 		..INSERT log Table..
 		*/
 		$this->log("{$logMsg}Submit Document","Application Files Submitted by");
-	}	
+	}
 
 
 	/*
-	
+
 	*/
 	public function step_4() {
 		/*
-		THIS METHOD USING check_app_status function 
+		THIS METHOD USING check_app_status function
 		*
 		*/
 
@@ -492,19 +484,19 @@ class submit_iin extends CI_Controller {
 				AUDIT TRAIL Step 1
 				*/
 				$this->log("User Download Billing Code","Billing Code Downloaded | Applicant");
-		        
+
 			}
 
 			redirect(base_url("Layanan-IIN"));
 		}
 	}
-	
+
 
 	/*
-	
+
 	*/
 	public function step_5($uploaded, $key_arr){
-		
+
 
 		$logMsg = "";
 
@@ -553,12 +545,12 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => $id_application_status_name,
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            // 'created_date' => date('Y-m-j'),
 	            'created_by' => $this->session->userdata('username')
 	    	);
-			
+
 	        $this->user_model->insert_app_status($app_status);
 
 		} elseif ( $id_application_status_name == '10' ) {
@@ -590,11 +582,11 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => $id_application_status_name,
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            'created_by' => $this->session->userdata('username')
 	    	);
-			
+
 	        $inserted_id = $this->user_model->insert_app_status($app_status);
 
 			foreach ($uploaded as $index => $valIndex) {
@@ -618,7 +610,7 @@ class submit_iin extends CI_Controller {
 					/*
 					Validate $key== id_document_config
 					*/
-	
+
 					/*
 					Validate $key== key
 					*/
@@ -654,13 +646,13 @@ class submit_iin extends CI_Controller {
 			$logMsg = "Revision ";
 
 		}
-	
+
 		/*
 		Send Notif Step 5
 		*/
 
 		$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
-		$inst_nm = $dat->row()->instance_name;	
+		$inst_nm = $dat->row()->instance_name;
 
 		$message = USNTFSTEP5;
 		if ( $logMsg != "") $message = USNTFSTEP5REV;
@@ -677,7 +669,7 @@ class submit_iin extends CI_Controller {
 	public function step_6(){
 
 		/*
-		THIS METHOD USING check_app_status function 
+		THIS METHOD USING check_app_status function
 		*
 		*/
 		/*
@@ -710,18 +702,18 @@ class submit_iin extends CI_Controller {
 				$app_status = array(
 		            'id_application '=> $app_status['id_application'],
 		            'id_application_status_name' => $id_application_status_name,
-		            'process_status' => 'PENDING',	
+		            'process_status' => 'PENDING',
 		            'created_date' => $this->date_time_now(),
 		            'created_by' => $this->session->userdata('username')
 		    	);
-				
+
 		        $this->user_model->insert_app_status($app_status);
 
 		        /*
 				Send Notif Step 6
 				*/
 		        $dat = $this->model->get_instance_name($this->session->userdata('id_user'));
-				$inst_nm = $dat->row()->instance_name;	
+				$inst_nm = $dat->row()->instance_name;
 
 		        $message = USNTFSTEP6.$inst_nm;;
 	        	$this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
@@ -730,22 +722,22 @@ class submit_iin extends CI_Controller {
 				AUDIT TRAIL Step 1
 				*/
 				$this->log("User Approved Verification Team","Verification Team  Approved | Applicant");
-		        
+
 			}
 
 			redirect(base_url("Layanan-IIN"));
 		}
-		
 
 
 
-		
+
+
 	}
 
 	public function step_6_rev(){
-		
+
 		/*
-		THIS METHOD USING check_app_status function 
+		THIS METHOD USING check_app_status function
 		*
 		*/
 		/*
@@ -773,7 +765,7 @@ class submit_iin extends CI_Controller {
 			*/
 
 			$dat = $this->model->get_instance_name($this->session->userdata('id_user'));
-			$inst_nm = $dat->row()->instance_name;	
+			$inst_nm = $dat->row()->instance_name;
 
 			$message = USNTFSTEP6REV.$inst_nm;
 	        $this->send_notif_user($this->session->userdata('id_application'),$this->session->userdata('id_user'),$message);
@@ -795,7 +787,7 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => '13',
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            'created_by' => $this->session->userdata('username')
 	    	);
@@ -831,7 +823,7 @@ class submit_iin extends CI_Controller {
 
 			$process_status = 'COMPLETED';
 
-			
+
 			/*
 			..UPDATE application_status Table..
 			@ update id_application_status_name 16 = 'COMPLETED'
@@ -846,7 +838,7 @@ class submit_iin extends CI_Controller {
 			$app_status = array(
 	            'id_application '=> $id_application,
 	            'id_application_status_name' => $id_application_status_name,
-	            'process_status' => 'PENDING',	
+	            'process_status' => 'PENDING',
 	            'created_date' => $this->date_time_now(),
 	            'created_by' => $this->session->userdata('username')
 	    	);
@@ -885,7 +877,7 @@ class submit_iin extends CI_Controller {
 			}
 
 			$this->log("Revision Document Assessment Verification","Revision Document Assessment Submitted by");
-			
+
 		}
 
 
@@ -900,14 +892,14 @@ class submit_iin extends CI_Controller {
 		Get id_user from session
 		*/
 		$id_user = $this->session->userdata('id_user');
-		
+
 		/*
-		Get Application Status 
+		Get Application Status
 		*/
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 
 		/*
-		Validate If row Exist 
+		Validate If row Exist
 		*/
 		if ($get_app_status->row()->iin_status != 'NULL') {
 
@@ -937,13 +929,13 @@ class submit_iin extends CI_Controller {
 
 	/*Melakukan penarikan dokumen*/
 	public function download(){
-	
+
 	if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
 		}
 
 		$image_id = $this->input->get('var1');
-   		force_download($image_id, NULL);	
+   		force_download($image_id, NULL);
 	}
 
 
@@ -955,7 +947,7 @@ class submit_iin extends CI_Controller {
 		if($this->session->userdata('status') != "login"){
 			redirect(base_url("SipinHome"));
 		}
-		
+
 		// Configure upload.
 	 	$this->load->library('upload');
 		$this->upload->initialize(array(
@@ -975,9 +967,9 @@ class submit_iin extends CI_Controller {
 
 			switch($valIndex->type){
 
-				case "REV_DOC_ASM": 					
+				case "REV_DOC_ASM":
 					array_push($key3_arr, $valIndex->value);
-					break;	 
+					break;
 
 			}
 
@@ -1014,7 +1006,7 @@ class submit_iin extends CI_Controller {
 			} else {
 				echo "|ERR : {$usr_file}";
 			}
-					
+
 
 		}
 
@@ -1053,7 +1045,7 @@ class submit_iin extends CI_Controller {
 		//STEP 5
 		$no_count = $this->input->post('no_count');
 
-		$explode_str = explode(",", $no_count);	
+		$explode_str = explode(",", $no_count);
 
 		$key2 = $this->input->post('key_step5');
 
@@ -1098,15 +1090,15 @@ class submit_iin extends CI_Controller {
 
 		if ($this->input->post('upload') == "uploadstep3"){
 			$this->step_2($uploaded, $key);
-		} 
+		}
 		else if ($this->input->post('upload') == "uploadstep5") {
 			 $this->step_5($uploaded, $key2_arr);
-		} 
+		}
 
 		redirect(base_url("Layanan-IIN"),'refresh');
 
 	}
-	
+
 	function download_iin() {
 
 		$id_user = $this->session->userdata('id_user');
@@ -1124,7 +1116,7 @@ class submit_iin extends CI_Controller {
 			*/
 			redirect(base_url('submit_iin/survey/vote'));
 
-		} elseif ($survey_status == '1') { 
+		} elseif ($survey_status == '1') {
 
 			/*
 			DOWNLOAD IIN document
@@ -1172,6 +1164,7 @@ class submit_iin extends CI_Controller {
 			case 'vote':
 				$survey = $this->model->survey('vote',null)->result_array();
 				$data['survey'] = $survey[0]['id_survey_question'];
+				$data['web_title'] = 'Survei Kepuasan Pelanggan';
 				$data['data'] = json_decode($survey['0']['question'], true);
 				$this->set_template('survey',$data);
 				break;
@@ -1179,7 +1172,7 @@ class submit_iin extends CI_Controller {
 			case 'insert-survey';
 				$survey_config 	 = explode('|', $this->input->post('survey'));
 				$survey_question = array();
-				for ($i=1; $i <= $survey_config[1] ; $i++) { 
+				for ($i=1; $i <= $survey_config[1] ; $i++) {
 					$answer = array(
 		                'no'   		=> $i,
 		                'type'   	=> $this->input->post('answer'.$i) ? 'RATING': "COMMENT",
@@ -1208,7 +1201,7 @@ class submit_iin extends CI_Controller {
 				if(!is_null($result) or empty($result)) {
 					$result = $this->model->survey('vote',null)->result_array();
 					$s_questions = json_decode($result[0]['question'],true);
-					for ($x=0; $x < count($s_questions); $x++) { 
+					for ($x=0; $x < count($s_questions); $x++) {
 						if ($s_questions[$x]['type'] == 'RATING') {
 							$question[$x]['no'] 		= $x+1;
 						 	$question[$x]['question'] 	= $s_questions[$x]['msg'];
@@ -1219,11 +1212,11 @@ class submit_iin extends CI_Controller {
 						 	$question[$x]['answer']['4']= 0;
 						 	$question[$x]['answer']['5']= 0;
 						}
-					 } 
+					 }
 					$data['survey'] = array(
 						'id_survey_questions' => $result[0]['id_survey_question'],
 						'version' 			  => $result[0]['id_survey_question'],
-						'participant' 		  => 0, 
+						'participant' 		  => 0,
 						'survey_questions'	  => $question
 					);
 				} else {
@@ -1231,21 +1224,21 @@ class submit_iin extends CI_Controller {
 					$q_result = json_decode($result[0]['question'],true);
 
 					// Decode Answer
-					for ($i=0; $i < count($result); $i++) { 
+					for ($i=0; $i < count($result); $i++) {
 						$a_result[$i] = json_decode($result[$i]['answer'], true);
 					}
-					
+
 					// Set Question
-					for ($i=0; $i < count($q_result); $i++) { 
+					for ($i=0; $i < count($q_result); $i++) {
 						for ($k=0; $k < count($a_result[$i]); $k++){
 							if ($q_result[$i]['type'] == 'RATING') {
 								$question[$i] = array(
 									'no' 		=> $i+1,
 									'question' 	=> $q_result[$i]['msg'],
 									'average' 	=> 0,
-									'answer'  	=> 
+									'answer'  	=>
 										array ('1'=>0, '2'=>0, '3'=>0, '4'=>0, '5'=> 0)
-								);	
+								);
 							}
 						}
 					}
@@ -1253,7 +1246,7 @@ class submit_iin extends CI_Controller {
 					// Set Answer By Question
 					for ($i=0; $i < count($question); $i++) {
 						// Set participant answer to question index
-						for ($j=0; $j < count($a_result[$i]) ; $j++) { 
+						for ($j=0; $j < count($a_result[$i]) ; $j++) {
 							$question[$i]['answer'][$a_result[$j][$i]['answer']]++;
 						}
 						// Average
@@ -1267,10 +1260,11 @@ class submit_iin extends CI_Controller {
 					$data['survey'] = array(
 						'id_survey_questions' => $result[0]['id_survey_question'],
 						'version' 			  => $result[0]['id_survey_question'],
-						'participant' 		  => count($result), 
+						'participant' 		  => count($result),
 						'survey_questions'	  => $question
 					);
 				}
+				$data['web_title'] = 'Hasil Survei Kepuasan Pelanggan';
 				$this->set_template('survey-result',$data);
 				break;
 			default:

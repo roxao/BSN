@@ -1,9 +1,9 @@
 
-    
+
     <section id="cms-section" class="survey-section clearfix sheets_paper">
       <div class="cms-header">
-        <span class="cms-header-date"><a href="<?=base_url()?>" style="color:#3b9f58">HOME</a> >Hasil SURVEI</span>
-        <h1 class="cms-header-title">HASIL SURVEI</h1>  
+        <br/>
+        <h1 class="cms-header-title">HASIL SURVEI</h1>
       </div>
       <article style="max-width: 900px">
           <div class="survey-header">
@@ -11,14 +11,14 @@
             <div class="id_qs">Pertanyaan</div>
             <div class="id_as">Nilai</div>
           </div>
-          <?php 
+          <?php
           if (isset($survey)) {
           for ($i=0; $i < count($survey['survey_questions']) ; $i++):
                 $x=$survey['survey_questions'][$i]?>
           <div class="survey-row">
             <div class="id_no"> <?= $x['no'] ?> </div>
             <div class="id_qs"> <?= $x['question'] ?> </div>
-            <div class="id_as td-stars"> 
+            <div class="id_as td-stars">
               <div class="c-rating_no"><span><?=number_format($x['average'],1)?></span>/5</div>
               <div class="c-rating">
                 <div class="c-rating_bg"></div>
@@ -31,4 +31,3 @@
           <?php }?>
       </article>
     </section>
-
