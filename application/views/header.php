@@ -15,8 +15,7 @@
 
 </head>
 <body>
-
-	<header>
+	<header class="<?=($this->input->get('header')=='hidden' ? 'hidden' : '')?>">
 		<nav class="clearfix">
 			<div class="nav-menu float_left"><div>MENU</div></div>
 			<div class="nav-logo float_left"><a href="<?php echo base_url();?>"><img src="<?php echo base_url();?>/assets/logo.png" alt="SIPIN"></a></div>

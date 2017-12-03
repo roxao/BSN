@@ -1,4 +1,4 @@
-<footer>
+<footer class="<?=($this->input->get('header')=='hidden' ? 'hidden' : '')?>">
 	<div class="footer_container">
 		<div class="footer_address">
 			<div class="footer-contact-list">

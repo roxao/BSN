@@ -2,8 +2,8 @@
   $page_title = 'Dashboard :: Laporan';
   $page_section = 'LAPORAN';
   $data_table = [
-    ['id_application'         ,'#'                    ,'50'], 
-    ['applicant'              ,'Nama Pemohon'         ,'200'], 
+    ['id_application'         ,'#'                    ,'50'],
+    ['applicant'              ,'Nama Pemohon'         ,'200'],
     ['applicant_phone_number' ,'Telepon Pemohon'      ,'120'],
     ['application_date'       ,'Tanggal Pengajuan'    ,'120'],
     ['instance_name'          ,'Nama Perusahaan'      ,'250'],
@@ -35,7 +35,7 @@
               <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'" title="'.$x[1].'">'.$x[1].'</label>';}?>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div id="targetExcel" class="parent_table">

@@ -10,25 +10,27 @@
       <div class="opt-table clearfix">
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
-        </div> 
+        </div>
       </div>
       <div class="table_content">
         <table class="table_def tableInbox" style="width: 100%;">
-          <tr>
-            <th style="min-width:55px"  class="sort click_auto"  data-sort="id_no">No.</th>
-            <th style="min-width:200px" class="sort" data-sort="id_name">Nama Pemohon</th>
-            <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
-            <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
-            <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
-            <th style="min-width:250px" class="sort" data-sort="id_status">Status Pengajuan</th>
-            <th style="min-width:250px">Lihat</th>
-          </tr>
+          <thead>
+            <tr>
+              <th style="min-width:55px"  class="sort click_auto"  data-sort="id_no">No.</th>
+              <th style="min-width:200px" class="sort" data-sort="id_name">Nama Pemohon</th>
+              <th style="min-width:140px" class="sort" data-sort="id_type">Jenis Pengajuan</th>
+              <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
+              <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
+              <th style="min-width:250px" class="sort" data-sort="id_status">Status Pengajuan</th>
+              <th style="min-width:250px">Lihat</th>
+            </tr>
+          </thead>
           <tbody class="list">
             <?php $i=1; foreach($applications as $data) { ?>
-              <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>" 
-                  data-id="<?php  echo $data->id_application ?>"  
-                  data-id-status="<?php  echo $data->id_application_status ?>"  
-                  data-status="<?php  echo $data->display_name ?>" 
+              <tr class="<?php echo $data->owner == "ADMIN" && $data->process_status == "PENDING" ? "get_process" : ""?>"
+                  data-id="<?php  echo $data->id_application ?>"
+                  data-id-status="<?php  echo $data->id_application_status ?>"
+                  data-status="<?php  echo $data->display_name ?>"
                   data-step="<?php  echo $data->application_status_name ?>">
                 <td class="id_no"><?php  echo $i ?></td>
                 <td class=" ">
@@ -41,46 +43,19 @@
                   <?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
                 <td class="id_process"><?php  echo $data->process_status ?></td>
                 <td class="id_status"><span class="<?php echo $data->owner ?> <?php echo $data->process_status ?>"><?php  echo $data->display_name ?></span></td>
-                <td><a target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'?header=hidden';?>">lihat</a></td>
+                <td><a target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'&header=hidden';?>">lihat</a></td>
               </tr>
             <?php $i++; } ?>
           </tbody>
         </table>
       </div>
-
-      <ul class="main_pagination">
-        <li class="listjsprev"><</li>
-        <ul class="pagination"></ul>
-        <li class="listjsnext">></li>
-      </ul>
     </div>
   </section>
 
-  <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/list.min.js"></script>
+  <script type="text/javascript" src="<?=base_url('assets/js/list.min.js')?>"></script>
   <script type="text/javascript">
-    $('document').ready(function(){
-      var options = {valueNames: [ 'id_no', 'id_name', 'id_pt', 'id_type', 'id_date', 'id_process','id_status' ],page: 10,pagination: true};
-      var inboxList = new List('tableInbox', options);
+    $(document).ready(function() {
+      $.set_table_list();
     });
-    $('.listjsnext').on('click', function(){
-    var list = $('.pagination').find('li');
-    $.each(list, function(position, element){
-        if($(element).is('.active')){
-            $(list[position+1]).trigger('click');
-        }
-    })
-    })
-    $('.listjsprev').on('click', function(){
-        var list = $('.pagination').find('li');
-        $.each(list, function(position, element){
-            if($(element).is('.active')){
-                $(list[position-1]).trigger('click');
-            }
-        })
-    })
   </script>
 </section>
-
-
-
-

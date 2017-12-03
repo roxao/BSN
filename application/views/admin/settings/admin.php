@@ -2,8 +2,8 @@
   $page_title = 'Dashboard :: Pengaturan Administrator';
   $page_section = 'ADMINISTRATOR';
   $data_table = [
-    ['id_admin', 'ID', '20px'],
-    ['username', 'Username', '150px'],  
+    ['id_admin', 'No', '20px'],
+    ['username', 'Username', '150px'],
     ['email', 'Alamat Email', '250px'],
     ['admin_role', 'Jabatan Admin', '150px'],
     ['admin_status', 'Status Admin', '150px']
@@ -25,36 +25,38 @@
         <button id="btn-add" class="btn-flat float_left">TAMBAH ADMIN</button>
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
-          <div id="filtertable" style="display:none">
-            <div class="clickfilter">Filter... </div>
-            <div class="filtertable filters">
-              <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
-            </div>
-          </div>
-        </div> 
+        </div>
       </div>
 
       <div id="targetExcel" class="parent_table">
         <table id="tableInbox" class="table_def tableInbox" style="width: 100%;">
-          <tr><?php foreach($data_table as $x){echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';}?></tr>
+          <thead>
+            <tr>
+              <th class="sort asc" data-sort="id_admin">No</th>
+              <th class="sort"     data-sort="username">Username</th>
+              <th class="sort"     data-sort="email">Alamat Email</th>
+              <th class="sort"     data-sort="admin_role">Jabatan Admin</th>
+              <th class="sort"     data-sort="admin_status">Status Admin</th>
+            </tr>
+          </thead>
           <tbody class="list">
-            <?php foreach($data as $key=>$data) {
-              echo '<tr class="row_select"';
-                  foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
-              echo '>';
-                  foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].' '. ($x[0]=='admin_status'? strtolower($data[$x[0]]) : '') .'" width="'.$x[2].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
-                  }
-              echo '</tr>';
-            } ?>
+            <?php foreach($data as $key=>$data) { ?>
+              <tr class="row_select"
+                  o-id_admin="<?=$data['id_admin']?>"
+                  o-username="<?=$data['username']?>"
+                  o-email="<?=$data['email']?>"
+                  o-admin_role="<?=$data['admin_role']?>"
+                  o-admin_status="<?=$data['admin_status']?>">
+                  <td class="id_admin " width="20px" data-sort="id_admin"><?=($key)+1?></td>
+                  <td class="username " width="150px" data-sort="username"><?=$data['username']?></td>
+                  <td class="email " width="250px" data-sort="email"><?=$data['email']?></td>
+                  <td class="admin_role " width="150px" data-sort="admin_role"><?=$data['admin_role']?></td>
+                  <td class="admin_status <?=($data['admin_status']==='ACTIVE' ? 'active':'inactive') ?>" width="150px" data-sort="admin_status"><?=$data['admin_status']?></td>
+                </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>
-      <ul class="main_pagination">
-        <li class="listjsprev"><</li>
-        <ul class="pagination"></ul>
-        <li class="listjsnext">></li>
-      </ul>
 
       <div id="popup_box" style="display: none">
       </div>
@@ -69,18 +71,7 @@
 
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      
-      $('#filtertable input').click(function(event) {
-        if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
-        $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
-        $('td[data-sort="' + $(this).attr('value') + '"]').toggle();
-      });
-      $('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
-      var datasort = [<?php foreach($data_table as $key=>$x) {echo '"'.$x[0].'",';}?>]
-      var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
-      $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
-      $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
-      $('.tableInbox tr th:first-child').click();
+      $.set_table_list();
 
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
@@ -100,6 +91,7 @@
         $('.z-modal-frame').fadeIn('fast', function() {
           $('#z-modal-edit').slideDown()
           $('.modal-form').attr('action', url_u);
+          $('.modal-form').find('[name=password]').val('');
         });
       })
   </script>
@@ -133,9 +125,9 @@
                 <span>E-mail</span>
                 <input name="email" type="email" placeholder="example@mail.com"/>
             </label>
-            
+
             <label>
-                <span>Jabatan Admin</span> 
+                <span>Jabatan Admin</span>
                 <select name="admin_role">
                   <option>Super Admin</option>
                   <option>Admin</option>
@@ -143,7 +135,7 @@
               </label>
 
             <label>
-                <span>Status Admin</span>       
+                <span>Status Admin</span>
                 <select name="admin_status">
                   <option>ACTIVE</option>
                   <option>INACTIVE</option>
@@ -156,4 +148,3 @@
     </div>
   </div>
 </div>
-
