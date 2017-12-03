@@ -1,6 +1,5 @@
-   
-$(document).ready(function() {
 
+$(document).ready(function() {
     var stickyNav = function() {
         var scrollTop = $(window).scrollTop();
         if (scrollTop > 200) {
@@ -122,19 +121,28 @@ $(document).ready(function() {
         $('.modal-form-rev-assess').fadeOut('slow');
     });
 
+    $.set_table_list = function(x,y){
+  		$('#'+x).append('<ul class="main_pagination"><li class="listjsprev"><</li><ul class="pagination"></ul><li class="listjsnext">></li></ul>');
+  		$('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
+  		var datasort=[];
+  		$('#'+ x + " thead tr [data-sort]").map(function(){return datasort.push($(this).attr('data-sort'))});
+      console.log(x);
+  		var SortTable = new List(x,{valueNames:datasort,page: y,pagination: true});
+  		$('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
+  		$('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
+  	}
 
     function goBack() {
         window.history.back();
     }
-
-    // $('[type=date]').datepicker().datepicker('setDate', new Date).prop('type','text');
-    // var dateFormat = $('[type=date]').datepicker( "option", "dateFormat" );
-    // // Setter
-    // $('[type=date]').datepicker("option", "dateFormat", "yyyy-mm-dd");
     $('[type=date]').datepicker({
         dateFormat: "yy/mm/dd",
         setDate: new Date
     }).prop('type', 'text');
+    $('.nav-notif').on('click', function(){
+      if($(this).hasClass('active')) $(this).removeClass('active');
+      else $(this).addClass('active');
+    })
 });
 
 
@@ -187,7 +195,7 @@ function carousel(data) {
     		run_fx(v, true)
     	});
     	d.hide();
-   		d.eq(i).show();	
+   		d.eq(i).show();
    		z.eq(i).addClass('active');
 
     }

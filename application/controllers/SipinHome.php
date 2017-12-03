@@ -14,8 +14,8 @@ class SipinHome extends CI_Controller {
         $this->load->model('admin_model','adm_model');
         // $this->session->set_userdata('have_iin', '');
 	}
- 
-	public function index() {		
+
+	public function index() {
 		$data['banner'] = $this->model->get_banner_active()->result_array();
 		$this->set_template('home', $data);
 	}
@@ -33,7 +33,7 @@ class SipinHome extends CI_Controller {
 	public function captcha() {
 
 		$this->load->helper('captcha');
- 		
+
 		$vals = array(
 			//'word' => 'Random word',
 			'img_path' => './captcha/',
@@ -46,9 +46,9 @@ class SipinHome extends CI_Controller {
 			'font_size' => 20,
 			//'img_id' => 'Imageid',
 			//'pool' => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			
+
 			// White background and border, black text and red grid
-			
+
 			'colors' => array(
 				'background' => array(255, 255, 255),
 				'border' => array(255, 255, 255),
@@ -81,7 +81,7 @@ class SipinHome extends CI_Controller {
 					'Sabtu',
 					'Minggu'
 				);
-				
+
 		$bulan = array (1 =>   'Januari',
 					'Februari',
 					'Maret',
@@ -97,7 +97,7 @@ class SipinHome extends CI_Controller {
 				);
 		$split 	  = explode('-', $tanggal);
 		$tgl_indo = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
-		
+
 		if ($cetak_hari) {
 			$num = date('N', strtotime($tanggal));
 			return $hari[$num] . ', ' . $tgl_indo;
@@ -106,7 +106,7 @@ class SipinHome extends CI_Controller {
 	}
 
 	// ALDY: FILE ISO
-	// public function iso_document(){ 
+	// public function iso_document(){
 	public function file_iso_7812() {
 		$data['web_title'] = 'Dokumen ISO 7812 :: Layanan Issuer Identification Number';
 		$data['file_iso'] = $this->user_model->get_file_iso()->result();
@@ -134,7 +134,7 @@ class SipinHome extends CI_Controller {
 	public function log($Type, $detil, $username) {
 		$dataLog = array(
                 'detail_log' => $username. $detil,
-                'log_type' => $Type .$username, 
+                'log_type' => $Type .$username,
                 'created_date' => $this->date_time_now(),
                 'created_by' => $username
             );
@@ -142,17 +142,17 @@ class SipinHome extends CI_Controller {
 	}
 
 
-    public function logout() {	
+    public function logout() {
       	$username = $this->session->userdata('username');
       	if ($username != '') {
       		$this->log("logout","logout", $username);
       	}
-		$this->session->sess_destroy($_SESSION=[]);	
+		$this->session->sess_destroy($_SESSION=[]);
 		redirect(base_url());
 	}
 
-	/* 
-	Register function. 
+	/*
+	Register function.
 	@function captcha()
 	@var name
 	@var username
@@ -160,7 +160,7 @@ class SipinHome extends CI_Controller {
 	@var email
 	@var password
 	@var password_confirm
-	
+
 	*/
 	public function register() {
 		/*
@@ -176,7 +176,7 @@ class SipinHome extends CI_Controller {
 			$email_enc    = md5($email);
 			$password = hash ( "sha256", $this->input->post('password'));
 			$password_confirm = hash ( "sha256", $this->input->post('retype-password'));
-			
+
 			/*
 			Captcha Validation
 			*/
@@ -185,13 +185,13 @@ class SipinHome extends CI_Controller {
 
 					/*
 					User Status Validation
-					*/		
+					*/
 					$cek = $this->user_model->cek_status_user($email,$username);
 			        if($cek->num_rows() > 0){
 		        		$this->session->set_flashdata('validasi-login', 'Username/Email sudah terdaftar');
 		  				$this->user('register');
 			    	} else {
-						
+
 						$encrypted_id = md5($email);
 					    $subject = EMAILSBJREG;
 					    $msg = EMAILMSGREG.base_url("SipinHome/verify/$encrypted_id");
@@ -207,7 +207,7 @@ class SipinHome extends CI_Controller {
 				    		} else {
 						    	$this->user_model->register_user($email, $email_enc, $username, $password, $name);
 						    }
-					
+
 							$this->session->set_flashdata('validasi-login', 'Anda berhasil melakukan registrasi, silahkan periksa pesan masuk email Anda, untuk mengaktifkan akun yang telah Anda buat');
 							$this->log("login","Login", $username);
 
@@ -219,14 +219,14 @@ class SipinHome extends CI_Controller {
 					}
 
 
-				} else { 
+				} else {
 					$this->captcha();
 					$this->session->set_flashdata('validasi-login', 'password yang anda masukkan tidak sesuai');
-				}	
+				}
 			} else {
 				$this->captcha();
 				$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
-			}	
+			}
 		} else {
 			$this->captcha();
 			$this->session->set_flashdata('validasi-login', 'Password minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
@@ -256,7 +256,7 @@ class SipinHome extends CI_Controller {
 				}else {
 					$this->captcha();
 					$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
-				} 
+				}
 			} else {
 				$this->captcha();
 				$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
@@ -265,8 +265,8 @@ class SipinHome extends CI_Controller {
 			$this->captcha();
 			$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
 		}
-		$this->user('forgot'); 
-		
+		$this->user('forgot');
+
 	}
 
 	public function reset_password() {
@@ -275,7 +275,7 @@ class SipinHome extends CI_Controller {
 
 		// $cek = $this->user_model->forgot_password($username_forgot);
 		// if ($cek->num_rows() > 0){
-			
+
 		// 	$subject = EMAILSBJFORGOTPASS;
 		//     $msg = EMAILMSGFORGOTPASS.base_url("SipinHome/verify/$encrypted_id");
 		// 	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,$subject, $msg)) {
@@ -286,12 +286,12 @@ class SipinHome extends CI_Controller {
 		// 	}else {
 		// 		$this->captcha();
 		// 		$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
-		// 	} 
+		// 	}
 		// } else {
 		// 	$this->captcha();
 		// 	$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
-		// } 
-		
+		// }
+
 		$this->user('reset');
 
 	}
@@ -300,7 +300,7 @@ class SipinHome extends CI_Controller {
 	/*
 	Verifying User Activation Link
 	@var link
-	@array link_array 
+	@array link_array
 	@var enc
 	@model user_model
 		@function verifyEmail
@@ -362,7 +362,7 @@ class SipinHome extends CI_Controller {
 		    } else {
 
 	    		#login success
-		    	if ($get_passw->row()->status_user == 0){ 
+		    	if ($get_passw->row()->status_user == 0){
 			     	$this->session->set_flashdata('validasi-login', 'Anda belum melakukan Aktivasi silahkan lakukan aktivasi');
 					$this->user('login');
 				} else {
@@ -392,7 +392,7 @@ class SipinHome extends CI_Controller {
 						$have_iin = "Y";
 					}
 					$this->session->set_userdata('have_iin', $have_iin);
-					
+
 					/*
 					Any Open Application?
 					*/
@@ -459,7 +459,7 @@ class SipinHome extends CI_Controller {
 		$get_app_status =  $this->user_model->get_applications_Status($id_user);
 
 		/*
-		Validate If row Exist 
+		Validate If row Exist
 		*/
 		$iin_status ="";
 
@@ -487,7 +487,7 @@ class SipinHome extends CI_Controller {
 				'id_application_status_name' => $id_application_status_name,
 			);
 		}
-				
+
 
 		/*
 		Default Var
@@ -515,7 +515,7 @@ class SipinHome extends CI_Controller {
 
 		$have_iin = $this->session->userdata('have_iin');
 
-		$data['app_type'] = APPTYPENEW;	
+		$data['app_type'] = APPTYPENEW;
 		$data['title_iin0'] = "Pengajuan Surat Permohonan IIN Baru";
 		/*
 		if iin_status = 'CLOSED'
@@ -540,7 +540,7 @@ class SipinHome extends CI_Controller {
 
 			}
 		}
-				        		
+
 		/*
 		if iin_status = 'OPEN'
 		@THIS IS AN ACTIVE APPLICATION (New Application , type : new/extend)
@@ -550,7 +550,7 @@ class SipinHome extends CI_Controller {
 
 
 			if ( $id_application_status_name >= '1' ) {
-				
+
 				$data['step1_next'] = "";
 				$data['btn_step0'] = "";
 				/*
@@ -559,7 +559,7 @@ class SipinHome extends CI_Controller {
 				if ( $id_application_status_name == '1' and $process_status == 'PENDING' ) {
 					$data['state0'] = STATEPROCESS;
 					$data['title'] = "Menunggu Hasil Verifikasi Status Permohonan";
-					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";	
+					$data['text'] = "Dokumen yang anda unggah sudah <b>BERHASIL</b> masuk ke dalam database <b>SIPIN</b>. Silakan menunggu hasil verifikasi dan validasi pengajuan surat permohonan anda.";
 				} elseif ( $id_application_status_name == '1' and $process_status == 'REJECTED' ) {
 					$reject_msg = "";
 
@@ -604,9 +604,9 @@ class SipinHome extends CI_Controller {
 	        		$data['title_iin'] = "Submit Kelengkapan Dokumen Permohonan IIN";
 	        		$data['text_iin'] = "Silakan mengunggah dokumen-dokumen yang sudah dilengkapi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.";
 
-					
+
 					switch (  $id_application_status_name ) {
-						
+
 					    case '2':
 							/*
 							Default List of Files
@@ -625,13 +625,13 @@ class SipinHome extends CI_Controller {
 							}
 
 
-							
+
 					        break;
 
 					    case '3':
 
 					        switch ( $process_status ) {
-					        	
+
 					        	case 'PENDING':
 									// $page = '2';
 					        		$data['state2'] = "process";
@@ -645,19 +645,19 @@ class SipinHome extends CI_Controller {
 					    case '4':
 
 					         switch ( $process_status ) {
-					        	
+
 					        	case 'PENDING':
 					        		# code...
 					        		$data['title_iin'] = "Revisi Kelengkapan Dokumen Permohonan IIN";
 					        		$data['text_iin'] = "Silakan mengunggah dokumen-dokumen yang sudah di revisi dan dipersiapkan ke dalam berdasarkan urutan di bawah ini.";
 
 					        		/*
-									Get List of Key 
+									Get List of Key
 									@From application_status_form_mapping Table
 					        		*/
 					        		$type = "REVISED_DOC";
 					        		$val = $this->user_model->get_form_mapping_by_type($id_application_status, $type);
-					        		
+
 					        		/*
 									Instantiate Array $key
 					        		*/
@@ -727,7 +727,7 @@ class SipinHome extends CI_Controller {
 
 				       		break;
 
-					   
+
 					    default:
 			        		# code...
 			        		break;
@@ -746,7 +746,7 @@ class SipinHome extends CI_Controller {
 
 						$prev_id_app_status_name = "6";
 		        		$query = $this->user_model->id_application_status_step_n($id_application, $prev_id_app_status_name);
-						        		
+
 		        		$id_application_status_step4 = "";
 		        		foreach ($query as $keys => $value) {
 		        			# code...
@@ -768,11 +768,11 @@ class SipinHome extends CI_Controller {
 									 break;
 								case "BILLING_DATE":
 									 $bill_date = $valIndex->value;
-									 break;	 
+									 break;
 
 								case "BILLING_DOC":
 									 array_push($id_keys, $valIndex->value);
-									 break;	 
+									 break;
 
 							}
 
@@ -790,7 +790,7 @@ class SipinHome extends CI_Controller {
 						$data['step2_upload']	= $this->user_model->get_doc_user_upload('',$id_application,'');
 						$this->session->set_userdata('step2_upload', $data['step2_upload'] );
 
-			        	switch (  $id_application_status_name ) { 
+			        	switch (  $id_application_status_name ) {
 
 					       	case '7':
 					       		$page = '4';
@@ -823,7 +823,7 @@ class SipinHome extends CI_Controller {
 				        		$data['state5'] = "process";
 				        		$data['title'] = "Submit Bukti Transfer Pembayaran";
 								$data['text'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Silakan menunggu maksimal 6 hari kerja setelah pembayaran untuk melakukan persetujuan verifikasi lapangan oleh Sekretariat Layanan.";
-								
+
 
 
 				        		break;
@@ -834,7 +834,7 @@ class SipinHome extends CI_Controller {
 				        		$data['state5'] = "5";
 				        		$data['title_iin2'] = "[Revisi] Submit Bukti Transfer Pembayaran";
 								$data['text_iin2'] = "Silakan mengunggah bukti transfer yang telah anda lakukan melalui SIMPONI :";
-								
+
 								switch ( $process_status ) {
 						        	case 'PENDING':
 
@@ -874,12 +874,12 @@ class SipinHome extends CI_Controller {
 			        		$page = '6';
 			        		$data['state6'] = "6";
 							$data['upload_status3'] = 'success';
-			        		
+
 			        		$data['state5'] = "5";
 			        		$data['title_iin2'] = "Bukti Transfer Pembayaran";
 							$data['text_iin2'] = "Terima kasih atas pembayaran yang sudah Anda lakukan melalui SIMPONI. Bukti pembayaran anda telah sukses diverifikasi dan divalidasi.";
 
-			        		switch (  $id_application_status_name ) { 
+			        		switch (  $id_application_status_name ) {
 
 					       		case '12':
 					       			switch ( $process_status ) {
@@ -895,7 +895,7 @@ class SipinHome extends CI_Controller {
 											}
 
 											$data['step6_listTeam']  = $this->user_model->get_assesment_team($id_assessment_application);
-											
+
 											/*
 											RENDER PAGE 6 DATE AND DOCUMENTS
 					       					*/
@@ -920,7 +920,7 @@ class SipinHome extends CI_Controller {
 
 													case "ASSESSMENT_DOC":
 														array_push($id_keys, $valIndex->value);
-														break;	 
+														break;
 
 												}
 
@@ -931,9 +931,9 @@ class SipinHome extends CI_Controller {
 							        		$data['verif_date'] = $verif_date;
 
 											$data['team_doc']	= $this->user_model->get_assessment_team_doc($id_application_status,$id_keys);
-											
 
-								}	
+
+								}
 				       				break;
 
 				       			case '13':
@@ -948,7 +948,7 @@ class SipinHome extends CI_Controller {
 						       			case 'COMPLETED':
 							        		break;
 					       			}
-								
+
 				       				break;
 
 				       			case '14':
@@ -960,7 +960,7 @@ class SipinHome extends CI_Controller {
 							        		break;
 
 					       			}
-								
+
 				       				break;
 					       	}
 
@@ -1013,7 +1013,7 @@ class SipinHome extends CI_Controller {
 
 										case "ASSESSMENT_DOC":
 											array_push($id_keys, $valIndex->value);
-											break;	 
+											break;
 
 									}
 
@@ -1045,7 +1045,7 @@ class SipinHome extends CI_Controller {
 					        			$app_st7 = $value->id_application_status;
 					        		}
 
-								} 
+								}
 
 
 								$val = $this->user_model->get_form_mapping_by_type($app_st7, '');
@@ -1055,12 +1055,12 @@ class SipinHome extends CI_Controller {
 									switch($valIndex->type){
 										case "ASSESSMENT_DOC":
 											array_push($id_keys, $valIndex->value);
-											break;	 
+											break;
 
 									}
 
 								}
-								
+
 
 		       					$data['assess_lap']	= $this->user_model->get_assessment_team_doc($app_st7,$id_keys);
 
@@ -1072,7 +1072,7 @@ class SipinHome extends CI_Controller {
 								$data['state7'] = "7";
 
 								switch ( $id_application_status_name ) {
-									
+
 					       			case '16':
 						       			switch ( $process_status ) {
 						       				case 'PENDING':
@@ -1085,7 +1085,7 @@ class SipinHome extends CI_Controller {
 												$val = $this->user_model->get_form_mapping_by_type($id_application_status, '');
 								        		$id_document_config = array();
 												foreach ($val as $index => $valIndex) {
-														
+
 													if ( $valIndex->type == 'REV_DOC_ASM' ) {
 
 
@@ -1096,10 +1096,10 @@ class SipinHome extends CI_Controller {
 
 								        		/*STEP 7*/
 												$data['assessment_rev_doc']	= $this->user_model->get_assessment_rev_list($id_document_config);
-												
+
 								        		break;
 						       			}
-									
+
 					       				break;
 
 
@@ -1112,20 +1112,20 @@ class SipinHome extends CI_Controller {
 
 								        		break;
 						       			}
-									
-					       				break;		
+
+					       				break;
 
 								}
 
-								
+
 
 								if ( $id_application_status_name >= '18' ) {
-									$page = '8';	
+									$page = '8';
 									$data['state8'] = "8";
 									if ( $id_application_status_name == '18' and $process_status = 'PENDING' ) {
-										
 
-									}	
+
+									}
 									switch ( $process_status ) {
 					       				case 'PENDING':
 					       					$data['state8'] = "process";
@@ -1136,7 +1136,7 @@ class SipinHome extends CI_Controller {
 
 
 									if ( $id_application_status_name == '19' ) {
-										
+
 										switch ( $process_status ) {
 							       			case 'COMPLETED':
 								        	$id_keys = array('IIN');
@@ -1149,7 +1149,7 @@ class SipinHome extends CI_Controller {
 									}
 								}
 			       			}
-					    
+
 					    }
 			        }
 
@@ -1157,14 +1157,14 @@ class SipinHome extends CI_Controller {
 
 			}
 
-		} 
-				
+		}
+
 		/*
 		Define BOX status Value
 		@ Completed or Pending
 		*/
 		for ($i = 0; $i <= 9; $i++) {
-			
+
 			$string_status = "box_status_";
 			$string_status .= $i;
 
@@ -1195,12 +1195,12 @@ class SipinHome extends CI_Controller {
 		$this->load->view('component/modal_popup');
 	}
 
-	public function contact_us(){	
+	public function contact_us(){
 		$data['web_title'] = 'Hubungi Kami :: Layanan Issuer Identification Number';
 		$this->set_template('contact-us', $data = null);
 	}
 
-	public function send_complaint(){	
+	public function send_complaint(){
 		$cek = $this->user_model->get_user_by_prm($this->session->userdata('id_user'))->result_array();
 		$data = array(
                 'id_user' => $cek[0]['id_user'],
@@ -1222,7 +1222,7 @@ class SipinHome extends CI_Controller {
 		$this->set_template('cms-post-view',$data);
 	}
 
-	public function contact_us_prossess(){	
+	public function contact_us_prossess(){
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
 		$subject = EMAILSBJCONTACTUS;
@@ -1232,7 +1232,7 @@ class SipinHome extends CI_Controller {
 		redirect(base_url('contact-us'));
 	}
 
-	public function message($data = array()){	
+	public function message($data = array()){
 		$this->load->view('message', $data);
 	}
 
@@ -1241,8 +1241,8 @@ class SipinHome extends CI_Controller {
 		if($this->session->userdata('have_iin')=='Y') {
 
 		$data['download_iin'] = $this->user_model->download_doc_iin($this->session->userdata('id_user'))->result_array();
-		
-		}else{ 
+
+		}else{
 			$data['download_iin'] = null;
 		}
 		$data['iin'] = $this->user_model->get_iin()->result();
