@@ -56,7 +56,7 @@
 				<li class="nav-sess register"><a href="<?php echo base_url();?>" class="open_modal" action="register">Daftar</a></li>
 
 				<?php } else { ?>
-				<li class="nav-sess">Hi, <a href="#"><?=$this->session->userdata('username')?></a>
+				<li class="nav-sess">Hi, <a href="<?php echo base_url('user-detail');?>"><?=$this->session->userdata('username')?></a>
 				</li>
 				<li class="nav-notif"><a href="" style="pointer-events: none">Notifikasi <span id='unreadCount'></span></a>
 					<ul class="box_notif">

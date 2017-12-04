@@ -285,14 +285,15 @@ class SipinHome extends CI_Controller {
     	$password_new = hash ( "sha256", $this->input->post('password-new'));
 		$password_new_confirm = hash ( "sha256", $this->input->post('retype-password-new'));		
 
-		#validate captcha
-		if (($this->input->post('security_code_reset') == $this->session->userdata('mycaptcha'))) {
+		
 
-			$regex = $this->regex($this->input->post('password-new'));
-			if ($regex == "true"){
+		$regex = $this->regex($this->input->post('password-new'));
+		if ($regex == "true"){
 
-				if ($password_new == $password_new_confirm) {
+			if ($password_new == $password_new_confirm) {
 
+				#validate captcha
+				if (($this->input->post('security_code_reset') == $this->session->userdata('mycaptcha'))) {
 					$usr = $this->model->get_user_by_prm('email_enc', $email_enc);
 					#validate email_enc
 					if (!is_null($usr)) {
@@ -305,23 +306,21 @@ class SipinHome extends CI_Controller {
 						$this->captcha();
 						$this->session->set_flashdata('validasi-login', 'Email tidak ditemukan');
 			    	}
-					
-				} else {
+			    } else {
 					$this->captcha();
-					$this->session->set_flashdata('validasi-login', 'password baru yang anda masukkan tidak sesuai');
+					$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
 				}
+				
 			} else {
 				$this->captcha();
-				$this->session->set_flashdata('validasi-login', 'Password baru minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
+				$this->session->set_flashdata('validasi-login', 'password baru yang anda masukkan tidak sesuai');
 			}
 		} else {
 			$this->captcha();
-			$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+			$this->session->set_flashdata('validasi-login', 'Password baru minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
 		}
 
 		$this->user('reset');
-
-    	
 
 	}
 
@@ -461,6 +460,58 @@ class SipinHome extends CI_Controller {
 
 
     }
+
+    /*
+	User Detail Function
+	@var username
+	@var password
+	*/
+    public function user_detail() {
+
+		$this->user('userdetail');
+    }
+
+    public function change_password() {
+    	$chg_username = $this->session->userdata('username');
+    	$chg_email = $this->session->userdata('email');
+    	$password_chg = hash ( "sha256", $this->input->post('password-change'));
+		$password_chg_confirm = hash ( "sha256", $this->input->post('retype-password-change')); 
+
+
+		$regex = $this->regex($this->input->post('password-change'));
+		if ($regex == "true"){
+
+			if ($password_chg == $password_chg_confirm){
+				if (($this->input->post('security_code_reset') == $this->session->userdata('mycaptcha'))) {
+					$usr = $this->model->get_user_by_prm('email', $chg_email);
+					#validate email_enc
+					if (!is_null($usr)) {
+
+						$this->model->Update_password($usr->row()->id_user, $usr->row()->username, $password_chg);
+						$this->log("Change Password","Change Password", $usr->row()->username );
+
+						redirect(base_url());
+					} else {	
+						$this->captcha();
+						$this->session->set_flashdata('validasi-login', 'Email tidak ditemukan');
+			    	}
+				} else {
+					$this->captcha();
+					$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+				} 
+			} else {
+				$this->captcha();
+				$this->session->set_flashdata('validasi-login', 'password baru yang anda masukkan tidak sesuai');
+			}
+
+		} else {
+			$this->captcha();
+			$this->session->set_flashdata('validasi-login', 'Password baru minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
+		}
+
+		$this->user('changepassword');
+    }
+
 
 	/*
 	Render submit-iin view

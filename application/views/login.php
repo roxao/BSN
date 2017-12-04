@@ -149,6 +149,86 @@
       
 </div>
 
+<!-- USER DETAIL -->
+<div id="box-userdetail" class="box-layout" style="display:none">
+    <div class="o-title">
+        <div class="o-text-title">LUPA KATA SANDI</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Profil akun Anda</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="<?php echo base_url();?>ganti-kata-sandi" method = "POST">
+
+
+            <label class="input_dashed float_left" style="width: 100%">
+              Username
+              <input   required id="userdetail_usrname" name="userdetail_usrname" type="text" placeholder="Username" disabled 
+              value=<?php echo $this->session->userdata('username');?> />
+            </label>
+            <label class="input_dashed float_left" style="width: 100%">
+              Email
+              <input   required id="userdetail_email" name="userdetail_email" type="text" placeholder="Email" disabled 
+              value=<?php echo $this->session->userdata('email');?> />
+            </label>
+            <button type="submit">Ganti Kata Sandi</button>
+        </form>
+      </div>
+      <div class="o-footer">
+        <div class="o-separator">
+          <span>ATAU</span>
+        </div>
+        <div class="o-link-footer">
+          Kembali ke  
+          <div >
+            <a href="<?php echo base_url();?>">Halaman Depan</a>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div id="box-changepassword" class="box-layout" style="display:none">
+    <div class="o-title">
+        <div class="o-text-title">GANTI KATA SANDI</div>
+        <div class="o-close">x</div>
+      </div>
+      <div class="o-header">
+        <div class="o-logo">
+          <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
+          <div class="o-sub-logo">Silakan masukkan kata sandi baru Anda</div>
+        </div>
+      </div>
+      <div class="o-content">
+        <form class="o-form" action="<?php echo base_url();?>ganti-kata-sandi" method = "POST">
+            <!-- TAMPILKAN ERROR MESSAGE DISINI -->
+            <div class="o-error" data-msg="changepassword">Tampilkan error message disini</div>
+            <input required type="password" name="password-change" placeholder="Kata Sandi Baru">
+            <input required type="password" name="retype-password-change" placeholder="Ulang Kata Sandi Baru"> 
+            <br/>
+            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
+
+            <input type="text" name='security_code_reset' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
+
+            <button type="submit">Ganti Kata Sandi</button>
+        </form>
+      </div>
+      <div class="o-footer">
+        <div class="o-separator">
+          <span>ATAU</span>
+        </div>
+        <div class="o-link-footer">
+          Kembali ke halaman
+          <div class="o-url" o-data="box-userdetail">Profil</div>
+        </div>
+    </div>
+</div>
+
+
 <link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">
 <script type="text/javascript" src="<?php echo base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
