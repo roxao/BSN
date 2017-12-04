@@ -99,7 +99,7 @@
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="forgot">Tampilkan error message disini</div>
             <input required type="email" name="E-mail" placeholder="E-mail">
-            <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
+            <span><i style="color:red" >*</i> Pastikan E-mail yang Anda masukkan sudah benar</span>
             <br/>
             <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
 
@@ -128,19 +128,20 @@
       <div class="o-header">
         <div class="o-logo">
           <img src="<?php echo base_url(); ?>/assets/logo.png" alt="SIPIN">
-          <div class="o-sub-logo">Link untuk merubah kata sandi akan di kirimkan ke email Anda</div>
+          <div class="o-sub-logo">Silakan masukkan kata sandi baru Anda :</div>
         </div>
       </div>
       <div class="o-content">
-        <form class="o-form" action="<?php echo base_url();?>lupa-kata-sandi" method = "POST">
+        <form class="o-form" action="<?php echo base_url();?>reset-kata-sandi" method = "POST">
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="reset">Tampilkan error message disini</div>
-            <input required type="email" name="E-mail" placeholder="E-mail">
-            <span><i style="color:red" >*</i> Pastikan E-mail yang dimasukkan sudah benar</span>
+            <input required type="password" name="password-new" placeholder="Kata Sandi Baru">
+            <span><i style="color:red" >*</i> Masukkan kata sandi baru Anda</span>
+            <input required type="password" name="retype-password-new" placeholder="Ulang Kata Sandi Baru"> 
             <br/>
             <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
 
-            <input type="text" name='security_code_forgot' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
+            <input type="text" name='security_code_reset' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
 
             <button type="submit">Reset Kata Sandi</button>
         </form>

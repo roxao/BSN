@@ -34,7 +34,7 @@ class User_model extends CI_Model {
         return $inserted_id;     
     }
 
-  
+
 
     /*
     This Query to Validate :
@@ -887,11 +887,11 @@ class User_model extends CI_Model {
         return  $this->db->get();  
      }
 
-     public function get_user_by_prm($id_user)
+     public function get_user_by_prm($field,$param)
      {
         $this->db->select('*');
         $this->db->from(TbuseR);
-        $this->db->where('id_user',$id_user);
+        $this->db->where($field,$param);
         return $this->db->get();
      }
 

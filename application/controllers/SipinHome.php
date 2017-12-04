@@ -251,8 +251,8 @@ class SipinHome extends CI_Controller {
 				$subject = EMAILSBJFORGOTPASS;
 			    $msg = EMAILMSGFORGOTPASS.base_url("/SipinHome/reset_password/$encrypted_id");
 				if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,$subject, $msg)) {
-					$this->log("login","Login", $username_forgot );
-					$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
+					$this->log("Forgot Password","Forgot Password", $username_forgot );
+					$this->session->set_flashdata('validasi-login', 'Link reset password telah dikirimkan, silahkan cek email anda');
 				}else {
 					$this->captcha();
 					$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
@@ -271,28 +271,57 @@ class SipinHome extends CI_Controller {
 
 	public function reset_password() {
 
-		// $username_forgot = $this->input->post('E-mail');
+		
+		$email_enc ="";
+    	if ( null == $this->session->userdata('email_enc') ) {
+    		$link = $_SERVER['REQUEST_URI'];
+    		$link_array = explode('/',$link);
+    		// $email_enc = end($link_array);
+    		$this->session->set_userdata('email_enc',end($link_array));
+    	} else {
+    		$email_enc = $this->session->userdata('email_enc');
+    	}
 
-		// $cek = $this->user_model->forgot_password($username_forgot);
-		// if ($cek->num_rows() > 0){
+    	$password_new = hash ( "sha256", $this->input->post('password-new'));
+		$password_new_confirm = hash ( "sha256", $this->input->post('retype-password-new'));		
 
-		// 	$subject = EMAILSBJFORGOTPASS;
-		//     $msg = EMAILMSGFORGOTPASS.base_url("SipinHome/verify/$encrypted_id");
-		// 	if ($this->user_model->sendMail($cek->row()->email, $cek->row()->name,$subject, $msg)) {
+		#validate captcha
+		if (($this->input->post('security_code_reset') == $this->session->userdata('mycaptcha'))) {
 
+			$regex = $this->regex($this->input->post('password-new'));
+			if ($regex == "true"){
 
-		// 		$this->log("Forgot Password","Forgot Password", $username_forgot );
-		// 		$this->session->set_flashdata('validasi-login', 'Berhasil melakukan reset password silahkan cek email anda');
-		// 	}else {
-		// 		$this->captcha();
-		// 		$this->session->set_flashdata('validasi-login', 'Gagal melakukan reset password');
-		// 	}
-		// } else {
-		// 	$this->captcha();
-		// 	$this->session->set_flashdata('validasi-login', 'Username/Email tidak ditemukan');
-		// }
+				if ($password_new == $password_new_confirm) {
+
+					$usr = $this->model->get_user_by_prm('email_enc', $email_enc);
+					#validate email_enc
+					if (!is_null($usr)) {
+
+						$this->model->Update_password($usr->row()->id_user, $usr->row()->username, $password_new);
+						$this->log("Reset Password","Reset Password", $usr->row()->username );
+
+						redirect(base_url());
+					} else {	
+						$this->captcha();
+						$this->session->set_flashdata('validasi-login', 'Email tidak ditemukan');
+			    	}
+					
+				} else {
+					$this->captcha();
+					$this->session->set_flashdata('validasi-login', 'password baru yang anda masukkan tidak sesuai');
+				}
+			} else {
+				$this->captcha();
+				$this->session->set_flashdata('validasi-login', 'Password baru minimal 8 karakter dan harus huruf besar, huruf kecil, angka, dan special character (Contoh : aAz123@#');
+			}
+		} else {
+			$this->captcha();
+			$this->session->set_flashdata('validasi-login', 'Captcha tidak sesuai');
+		}
 
 		$this->user('reset');
+
+    	
 
 	}
 
@@ -1201,7 +1230,7 @@ class SipinHome extends CI_Controller {
 	}
 
 	public function send_complaint(){
-		$cek = $this->user_model->get_user_by_prm($this->session->userdata('id_user'))->result_array();
+		$cek = $this->user_model->get_user_by_prm('id_user',$this->session->userdata('id_user'))->result_array();
 		$data = array(
                 'id_user' => $cek[0]['id_user'],
                 'complaint_details' => $this->input->post('message'),
