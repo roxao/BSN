@@ -60,15 +60,11 @@
             <span><i style="color:red" >*</i> Jika sudah memiliki IIN</span>
             <input required type="email" id= "email" name="email" placeholder="E-mail">
             <input required type="password" name="password" placeholder="Kata Sandi">
-            <input required type="password" name="retype-password" placeholder="Ulang Kata Sandi"> 
+            <input required type="password" name="retype-password" placeholder="Ulang Kata Sandi">
 
+            <div class="captchaForm"></div>
 
-              <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
-
-          <input type="text" name='security_code' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/><br/>
-
-
-            <button type="submit">Daftar</button>
+            <button class="btn-validate" type="submit">Daftar</button>
         </form>
       </div>
       <div class="o-footer">
@@ -101,11 +97,8 @@
             <input required type="email" name="E-mail" placeholder="E-mail">
             <span><i style="color:red" >*</i> Pastikan E-mail yang Anda masukkan sudah benar</span>
             <br/>
-            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
-
-            <input type="text" name='security_code_forgot' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
-
-            <button type="submit">Reset Kata Sandi</button>
+            <div class="captchaForm"></div>
+            <button class="btn-validate" type="submit">Reset Kata Sandi</button>
         </form>
       </div>
       <div class="o-footer">
@@ -113,14 +106,14 @@
           <span>ATAU</span>
         </div>
         <div class="o-link-footer">
-          Kembali ke halaman 
+          Kembali ke halaman
           <div class="o-url" o-data="box-login">Login</div>
         </div>
     </div>
-</div>
+  </div>
 
 <!-- RESET FORM -->
-  <div id="box-reset" class="box-layout" style="display:none">
+<div id="box-reset" class="box-layout" style="display:none">
     <div class="o-title">
         <div class="o-text-title">LUPA KATA SANDI</div>
         <div class="o-close">x</div>
@@ -137,16 +130,13 @@
             <div class="o-error" data-msg="reset">Tampilkan error message disini</div>
             <input required type="password" name="password-new" placeholder="Kata Sandi Baru">
             <span><i style="color:red" >*</i> Masukkan kata sandi baru Anda</span>
-            <input required type="password" name="retype-password-new" placeholder="Ulang Kata Sandi Baru"> 
+            <input required type="password" name="retype-password-new" placeholder="Ulang Kata Sandi Baru">
             <br/>
-            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
-
-            <input type="text" name='security_code_reset' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
-
-            <button type="submit">Reset Kata Sandi</button>
+            <div class="captchaForm"></div>
+            <button class="btn-validate" type="submit">Reset Kata Sandi</button>
         </form>
       </div>
-      
+
 </div>
 
 <!-- USER DETAIL -->
@@ -163,16 +153,14 @@
       </div>
       <div class="o-content">
         <form class="o-form" action="<?php echo base_url();?>ganti-kata-sandi" method = "POST">
-
-
             <label class="input_dashed float_left" style="width: 100%">
               Username
-              <input   required id="userdetail_usrname" name="userdetail_usrname" type="text" placeholder="Username" disabled 
+              <input   required id="userdetail_usrname" name="userdetail_usrname" type="text" placeholder="Username" disabled
               value=<?php echo $this->session->userdata('username');?> />
             </label>
             <label class="input_dashed float_left" style="width: 100%">
               Email
-              <input   required id="userdetail_email" name="userdetail_email" type="text" placeholder="Email" disabled 
+              <input   required id="userdetail_email" name="userdetail_email" type="text" placeholder="Email" disabled
               value=<?php echo $this->session->userdata('email');?> />
             </label>
             <button type="submit">Ganti Kata Sandi</button>
@@ -183,7 +171,7 @@
           <span>ATAU</span>
         </div>
         <div class="o-link-footer">
-          Kembali ke  
+          Kembali ke
           <div >
             <a href="<?php echo base_url();?>">Halaman Depan</a>
           </div>
@@ -208,13 +196,10 @@
             <!-- TAMPILKAN ERROR MESSAGE DISINI -->
             <div class="o-error" data-msg="changepassword">Tampilkan error message disini</div>
             <input required type="password" name="password-change" placeholder="Kata Sandi Baru">
-            <input required type="password" name="retype-password-change" placeholder="Ulang Kata Sandi Baru"> 
+            <input required type="password" name="retype-password-change" placeholder="Ulang Kata Sandi Baru">
             <br/>
-            <div class="g-recaptcha" style="background: #ddd;width: 250px;display: table;vertical-align: middle;text-align: center;color:#aaa;font-size: 28px;margin: 0 auto;padding: 20px;" >  <?php echo $this->session->userdata('myimgcaptcha');?> </div>
-
-            <input type="text" name='security_code_reset' placeholder="Type the character you see ..." style="width: 200px; margin: 10px auto"><br/> <br/><br/>
-
-            <button type="submit">Ganti Kata Sandi</button>
+            <div class="captchaForm"></div>
+            <button class="btn-validate" type="submit">Ganti Kata Sandi</button>
         </form>
       </div>
       <div class="o-footer">
@@ -232,8 +217,8 @@
 <link rel="stylesheet" href="<?php echo base_url() ?>/assets/style.css">
 <script type="text/javascript" src="<?php echo base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min.js')?>"></script>
-
 <script type="text/javascript">
+
     $(document).ready(function() {
       $(".autocomplete").autocomplete({
         source:function(request,response){$.ajax({
@@ -248,29 +233,31 @@
         appendTo: ".autocomplete-parent",
         autoFocus: true,
         select: function( event, ui ) {
-          // $('.item-revision').append('<div><input type="hidden" name="doc[]" value="'+ui.item.label+'"/>'+ui.item.label+'<span class="item-revision-del"></span></div>');
-          // $('.item-revision-del').on('click',function(event){$(this).parent().remove()});
-          //   $(this).val('');
           event.preventDefault();
         },
+      });
     });
 
-    });
-</script>
-
-<script>
   $('.o-url').on('click', function(event) {
     event.preventDefault();
     show_box($(this).attr('o-data'));
   });
 
   // show_box("box-login");
-  function show_box(x){  
+  function show_box(x){
     $('.box-layout').hide();
     $('#'+x).fadeIn('slow');
+    $('.captchaForm').empty();
+    $('#'+x).find('.captchaForm').append($('<script>').prop('src', 'https://www.google.com/recaptcha/api.js')).append('<div class="g-recaptcha googleCaptcha" data-sitekey="6LdDdjsUAAAAAA9zTbj6Rpf3qsNn0qsWqzJ6VMKi"></div><div class="message-captcha" style="color:red; font-style:italic"></div>');
+    $('.btn-validate').click(function(){
+      if (grecaptcha.getResponse().length === 0){
+        $( '.message-captcha').text( "reCAPTCHA is mandatory" );
+        return false;
+      }
+    })
     }
 
-    console.log("<?php echo $type ?> <?php echo $message ?>");
+  console.log("<?php echo $type ?> <?php echo $message ?>");
   show_action("<?php echo $type ?>", "<?php echo $message ?>");
   $('.o-close').on('click', function(event) {
     event.preventDefault();
@@ -278,7 +265,7 @@
   });
   $('[name=iin-number]').keydown(function(e) {
       if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
           (e.keyCode >= 35 && e.keyCode <= 40)) {
                return;
       }
@@ -329,7 +316,7 @@
       // alert("Your comment has been saved!");
   }
 
-    
+
 </script>
 <style>
   .popup_box{position:fixed;margin:10vh auto;left:0;right:0;top:0;max-width:400px;min-width:300px;z-index:20000;background:#fff;max-height:80vh;overflow:auto;border-radius:2px}

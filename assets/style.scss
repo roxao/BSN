@@ -3033,5 +3033,13 @@ td{
 
 .googleCaptcha {
     margin: 0 auto;
-    display: inline-block;
+    display: block;
+    > div{
+      margin: auto;
+    }
+}
+.message-captcha {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
 }
