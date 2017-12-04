@@ -2,8 +2,8 @@
   $page_title = 'Dashboard :: Konfigurasi Daftar Kelengkapan Dokumen ';
   $page_section = 'KELENGKAPAN DOKUMEN';
   $data_table = [
-    ['id_document_config', 'ID', '50'],
-    [Flkey, FLkey, '50'], 
+    ['id_document_config', 'No', '50'],
+    [Flkey, FLkey, '50'],
     ['display_name', 'Nama Dokumen', '400'],
     ['file_url', 'Dokumen', '120'],
     ['mandatory', 'Mandatory', '50']
@@ -30,7 +30,7 @@
               <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div id="targetExcel" class="parent_table">
@@ -40,14 +40,13 @@
             <?php foreach($data as $keys=>$data) {
               echo '<tr class="row_select"';
                   foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
-              echo '>';
-                  foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].'" width="'.$x[2].'" data-sort="'.$x[0].'" title="'.
-                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'">'.
-                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'</td>';
-                  }
-              echo '</tr>';
-            } ?>
+              echo '>'; ?>
+                  <td class="id_document_config" width="50" data-sort="id_document_config"><?=$keys+1?></td>
+                  <td class="keys" width="50" data-sort="keys"><?=$data[Flkey]?></td>
+                  <td class="display_name" width="400" data-sort="display_name"><?=$data['display_name']?></td>
+                  <td class="file_url" width="120" data-sort="file_url"><?=$data['file_url']?></td>
+                  <td class="mandatory" width="50" data-sort="mandatory"><?=($data['mandatory']==='1'?'Ya':'Tidak')?></td>
+            <?php } ?>
           </tbody>
         </table>
       </div>
@@ -70,7 +69,7 @@
 
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-     
+
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
@@ -136,9 +135,9 @@
             <label><span>Nama </span>
                 <input name="display_name" type="text" placeholder="Username"/>
             </label>
-              
+
             <label>
-                <span>Mandatory</span>       
+                <span>Mandatory</span>
                 <select name="mandatory">
                   <option value="0">Ya</option>
                   <option value="1">Tidak</option>
@@ -150,5 +149,3 @@
     </div>
   </div>
 </div>
-
-

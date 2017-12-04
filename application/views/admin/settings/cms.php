@@ -2,7 +2,7 @@
   $page_title = 'Dashboard :: Pengaturan Konten';
   $page_section = 'Content Management System';
   $data_table = [
-    ['id_cms'                 ,'#', '50'],
+    ['id_cms'                 ,'No', '50'],
     ['title'                  ,'Judul Content', '0'],
     ['url'                    ,'URL', '200'],
     ['status'                 ,'Status', '200'],

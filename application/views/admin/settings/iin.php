@@ -10,7 +10,7 @@
       <?php
         $s_name = [
           ['id_assessment_team', 'ID Anggota'],
-          ['name', 'Nama Anggota'], 
+          ['name', 'Nama Anggota'],
           ['status', 'Status Anggota']
         ];
       ?>
@@ -20,12 +20,12 @@
         </div>
         <div id="filtertable" class="float_right">
           <div class="clickfilter">Filter... </div>
-          <div class="filtertable"> 
+          <div class="filtertable">
             <?php foreach($s_name as $x) {echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';} ?>
           </div>
         </div>
       </div>
-      
+
 
       <div class="parent_table">
         <table class="table_def tableInbox" style="width: 100%;">

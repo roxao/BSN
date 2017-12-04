@@ -3,7 +3,7 @@
   $page_section = 'DOKUMEN STATIS';
   $data_table = [
     ['id_document_config', 'ID', '50'],
-    ['keys', 'Keys', '50'], 
+    ['keys', 'Keys', '50'],
     ['display_name', 'Nama Dokumen', '400'],
     ['file_url', 'Dokumen', '120'],
     ['mandatory', 'Mandatory', '50']
@@ -30,32 +30,38 @@
               <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
             </div>
           </div>
-        </div> 
+        </div>
       </div>
 
       <div id="targetExcel" class="parent_table">
         <table id="tableInbox" class="table_def tableInbox" style="width: 100%;">
-          <tr><?php foreach($data_table as $x){echo '<th class="sort" data-sort="'.$x[0].'">'.$x[1].'</th>';}?></tr>
+          <thead>
+              <tr>
+                  <th class="sort asc" data-sort="id_document_config">ID</th>
+                  <th class="sort" data-sort="keys">Keys</th>
+                  <th class="sort" data-sort="display_name">Nama Dokumen</th>
+                  <th class="sort" data-sort="file_url">Dokumen</th>
+                  <th class="sort" data-sort="mandatory">Mandatory</th>
+              </tr>
+          </thead>
           <tbody class="list">
-            <?php foreach($data as $keys=>$data) {
-              echo '<tr class="row_select"';
-                  foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
-              echo '>';
-                  foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].'" width="'.$x[2].'" data-sort="'.$x[0].'" title="'.
-                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'">'.
-                        ($x[0]=='mandatory'?($data[$x[0]]=='0'?'Ya':'Tidak'):$data[$x[0]]).'</td>';
-                  }
-              echo '</tr>';
-            } ?>
+            <?php foreach($data as $keys=>$data) { ?>
+              <tr class="row_select"
+                  o-id_document_config="1"
+                  o-keys="IPPSA"
+                  o-display_name="Informasi Persyaratan Pendaftaran Sponsoring Authority"
+                  o-file_url="C:/xampp/htdocs/BSN/upload/static/F.PKS.8.0.1 Permintaan Informasi Pendaftaran IIN rev 2016.pdf"
+                  o-mandatory="1">
+                  <td class="id_document_config" width="50" data-sort="id_document_config"><?=$keys+1?></td>
+                  <td class="keys" width="50" data-sort="keys"><?=$data['keys']?></td>
+                  <td class="display_name" width="400" data-sort="display_name"><?=$data['display_name']?></td>
+                  <td class="file_url" width="120" data-sort="file_url"><?=$data['file_url']?></td>
+                  <td class="mandatory" width="50" data-sort="mandatory"><?=($data['mandatory']==='1'? 'Ya':'Tidak')?></td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>
-      <ul class="main_pagination">
-        <li class="listjsprev"><</li>
-        <ul class="pagination"></ul>
-        <li class="listjsnext">></li>
-      </ul>
 
       <div id="popup_box" style="display: none">
       </div>
@@ -67,25 +73,19 @@
   <script type="text/javascript">
     var url_u = "<?php echo base_url('dashboard/action_update/document') ?>";
     var url_i = "<?php echo base_url('dashboard/action_insert/document') ?>";
-      
+
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      
+
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
         $('td[data-sort="' + $(this).attr('value') + '"]').toggle();
       });
       $('#filtertable .clickfilter').click(function(event){$('.filtertable').slideToggle()});
-      var datasort = [<?php foreach($data_table as $keys=>$x) {echo '"'.$x[0].'",';}?>]
-      var SortTable = new List('tableInbox',{valueNames:datasort,page: 10,pagination: true});
-      $('.listjsnext').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position+1]).trigger('click')}})});
-      $('.listjsprev').on('click',function(){var list=$('.pagination').find('li');$.each(list,function(position,element){if($(element).is('.active')){$(list[position-1]).trigger('click')}})});
-      $('.tableInbox tr th:first-child').click();
+      $.set_table_list();
 
 
-
-      
       $('.z-modal-close').on('click',function(){$('#z-modal-edit').slideUp('fast',function(){$('.z-modal-frame').fadeOut()});})
 
       $('#btn-add').on('click', function() {
@@ -142,7 +142,7 @@
                 <input name="file_url[]" type="file" placeholder="Username"/>
             </label>
             <label>
-                <span>Mandatory</span>       
+                <span>Mandatory</span>
                 <select name="mandatory">
                   <option value="0">Ya</option>
                   <option value="1">Tidak</option>
@@ -154,5 +154,3 @@
     </div>
   </div>
 </div>
-
-

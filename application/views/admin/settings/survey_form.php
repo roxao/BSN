@@ -17,7 +17,7 @@
     <div id="survey-form">
       <form action="<?php echo base_url('dashboard/survey_question/'.(($data) ? 'insert': 'insert')); ?>" method="post">
         <input class="hidden" name="id_survey" value="<?php echo ($data) ? $data[0]['id_survey_question']: ''?>">
-        
+
         <div class="survey-option">
           <label class="hidden" style="display: none">
             <span>Status Survei:</span>
@@ -35,7 +35,7 @@
         <div class="survey-footer">
           <button class="btn-submit-survey" type="submit">MASUKAN SURVEY</button>
         </div>
-        
+
       </form>
     </div>
   </section>
@@ -43,9 +43,9 @@
   <script type="text/javascript">
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      <?php 
+      <?php
 
-          $question = json_decode($data[0]['question'], true);        
+          $question = json_decode($data[0]['question'], true);
           for ($i=0; $i < count($question); $i++) {
             echo "$.set_add_row_survey_form('.survey-form', '".$question[$i]['type']."', '".$question[$i]['msg']."');";
           }
@@ -58,8 +58,3 @@
    });
   </script>
 </section>
-
-
-
-
-

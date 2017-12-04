@@ -2,9 +2,9 @@
   <section class="main_dashboard_slidetab">
     <div class="site-map">
       <a href="<?php echo base_url('dashboard') ?>">Dashboard</a>
-      <span></span>Inbox
+      <span></span>Pengajuan Baru
     </div>
-    <h2 class="title_content">Inbox Status </h2>
+    <h2 class="title_content">Pengajuan Baru</h2>
 
     <div id="tableInbox" style=" margin: 0 -20px 0 -20px">
       <div class="opt-table clearfix">
@@ -22,7 +22,7 @@
               <th style="min-width:140px" class="sort" data-sort="id_date">Tanggal Pengajuan</th>
               <th style="min-width:140px" class="sort" data-sort="id_process">Proses Status</th>
               <th style="min-width:250px" class="sort" data-sort="id_status">Status Pengajuan</th>
-              <th style="min-width:250px">Lihat</th>
+              <th style="min-width:100px">Lihat</th>
             </tr>
           </thead>
           <tbody class="list">
@@ -39,7 +39,7 @@
                   <?php  echo date("D, d M Y", strtotime($data->application_date)) ?></td>
                 <td class="id_process"><?php  echo $data->process_status ?></td>
                 <td class="id_status"><span class="<?php echo $data->owner ?> <?php echo $data->process_status ?>"><?php  echo $data->display_name ?></span></td>
-                <td><a target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'&header=hidden';?>">lihat</a></td>
+                <td><a class="btn-see-process" target="_blank" href="<?php echo base_url().'SipinHome/submit_application?userIdSelected='.$data->id_user.'&header=hidden';?>">lihat</a></td>
               </tr>
             <?php $i++; } ?>
           </tbody>

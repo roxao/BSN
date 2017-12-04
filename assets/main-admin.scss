@@ -126,7 +126,7 @@ body {
     }
 }
 
-#dashboard_menu { 
+#dashboard_menu {
   background: #2B333E;
   padding: 20px 0;
   position: fixed;
@@ -137,7 +137,7 @@ body {
   z-index: 999;
   font-size: 12.5px;
   box-sizing: border-box;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   li {
     a{
       margin: 3px 0 3px 10px;
@@ -186,23 +186,23 @@ $_sort_color : rgba(80, 114, 153, .2);
     margin: 0px 5px 0px 7px;
     width: 10px;
     height: 10px;
-    box-shadow: 
-      inset 0 -2px $_sort_color, inset -3px -4px white, 
-      inset 0 -6px $_sort_color, inset -6px -8px white, 
+    box-shadow:
+      inset 0 -2px $_sort_color, inset -3px -4px white,
+      inset 0 -6px $_sort_color, inset -6px -8px white,
       inset 0 -10px $_sort_color;
-  } 
+  }
   &.asc:after, &:hover:after{
     $_sort_color : rgba(80, 114, 153, 1);
-    box-shadow: 
-      inset 0 -2px $_sort_color, inset -3px -4px white, 
-      inset 0 -6px $_sort_color, inset -6px -8px white, 
+    box-shadow:
+      inset 0 -2px $_sort_color, inset -3px -4px white,
+      inset 0 -6px $_sort_color, inset -6px -8px white,
       inset 0 -10px $_sort_color;
   }
   &.desc:after{
     $_sort_color : rgba(80, 114, 153, 1);
-      box-shadow: 
-        inset 0 2px $_sort_color, inset -3px 4px white, 
-        inset 0 6px $_sort_color, inset -6px 8px white, 
+      box-shadow:
+        inset 0 2px $_sort_color, inset -3px 4px white,
+        inset 0 6px $_sort_color, inset -6px 8px white,
         inset 0 10px $_sort_color;
   }
 }
@@ -238,7 +238,7 @@ $_sort_color : rgba(80, 114, 153, .2);
 
 .table_def {
   border-box: box-sizing;
-  overflow: auto; 
+  overflow: auto;
   tr {
     &:hover td {
       cursor: pointer;
@@ -338,7 +338,7 @@ $_sort_color : rgba(80, 114, 153, .2);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-#content_modal { 
+#content_modal {
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -385,7 +385,7 @@ $_sort_color : rgba(80, 114, 153, .2);
             padding: 20px;
             max-height: calc(100vh - 240px);
             overflow: auto;
-            min-height: 100px; 
+            min-height: 100px;
         }
         .modal-header {
             background: rgba(0,0,0,0.1);
@@ -407,7 +407,7 @@ $_sort_color : rgba(80, 114, 153, .2);
               svg {
                 height: 32px;
                 width: 32px;
-              } 
+              }
             }
         }
       .modal-footer{
@@ -598,7 +598,7 @@ div.close_modal {
       overflow: hidden;
       padding: 10px
     }
-    
+
   }
 }
 [name=autocomplete]{
@@ -683,7 +683,7 @@ div.close_modal {
       margin: -2px;
       width: 410px;
       box-sizing: border-box;
-      z-index: 1; 
+      z-index: 1;
       li {
           border-right: 1px solid #ddd;
           padding: 6px 10px;
@@ -745,7 +745,7 @@ div.close_modal {
 }
 
 
-.section_iin_file_list { 
+.section_iin_file_list {
   padding: 5px 0;
   border-radius: 2px;
   > div {
@@ -790,7 +790,7 @@ div.close_modal {
           content: '';
           background-size: cover;
           margin: 0 10px 0 0;
-         
+
       }
       &:hover{
         background: $c_1st;
@@ -875,7 +875,7 @@ div.close_modal {
     }
   }
 }
- 
+
  .content-upload {
   .item-upload-v2:first-child{
     .img-del{
@@ -1021,10 +1021,10 @@ div.close_modal {
       color: #fff;
       transition: all 1s ease;
       a{
-        color:#fff; 
+        color:#fff;
       }
     }
-  } 
+  }
 }
 
 .parent_table {
@@ -1147,7 +1147,7 @@ div.close_modal {
         overflow: hidden;
         span {
           width: 30%;
-          flex-basis: 30%;
+          flex-basis: 120px;
           display: block;
           line-height: 36px;
           padding: 0 10px;
@@ -1204,7 +1204,7 @@ div.close_modal {
   letter-spacing: 0.11em;
 }
 .title_content {
-  margin: 20px; 
+  margin: 20px;
   color: $c_1st;
 }
 
@@ -1309,14 +1309,14 @@ header {
 .nav-list{
   >li{
     display: inline-block;
-    line-height: 32px; 
+    line-height: 32px;
     margin: 5px 0;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 10px 0;
     >a {
-      color: #777; 
-      line-height: 32px; 
+      color: #777;
+      line-height: 32px;
       transition: all .5s ease;
       margin-right: 15px;
       font-size: 12px;
@@ -1366,7 +1366,7 @@ header {
       border-radius: 2px;
       margin: 0px -15px;
       padding: 10px 0;
-      line-height: 32px; 
+      line-height: 32px;
       z-index: 100;
       li {padding: 2px 15px;transition: all 1s ease;
         a{font-size: 12px;color: #777;}
@@ -1398,7 +1398,7 @@ header {
       position: absolute;
       -webkit-box-shadow: 0 1px 0px #e7e9ed;
       -moz-box-shadow: 0 1px 0px #e7e9ed;
-      box-shadow: 0 1px 0px #e7e9ed; 
+      box-shadow: 0 1px 0px #e7e9ed;
       top: 0;
       right: 0;
       bottom: 0;
@@ -1592,7 +1592,7 @@ header {
       content: none;
     }
   }
-  
+
   .mce-btn-group {
     border: 0 !important;
     margin: 5px 10px !important;
@@ -1762,7 +1762,7 @@ header {
   }
   .row-survey{
     line-height: 1.5em;
-    width: 100%; 
+    width: 100%;
     box-sizing: border-box;
     span{
       display: inline-block;
@@ -1791,7 +1791,7 @@ header {
       font-size: 1em;
     }
   }
-  
+
   .survey-form:empty{
     padding: 100px 0;
     background: $c_grey;
@@ -1933,7 +1933,7 @@ header {
   z-index: 10000;
   display: flex;
   overflow-y: scroll;
-  padding: 20px; 
+  padding: 20px;
   .image-upload-title{
     line-height: 42px;
     padding: 0 20px;
@@ -1960,7 +1960,7 @@ header {
     border-radius: 0 !important;
     transition: all 1s ease;
     border: 0 !important;
-    height: 175px !important; 
+    height: 175px !important;
   }
   .image-upload-content{
     max-width: 500px;
@@ -2035,3 +2035,17 @@ header {
     }
   }
 }
+
+
+a.btn-see-process {
+    border: 1px dashed #ddd;
+    padding: 5px 35px 5px 10px;
+    color: $c_1st;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: .9em;
+    font-weight: 500;
+    background: #fff url('admin/magnifier.png') no-repeat;
+    background-position: 68px center
+  }

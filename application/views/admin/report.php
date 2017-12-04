@@ -2,7 +2,7 @@
   $page_title = 'Dashboard :: Laporan';
   $page_section = 'LAPORAN';
   $data_table = [
-    ['id_application'         ,'#'                    ,'50'],
+    ['id_application'         ,'No'                    ,'50'],
     ['applicant'              ,'Nama Pemohon'         ,'200'],
     ['applicant_phone_number' ,'Telepon Pemohon'      ,'120'],
     ['application_date'       ,'Tanggal Pengajuan'    ,'120'],
@@ -45,12 +45,22 @@
             <?php foreach($applications as $key=>$data) {
               echo '<tr class="row_select"';
                   foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
-              echo '>';
-                  foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].'" data-sort="'.$x[0].'">'.($x[0]=='application_type'?($data[$x[0]]=='new'?'Pengajuan Baru':'Pengawasan IIN Lama'):$data[$x[0]]).'</td>';
-                  }
-              echo '</tr>';
-            } ?>
+              echo '>';?>
+                <td class="id_application"><?=$key+1?></td>
+                <td class="applicant"><?=$data['applicant']?></td>
+                <td class="applicant_phone_number"><?=$data['applicant_phone_number']?></td>
+                <td class="application_date">
+                  <span class="id_date hidden"><?=$data['application_date']?></span>
+                  <?=date("D, d M Y", strtotime($data['application_date']))?></td>
+                <td class="instance_name"><?=$data['instance_name']?></td>
+                <td class="instance_email"><?=$data['instance_email']?></td>
+                <td class="instance_director"><?=$data['instance_director']?></td>
+                <td class="mailing_location"><?=$data['mailing_location']?></td>
+                <td class="mailing_number"><?=$data['mailing_number']?></td>
+                <td class="application_type"><?=$data['application_type']?></td>
+                <td class="display_name"><?=$data['display_name']?></td>
+            </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>

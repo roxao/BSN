@@ -2,8 +2,8 @@
   $page_title = 'Dashboard :: Pengaturan Tim Assessment';
   $page_section = 'TIM ASSESSMENT';
   $data_table = [
-    ['id_assessment_team'     ,'#', '100px'], 
-    ['name'                   ,'Nama Anggota', '0'], 
+    ['id_assessment_team'     ,'No', '100px'],
+    ['name'                   ,'Nama Anggota', '0'],
     ['status'                 ,'Status', '200px']
   ];
 ?>
@@ -24,13 +24,7 @@
 
         <div class="opt-table-filter float_right">
           <input class="search filter_search" placeholder="Search ..." />
-          <div id="filtertable" style="display:none">
-            <div class="clickfilter">Filter... </div>
-            <div class="filtertable filters">
-              <?php foreach($data_table as $x){ if($x[0]!=$data_table[0][0]) echo '<label><input type="checkbox" checked value="'.$x[0].'">'.$x[1].'</label>';}?>
-            </div>
-          </div>
-        </div> 
+        </div>
       </div>
 
       <div id="targetExcel" class="parent_table">
@@ -40,12 +34,12 @@
             <?php foreach($data_name as $key=>$data) {
               echo '<tr class="row_select"';
                   foreach($data_table as $x) {echo ' o-'.$x[0].'="'.$data[$x[0]].'"';}
-              echo '>';
-                  foreach($data_table as $x) {
-                    echo '<td class="'.$x[0].' '. ($x[0]=='status'? strtolower($data[$x[0]]) : '') .'" width="'.$x[2].'" data-sort="'.$x[0].'">'.$data[$x[0]].'</td>';
-                  }
-              echo '</tr>';
-            } ?>
+              echo '>'; ?>
+                <td class="id_assessment_team " width="100px" data-sort="id_assessment_team"><?=$key+1?></td>
+                <td class="name " width="0" data-sort="name"><?=$data['name']?></td>
+                <td class="status active" width="200px" data-sort="<?=strtolower($data['status'])?>"><?=$data['status']?></td>
+              </tr>
+            <?php } ?>
           </tbody>
         </table>
       </div>
@@ -67,7 +61,7 @@
     var url_i = "<?php echo base_url('dashboard/action_insert/assessment') ?>";
     $('document').ready(function(){
       document.title = '<?php echo $page_title ?>';
-      
+
       $('#filtertable input').click(function(event) {
         if($("input[type=checkbox]:checked").length<5){alert('Anda harus memilih minimal 5 kolom');return false;};
         $('th[data-sort="' + $(this).attr('value') + '"]').toggle();
@@ -102,7 +96,6 @@
       })
   </script>
   <style>
-    tr th:first-child{text-align: center !important}
     .status{text-transform:uppercase;font-weight: bold !important;font-size: 11px !important;}
     .status.active:before,.admin.inactive:before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-radius:5px}
     .status.active:before{background:#01923f;}
@@ -128,7 +121,7 @@
                 <input name="name" type="text" placeholder="Username"/>
             </label>
             <label>
-                <span>Status</span>       
+                <span>Status</span>
                 <select name="STATUS">
                   <option>ACTIVE</option>
                   <option>INACTIVE</option>
@@ -141,4 +134,3 @@
     </div>
   </div>
 </div>
-
