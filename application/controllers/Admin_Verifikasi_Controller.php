@@ -1781,8 +1781,9 @@ class Admin_Verifikasi_Controller extends CI_Controller
 
            
                 }
-
-                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user);
+                 $message = ADMNTFSTEP7;
+            
+                $this->send_notif($id_app->row()->id_application,$id_app->row()->id_user,$message);
 
                 $this->send_mail($this->input->post('id_application'));
 
